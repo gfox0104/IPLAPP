@@ -1,0 +1,110 @@
+<div class="mt-3 m-0" *ngIf="!contractorPaymentHidShow">
+<!-- <div class="module-box-header">
+</div> -->
+<h5 class="header p-1">{{title}}</h5>
+<div class="row mt-n2 module-box p-1 m-0" style="font-weight: 500;">
+  <div class="col-md-5">
+    <table class="record-table">
+      <tr>
+        <th *ngFor="let column of columns">
+          <label class="col-form-label">{{column.title}}</label>
+        </th>
+        <th width="40px"></th>
+      </tr>
+      <tr *ngFor="let dataItem of recordData">
+        <td  *ngFor="let column of columns" [ngSwitch]="column.title">
+          <label class="text-dark-65" *ngSwitchCase="'Payment Date'">{{dataItem[column.field] | date:'shortDate'}}</label>
+          <label class="text-dark-65" *ngSwitchCase="'Amount'">${{dataItem[column.field]}}</label>
+          <label class="text-dark-65" *ngSwitchDefault>{{dataItem[column.field]}}</label>
+        </td>
+        <td style="text-align: center;">
+          <span><a style="cursor: pointer" (click)="onRemoveItem(dataItem)">
+              <i class="fa fa-trash"></i></a>
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <td class="text-dark"><strong>Total</strong></td>
+        <td style="padding-left: 1.4%;" class="text-dark" colspan="5"><strong>$ {{balanceDueStr}}</strong></td>
+      </tr>
+    </table>
+  </div>
+  <div class="col-md-3" >
+    <form [formGroup]="paymentFormGroup" (ngSubmit)="onSubmit()" style="padding:2% ; box-shadow: 0 0 5px #b6babf;border-radius:10px">
+      <div class="row" style="margin-top: 5px; margin-bottom: 5px;" *ngFor="let column of formFields"
+        [ngSwitch]="column.field">
+        <div class="col-5 p-0 pl-2">
+          <label class="col-form-label">
+            {{column.title}}
+            <span style="color: red" *ngIf="column.required">*</span>
+          </label>
+        </div>
+        <div class="col-7">
+          <div *ngSwitchCase="'paymentDate'" class="input-group">
+            <label class="form-control form-control-sm">{{recordPaymentObj.paymentDate | date:'shortDate'}}
+              <span *ngIf="!recordPaymentObj.paymentDate">Enter Date</span> </label>
+            <input class="form-control form-control-sm" placeholder="yyyy-mm-dd"
+              [(ngModel)]="recordPaymentObj.paymentDate" [ngModelOptions]="{standalone: true}" ngbDatepicker
+              #rp="ngbDatepicker" firstDayOfWeek="7" style="display: none">
+            <div class="input-group-append">
+              <button class="btn btn-outline-info btn-xs" (click)="rp.toggle()" type="button"><i
+                  class="fas fa-calendar-alt"></i></button>
+            </div>
+            <div *ngIf="column.required && submitted && fx[column.formControlName].errors" class="invalid-feedback">
+              <div *ngIf="fx[column.formControlName].errors.required">this field is required</div>
+            </div>
+          </div>
+
+          <input *ngSwitchCase="'amount'" type="number" [(ngModel)]="recordPaymentObj[column.field]"
+            [formControlName]="column.formControlName" class="form-control form-control-sm"
+            [ngClass]="{'is-invalid': submitted && fx[column.formControlName].errors}">
+          <!-- <input *ngSwitchCase="'checkNumber'" type="number" [(ngModel)]="recordPaymentObj[column.field]" numbersOnly
+            [formControlName]="column.formControlName" class="form-control form-control-sm"
+            [ngClass]="{'is-invalid': submitted && fx[column.formControlName].errors}"> -->
+            <input *ngSwitchCase="'checkNumber'" type="text" [(ngModel)]="recordPaymentObj[column.field]"
+            [formControlName]="column.formControlName" class="form-control form-control-sm"
+            [ngClass]="{'is-invalid': submitted && fx[column.formControlName].errors}">
+          <input *ngSwitchDefault type="text" [(ngModel)]="recordPaymentObj[column.field]"
+            class="form-control form-control-sm" [formControlName]="column.formControlName"
+            [ngClass]="{'is-invalid': submitted && fx[column.formControlName].errors}">
+          <div *ngIf="column.required && submitted && fx[column.formControlName].errors" class="invalid-feedback">
+            <div *ngIf="fx[column.formControlName].errors.required">this field is required</div>
+          </div>
+        </div>
+      </div>
+      <div class="row text-center">
+        <div class="col">
+          <label *ngIf="submitted && paymentFormGroup.invalid" style="color:red">*
+            Field is Required
+          </label> <br>
+          <button class="btn btn-primary" style="margin-bottom: 10px;" type="submit" [disabled]="isLoading">
+            <i class="fa mr-1" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}"></i>
+            {{button}}</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="col d-flex">
+    <div class="pl-4 row" style="font-size: 16px;">
+      <div class="mt-2 d-flex flex-row align-items-center col-12">
+        <label class="col-8">{{isContractor ? 'Contractor Invoice Total' : 'Client Invoice Total'}}:</label>
+        <label class="ml-1 col-4" *ngIf="Invoice_ClientDTOObj || Invoice_ContractorDTOObj">
+          ${{getTotal()}}
+        </label>
+      </div>
+      <div style="" class="col-12 d-flex flex-row align-items-center">
+        <label class="col-8">{{isContractor ? 'Contractor Payment Total' : 'Client Payment Total'}}:</label>
+        <label class="ml-1 col-4" *ngIf="Invoice_ClientDTOObj || Invoice_ContractorDTOObj">
+          ${{isContractor ? balanceDueStr : balanceDueStr}}
+        </label>
+      </div>
+      <div style="" class="col-12 d-flex flex-row align-items-center">
+        <label class="col-8">Balance Due:</label>
+        <label class="ml-1 col-4" *ngIf="Invoice_ContractorDTOObj || Invoice_ClientDTOObj">
+          ${{getBalance()}}
+        </label>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

@@ -1,0 +1,85 @@
+<div class="container-fluid">
+  <div >
+    <div >
+      <div class="row m-0 pr-1 module-box-header">
+        <h4 class="page-title">Groups</h4>
+        <hr>
+        <iplapp-icon-button title="Add Group" iclass="fas fa-plus-circle" (click)="AddNewGroup()" class="mr-1"></iplapp-icon-button>
+        <iplapp-icon-button title="Back" iclass="fas fa-arrow-alt-circle-left" routerLink="/home/user/viewduser"></iplapp-icon-button>
+      </div>
+      <div class="module-subheader p-1 pl-2">
+        <iplapp-filter-form 
+          [modelObj]="viewGroupsModelObj"
+          [formFilters]="groupFilters"
+          (filterCall)="filterCall()"
+          (clearData)="clearData()"
+          (filtergrdrd) = "filtergrdrd($event)"
+          (saveFilterData)="saveFilterData()">
+        </iplapp-filter-form>
+      </div>
+      <div class="row m-0 module-box" >
+        <kendo-grid #gridUser [kendoGridBinding]="griddata" [pageSize]="25" [pageable]="true" [selectable]="true"
+          [groupable]="false" [reorderable]="true" [sortable]="true" [filterable]="false" [selectable]="true"
+          [groupable]="false" [skip]="state.skip" [sort]="state.sort" [filter]="state.filter"
+          (dataStateChange)="dataStateChange($event)">
+
+          <kendo-grid-column field="Grp_Name" title="Group Name"
+             [width]="150">
+          </kendo-grid-column>
+          <kendo-grid-column field="Group_DR_Name" title="Group Role"
+          [width]="150">
+       </kendo-grid-column>
+
+       <kendo-grid-column field="Grp_CreatedBy" title="Created By"
+          [width]="150">
+       </kendo-grid-column>
+       <kendo-grid-column field="Grp_ModifiedBy" title="Last Modified By"
+          [width]="150">
+       </kendo-grid-column>
+
+          <kendo-grid-column field="Grp_IsActive" title="Active"
+             [width]="80"
+            filter="boolean">
+            <ng-template kendoGridCellTemplate let-dataItem let-i="rowIndex" >
+              <div class="custom-control custom-switch">
+                <input type="checkbox" (change)="checkChange($event, dataItem)"
+                    class="custom-control-input" id="switchisActive{{i}}"
+                    [checked]="dataItem.Grp_IsActive">
+                <label class="custom-control-label"
+                    for="switchisActive{{i}}"></label>
+            </div>
+              
+            </ng-template>
+          </kendo-grid-column>
+
+
+          <kendo-grid-column title="Action"
+             width="80">
+            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+
+              <a class="edit" data-toggle="tooltip"  data-placement="top"
+                title="View Record" [routerLink]="dataItem.ViewUrl">
+                <i class="fa fa-eye"></i>
+              </a> &nbsp;&nbsp;
+              <a class="edit" data-toggle="tooltip" (click)="deleteDetails($event, dataItem)" data-placement="top"
+                title="Delete Record" style="cursor: pointer">
+                <i class="fa fa-trash"></i>
+              </a>
+            </ng-template>
+          </kendo-grid-column>
+
+          <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+            <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+            <kendo-pager-numeric-buttons [buttonCount]="10"></kendo-pager-numeric-buttons>
+            <kendo-pager-next-buttons></kendo-pager-next-buttons>
+            <kendo-pager-info></kendo-pager-info>
+            <kendo-pager-page-sizes [pageSizes]="[25,50,75,100,150,200]"></kendo-pager-page-sizes>
+          </ng-template>
+        </kendo-grid>
+      </div>
+    </div>
+  </div>
+</div>
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="default" color="#fff" type="timer" [fullScreen]="true">
+  <p style="color: white">Loading...</p>
+</ngx-spinner>

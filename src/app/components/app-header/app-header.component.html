@@ -1,0 +1,220 @@
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+  <a [routerLink]="['/dashboard']" class="navbar-brand logo text-center ml-3">
+    <span class="logo-lg">
+      <img src="assets/images/HomeLogoX.png" alt="" height="40px">
+    </span>
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div id="navbarSupportedContent" class="navbar-collpase collapse show in w-100 ">
+    <ul  class="nav nav-main mr-auto"  style="position: sticky; padding-left: 20px; width: 85%; justify-content: space-around;">
+      <li class="nav-item dropdown" *ngFor="let item of menus">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown"
+          routerLinkActive="active"
+          [routerLink]="[item.routerLink]">
+          {{item.name}}
+          <span *ngIf="item.name.includes('Message') && badge > 0" class="badge badge-pill bg-danger">{{badge}}</span>
+        </a>
+        <ul class="dropdown nav-left subDrop dropdown-menu" *ngIf="item.subMenus.length > 0">
+          <a class="dropdown-item" *ngFor="let subItem of item.subMenus" [routerLink]='[subItem.routerLink]' (click)="subMenuClick(item, subItem)">
+            <i [ngClass]="[subItem.iclass, 'mr-1']"></i>
+            <span>{{subItem.displayName}}</span>
+          </a>
+        </ul>
+      </li>
+
+    </ul>
+</div>
+
+<div class="iconeposition">
+
+        <ul class="nav align-items-center user-drop " >
+          <li class="nav-item dropdown d-flex align-items-center" >
+            <a class="nav-link dropdown-toggle nav-user" data-toggle="dropdown"
+              role="button" aria-haspopup="false" aria-expanded="false">
+              <img src="assets/images/users/profileAV.png" alt="user-image" class="img-rounded ">
+              <span class="pro-user-name ml-1">
+               {{User_FirstName}} <i class="mdi mdi-chevron-down"></i>
+              </span>
+            </a>
+            <!-- [routerLink]="['/admin/userdata/profile']"  -->
+            <div class="dropdown-menu dropdown-menu-left">
+              <a class="dropdown-item notify-item" (click)="profile(Userprofile)">
+                <i class="fa fa-user"></i>
+                <span> Profile</span>
+              </a>
+              <!-- [routerLink]="['/admin/password/change']" -->
+               <a  class="dropdown-item notify-item" (click)="changepassword(chagepsd)">
+                <i class="fas fa-lock mr-1"></i>
+                <span>Change Password</span>
+              </a>
+              <div class="dropdown-divider"></div>
+              <a [routerLink]="['/admin/login']" class="dropdown-item notify-item mr-1" (click)="logout()">
+                <i class="fe-log-out mr-1"></i>
+                <span>Logout</span>
+              </a>
+            </div>
+          </li>
+        </ul>
+
+
+
+        <ul class="nav align-items-center user-drop">
+          <li class="nav-item dropdown d-flex align-items-center" style="color: #fefefe; " [ngbPopover]="MessageNotificationcontent" #p1="ngbPopover"
+          placement="bottom-right"><i style="font-size: 20px; float: left;" class="fa fa-comments fa-4 pull-right" aria-hidden="true"></i>
+          <span class="badge badge-pill bg-danger" *ngIf="badge > 0">{{badge}}</span>
+          </li>
+        </ul>
+
+
+        <ul class="nav align-items-center user-drop">
+          <li class="nav-item dropdown d-flex align-items-center" style="color: #fefefe; " [ngbPopover]="Notificationcontent" #p1="ngbPopover"
+          placement="bottom-right"><i style="font-size: 20px;" class="fa fa-bell fa-4 pull-right" aria-hidden="true"></i>
+          <span class="badge badge-pill bg-danger" *ngIf="wonotCnt > 0">{{wonotCnt}}</span>
+          </li>
+        </ul>
+
+
+        <ul class="nav align-items-center user-drop navbar-right">
+          <li class="nav-item dropdown d-flex align-items-center" style="color: #fefefe; " [ngbPopover]="DownloadNotificationcontent" #p1="ngbPopover"
+          placement="bottom-right"><i style="font-size: 20px; " class="fa fa-download fa-4 pull-right " aria-hidden="true"></i>
+          <span class="badge badge-pill bg-danger" *ngIf="photoDownloadNotificationData_Firebase.length > 0">{{photoDownloadNotificationData_Firebase.length}}</span>
+          </li>
+        </ul>
+
+
+</div>
+
+
+
+  <!-- second menu -->
+  <div class="fullWidth-menu d-flex navbar-nav w-100 onSmall" *ngIf="isSecondMenu">
+    <a class="second-menu-item d-flex justify-content-center align-items-center"
+      *ngFor="let item of subMenus"
+      routerLinkActive="active"
+      [routerLink]="[item.routerLink]">
+      <i [ngClass]="[item.iclass, 'mr-1']"></i>
+      <span>{{item.displayName}}</span>
+    </a>
+  </div>
+</nav>
+
+<ng-template #Userprofile let-modal>
+  <div class="modal-header">
+    <div>
+      <h4>User Profile</h4>
+    </div>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container">
+    <app-user-profile></app-user-profile>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #chagepsd let-modal>
+  <div class="modal-header">
+    <div>
+      <h4>Change Password</h4>
+    </div>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container">
+      <app-change-password></app-change-password>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #Notificationcontent let-modal let-c="close" let-d="dismiss" style="width: 300px;height: 300px;">
+  <div class="modal-header">
+    <div class="col-8">
+      <h5 style="color: black;">Notification </h5>&nbsp;&nbsp;
+    </div>
+    <div class="col-4">
+      <a (click)="ClearNotification()" ><i class="fa fa-trash" style="color: black;"></i></a>
+      <button type="button" (click)="modal.close('Save click')" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+  </div>
+  <div class="modal-body">
+    <!-- <div class="row">
+      <div class="col-9">
+        <h5 style="color: black;">Notification
+          <span class="badge badge-pill bg-danger">{{wonotCnt}}</span>
+        </h5>&nbsp;&nbsp;
+      </div>
+      <div class="col-3">
+        <a (click)="ClearNotification()" ><i class="fa fa-trash" style="color: black;"></i></a>
+      </div>
+    </div> -->
+    <div class="divScroll" style="height: 400px; overflow: auto;">
+      <div class="Custalert Custalert-info " *ngFor="let item of wonotData">
+        <a style="cursor: pointer;" (click)="UpdateNotification(item)">
+          <strong>{{item.WN_Title}}</strong><br>
+
+          <div *ngIf="item.WN_Title.includes('Work Order')">{{item.WN_Message}}</div>
+        </a>
+      </div>
+      <div *ngIf="wonotData.length === 0" style="text-align: center;">No notification found!</div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #DownloadNotificationcontent let-modal let-c="close" let-d="dismiss" style="width: 300px;height: 300px;">
+  <div class="modal-header">
+    <div class="col-8">
+      <h5 style="color: black;">Download Notification </h5>&nbsp;&nbsp;
+    </div>
+    <div class="col-4">
+      <a (click)="ClearDownloadNotification()" ><i class="fa fa-trash" style="color: black;"></i></a>
+      <button type="button" (click)="modal.close('Save click')" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+  </div>
+  <div class="modal-body">
+    <div class="divScroll" style="height: 400px; overflow: auto;">
+      <div class="Custalert Custalert-info " *ngFor="let item of dateSortBy(photoDownloadNotificationData_Firebase,'PN_CreatedOn')">
+        <a style="cursor: pointer;" (click)="UpdateDownloadNotification(item)">
+          <strong>{{item.PN_Title}}</strong><br>
+          <p *ngIf="item.PN_IsExpired" style="color: red;"> This link is expired! </p>
+        </a>
+      </div>
+      <div *ngIf="photoDownloadNotificationData_Firebase.length === 0" style="text-align: center;">No notification found!</div>
+    </div>
+  </div>
+</ng-template>
+<ng-template #MessageNotificationcontent let-modal let-c="close" let-d="dismiss" style="width: 300px;height: 300px;">
+  <div class="modal-header">
+    <div class="col-8">
+      <h5 style="color: black;">Message
+        <!-- <span class="badge badge-pill bg-danger">{{badge}}</span> -->
+      </h5>&nbsp;&nbsp;
+    </div>
+    <div class="col-4">
+      <a (click)="ClearMessageNotification()" ><i class="fa fa-trash" style="color: black;"></i></a>
+      <button type="button" (click)="modal.close('Save click')" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+  </div>
+  <div class="modal-body">
+    <div class="divScroll" style="height: 400px; overflow: auto;">
+      <div class="Custalert Custalert-info " *ngFor="let item of dateSortBy(unreadMessageNotification,'msgTime')" style="cursor: pointer;" (click)="UpdateMessage(item)">
+        <a>
+          <span [innerHtml]="item.msgText"></span>
+        </a>
+      </div>
+      <div *ngIf="unreadMessageNotification.length === 0" style="text-align: center;">No notification found!</div>
+    </div>
+  </div>
+</ng-template>
+

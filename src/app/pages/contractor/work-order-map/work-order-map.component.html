@@ -1,0 +1,20 @@
+<ng-container *ngIf="LatLongData.length > 0">
+  <agm-map [latitude]="defaultlat" [longitude]="defaultlng" [zoom]="zoom">
+    <ng-container *ngFor="let place of  LatLongData">
+      <agm-marker [latitude]="place.latitude" [longitude]="place.longitude">
+      <agm-info-window>
+        <div>
+          <strong>WO#: {{place.workOrder_ID}}</strong>
+        </div>
+        <div>
+          <strong>{{place.address}}</strong>
+        </div>
+        <div>
+          <strong>{{place.WorkOrder_Type}}</strong>
+        </div>
+      </agm-info-window>
+    </agm-marker>
+    
+    </ng-container>
+  </agm-map>
+</ng-container>

@@ -1,0 +1,157 @@
+<div class="container-fluid mt-2" [ngClass]="{ 'HelpCursor': isHelpActive }">
+  <div class="">
+    <div class="">
+      <h3 class="module-box-header mb-0"> Auto Instructions
+        <a class="pull-right mr-2" data-toggle="tooltip" (click)="SetHelpFlag()" data-placement="top"
+        title="Item Help" style="cursor: pointer;">Need Help
+        <i class="fas fa-question"></i>&nbsp;&nbsp;
+        </a>
+      </h3>
+
+      <form [formGroup]="formUsrCommonGroup" (ngSubmit)="formButton()">
+        <div class="row m-0 module-subheader p-1 pl-2">
+          <div class="col-lg-4">
+            <div class="form-row">
+              <div class="float-right">
+                <button id="client_viewdetail_1" class="btn btn-primary" *ngIf="IsEditDisable" (click)="EditForms()">
+                  <i class="far fa-edit mr-1"></i> Edit
+                </button>
+                <button id="client_viewdetail_1" class="btn btn-primary" type="submit" *ngIf="!IsEditDisable"
+                  [disabled]="isLoading">
+                  <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}"></i>
+                  {{button}}
+                </button>
+                <!-- <button id="client_viewdetail_1" (click)="Back()" class="btn btn-primary" style="margin-left:6px"><i
+                    class="fas fa-arrow-alt-circle-left mr-1"></i> Back</button> -->
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="module-box p-2">
+          <div class="row">
+            <div class="col-md-2 col-lg-2 col-3">
+              <label   [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Name')" >Name<span style="color:red">*</span></label>
+            </div>
+            <div class="col-md-3 col-lg-3 col-6">
+              <input type="text" class="form-control" [(ngModel)]="AddInstructionModelObj.Inst_Task_Name"
+                formControlName="discrpval" [ngClass]="{ 'is-invalid': submitted && fx.discrpval.errors }"
+                (click)="DispalyInfo($event,'Name')"[readonly]="isHelpActive" [ngClass]="{ 'HelpCursor': isHelpActive }">
+              <div *ngIf="submitted && fx.discrpval.errors" class="invalid-feedback">
+                <div *ngIf="fx.discrpval.errors.required">this field is required</div>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-md-2 col-lg-2 col-3">
+              <label [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Description')">Description</label>
+            </div>
+            <div class="col-md-7 col-lg-7 col-6">
+              <textarea class="form-control" rows="5" [(ngModel)]="AddInstructionModelObj.Inst_Task_Desc"
+                formControlName="commentval"  (click)="DispalyInfo($event,'Description')"[readonly]="isHelpActive" [ngClass]="{ 'HelpCursor': isHelpActive }"></textarea>
+
+            </div>
+          </div>
+          <br>
+          <div class="row align-items-center">
+            <div class="col-2">
+              <label [ngClass]="{ 'HelpCursor': isHelpActive }"
+              (click)="DispalyInfo($event,'Auto Assign')">Auto Assign<span style="color:red">*</span></label>
+            </div>
+            <div class="col-4">
+              <input type="checkbox" [(ngModel)]="AddInstructionModelObj.Inst_Task_IsAutoAssign"
+                formControlName="disAutoAssign" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Active')">
+            </div>
+          </div>
+          <br>
+          <div class="row" [hidden]="!AddInstructionModelObj.Inst_Task_IsAutoAssign">
+            <div class="col-md-2 col-lg-2 col-12 ">
+              <label>Auto Assign Instruction</label>
+            </div>
+          </div>
+          <div class="row" *ngFor="let item of FormArrayVal;" [hidden]="!AddInstructionModelObj.Inst_Task_IsAutoAssign">
+            <div class="col" >
+              <label [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Client')">Client</label>
+              <div class="adminAddTask" style="width: max-content">
+                <ng-multiselect-dropdown [disabled]="isDropdownDisabled" style="width: max-content"
+                  [placeholder]="'select Client'" [data]="CompanyList" [(ngModel)]="item.Task_sett_Company"
+                  formControlName="drdclient" [settings]="dropdownSettings" (onSelect)="onItemSelect($event)"
+                  (onSelectAll)="onSelectAll($event)" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                  (click)="DispalyInfo($event,'Client')">
+
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="col">
+              <label [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Customer')">Customer</label>
+              <div class="adminAddTask" style="width: max-content">
+                <ng-multiselect-dropdown [disabled]="isDropdownDisabled" [placeholder]="'select Customer'"
+                  [data]="CustomerList" [(ngModel)]="item.Task_sett_Customer" [ngModelOptions]="{standalone: true}"
+                  [settings]="dropdownSettingsCustomer" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                  (click)="DispalyInfo($event,'Customer')">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="col">
+              <label [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'LoanType')">Loan Type</label>
+              <div class="adminAddTask" style="width: max-content">
+                <ng-multiselect-dropdown [disabled]="isDropdownDisabled" [placeholder]="'select LoanType'"
+                  [data]="LoanTypeList" [(ngModel)]="item.Task_sett_Lone" [ngModelOptions]="{standalone: true}"
+                  [settings]="dropdownSettingsLoanType" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                  (click)="DispalyInfo($event,'LoanType')">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="col">
+              <label [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'WorkType')">Work Type</label>
+              <div class="adminAddTask" style="width: max-content">
+                <ng-multiselect-dropdown [disabled]="isDropdownDisabled" [placeholder]="'select WorkType'"
+                  [data]="WorkTypeList" [(ngModel)]="item.WTTaskWorkType" [ngModelOptions]="{standalone: true}"
+                  [settings]="dropdownSettingsWorkTypeList" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                  (click)="DispalyInfo($event,'WorkType')">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="col">
+              <label [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'WorkTypeGroup')">Work Type Group</label>
+              <div class="adminAddTask" style="width: max-content">
+                <ng-multiselect-dropdown [disabled]="isDropdownDisabled" [placeholder]="'select WorkTypeGroup'"
+                  [data]="WorkTypeCategory" [(ngModel)]="item.Task_Work_TypeGroup" [ngModelOptions]="{standalone: true}"
+                  [settings]="dropdownSettingsWorkTypeCategory" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                  (click)="DispalyInfo($event,'WorkTypeGroup')">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="row align-items-center">
+            <div class="col-2">
+              <label [ngClass]="{ 'HelpCursor': isHelpActive }"
+              (click)="DispalyInfo($event,'Active')">Active<span style="color:red">*</span></label>
+            </div>
+            <div class="col-4">
+              <input type="checkbox" [(ngModel)]="AddInstructionModelObj.Inst_Task_IsActive"
+                formControlName="disactive" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Active')">
+            </div>
+          </div>
+
+          <br>
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="form-row">
+                <div class="float-right">
+                  <label for="InvestmentSihhhze" *ngIf="formUsrCommonGroup.invalid" style="color:red">*
+                    Field is Required
+                  </label> <br>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

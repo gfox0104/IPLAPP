@@ -1,0 +1,730 @@
+<div class="container-fluid mt-2">
+
+  <div >
+      <h4 class="module-box-header mb-0">Work Settings Page
+        <a class="pull-right mr-2" data-toggle="tooltip"  data-placement="top"
+        title="Item Help" style="cursor: pointer;">Need Help
+        <i class="fas fa-question"></i>&nbsp;&nbsp;
+        </a>
+      </h4>
+    </div>
+
+    <form [formGroup]="formUsrCommonGroup" (ngSubmit)="onSubmit()">
+    <div class="form-row m-0 module-subheader p-1 pl-2">
+      <div class="float-right">
+        <a *ngIf="IsEditDisable" (click)="EditForms()" [routerLink]="['/home/worksettings']"
+          class="btn btn-primary waves-effect waves-light"> <i class="far fa-edit mr-1"></i> Edit </a>
+        &nbsp;&nbsp;&nbsp;
+        <button type="submit" *ngIf="!IsEditDisable" class="btn btn-primary waves-effect waves-light"
+          [disabled]="isLoading">
+          <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}"></i>
+          {{button}} </button> &nbsp; &nbsp;
+        <a [routerLink]="['/home/adminlinkpage']" class="btn btn-primary"><i
+            class="fas fa-arrow-alt-circle-left mr-1"></i>
+          Back</a>
+      </div>
+    </div>
+  <div class="row mt-2" >
+  <div class="col-lg-4 mb-2">
+      <div class="module-box p-2" style="height: 102vh;max-height:102vh;overflow-y: auto;">
+        <div class="form-row">
+          <div class="form-group col-md-12 text-center module-subheader" >
+            <h5>Contractor Settings</h5>
+          </div>
+        </div>
+        <div class="form-row"></div>
+        <br>
+
+
+        <div class="form-row mt-2">
+          <div class="custom-control custom-switch">
+              <input type="checkbox"
+              [(ngModel)]="WorkSettingsPageModelObj.WOS_Contractor_Work_Order_Rejection"
+               formControlName="switchisActive" name="switchisActive"
+                  class="custom-control-input" id="switchisActive"  >
+              <label class="custom-control-label"
+                  for="switchisActive" >Enable Contractor Work Order Rejection</label>
+          </div>
+        </div>
+        <div class="form-row mt-2">
+          <div class="custom-control custom-switch" >
+              <input type="checkbox" 
+              [(ngModel)]="WorkSettingsPageModelObj.WOS_Work_Order_To_Previous_Contractor"
+              formControlName="switchisActive1" name="switchisActive1"
+                  class="custom-control-input" id="switchisActive1" >
+              <label class="custom-control-label"
+                  for="switchisActive1">Auto assign recurring work orders to previous Contractor.</label>
+          </div>
+        </div>
+        <div class="form-row mt-2">
+          <div class="custom-control custom-switch">
+              <input type="checkbox"
+              [(ngModel)]="WorkSettingsPageModelObj.WOS_Contractor_Compancy_Name"
+              formControlName="switchisActive2" name="switchisActive2"
+                  class="custom-control-input" id="switchisActive2" >
+              <label class="custom-control-label"
+                  for="switchisActive2">Require Contractor Compancy Name</label>
+          </div>
+        </div>
+        <div class="form-row mt-2">
+          <div class="custom-control custom-switch">
+              <input type="checkbox"
+              [(ngModel)]="WorkSettingsPageModelObj.WOS_Contractor_Vendor_Id"
+              formControlName="switchisActive3" name="switchisActive3"
+                  class="custom-control-input" id="switchisActive3" >
+              <label class="custom-control-label"
+                  for="switchisActive3">Require Contractor Vendor Id</label>
+          </div>
+        </div>
+
+        <div class="form-row mt-1">
+          <div class="form-group col-md-7">
+            <label class="col-form-label" for="userNfuuiame1">Contractor list sorting options</label>
+          </div>
+          <div class="form-group col-md-5">
+            <select class="form-control form-control-sm"[(ngModel)]="WorkSettingsPageModelObj.WOS_Contractor_list_Sorting"
+            formControlName="userNfuuiame1" name="userNfuuiame1">
+              <option value='0'>select</option>
+              <option value='1'>Compancy</option>
+              <option value='2'>First Last</option>
+              <option value='3'>First</option>
+              <option value="4">Last</option>
+              <option value="5">Vender Id</option>
+              <option>
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row mt-1">
+          <div class="custom-control custom-switch">
+              <input type="checkbox"
+              [(ngModel)]="WorkSettingsPageModelObj.WOS_EST_Completion_Date"
+              formControlName="switchisActive5" name="switchisActive5"
+                  class="custom-control-input" id="switchisActive5" >
+              <label class="custom-control-label"
+                  for="switchisActive5">Require EST.Completion Date</label>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-7">
+            <label class="col-form-label" for="num1to30">Number of days EST.Date allowed past due date </label>
+          </div>
+          <div class="form-group col-md-5">
+            <input type="number" name="num1to30"   formControlName="num1to30" [ngClass]="{'is-invalid':formUsrCommonGroup && fx.num1to30.errors && fx.num1to30.touched}" class="form-control form-control-sm" id="userNfuuiame1"
+              placeholder="Number of days EST.Date allowed past due date" [(ngModel)]="WorkSettingsPageModelObj.WOS_EST_Date_Allowed_Past"
+              >
+              <div class="invalid-feedback" [ngClass]="{'is-invalid':formUsrCommonGroup && fx.num1to30.errors && fx.num1to30.touched}">
+                Please Enter Between 1 to 30
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-7">
+            <label class="col-form-label" for="num1to31">Number of days EST.Date list shows on list</label>
+          </div>
+          <div class="form-group col-md-5">
+            <input type="number" class="form-control form-control-sm" id="num1to31" formControlName="num1to31" [ngClass]="{'is-invalid':formUsrCommonGroup && fx.num1to31.errors && fx.num1to31.touched}"
+              placeholder="Number of days EST.Date list shows on list" [(ngModel)]="WorkSettingsPageModelObj.WOS_EST_Date_List_Shows"  
+              >
+              <div class="invalid-feedback" [ngClass]="{'is-invalid':formUsrCommonGroup && fx.num1to31.errors && fx.num1to31.touched}">
+                Please Enter Between 1 to 31
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-7">
+            <label class="col-form-label" for="num1to31">New Contracto Priorty Work Orders settings</label>
+          </div>
+          <div class="form-group col-md-5">
+            <input type="number" class="form-control form-control-sm" id="num1to100" formControlName="num1to100" [ngClass]="{'is-invalid':formUsrCommonGroup && fx.num1to100.errors && fx.num1to100.touched}"
+              placeholder="New Contracto Priorty Work Orders settings" [(ngModel)]="WorkSettingsPageModelObj.WOS_New_Contractor_Priorty_WorkOrders"
+              >
+              <div class="invalid-feedback" [ngClass]="{'is-invalid':formUsrCommonGroup && fx.num1to100.errors && fx.num1to100.touched}">
+                Please Enter Between 1 to 100
+            </div>
+          </div>
+        </div>
+       
+      </div>
+    </div>
+<div class="col-lg-4 mb-2">
+  <div class="module-box p-2" style="height: 102vh;max-height: 102vh;overflow-y: auto;">
+    <div class="form-row">
+      <div class="form-group col-md-12 text-center module-subheader" >
+        <h5>System Web Settings</h5>
+      </div>
+    </div>
+    <div class="form-row"></div>
+    <br>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label class="col-form-label" for="userNfuuiame5">Browser Tab Name </label>
+      </div>
+      <div class="form-group col-md-6">
+        <input type="text" class="form-control form-control-sm" id="userNfuuiame5"
+        [(ngModel)]="WorkSettingsPageModelObj.WOS_Browser_Tab_Name"
+                   formControlName="userNfuuiame5" name="userNfuuiame5"
+          placeholder="Browser Tab Name" >
+      </div>
+    </div>
+    <div class="form-row mt-2">
+      <div class="custom-control custom-switch">
+          <input type="checkbox"
+          [(ngModel)]="WorkSettingsPageModelObj.WOS_Company_Name_On_Work_Order"
+                   formControlName="Printcompanyname" name="Printcompanyname"
+              class="custom-control-input" id="Printcompanyname" >
+          <label class="custom-control-label"
+              for="Printcompanyname">Print company name on work order PDF</label>
+      </div>
+    </div>
+    <div class="form-row mt-1">
+      <div class="form-group col-md-7">
+        <label class="col-form-label" for="DefaultTimezone">Default Timezone</label>
+      </div>
+      <div class="form-group col-md-5">
+        <select class="form-control form-control-sm" [(ngModel)]="WorkSettingsPageModelObj.WOS_Default_Timezone"
+             formControlName="DefaultTimezone" name="DefaultTimezone">
+          <option value='0'>select</option>
+          <option value='1'>Central(CDT)</option>
+          <option value='2'>Eastern(EDT)</option>
+          <option value='3'>Mountain(MDT)</option>
+          <option>
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row mt-1">
+      <div class="custom-control custom-switch">
+          <input type="checkbox" [(ngModel)]="WorkSettingsPageModelObj.WOS_Client_Name_To_Office_Staff"
+               formControlName="clientname" name="clientname"
+              class="custom-control-input" id="clientname" >
+          <label class="custom-control-label"
+              for="clientname">Only show client name to office Staff</label>
+      </div>
+    </div>
+    <div class="form-row mt-2">
+      <div class="custom-control custom-switch">
+          <input type="checkbox"
+          [(ngModel)]="WorkSettingsPageModelObj.WOS_Remove_Pricing"
+               formControlName="pricingfromcomments" name="pricingfromcomments"
+              class="custom-control-input" id="pricingfromcomments" >
+          <label class="custom-control-label"
+              for="pricingfromcomments">Remove pricing from comments and instructions</label>
+      </div>
+    </div>
+    <div class="form-row mt-2">
+      <div class="custom-control custom-switch">
+          <input type="checkbox" [(ngModel)]="WorkSettingsPageModelObj.WOS_Highlight_Pricing"
+               formControlName="Highlightpricing" name="Highlightpricing"
+              class="custom-control-input" id="Highlightpricing" >
+          <label class="custom-control-label"
+              for="Highlightpricing">Highlight pricing in comments and instructions</label>
+      </div>
+    </div>
+    <div class="form-row mt-2">
+      <div class="custom-control custom-switch">
+          <input type="checkbox"
+          [(ngModel)]="WorkSettingsPageModelObj.WOS_Loan_On_Work_Orders"
+               formControlName="Loan" name="Loan"
+              class="custom-control-input" id="Loan" >
+          <label class="custom-control-label"
+              for="Loan">Require Loan # on all work orders</label>
+      </div>
+    </div>
+    <div class="form-row mt-2">
+      <div class="custom-control custom-switch">
+          <input type="checkbox"
+          [(ngModel)]="WorkSettingsPageModelObj.WOS_Client_Company_On_Work_Orders"
+               formControlName="ClientCompany" name="ClientCompany"
+              class="custom-control-input" id="ClientCompany" >
+          <label class="custom-control-label"
+              for="ClientCompany">Require Client Company on all work orders</label>
+      </div>
+    </div>
+    <div class="form-row mt-2">
+      <div class="custom-control custom-switch">
+          <input type="checkbox"
+          [(ngModel)]="WorkSettingsPageModelObj.WOS_Customer_On_Work_Orders"
+               formControlName="customer" name="customer"
+              class="custom-control-input" id="customer" >
+          <label class="custom-control-label"
+              for="customer">Require customer on all work orders</label>
+      </div>
+    </div>
+    <div class="form-row mt-2">
+      <div class="custom-control custom-switch">
+          <input type="checkbox"
+          [(ngModel)]="WorkSettingsPageModelObj.WOS_Priorty_WorkOrder_Que"
+               formControlName="QueSettings" name="QueSettings"
+              class="custom-control-input" id="QueSettings" >
+          <label class="custom-control-label"
+              for="QueSettings">Priorty Work Order Que Settings</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="col-lg-4 mb-2">
+  <div style="display:flex;flex-direction:column">
+  <div class="module-box p-2" style="height: 47.5vh;max-height:47.5vh;overflow-y: auto;">
+    <div class="form-row">
+      <div class="form-group col-md-12 text-center module-subheader" >
+        <h5>Adminstration Alerts</h5>
+      </div>
+    </div>
+    <div class="form-row"></div>
+    <br>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label class="col-form-label" for="DocumentsExpiration">Documents Expiration Alets </label>
+      </div>
+      <div class="form-group col-md-6">
+        <input type="text" class="form-control form-control-sm" id="DocumentsExpiration"  formControlName="DocumentsExpiration" name="DocumentsExpiration"
+          placeholder="Enter Documents Expiration" [(ngModel)]="WorkSettingsPageModelObj.WOS_Documents_Expiration"
+          >
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label class="col-form-label" for="ContractorAvailability">Contractor Availability Alert</label>
+      </div>
+      <div class="form-group col-md-6">
+        <input type="text" class="form-control form-control-sm" id="ContractorAvailability" formControlName="ContractorAvailability" name="ContractorAvailability"
+          placeholder="Enter Contractor Availability" [(ngModel)]="WorkSettingsPageModelObj.WOS_Contractor_Availability"
+ >
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label class="col-form-label" for="EscalatedWork">Escalated Work order alert</label>
+      </div>
+      <div class="form-group col-md-6">
+        <input type="text" class="form-control form-control-sm" id="EscalatedWork" formControlName="EscalatedWork" name="EscalatedWork"
+          placeholder="Enter Escalated Work order" [(ngModel)]="WorkSettingsPageModelObj.WOS_Escalated_Work_Order"
+           >
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label class="col-form-label" for="Cancelledorder">Client Cancelled order alert  </label>
+      </div>
+      <div class="form-group col-md-6">
+        <input type="text" class="form-control form-control-sm" id="Cancelledorder" formControlName="Cancelledorder" name="Cancelledorder"
+          placeholder="Client Cancelled order alert " [(ngModel)]="WorkSettingsPageModelObj.WOS_Client_Cancelled_order"
+          >
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label class="col-form-label" for="WorkorderChanged">Client Work order Changed </label>
+      </div>
+      <div class="form-group col-md-6">
+        <input type="text" class="form-control form-control-sm" id="WorkorderChanged"formControlName="WorkorderChanged" name="WorkorderChanged"
+          placeholder="Client Work order Changed " [(ngModel)]="WorkSettingsPageModelObj.WOS_Client_Workorder_Changed"
+           >
+      </div>
+    </div>
+  </div>
+
+  <div class="module-box p-2 mt-2" style="height: 54.5vh;max-height:54.5vh;overflow-y: auto;">
+      <div class="form-row">
+        <div class="form-group col-md-12 text-center module-subheader" >
+          <h5>New Work Order Settings</h5>
+        </div>
+      </div>
+      <div class="form-row"></div>
+      <br>
+
+      <div class="form-row mt-2">
+          <div class="custom-control custom-switch">
+              <input type="checkbox" [(ngModel)]="WorkSettingsPageModelObj.WOS_Allows_Duplicate_Work_Order"
+              formControlName="Allowsduplicate" name="Allowsduplicate"
+                  class="custom-control-input" id="Allowsduplicate" >
+              <label class="custom-control-label"
+                  for="Allowsduplicate">Allows duplicate Work Order Numbers</label>
+          </div>
+        </div>
+        <div class="form-row mt-2">
+          <div class="custom-control custom-switch">
+              <input type="checkbox" [(ngModel)]="WorkSettingsPageModelObj.WOS_Work_Orders_To_Previous_Contractor"
+              formControlName="recurrigwork" name="recurrigwork"
+                  class="custom-control-input" id="recurrigwork" >
+              <label class="custom-control-label"
+                  for="recurrigwork">Auto Assign recurrig work orders to previous cotractor</label>
+          </div>
+        </div>
+        <div class="form-row mt-2">
+          <div class="custom-control custom-switch">
+              <input type="checkbox" [(ngModel)]="WorkSettingsPageModelObj.WOS_Show_Recomended_Contractorlist"
+              formControlName="RecomendedContractorlist" name="RecomendedContractorlist"
+                  class="custom-control-input" id="RecomendedContractorlist" >
+              <label class="custom-control-label"
+                  for="RecomendedContractorlist">Show Recomended Contractor list </label>
+          </div>
+        </div>
+        <div class="form-row mt-2">
+          <div class="custom-control custom-switch">
+              <input type="checkbox" [(ngModel)]="WorkSettingsPageModelObj.WOS_Customerdata"
+              formControlName="Customerdata" name="Customerdata"
+                  class="custom-control-input" id="Customerdata" >
+              <label class="custom-control-label"
+                  for="Customerdata">Customer data</label>
+          </div>
+        </div>
+        <div class="form-row mt-2">
+          <div class="custom-control custom-switch">
+              <input type="checkbox" [(ngModel)]="WorkSettingsPageModelObj.WOS_Loan_Number"
+              formControlName="LoanNumber" name="LoanNumber"
+                  class="custom-control-input" id="LoanNumber" >
+              <label class="custom-control-label"
+                  for="LoanNumber">Loan Number</label>
+          </div>
+        </div>
+        <div class="form-row mt-2">
+          <div class="custom-control custom-switch">
+              <input type="checkbox" [(ngModel)]="WorkSettingsPageModelObj.WOS_LockBox_Code"
+              formControlName="LockBoxCode" name="LockBoxCode"
+                  class="custom-control-input" id="LockBoxCode" >
+              <label class="custom-control-label"
+                  for="LockBoxCode">LockBox Code</label>
+          </div>
+        </div>
+        <div class="form-row mt-2">
+          <div class="custom-control custom-switch">
+              <input type="checkbox" [(ngModel)]="WorkSettingsPageModelObj.WOS_Key_Code"
+              formControlName="KeyCode" name="KeyCode"
+                  class="custom-control-input" id="KeyCode" >
+              <label class="custom-control-label"
+                  for="KeyCode">Key Code</label>
+          </div>
+        </div>
+        <div class="form-row mt-2">
+          <div class="custom-control custom-switch">
+              <input type="checkbox" [(ngModel)]="WorkSettingsPageModelObj.WOS_LotSize"
+              formControlName="LotSize" name="LotSize"
+                  class="custom-control-input" id="LotSize" >
+              <label class="custom-control-label"
+                  for="LotSize">Lot Size</label>
+          </div>
+        </div>
+    </div>
+</div>
+</div>
+<div class="col-lg-4 mb-2">
+  <div style="display:flex;flex-direction:column">
+    <div class="module-box p-2" style="height: 46vh;max-height: 46vh;overflow-y: auto;">
+      <div class="form-row">
+        <div class="form-group col-md-12 text-center module-subheader" >
+          <h5>Work Order Alerts</h5>
+        </div>
+      </div>
+      <div class="form-row"></div>
+      <br>
+      <div class="form-row mt-2">
+        <div class="custom-control custom-switch">
+            <input type="checkbox" [(ngModel)]="WorkSettingsPageModelObj.WOS_Work_Order_Assigned_Coordinator"
+             formControlName="newworkorder" name="newworkorder"
+                class="custom-control-input" id="newworkorder" >
+            <label class="custom-control-label"
+                for="newworkorder">Send new work order alerts to assigned Coordinator</label>
+        </div>
+      </div>
+      <div class="form-row mt-2">
+        <div class="custom-control custom-switch">
+            <input type="checkbox" [(ngModel)]="WorkSettingsPageModelObj.WOS_Work_Order_Assigned_Processor"
+            formControlName="assignedProcessor" name="assignedProcessor"
+                class="custom-control-input" id="assignedProcessor" >
+            <label class="custom-control-label"
+                for="assignedProcessor">Send new work order alerts to assigned Processor</label>
+        </div>
+      </div>
+      <div class="form-row mt-2">
+        <div class="custom-control custom-switch">
+            <input type="checkbox" [(ngModel)]="WorkSettingsPageModelObj.WOS_Work_Order_Email"
+            formControlName="settings" name="settings"
+                class="custom-control-input" id="settings" >
+            <label class="custom-control-label"
+                for="settings">New work order email alert settings</label>
+        </div>
+      </div>
+      <div class="form-row mt-1">
+        <div class="form-group col-md-8">
+          <label class="col-form-label" for="UreadOrders">Send Contractor Alert for U-read orders</label>
+        </div>
+        <div class="form-group col-md-4">
+          <select class="form-control form-control-sm" [(ngModel)]="WorkSettingsPageModelObj.WOS_Contractor_Alert_for_U_read"
+          formControlName="UreadOrders" name="UreadOrders">
+            <option value='0'>select</option>
+            <option value='1'>Off</option>
+            <option value='2'>12Hours</option>
+            <option value='3'>24Hours</option>
+            <option>
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row mt-1">
+        <div class="custom-control custom-switch">
+            <input type="checkbox"  [(ngModel)]="WorkSettingsPageModelObj.WOS_Contractor_Late_Orders"
+            formControlName="Lateorders" name="Lateorders"
+                class="custom-control-input" id="Lateorders" >
+            <label class="custom-control-label"
+                for="Lateorders">Send Contractor Alert for Late orders</label>
+        </div>
+      </div>
+      <div class="form-row mt-2">
+        <div class="custom-control custom-switch">
+            <input type="checkbox" [(ngModel)]="WorkSettingsPageModelObj.WOS_Contractor_Opens_Orders"
+            formControlName="Opensorders" name="Opensorders"
+                class="custom-control-input" id="Opensorders" >
+            <label class="custom-control-label"
+                for="Opensorders">Send Contractor Alert for Opens orders</label>
+        </div>
+      </div>
+    </div>
+
+  <div class="module-box p-2 mt-2" style="height: 25vh;max-height:25vh;overflow-y: auto;">
+      <div class="form-row">
+        <div class="form-group col-md-12 text-center module-subheader" >
+          <h5>Mobile App Settings</h5>
+        </div>
+      </div>
+      <div class="form-row"></div>
+      <br>
+
+      <div class="form-row mt-2">
+          <div class="custom-control custom-switch">
+              <input type="checkbox" [(ngModel)]="WorkSettingsPageModelObj.WOS_Property_Alert_App"
+            formControlName="Property_Alert_App" name="Property_Alert_App"
+                  class="custom-control-input" id="Property_Alert_App" >
+              <label class="custom-control-label"
+                  for="Property_Alert_App">Display Property Alert on App </label>
+          </div>
+        </div>
+        <div class="form-row mt-2">
+          <div class="custom-control custom-switch">
+              <input type="checkbox" [(ngModel)]="WorkSettingsPageModelObj.WOS_Occpancy_App"
+            formControlName="Occpancy_App" name="Occpancy_App"
+                  class="custom-control-input" id="Occpancy_App" >
+              <label class="custom-control-label"
+                  for="Occpancy_App">Display Occupancy Status on App </label>
+          </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="col-lg-4 mb-2">
+  <div class="module-box p-2" style="height:72.5vh;max-height:72.5vh;overflow-y: auto;">
+    <div class="form-row">
+      <div class="form-group col-md-12 text-center module-subheader" >
+        <h5>Photo Management Settings</h5>
+      </div>
+    </div>
+    <div class="form-row"></div>
+    <br>
+
+    <div class="form-row mt-2">
+      <div class="custom-control custom-switch">
+          <input type="checkbox" [(ngModel)]="WorkSettingsPageModelObj.WOS_Photos_be_Labeled"
+            formControlName="labeled" name="labeled"
+              class="custom-control-input" id="labeled" >
+          <label class="custom-control-label"
+              for="labeled">Require all photos be labeled</label>
+      </div>
+    </div>
+    <div class="form-row mt-2">
+      <div class="custom-control custom-switch">
+          <input type="checkbox" [(ngModel)]="WorkSettingsPageModelObj.WOS_Allow_Date_Stamps"
+            formControlName="datestamps" name="datestamps"
+              class="custom-control-input" id="datestamps" >
+          <label class="custom-control-label"
+              for="datestamps">Allow date stamps in the future</label>
+      </div>
+    </div>
+    <div class="form-row mt-2">
+      <div class="custom-control custom-switch">
+          <input type="checkbox" [(ngModel)]="WorkSettingsPageModelObj.WOS_Allow_Metadata"
+            formControlName="Metadata" name="Metadata"
+              class="custom-control-input" id="Metadata" >
+          <label class="custom-control-label"
+              for="Metadata">Allow Metadata to be modified</label>
+      </div>
+    </div>
+    <div class="form-row mt-1">
+      <div class="form-group col-md-7">
+        <label class="col-form-label" for="stampformat">Date stamp format</label>
+      </div>
+      <div class="form-group col-md-5">
+        <select class="form-control form-control-sm" [(ngModel)]="WorkSettingsPageModelObj.WOS_Date_Stamp_Format"
+          formControlName="stampformat" name="stampformat">
+          <option value='0'>select</option>
+          <option value='1'>MM/DD/YYYY</option>
+          <option value='2'>MM.DD.YYYY</option>
+          <option>
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-7">
+        <label class="col-form-label" for="Number_of_Photos">Minimum number of photos per work order</label>
+      </div>
+      <div class="form-group col-md-5">
+        <input type="text" class="form-control form-control-sm" id="Number_of_Photos"
+        [(ngModel)]="WorkSettingsPageModelObj.WOS_Minimum_Number_of_Photos"
+          formControlName="Number_of_Photos" name="Number_of_Photos"
+          placeholder="Enter Minimum number of photos " >
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="custom-control custom-switch">
+          <input type="checkbox" [(ngModel)]="WorkSettingsPageModelObj.WOS_Bid_Photo_Labels"
+            formControlName="photolabels" name="photolabels"
+              class="custom-control-input" id="photolabels" >
+          <label class="custom-control-label"
+              for="photolabels">Require all bid photo labels to have a photo</label>
+      </div>
+    </div>
+    <div class="form-row mt-2">
+      <div class="custom-control custom-switch">
+          <input type="checkbox" [(ngModel)]="WorkSettingsPageModelObj.WOS_Completion_Photo_Lables"
+            formControlName="completionphoto" name="completionphoto"
+              class="custom-control-input" id="completionphoto" >
+          <label class="custom-control-label"
+              for="completionphoto">Require all completion photo lables to have a photo</label>
+      </div>
+    </div>
+    <div class="form-row mt-2">
+      <div class="custom-control custom-switch">
+          <input type="checkbox" [(ngModel)]="WorkSettingsPageModelObj.WOS_Damage_Photo_Lables"
+            formControlName="damagephoto" name="damagephoto"
+              class="custom-control-input" id="damagephoto" >
+          <label class="custom-control-label"
+              for="damagephoto">Require all damage photo lables to have a photo</label>
+      </div>
+    </div>
+    <div class="form-row mt-2">
+      <div class="custom-control custom-switch">
+          <input type="checkbox" [(ngModel)]="WorkSettingsPageModelObj.WOS_Inspection_Photo_Lables"
+            formControlName="Inspectionphoto" name="Inspectionphoto"
+              class="custom-control-input" id="Inspectionphoto" >
+          <label class="custom-control-label"
+              for="Inspectionphoto">Require all Inspection photo lables to have a photo</label>
+      </div>
+    </div>
+    <div class="form-row mt-2">
+      <div class="custom-control custom-switch">
+          <input type="checkbox" [(ngModel)]="WorkSettingsPageModelObj.WOS_Custom_Photo_Lables"
+            formControlName="Customphoto" name="Customphoto"
+              class="custom-control-input" id="Customphoto" >
+          <label class="custom-control-label"
+              for="Customphoto">Require all Custom photo lables to have a photo</label>
+      </div>
+    </div>
+    </div>
+    </div>
+    <div class="col-lg-4 mb-2">
+      <div class="module-box p-2" style="height: 72.5vh;max-height: 72.5vh;overflow-y: auto;">
+        <div class="form-row">
+          <div class="form-group col-md-12 text-center module-subheader" >
+            <h5>Work Order-Invoices</h5>
+          </div>
+        </div>
+        <div class="form-row"></div>
+        <br>
+        <div class="form-row mt-2">
+          <div class="custom-control custom-switch">
+              <input type="checkbox" [(ngModel)]="WorkSettingsPageModelObj.WOS_Allow_Invoice_Number"
+               formControlName="invoicenumber" name="invoicenumber"
+                  class="custom-control-input" id="invoicenumber" >
+              <label class="custom-control-label"
+                  for="invoicenumber">Allow invoice number to be modified</label>
+          </div>
+        </div>
+        <div class="form-row mt-2">
+          <div class="custom-control custom-switch">
+              <input type="checkbox" [(ngModel)]="WorkSettingsPageModelObj.WOS_Show_Completion_Comments"
+               formControlName="invoiceitems" name="invoiceitems"
+                  class="custom-control-input" id="invoiceitems" >
+              <label class="custom-control-label"
+                  for="invoiceitems">Show Completion comments on invoice items</label>
+          </div>
+        </div>
+        <div class="form-row mt-2">
+          <div class="custom-control custom-switch">
+              <input type="checkbox" [(ngModel)]="WorkSettingsPageModelObj.WOS_Allow_Metadata_To_Modified"
+               formControlName="Metadatabe" name="Metadatabe"
+                  class="custom-control-input" id="Metadatabe" >
+              <label class="custom-control-label"
+                  for="Metadatabe">Allow Metadata to be modified</label>
+          </div>
+        </div>
+        <div class="form-row mt-2">
+          <div class="custom-control custom-switch">
+              <input type="checkbox" [(ngModel)]="WorkSettingsPageModelObj.WOS_Dafault_Transfer_Completion_Task"
+               formControlName="taskitems" name="taskitems"
+                  class="custom-control-input" id="taskitems" >
+              <label class="custom-control-label"
+                  for="taskitems">Dafault transfer completion task items to invoices</label>
+          </div>
+        </div>
+        <div class="form-row mt-2">
+          <div class="custom-control custom-switch">
+              <input type="checkbox" [(ngModel)]="WorkSettingsPageModelObj.WOS_Contractor_Invoice_Flat_Fee"
+               formControlName="Flat_Fee" name="Flat_Fee"
+                  class="custom-control-input" id="Flat_Fee" >
+              <label class="custom-control-label"
+                  for="Flat_Fee">Allow Contractor Invoice Flat-Fee</label>
+          </div>
+        </div>
+        <div class="form-row mt-2">
+          <div class="custom-control custom-switch">
+              <input type="checkbox"  [(ngModel)]="WorkSettingsPageModelObj.WOS_Client_Invoice_Flat_Fee"
+               formControlName="InvoiceFlat_Fee" name="InvoiceFlat_Fee"
+                  class="custom-control-input" id="InvoiceFlat_Fee" >
+              <label class="custom-control-label"
+                  for="InvoiceFlat_Fee">Allow Client Invoice Flat-Fee</label>
+          </div>
+        </div>
+        <div class="form-row mt-2">
+          <div class="custom-control custom-switch">
+              <input type="checkbox" [(ngModel)]="WorkSettingsPageModelObj.WOS_Print_Company_Logo_Invoice"
+               formControlName="CompanyLogo" name="CompanyLogo"
+                  class="custom-control-input" id="CompanyLogo" >
+              <label class="custom-control-label"
+                  for="CompanyLogo">Print Company Logo in Invoice</label>
+          </div>
+        </div>
+        <div class="form-row mt-2">
+          <div class="custom-control custom-switch">
+              <input type="checkbox" [(ngModel)]="WorkSettingsPageModelObj.WOS_Print_ABC_Number_on_Invoice"
+               formControlName="ABCnumber" name="ABCnumber"
+                  class="custom-control-input" id="ABCnumber" >
+              <label class="custom-control-label"
+                  for="ABCnumber">Print ABC number on Invoice PDF</label>
+          </div>
+        </div>
+        <div class="form-row mt-2">
+          <div class="custom-control custom-switch">
+              <input type="checkbox" [(ngModel)]="WorkSettingsPageModelObj.WOS_Print_Invoice_Date"
+               formControlName="InvoiceDate" name="InvoiceDate"
+                  class="custom-control-input" id="InvoiceDate" >
+              <label class="custom-control-label"
+                  for="InvoiceDate">Print Invoice Date on PDF invoice</label>
+          </div>
+        </div>
+          <div class="form-row mt-2">
+          <div class="custom-control custom-switch">
+              <input type="checkbox" [(ngModel)]="WorkSettingsPageModelObj.WOS_Approved_Invoice"
+               formControlName="Approved_Invoice" name="Approved_Invoice"
+                  class="custom-control-input" id="Approved_Invoice" >
+              <label class="custom-control-label"
+                  for="Approved_Invoice">Approved Invoice stettings </label>
+          </div>
+        </div>
+      </div>
+</div>
+</div>
+</form>
+</div>

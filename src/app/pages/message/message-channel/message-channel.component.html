@@ -1,0 +1,10 @@
+<li (click)="UpdateReadStatus()" class="work-order-list"
+  [ngClass]="{'active01': selectedWorkOrder == item.IPLNO}">
+  <a>
+    <span class="chat-avatar-sm user-img">
+      <img class="rounded-circle" alt="" src="assets/img/user.jpg" />
+    </span>
+    <span class="chat-user">IPL# {{item.IPLNO}} </span>
+    <span class="badge badge-pill bg-danger" *ngIf="unreadCounts !== 0">{{unreadCounts}}</span>
+  </a>
+</li>

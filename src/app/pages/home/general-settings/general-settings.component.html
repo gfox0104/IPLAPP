@@ -1,0 +1,90 @@
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-body">
+      <div>
+        <h4>Work Order Settings Page</h4>
+      </div>
+      <form>
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="card-box bg-pattern border border-dark" style="background-color: #f7f7f7;">
+              <div class="form-row">
+                <div class="form-group col-md-12 text-center" style="color: black;background-color: #9b9b9b;">
+                  <h5>Work Order Customize </h5>
+                </div>
+              </div>
+              <div class="form-row"></div>
+              <br>
+              <div class="form-row">
+                <a [routerLink]="['/home/generalsettings']" (click)="AddNewClient()"> <span
+                    style="color: rgba(15, 15, 15, 0.548);font-weight: bolder;font-size:larger">Company
+                    Settings</span></a>
+              </div>
+              <div class="form-row mt-1">
+                <a [routerLink]="['/home/scorecard']"> <span
+                    style="color:rgba(15, 15, 15, 0.548);font-weight: bolder;font-size:larger">Billing
+                  </span> </a>
+              </div>
+              <div class="form-row mt-1">
+                <a [routerLink]="['/home/scorecard']"> <span
+                    style="color: rgba(15, 15, 15, 0.548);font-weight: bolder;font-size:larger">Add-ons
+                  </span> </a>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label class="col-form-label" for="userNfuuiame1">Company short name for alerts </label>
+                </div>
+                <div class="form-group col-md-8">
+                  <input type="text" class="form-control form-control-sm" id="userNfuuiame1"
+                    placeholder="Enter Company Short Name">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label class="col-form-label" for="userNfuuiame1">Custom title bar caption</label>
+                </div>
+                <div class="form-group col-md-8">
+                  <input type="text" class="form-control form-control-sm" id="userNfuuiame1"
+                    placeholder="Enter Custom Title Bar Caption">
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label class="col-form-label" for="userNfuuiame1">Default Timezone </label>
+                </div>
+                <div class="form-group col-md-8">
+                  <select class="form-control form-control-sm">
+                    <option value='0'>select</option>
+                    <option [ngValue]="kb.Id" *ngFor="let kb of TimezoneList">
+                      {{kb.Name}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+          </div>
+          <div class="col-lg-4">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-4"></div>
+          <div class="col-lg-4">
+            <div class="form-row">
+              <div class="float-right">
+                <a [routerLink]="['/home/workordersettings']" class="btn btn-primary"><i
+                    class="fas fa-arrow-alt-circle-left mr-1"></i>
+                  Back</a>
+              </div>
+            </div>
+
+          </div>
+          <div class="col-lg-4">
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,128 @@
+<div class="container-fluid mt-2" mousekeyboard [ngClass]="{ 'HelpCursor': isHelpActive }">
+    <div class="">
+        
+        <div class="col-12">
+            <h3 class="module-box-header mb-0">Create New Ticket 
+                <a class="pull-right" data-toggle="tooltip" (click)="SetHelpFlag()" data-placement="top"
+              title="Item Help" style="cursor: pointer;">Need Help
+              <i class="fas fa-question"></i>&nbsp; &nbsp;
+            </a>
+            </h3>
+       
+            <form class="module-box p-2" [formGroup]="formUsrCommonGroup" (ngSubmit)="FormButton()">
+                <div class="row m-0 module-subheader p-1 pl-2">
+                    <div class="form-group  col-md-12">
+                        <input type="submit" class="btn btn-primary" value="Submit">&nbsp;&nbsp;
+                        <button id="client_viewdetail_1" [routerLink]="['/support/supportdetail/tickethistory/history']" class="btn btn-primary"
+                        style="margin-left:6px"><i class="fas fa-arrow-alt-circle-left mr-1"></i> Back</button>
+                    </div>
+                </div>
+                <div class="row request-new">
+                    <div class="col-md-12 ticket-header">
+                        <div class="ticket_history" (click)="ticketHistory()">Submitted Tickets</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-sm-12">
+                        <label for="phone" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                        (click)="DispalyInfo($event,'Phone Number')">Phone Number <span style="color: red">*</span></label>
+                        <input type="text" id="phone" class="form-control"
+                            [(ngModel)]="SupportSettingModelObj.Sup_Tickets_Phone" formControlName="ST_Phone_Number"
+                            name="phonenumber" placeholder="Your phone number.."
+                            [ngClass]="{ 'is-invalid': submitted && fx.ST_Phone_Number.errors }"
+                            [ngClass]="{ 'HelpCursor': isHelpActive }"
+                        (click)="DispalyInfo($event,'Phone Number')"
+                        [readonly]="isHelpActive"
+                            >
+                        <div *ngIf="submitted && fx.ST_Phone_Number.errors" class="invalid-feedback">
+                            <div *ngIf="fx.ST_Phone_Number.errors.required">this field is required</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <label for="phone" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                        (click)="DispalyInfo($event,'Email')">Email <span style="color: red">*</span></label>
+                        <input type="email" id="ext" class="form-control"
+                            [(ngModel)]="SupportSettingModelObj.Sup_Tickets_Email" formControlName="ST_Ext" name="ext"
+                            placeholder="Email" [ngClass]="{ 'is-invalid': submitted && fx.ST_Ext.errors }"
+                            [ngClass]="{ 'HelpCursor': isHelpActive }"
+                            (click)="DispalyInfo($event,'Email')"
+                            [readonly]="isHelpActive">
+                        <div *ngIf="submitted && fx.ST_Ext.errors" class="invalid-feedback">
+                            <div *ngIf="fx.ST_Ext.errors.required">this field is required</div>
+                            <div *ngIf="fx.ST_Ext.errors.email">Email must be a valid email address</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 10px;">
+                    <div class="col-md-12">
+                        <label for="phone"  [ngClass]="{ 'HelpCursor': isHelpActive }"
+                        (click)="DispalyInfo($event,'Subject')">Subject <span style="color: red">*</span></label>
+                        <input type="text" id="subject" class="form-control"
+                            [(ngModel)]="SupportSettingModelObj.Sup_Tickets_Subject" formControlName="ST_Subject"
+                            name="subject" placeholder="Subject..."
+                            [ngClass]="{ 'is-invalid': submitted && fx.ST_Subject.errors }"
+                            [ngClass]="{ 'HelpCursor': isHelpActive }"
+                            (click)="DispalyInfo($event,'Subject')"
+                            [readonly]="isHelpActive">
+                        <div *ngIf="submitted && fx.ST_Subject.errors" class="invalid-feedback">
+                            <div *ngIf="fx.ST_Subject.errors.required">this field is required</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 10px;">
+                    <div class="col-md-12">
+                        <label for="phone"   [ngClass]="{ 'HelpCursor': isHelpActive }"
+                        (click)="DispalyInfo($event,'File Attachments')">File Attachments</label>
+                        <input type="file" id="attach" multiple class="form-control" (change)="onFileChange($event)"
+                            formControlName="ST_Attach" name="attach" placeholder="Attach..."
+                            [ngClass]="{ 'HelpCursor': isHelpActive }"
+                            (click)="DispalyInfo($event,'File Attachments')"
+                            [readonly]="isHelpActive">
+
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 10px;">
+                    <div class="col-md-12">
+                        <label for="phone"   [ngClass]="{ 'HelpCursor': isHelpActive }"
+                        (click)="DispalyInfo($event,'Message')">Message <span style="color: red">*</span></label>
+                        <textarea id="message" class="form-control"
+                            [(ngModel)]="SupportSettingModelObj.Sup_Tickets_Message" formControlName="ST_Message"
+                            name="message" placeholder="Message..." style="height:200px" [ngClass]="{ 'is-invalid': submitted && fx.ST_Message.errors }"
+                            [ngClass]="{ 'HelpCursor': isHelpActive }"
+                            (click)="DispalyInfo($event,'Message')"
+                            [readonly]="isHelpActive">
+                        </textarea>
+                        <div *ngIf="submitted && fx.ST_Message.errors" class="invalid-feedback">
+                            <div *ngIf="fx.ST_Message.errors.required">this field is required</div>
+                        </div>
+                    </div>
+                </div>
+<br>
+<div class="col-md-12 my-2">
+    <div class="form-row justify-content-end">
+        <div class="float-right">
+            <!-- <button id="client_viewdetail_1" class="btn btn-primary" type="submit" [disabled]="isLoading"
+            *ngIf="!SupportSettingModelObj.Sup_Tickets_Pkey_ID" [routerLink]="['/support/supportdetail/tickethistory/history']">
+                <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}"></i>
+                {{button}}
+            </button><hr>
+                      <button id="client_viewdetail_1" 
+                        class="btn btn-primary mr-1" *ngIf="!SupportSettingModelObj.Sup_Tickets_Pkey_ID"
+                         [routerLink]="['/support/supportdetail/tickethistory/history']" >
+                        <i class="fas fa-arrow-alt-circle-left mr-1"></i> Back
+                      </button> -->
+
+                      <div class="form-group  col-md-12">
+                        <input type="submit" class="btn btn-primary" value="Submit">&nbsp;&nbsp;
+                        <button id="client_viewdetail_1" [routerLink]="['/support/supportdetail/tickethistory/history']" class="btn btn-primary"
+                        style="margin-left:6px"><i class="fas fa-arrow-alt-circle-left mr-1"></i> Back</button>
+                    </div>
+
+        </div>
+    </div>
+</div>
+            </form>
+        </div>
+    </div>
+
+</div>

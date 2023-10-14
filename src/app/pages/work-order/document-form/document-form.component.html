@@ -1,0 +1,147 @@
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-4">
+          <button id="client_viewdetail_1" (click)="hideShowDiv(1)" class="btn btn-primary"[disabled]="tabhide">Add Folder</button>&nbsp;&nbsp;
+          <button id="client_viewdetail_1" (click)="hideShowDiv(2)" class="btn btn-primary"[disabled]="tabhide">Add File</button>
+        </div>
+      </div>
+      <br>
+      <div class="container" [hidden]="folderhide">
+        <iplapp-document-form #child
+          [documentAndFormsDTO]="documentAndFormsDTO"
+          [folderlst]="folderlst"
+          [groupRoleList]="groupRoleList"          
+          [folderSubmitted]="folderSubmitted" 
+          (onSubmit)="folderDetaisDataPost($event)"
+          (cancel)="clearForm()">
+        </iplapp-document-form>
+      </div>
+      <div class="container"[hidden]="foldershow">
+        <iplapp-file-form #filechild
+          [fileMasterModelObj]="fileMasterModelObj"
+          [folderlst]="folderlst"
+          [filelst]="filelst"
+          [fileSubmitted]="fileSubmitted"
+          [inputelement]="inputelement"
+          [formArrayVal]="formArrayVal"
+          [dropdownList]="dropdownList"
+          [customerNumberList]="customerNumberList"
+          [loanTypeList]="loanTypeList"
+          [workTypeList]="workTypeList"
+          [workTypeCategory]="workTypeCategory"
+          [stateList]="stateList"
+          [countryList]="countryList"
+          (onSubmit)="fileDatastore($event)"
+          (cancel)="clearFile()">
+        </iplapp-file-form>
+      </div>
+      <br>
+      <br>
+      <div class="row">
+        <div class="col-6"><h5>Name</h5></div>
+        <div class="col-4"><h5>Description</h5></div>
+        <div class="col-2"><h5>Action</h5></div>
+      </div>
+      <hr style="margin-top: 10px;margin-bottom: 10px;">
+      <div class="row">
+        <div class="col-12" *ngFor="let item of parentlst">
+          <div class="row">
+            <div class="col-6">
+              <a href="javascript:void(0)" (click)="item.toggle=!item.toggle">
+                <i *ngIf="item.toggle" class="fas fa-chevron-circle-down" style='font-size:16px'></i>
+                <i *ngIf="!item.toggle" class="fas fa-chevron-circle-right" style='font-size:16px'></i>
+              </a>
+                &nbsp;&nbsp;&nbsp;                
+              <label><i style="margin-right: 10px;font-size: 16px;" class="fas fa-folder"></i>{{item.Fold_Name}}</label>
+            </div>
+            <div class="col-4"> 
+              <
+              <label *ngIf="item.Fold_Desc.length > 50">{{item.Fold_Desc | slice:0:50}}<a href="javascript:void(0)" title="View Description" (click)="ShowDescription(item.Fold_Desc)">...</a></label> 
+              <label *ngIf="item.Fold_Desc.length <= 50">{{item.Fold_Desc}}</label> 
+            </div>
+            <div class="col-2">
+              <a href="javascript:void(0)" title="Edit Record" (click)="editData(item)"><i class="fas fa-edit"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
+              <a href="javascript:void(0)" title="Delete Record" (click)="DeleteFolder(item)"><i class="fa fa-trash"></i></a>
+            </div>           
+          </div>
+          <hr style="margin-top: 10px;margin-bottom: 10px;">
+          <div class="row" *ngIf="item.toggle">
+            <div class="col-12"  *ngFor="let filedt of item.lstFolder_File_MasterDTO">
+              <div class="row" style="background-color: antiquewhite;">
+                <div class="col-6">
+                  <a [href]="filedt.Fold_File_Local_Path" target="_blank" [download]="filedt.Fold_File_Local_Path" title="Download File" style="margin-left: 35px;color: black;">
+                  <i style="margin-right: 10px;font-size: 16px;" class="fas fa-file-alt"></i>{{filedt.Fold_File_Name}}
+                  </a>
+                </div>   
+                <div class="col-4">
+                  
+                  <label *ngIf="filedt.Fold_File_Desc.length > 50">{{filedt.Fold_File_Desc | slice:0:50}}<a href="javascript:void(0)" title="View Description" (click)="ShowDescription(filedt.Fold_File_Desc)">...</a></label> 
+                  <label *ngIf="filedt.Fold_File_Desc.length <= 50">{{filedt.Fold_File_Desc}}</label> 
+                </div>             
+                <div class="col-2">
+                  <a href="javascript:void(0)" title="Edit Record" (click)="editFileData(filedt)"><i class="fas fa-edit"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                  <a href="javascript:void(0)" title="Delete Record" (click)="DeleteFile(filedt)"><i class="fa fa-trash"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                  <a [href]="filedt.Fold_File_Local_Path" target="_blank" title="Download File"
+                  [download]="filedt.Fold_File_Local_Path"><i class="fa fa-download"
+                    aria-hidden="true"></i></a>
+                </div>
+              </div>
+              <hr style="margin-top: 10px;margin-bottom: 10px;">
+            </div>
+          </div>
+          <div class="row" *ngIf="item.toggle">
+            <div class="col-12" 
+              *ngFor="let child of item.lstFolder_Get_Parent_MasterDTO">
+              <div class="row" style="background-color: #f5f5f5;">
+                <div class="col-6">
+                  <a href="javascript:void(0)" (click)="child.toggle=!child.toggle" style="margin-left: 35px;">
+                    <i *ngIf="child.toggle" class="fas fa-chevron-circle-down" style='font-size:16px'></i>
+                    <i *ngIf="!child.toggle" class="fas fa-chevron-circle-right" style='font-size:16px'></i>
+                  </a>&nbsp;&nbsp;&nbsp;
+                  <label><i style="margin-right: 10px;font-size: 16px;" class="fas fa-folder"></i>{{child.Fold_Name}}</label>
+                </div>
+                <div class="col-4">
+                  
+                  <label *ngIf="child.Fold_Desc.length > 50">{{child.Fold_Desc | slice:0:50}}<a href="javascript:void(0)" title="View Description" (click)="ShowDescription(child.Fold_Desc)">...</a></label> 
+                  <label *ngIf="child.Fold_Desc.length <= 50">{{child.Fold_Desc}}</label> 
+                </div>
+                <div class="col-2">
+                  <a href="javascript:void(0)" title="Edit Record" (click)="editData(child)"><i class="fas fa-edit"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                  <a href="javascript:void(0)" title="Delete Record" (click)="DeleteFolder(child)"><i class="fa fa-trash"></i></a>
+                </div>
+              </div>
+              <div class="row" *ngIf="child.toggle">
+                <div class="col-12" *ngFor="let childfiledt of child.lstFolder_File_MasterDTO; let first = first ;let last = last;">
+                  <hr *ngIf="first" style="margin-top: 10px;margin-bottom: 10px;">
+                  <div class="row" style="background-color: antiquewhite;">
+                    <div class="col-6">
+                      <a [href]="childfiledt.Fold_File_Local_Path" target="_blank" [download]="childfiledt.Fold_File_Local_Path" title="Download File" style="margin-left: 65px;color: black;">
+                      <i style="margin-right: 10px;font-size: 16px;" class="fas fa-file-alt"></i>{{childfiledt.Fold_File_Name}}
+                      </a>
+                    </div>
+                    <div class="col-4">
+                      
+                      <label *ngIf="childfiledt.Fold_File_Desc.length > 50">{{childfiledt.Fold_File_Desc | slice:0:50}}<a href="javascript:void(0)" title="View Description" (click)="ShowDescription(childfiledt.Fold_File_Desc)">...</a></label> 
+                      <label *ngIf="childfiledt.Fold_File_Desc.length <= 50">{{childfiledt.Fold_File_Desc}}</label> 
+                    </div>
+                    <div class="col-2">
+                      <a href="javascript:void(0)" title="Edit Record" (click)="editFileData(childfiledt)"><i class="fas fa-edit"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                      <a href="javascript:void(0)" title="Delete Record" (click)="DeleteFile(childfiledt)"><i class="fa fa-trash"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                      <a [href]="childfiledt.Fold_File_Local_Path" target="_blank" title="Download File"
+                      [download]="childfiledt.Fold_File_Local_Path"><i class="fa fa-download"
+                        aria-hidden="true"></i></a>
+                    </div>
+                  </div>
+                  <hr *ngIf="!last" style="margin-top: 10px;margin-bottom: 10px;">
+                </div>
+              </div>
+              <hr style="margin-top: 10px;margin-bottom: 10px;">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

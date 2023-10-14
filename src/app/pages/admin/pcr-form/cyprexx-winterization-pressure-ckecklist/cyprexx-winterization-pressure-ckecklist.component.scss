@@ -1,0 +1,15 @@
+.card-header{
+    display: flex;
+    height: 4rem;
+    align-items: baseline;
+    justify-content: space-between;
+    background-color: #f8f8f8;
+}
+.pervious-answer {
+  color: green;
+  margin: 5px 0px 5px 15px;
+  font-weight: 900;
+}
+.pervious-label {
+  margin: 5px 0px 5px 15px;
+}

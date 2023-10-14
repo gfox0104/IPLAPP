@@ -1,0 +1,675 @@
+<div class="container-fluid" [ngClass]="{ 'HelpCursor': isHelpActive }">
+  <div class="row justify-content-md-center" style="margin-top: 2% !important;">
+    <!-- start page title -->
+    <div class="col-12">
+      <div class="page-title-box">
+        <div class="page-title-right">
+        </div>
+        <h4 class="module-box-header mb-0" style="margin-left: 12px;
+    margin-right: -13px;">View Work Order
+          <a class="pull-right" data-toggle="tooltip" (click)="SetHelpFlag()" data-placement="top" title="Item Help"
+            style="cursor: pointer;">Need Help
+            <i class="fas fa-question"></i>&nbsp;&nbsp;
+          </a>
+        </h4>
+      </div>
+    </div>
+    <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="default" color="#fff" type="timer" [fullScreen]="true">
+      <p style="color: white">Loading...</p>
+    </ngx-spinner>
+    <div class="col-12 ">
+      <ul class="module-subheader nav nav-tabs w-100" id="myworkorderview" role="tabs" style="margin-left: 13px;">
+        <li class="nav-item" *ngFor="let tab of tabs" (click)="onClickTab(tab)">
+          <a class="nav-link" [ngClass]="{'active': tab.active}" [hidden]="tab.hidden" [id]="tab.id" data-toggle="tab"
+            [href]="'#' + tab.link" role="tab" aria-controls="tab.link" aria-selected="true">{{tab.title}}</a>
+        </li>
+      </ul>
+      <div class="tab-content pt-0" id="myinvproContent">
+        <div class="tab-pane fade" [ngClass]="{'show': tabs[0].active, 'active': tabs[0].active}" id="workorder" role="tabpanel" aria-labelledby="workorder-tab">
+
+          <div class="">
+            <div class="module-subheader p-1 pl-2" style="margin-right: -13px;">
+              <div>
+                <ul class="nav">
+                  <li class="nav-tabs" [ngClass]="{'disabled': chkclick}" [ngbPopover]="actionBlock" #p1="ngbPopover"
+                    placement="bottom-left"><i class="fas fa-layer-group"></i>
+                    Action</li>
+                  <li class="nav-tabs" [ngbPopover]="filterBlock" triggers="manual" #p2="ngbPopover"
+                    (click)="p2.open(); p3.close(); p4.close();" [autoClose]="false" placement="bottom-left">
+                    <i class="fas fa-filter"></i>Create Filters
+                  </li>
+                  <li class="nav-tabs" [ngbPopover]="loadFilters" triggers="manual" #p3="ngbPopover"
+                    (click)="p3.open(); p2.close(); p4.close();" placement="bottom-left" [autoClose]="false"><i
+                      class="fas fa-layer-group"></i> Load Filters</li>
+                  <li class="nav-tabs" [ngbPopover]="columnsBlock" triggers="manual" #p4="ngbPopover"
+                    (click)="p4.open(); p3.close(); p2.close()" placement="bottom-left" [autoClose]="false"><i
+                      class="fas fa-layer-group"></i> Columns</li>
+                  <li>
+                    <div *ngIf="!loaddata">
+                      <label style="color: green;">No Filter Applied...</label>
+                    </div>
+                    <div *ngIf="loaddata">
+                      <label style="color: green;">{{name}} Filter Applied...</label>
+                    </div>
+                  </li>
+                </ul>
+                <button id="client_viewdetail_1" class="btn btn-primary float-right" (click)="resetFilters()">Reset Filter</button>
+                <button class="btn btn-primary float-right mx-2" (click)="runFilter()" style="border-radius: 8px;
+    background-color: #154266;">Run Filter</button>
+                <ng-template #actionBlock>
+
+
+
+                  <action-list [data]="resData" [griddata]="newarray" (update)="afterRecordUpdate()"
+                    (excelEvent)="exportToExcel()"></action-list>
+                  <br>
+                </ng-template>
+                <ng-template #filterBlock>
+                  <div class="d-flex justify-content-end align-items-end">
+                    <i class="fas fa-close" (click)="p2.close()" style="cursor: pointer"></i>
+                  </div>
+                  <div class="d-flex flex-wrap mt-3 mb-1">
+                    <div *ngFor="let filter of filters">
+                      <div class="filter-item mr-2">
+                        <label>{{filter.label}}</label>
+                        <div *ngIf="filter.type === 'text' || filter.type === 'date'">
+                          <input [type]="filter.type" [placeholder]="filter.placeholder"
+                            [(ngModel)]="SaveFilterWorkOrderObj[filter.model]" [ngModelOptions]="{standalone: true}"
+                            class="form-control form-control-sm">
+                        </div>
+
+                        <div *ngIf="filter.type === 'select'">
+
+                          <kendo-dropdownlist class="form-control form-control-sm" [data]="filter.data" [filterable]="true"
+                            [textField]="filter.optionKey" [valueField]="filter.value"
+                            [(ngModel)]="SaveFilterWorkOrderObj[filter.model]" [ngModelOptions]="{standalone: true}"
+                            (valueChange)="selectChange(SaveFilterWorkOrderObj[filter.model],filter.keyflag)"
+                            [valuePrimitive]="true" (filterChange)="Filtermethod(filter.model,$event)">
+                          </kendo-dropdownlist>
+                        </div>
+                      </div>
+                      <div *ngIf="filter.type === 'textarea'" class="col-lg-12 form-control-sm">
+                        <textarea class="form-control" style="width: 318px;"
+                          [(ngModel)]="SaveFilterWorkOrderObj[filter.model]"
+                          [ngModelOptions]="{standalone: true}"></textarea>
+                      </div>
+
+                    </div>
+                  </div>
+                  <div class="d-flex justify-content-between align-items-end" style="margin-top: 30px;">
+                    <div>
+                      <label>
+                        Name Filter
+                        <span style="color: red;">*</span>
+                      </label>
+                      <input type="text" [(ngModel)]="filterName" class="form-control form-control-sm"
+                        style="max-width: 160px;" />
+                    </div>
+                    <div>
+                      <button class="btn btn-primary e-btn float-right mb-1" id="client_viewdetail_1"
+                        style="margin-right: 6px;" (click)="p2.close()"><i class="fas fa-close mr-1"></i>Close</button>
+                      <button class="btn btn-primary e-btn float-right mb-1" id="client_viewdetail_1"
+                        style="margin-right: 6px;" (click)="clearFilter1();p2.close();"><i
+                          class="fas fa-brush mr-1"></i>Clear</button>
+                      <button class="btn btn-primary e-btn float-right mb-1" id="client_viewdetail_1"
+                        (click)="SaveFilter();p2.close();" style="margin-right: 6px;"><i
+                          class="fas fa-save mr-1"></i>Save</button>
+                    </div>
+                  </div>
+
+                </ng-template>
+                <ng-template #loadFilters>
+                  <div class="d-flex justify-content-end align-items-end">
+                    <i class="fas fa-close" (click)="p3.close()" style="cursor: pointer"></i>
+                  </div>
+                  <div class="col-lg-12 control-section d-flex justify-content-between"
+                    style="max-height: 350px; width: 800px">
+                    <div class="col-lg-6 d-flex flex-wrap mt-3 mb-1">
+                      <div class="example-wrapper">
+                        <kendo-dropdownlist [defaultItem]="defaultData" [data]="data" [filterable]="true"
+                          [textField]="'WF_QueryName'" [valueField]="'WF_PkeyID'" (filterChange)="handleFilter($event)"
+                          (valueChange)="selectChangeHandler($event)">
+                        </kendo-dropdownlist>
+                      </div>
+                    </div>
+                    <div class="col-lg-6 d-flex justify-content-end mt-3 mb-1">
+                      <button class="btn btn-primary e-btn float-right mb-1" id="" (click)="loadFilter();p3.close()"
+                        style="margin-right: 6px;"><i class="fas fa-play  mr-1"></i>Load</button>
+                      <button class="btn btn-primary e-btn float-right mb-1" id="" (click)="clearFilter();p3.close()"
+                        style="margin-right: 6px;"><i class="fas fa-brush mr-1"></i>Clear</button>
+                      <button class="btn btn-primary e-btn float-right mb-1" id="" (click)="deleteFilter();p3.close()"
+                        style="margin-right: 6px;"><i class="fas fa-trash mr-1"></i>Delete</button>
+                      <button class="btn btn-primary e-btn float-right mb-1" id="" (click)="p3.close()"
+                        style="margin-right: 6px;"><i class="fas fa-close mr-1"></i>Close</button>
+                    </div>
+                  </div>
+                </ng-template>
+
+                <ng-template #columnsBlock>
+                  <div class="col-lg-12 control-section" style="min-height: 450px; width: 700px">
+                    <div id="drag-drop-wrapper">
+                      <div class="listbox-control">
+                        <h4>Active</h4>
+                        <ejs-listbox #listbox1 [dataSource]='dataA' [allowDragAndDrop]='true' height='330px' width='300px'
+                          scope='combined-list' [fields]='fields' (drop)='onDropGroupA($event)'></ejs-listbox>
+                      </div>
+                      <span class="e-swap-icon" style="display: none;"></span>
+                      <div class="listbox-control">
+                        <h4>Inactive</h4>
+                        <ejs-listbox #listbox2 [dataSource]='dataB' [allowDragAndDrop]='true' height='330px' width='300px'
+                          scope='combined-list' [fields]='fields' (drop)='onDropGroupB($event)'></ejs-listbox>
+                        <button class="btn btn-primary e-btn" id="client_viewdetail_1" (click)="p4.close()">Close</button>
+                        <button class="btn btn-primary e-btn" id="client_viewdetail_1" (click)='SaveChangesColumn()'
+                          style="margin-right:4px">Update</button>
+                      </div>
+                    </div>
+                  </div>
+                </ng-template>
+              </div>
+              <br>
+              <div class="row">
+                <div class="col-lg-12">
+                  <div *ngFor="let item of Statuslst;let i = index">
+                    <div class="workorderass" *ngIf="!isHelpActive">
+                      <input type="checkbox" [(ngModel)]="item.mydata" (change)='FilterData()'>&nbsp;&nbsp;
+                      <label>{{item.Status_Name}}</label>
+
+                    </div>
+                    <div class="workorderass" *ngIf="isHelpActive">
+                      <a title="select status for filter workorder" [ngClass]="{ 'HelpCursor': isHelpActive }">
+                        <input type="checkbox" [(ngModel)]="item.mydata" [disabled]="true"
+                        [ngClass]="{ 'HelpCursor': isHelpActive }" >&nbsp;&nbsp;
+                        <label [ngClass]="{ 'HelpCursor': isHelpActive }">{{item.Status_Name}}</label></a>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row m-0 module-box p-2" style="margin: 0 -0.8rem !important;">
+              <div class="col-12">
+                <!-- [pageSize]="state.take" -->
+                <!-- [kendoGridBinding]="gridData" -->
+                <!-- {{newarray| json}} -->
+                <!-- <kendo-grid class="module-box"  #gridUser [kendoGridBinding]="newarray" [pageSize]="state.take" [pageable]="true"
+                  [sortable]="true" [sort]="state.sort"  [skip]="skip" [filterable]="true" [selectable]="true" [groupable]="false"
+                  [reorderable]="true" (dataStateChange)="dataStateChange($event)"
+                  (pageChange)="pageChange($event)"  (filter)="onFilter($event)"> -->
+
+                <kendo-grid class="module-box" #gridUser [kendoGridBinding]="newarray" [pageSize]="state.take" [pageable]="true"
+                  [sortable]="true" [sort]="state.sort" [skip]="skip" [filterable]="true"  [selectable]="true" [groupable]="false"
+                  [reorderable]="true" (dataStateChange)="dataStateChange($event)" (pageChange)="pageChange($event)"
+                  (filterChange)="onFilter($event)" style="margin-left: 16px;  margin-right: -9px">
+
+                  
+
+                  <kendo-grid-column width="36" field="check" title="" [locked]="locked">
+                    <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+                      <div style="padding-left: 4px;" *ngIf="!isHelpActive">
+                        <input type="checkbox" (change)="checkRowAll()" style="display: none;" />
+                      </div>
+                      <div style="padding-left: 4px;" *ngIf="isHelpActive">
+                        <a title="Select all wo for perform action." [ngClass]="{ 'HelpCursor': isHelpActive }">
+                          <input type="checkbox" (change)="checkRowAll()" [disabled]="true"
+                            [ngClass]="{ 'HelpCursor': isHelpActive }" /></a>
+                      </div>
+                    </ng-template>
+                    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                      <div *ngIf="!isHelpActive">
+                        <input type="checkbox" [(ngModel)]="dataItem.chkdata" (change)="checkRow()" />
+                      </div>
+                      <div *ngIf="isHelpActive">
+
+                        <a title="Select wo for perform action." [ngClass]="{ 'HelpCursor': isHelpActive }">
+                          <input type="checkbox" [(ngModel)]="dataItem.chkdata" (change)="checkRow()" [disabled]="true"
+                            [ngClass]="{ 'HelpCursor': isHelpActive }" />
+                        </a>
+                      </div>
+                    </ng-template>
+                  </kendo-grid-column>
+                  <kendo-grid-column title="Action" width="150" [locked]="false">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                      <div class="row" style="display: inline;">
+                        <a class="edit" [routerLink]="dataItem.ViewUrl" class="k-grid-ignore-click" title="view Records" (click)="OpenWorkOrderLogHandler(dataItem)">
+                          <i class="fa fa-eye"></i> &nbsp; &nbsp; View
+                        </a>
+                         &nbsp;&nbsp;&nbsp;&nbsp;
+
+                         <img src="assets/images/to-do-list.png" class="mr-2 cursor-pinter message"
+                         (click)="openWorkorderDetailModal(dataItem, workorderDetails)">
+                      </div>
+                    </ng-template>
+
+                  </kendo-grid-column>
+                  <kendo-grid-column *ngFor="let column of columns" width="{{column.width}}" field="{{column.field}}"
+                    [class]="{'no-padding': column.field === 'Status_Name' || column.field === 'dueDate' || column.field === 'Main_Cat_Name'}"
+                    title="{{column.title}}" [hidden]="column.tab">
+                    <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'Status_Name'">
+                      <span class="whole-cell" [ngStyle]="{'background-color': statusColor(dataItem.status)}">
+                        {{ dataItem.Status_Name }}
+                      </span>
+                    </ng-template>
+
+
+                    <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'WT_WorkType'">
+                      <div *ngIf="dataItem.WT_WorkType != null && dataItem.WT_WorkType.length > 20">
+                        <a [title]="dataItem.WT_WorkType">{{dataItem.WT_WorkType | slice:0:20}}..</a>
+                      </div>
+                      <div *ngIf="dataItem.WT_WorkType != null && dataItem.WT_WorkType.length <= 20">
+                        {{dataItem.WT_WorkType}}</div>
+                    </ng-template>
+                    <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'Client_Company_Name'">
+                      <div *ngIf="dataItem.Client_Company_Name != null && dataItem.Client_Company_Name.length > 20">
+                        <a [title]="dataItem.Client_Company_Name">{{dataItem.Client_Company_Name | slice:0:20}}..</a>
+                      </div>
+                      <div *ngIf="dataItem.Client_Company_Name != null && dataItem.Client_Company_Name.length <= 20">
+                        {{dataItem.Client_Company_Name}}</div>
+                    </ng-template>
+                    <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'ContractorName'">
+                      <span class="whole-cell" [style.backgroundColor]="SetColor(dataItem.ContractorBackColor)" [style.color]="'white'" [style.fontWeight]="'bold'"
+                      *ngIf="dataItem.ContractorName != null && dataItem.ContractorName.length > 1">
+
+                      <div class="d-flex align-items-center">
+                        <img src="assets/images/view_user.png" style="-webkit-filter: invert(100%);" class="mr-2 cursor-pinter message" container="body"
+                          [ngbPopover]="ContractorUserDetails" #ContractorPopover="ngbPopover" placement="auto" (click)="openMapPopover()"
+                          [autoClose]="true" *ngIf="dataItem.ContractorName != null && dataItem.ContractorName.length>1">
+                        <div *ngIf="dataItem.ContractorName != null && dataItem.ContractorName.length > 20">
+                          <a [title]="dataItem.ContractorName">{{dataItem.ContractorName | slice:0:20}}..</a>
+                        </div>
+                        <div *ngIf="dataItem.ContractorName != null && dataItem.ContractorName.length <= 20">
+                          {{dataItem.ContractorName}}</div>
+                      </div>
+                    </span>
+                      <ng-template #ContractorUserDetails>
+                        <button type="button" (click)="closePopover()" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">×</span>
+                        </button>
+
+                        <table>
+                          <tr>
+                            <td>Name :</td>
+                            <td >{{dataItem.ContractorName}}</td>
+                          </tr>
+                          <tr>
+                            <td>Email :</td>
+                            <td>{{dataItem.ContractorEmail}}</td>
+                          </tr>
+                          <tr>
+                            <td>Contact :</td>
+                            <td>{{dataItem.ContractorCellNumber}}</td>
+                          </tr>
+                          <tr>
+                            <td>Address :</td>
+                            <td>{{dataItem.ContractorAddress}}</td>
+                          </tr>
+                        </table>
+                      </ng-template>
+                    </ng-template>
+
+                    <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'CordinatorName'">
+                      <div class="d-flex align-items-center">
+                        <img src="assets/images/view_user.png" class="mr-2 cursor-pinter message" container="body"
+                          [ngbPopover]="CordinatorUserDetails" #CordinatorPopover="ngbPopover" placement="auto" (click)="openMapPopover()"
+                          [autoClose]="true" *ngIf="dataItem.CordinatorName != null && dataItem.CordinatorName.length>1">
+                        <div *ngIf="dataItem.CordinatorName != null && dataItem.CordinatorName.length > 20">
+                          <a [title]="dataItem.CordinatorName">{{dataItem.CordinatorName | slice:0:20}}..</a>
+                        </div>
+                        <div *ngIf="dataItem.CordinatorName != null && dataItem.CordinatorName.length <= 20">
+                          {{dataItem.CordinatorName}}</div>
+                      </div>
+                      <ng-template #CordinatorUserDetails>
+                        <button type="button" (click)="closePopover()" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">×</span>
+                        </button>
+
+                        <table>
+                          <tr>
+                            <td>Name :</td>
+                            <td >{{dataItem.CordinatorName}}</td>
+                          </tr>
+                          <tr>
+                            <td>Email :</td>
+                            <td>{{dataItem.CordinatorEmail}}</td>
+                          </tr>
+                          <tr>
+                            <td>Contact :</td>
+                            <td>{{dataItem.CordinatorCellNumber}}</td>
+                          </tr>
+                          <tr>
+                            <td>Address :</td>
+                            <td>{{dataItem.CordinatorAddress}}</td>
+                          </tr>
+                        </table>
+                      </ng-template>
+                    </ng-template>
+                    <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'ProcessorName'">
+
+                      <div class="d-flex align-items-center">
+                        <img src="assets/images/view_user.png" class="mr-2 cursor-pinter message" container="body"
+                          [ngbPopover]="ProcessorUserDetails" #ProcessorPopover="ngbPopover" placement="auto" (click)="openMapPopover()"
+                          [autoClose]="true" *ngIf="dataItem.ProcessorName != null && dataItem.ProcessorName.length>1">
+
+                          <div *ngIf="dataItem.ProcessorName != null && dataItem.ProcessorName.length > 15">
+                            <a [title]="dataItem.ProcessorName">{{dataItem.ProcessorName | slice:0:15}}..</a>
+                          </div>
+                          <div *ngIf="dataItem.ProcessorName != null && dataItem.ProcessorName.length <= 15">
+                            {{dataItem.ProcessorName}}
+                          </div>
+                      </div>
+                      <ng-template #ProcessorUserDetails>
+                        <button type="button" (click)="closePopover()" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">×</span>
+                        </button>
+
+                        <table>
+                          <tr>
+                            <td>Name :</td>
+                            <td >{{dataItem.ProcessorName}}</td>
+                          </tr>
+                          <tr>
+                            <td>Email :</td>
+                            <td>{{dataItem.ProcessorEmail}}</td>
+                          </tr>
+                          <tr>
+                            <td>Contact :</td>
+                            <td>{{dataItem.ProcessorCellNumber}}</td>
+                          </tr>
+                          <tr>
+                            <td>Address :</td>
+                            <td>{{dataItem.ProcessorAddress}}</td>
+                          </tr>
+                        </table>
+                      </ng-template>
+
+                    </ng-template>
+                    <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'Cust_Num_Number'">
+                      <div *ngIf="dataItem.Cust_Num_Number != null && dataItem.Cust_Num_Number.length > 15">
+                        <a [title]="dataItem.Cust_Num_Number">{{dataItem.Cust_Num_Number | slice:0:15}}..</a>
+                      </div>
+                      <div *ngIf="dataItem.Cust_Num_Number != null && dataItem.Cust_Num_Number.length <= 15">
+                        {{dataItem.Cust_Num_Number}}</div>
+                    </ng-template>
+                    <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'Main_Cat_Name'">
+
+                      <div *ngIf="dataItem.Main_Cat_Back_Color===''">
+                        <span class="whole-cell" [style.backgroundColor]="'red'" [style.color]="'white'" [style.fontWeight]="'bold'">
+                          <div
+                            *ngIf="dataItem.Main_Cat_Back_Color === '000000' && dataItem.Client_Company_Name != null && dataItem.Client_Company_Name.length <= 20">
+                            <span [style.color]="'white'">{{ dataItem.Main_Cat_Name }}</span>
+                          </div>
+                          <div
+                            *ngIf="dataItem.Main_Cat_Back_Color === '000000' && dataItem.Client_Company_Name != null && dataItem.Client_Company_Name.length > 20">
+                            <a [title]="dataItem.Main_Cat_Name"><span [style.color]="'white'">{{ dataItem.Main_Cat_Name |
+                                slice:0:20 }}</span></a>
+                          </div>
+                          <div
+                            *ngIf="dataItem.Main_Cat_Back_Color != '000000' && dataItem.Client_Company_Name != null && dataItem.Client_Company_Name.length <= 20">
+                            {{ dataItem.Main_Cat_Name }}
+                          </div>
+                          <div
+                            *ngIf="dataItem.Main_Cat_Back_Color != '000000' && dataItem.Client_Company_Name != null && dataItem.Client_Company_Name.length > 20">
+                            <a [title]="dataItem.Main_Cat_Name">{{ dataItem.Main_Cat_Name | slice:0:20 }}</a>
+                          </div>
+                        </span>
+                      </div>
+                      <div *ngIf="dataItem.Main_Cat_Back_Color!=''">
+                        <span class="whole-cell" [style.backgroundColor]="'#' + dataItem.Main_Cat_Back_Color" [style.color]="'white'" [style.fontWeight]="'bold'">
+                          <div
+                            *ngIf="dataItem.Main_Cat_Back_Color === '000000' && dataItem.Client_Company_Name != null && dataItem.Client_Company_Name.length <= 20">
+                            <span [style.color]="'white'">{{ dataItem.Main_Cat_Name }}</span>
+                          </div>
+                          <div
+                            *ngIf="dataItem.Main_Cat_Back_Color === '000000' && dataItem.Client_Company_Name != null && dataItem.Client_Company_Name.length > 20">
+                            <a [title]="dataItem.Main_Cat_Name"><span [style.color]="'white'">{{ dataItem.Main_Cat_Name |
+                                slice:0:20 }}</span></a>
+                          </div>
+                          <div
+                            *ngIf="dataItem.Main_Cat_Back_Color != '000000' && dataItem.Client_Company_Name != null && dataItem.Client_Company_Name.length <= 20">
+                            {{ dataItem.Main_Cat_Name }}
+                          </div>
+                          <div
+                            *ngIf="dataItem.Main_Cat_Back_Color != '000000' && dataItem.Client_Company_Name != null && dataItem.Client_Company_Name.length > 20">
+                            <a [title]="dataItem.Main_Cat_Name">{{ dataItem.Main_Cat_Name | slice:0:20 }}</a>
+                          </div>
+                        </span>
+                      </div>
+                    </ng-template>
+                    <ng-template kendoGridFilterCellTemplate let-filter let-column="column" *ngIf="column.type === 'date'">
+                      <kendo-grid-date-filter-cell [showOperators]="true" [column]="column" [filter]="filter">
+                      </kendo-grid-date-filter-cell>
+                    </ng-template>
+
+                      <ng-template kendoGridCellTemplate let-amountItem *ngIf="column.type === 'amount'">
+                      <span>
+                        {{amountItem[column.field] | currency}}
+                      </span>
+                    </ng-template>
+
+                    <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.type === 'date'">
+                      <span *ngIf="column.field === 'dueDate' && dataItem[column.field].getFullYear()>1970 " [ngClass]="{'whole-cell': column.field === 'dueDate'}"
+                        [style.backgroundColor]="colorDate(dataItem[column.field], column.field)">
+                        {{dataItem[column.field] | date: 'MM/dd/yyyy'}}
+                      </span>
+                      <span *ngIf="column.field != 'dueDate'">
+                        <div *ngIf="dataItem[column.field].getFullYear()>1970">
+                          {{dataItem[column.field] | date: 'MM/dd/yyyy'}}
+                        </div>
+
+                      </span>
+                    </ng-template>
+                    <ng-template kendoGridCellTemplate let-dataItem let-columnIndex="columnIndex"
+                      *ngIf="column.field === 'address1'">
+                      <div class="d-flex align-items-center">
+                        <img src="assets/images/address.png" class="mr-2 cursor-pinter" container="body"
+                          [ngbPopover]="addressMap" #p4="ngbPopover" placement="auto" (click)="openMapPopover()"
+                          [autoClose]="false">
+
+                        <div *ngIf="dataItem.address1 != null && dataItem.address1.length > 40">{{dataItem.address1 |
+                          slice:0:40}}
+                          <a [title]="dataItem.address1">..</a>
+                        </div>
+                        <div *ngIf="dataItem.address1 != null && dataItem.address1.length <= 40">{{dataItem.address1}}</div>
+
+                      </div>
+                      <ng-template #addressMap>
+                        <agm-map [latitude]="dataItem.gpsLatitude" [longitude]="dataItem.gpsLongitude" [zoom]="17"
+                          [fullscreenControl]="true" style="width: 500px; height: 300px;" (mouseleave)="p4.close()">
+                          <ng-container>
+                            <agm-marker [latitude]="dataItem.gpsLatitude" [longitude]="dataItem.gpsLongitude"
+                              [title]="dataItem.address1">
+                            </agm-marker>
+                          </ng-container>
+                        </agm-map>
+                      </ng-template>
+                    </ng-template>
+                    <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'addresscount'">
+                      <div class="d-flex align-items-center">
+                        <img src="assets/images/history.png" class="mr-2 cursor-pinter"
+                          (click)="SelectRow(dataItem, propertyHistory)">
+                        <div>{{dataItem['addresscount']}}</div>
+                      </div>
+                    </ng-template>
+                    <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'photocount'">
+                      <div class="d-flex align-items-center">
+                        <a class="edit" [routerLink]="dataItem.ViewPhotosUrl" class="k-grid-ignore-click" title="view Records">
+                          <img src="assets/images/images.png" class="mr-2 cursor-pinter"> &nbsp; &nbsp; {{dataItem.photocount}}
+                        </a>
+                      </div>
+                    </ng-template>
+                    <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'ContractorName'">
+                      <div class="d-flex align-items-center">
+                        <img src="assets/images/message.png" class="mr-2 cursor-pinter message"
+                          (click)="sendMessage(dataItem, chatbox)">
+                        <div>{{dataItem.ContractorName}}</div>
+                      </div>
+                    </ng-template>
+
+                    <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'messagecount'">
+                      <div class="d-flex align-items-center">
+                        <img src="assets/images/message.png" class="mr-2 cursor-pinter message"
+                          (click)="openMessageBox(dataItem, messageBox)">
+                      </div>
+                    </ng-template>
+                    <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'ecdnotecount'">
+                      <div class="d-flex align-items-center">
+                        <img src="assets/images/pinned_notes.png" class="mr-2 cursor-pinter message"
+                        (click)="openECDNotesModal(dataItem, EcdNoteBox)">
+                        <div>{{dataItem.ecdnotecount==undefined?0:dataItem.ecdnotecount}}</div>
+                      </div>
+                    </ng-template>
+
+                  </kendo-grid-column>
+                  <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+                    <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+                    <kendo-pager-numeric-buttons [buttonCount]="10"></kendo-pager-numeric-buttons>
+                    <kendo-pager-next-buttons></kendo-pager-next-buttons>
+                    <kendo-pager-info></kendo-pager-info>
+                    <kendo-pager-page-sizes [pageSizes]="[25,50,75,100,150,200]"></kendo-pager-page-sizes>
+                  </ng-template>
+                  <kendo-grid-excel fileName="WorkOrder.xlsx" [fetchData]="allData"></kendo-grid-excel>
+
+                </kendo-grid>
+
+                 <div class="d-flex align-items-center p-3 gap-3">
+                  <div>
+                    <button [disabled]="Previousbutton"  (click)="goToPreviousPage()"  style="color:black;margin-right:1rem;">Previous </button>
+                    <button [disabled]="Nextbutton" (click)="goToNextPage()"  style="color:black">Next</button>
+
+                   </div>
+                   <div>
+                    <label class="px-2">Total Number of Workorder count {{WorkOrderCount}}</label>
+                   </div>
+
+                 </div>
+
+                  <!-- <button (click)="goToPreviousPage()" [disabled]="skip === 0" style="color:black">Previous </button>
+                  <button (click)="goToNextPage()" [disabled]="skip + pageSize  >= total" style="color:black">Next</button> -->
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-pane fade" [ngClass]="{'show': tabs[1].active, 'active': tabs[1].active}" id="wocomplentiontracker" role="tabpanel" aria-labelledby="wocomplentiontracker-tab" *ngIf="tabs[1].active" [hidden]="tabhide">
+          <app-work-order-completion-tracker></app-work-order-completion-tracker>
+        </div>
+        <div class="tab-pane fade" [ngClass]="{'show': tabs[2].active, 'active': tabs[2].active}" id="newcontractrortracker" role="tabpanel" aria-labelledby="newcontractrortracker-tab" *ngIf="tabs[2].active" [hidden]="tabhide">
+          <app-work-order-new-contractor-tracker></app-work-order-new-contractor-tracker>
+        </div>
+      </div>
+
+
+
+    </div>
+  </div>
+
+</div>
+
+
+<ng-template #propertyHistory let-modal>
+  <div class="modal-header">
+    {{title}}
+    <button type="button" (click)="modal.dismiss('Cross click')" class="close" aria-label="Close">
+      <span>×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-property-history [workOrderId]="workOrder_ID"></app-property-history>
+  </div>
+</ng-template>
+
+<ng-template #chatbox let-modal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    Send Message
+    <p class="ml-2">Address: {{selectedAddress}}</p>
+    <p class="ml-2">Work Order Number: {{selectedWorkOrder}}</p>
+    <button type="button" (click)="modal.close('Save click')" class="close" aria-label="Close">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <iplapp-chat-box [IPLNO]="selectedIPLNO" [workOrderId]="workOrder_ID"></iplapp-chat-box>
+  </div>
+</ng-template>
+<ng-template #messageBox let-modal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h5 style="color: black;">Send Message</h5>
+    <button type="button" (click)="modal.close('Save click')" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+       <!-- Message box popup -->
+       <div class="row">
+        <div class="col-12">
+          <app-ipl-app-message-box [IPLNumbers]="actionIPLNOs"></app-ipl-app-message-box>
+        </div>
+      </div>
+  </div>
+</ng-template>
+<ng-template #EcdNoteBox let-modal let-c="close" let-d="dismiss">
+  <div class="modal-header ecdnote-modal-header">
+    <h5 style="color: black;">Estimated Completion Date Notes</h5>
+    <button type="button" (click)="modal.close('Save click')" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">×</span>
+    </button>
+
+  </div>
+  <div class="modal-body ecdnote-modal-body">
+       <!-- Message box popup -->
+       <div class="row">
+        <div class="col-12">
+          <app-ipl-app-ecd-notes-box [workOrderId]="actionIPLNOs[0].WorkOrder_Id" (NoteRefresh)="getautoworkorderviewdata()"></app-ipl-app-ecd-notes-box>
+        </div>
+      </div>
+  </div>
+</ng-template>
+<ng-template #workorderDetails let-modal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h5 style="color: black;">Work order Details</h5>
+    <button type="button" (click)="modal.close('Save click')" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+       <div class="row">
+        <div class="col-12">
+          <app-ipl-app-work-order-details-tabs [workOrder_ID]="actionIPLNOs[0].WorkOrder_Id"></app-ipl-app-work-order-details-tabs>
+        </div>
+      </div>
+  </div>
+</ng-template>
+
+<ng-template #UserDetails>
+  <button type="button" (click)="closePopover()" class="close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">×</span>
+  </button>
+
+  <table>
+    <tr>
+      <td>Name :</td>
+      <td *ngIf="UserDetailsType==1">{{UserDetailsModal.ContractorName}}</td>
+      <td *ngIf="UserDetailsType==2">{{UserDetailsModal.CordinatorName}}</td>
+      <td *ngIf="UserDetailsType==3">{{UserDetailsModal.ProcessorName}}</td>
+    </tr>
+    <tr>
+      <td>Email :</td>
+      <td *ngIf="UserDetailsType==1">{{UserDetailsModal.ContractorEmail}}</td>
+      <td *ngIf="UserDetailsType==2">{{UserDetailsModal.CordinatorEmail}}</td>
+      <td *ngIf="UserDetailsType==3">{{UserDetailsModal.ProcessorEmail}}</td>
+    </tr>
+    <tr>
+      <td>Contact :</td>
+      <td *ngIf="UserDetailsType==1">{{UserDetailsModal.ContractorCellNumber}}</td>
+      <td *ngIf="UserDetailsType==2">{{UserDetailsModal.CordinatorCellNumber}}</td>
+      <td *ngIf="UserDetailsType==3">{{UserDetailsModal.ProcessorCellNumber}}</td>
+    </tr>
+    <tr>
+      <td>Address :</td>
+      <td *ngIf="UserDetailsType==1">{{UserDetailsModal.ContractorAddress}}</td>
+      <td *ngIf="UserDetailsType==2">{{UserDetailsModal.CordinatorAddress}}</td>
+      <td *ngIf="UserDetailsType==3">{{UserDetailsModal.ProcessorAddress}}</td>
+    </tr>
+  </table>
+</ng-template>

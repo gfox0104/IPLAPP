@@ -1,0 +1,71 @@
+<div class="container-fluid">
+    <div class="page-wrapper">
+      <div class="chat-main-row">
+        <div class="chat-main-wrapper">
+          <div id="messages-id-new" class="message-view task-view">
+            <div class="chat-window">
+              <message-view-header *ngIf="ModelObj"
+              [orderDetail]="ModelObj"
+              [groupRoleID]="groupRoleID"
+              [messageSearch]="messageSearch"
+              (clickThread)="selectThread($event)"
+              [IsSearchBoxDisplay]="false"
+              (changeSearch)="onChangeSearch($event)"
+              [User_ImagePath]="User_ImagePath"
+              [userFullName]="userFullName"
+            >
+            </message-view-header>
+              <div class="chat-contents" >
+                <div class="chat-content-wrap">
+                  <div #scrollMe class="chat-wrap-inner" style="height: 300px;overflow: auto;">
+                    <div class="chat-box">
+                      <div class="chats">
+                        <ng-container *ngIf="messageList.length > 0">
+                          <ng-container *ngFor="let item of messageList">
+                            <div *ngIf="threadID.includes(item.threadtype)">
+                              <message-content
+                                [item]="item"
+                                [username]="username"
+                                [IsDisplayShareButton]="false"
+                                (shareMessage)="shareMessage($event)"
+                                (deleteMessage)="deleteMessage($event)">
+                              </message-content>
+                            </div>
+                          </ng-container>
+                        </ng-container>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="chat-footer">
+                <form [formGroup]="formUsrCommonGroup">
+                <div class="message-bar">
+                  <div class="message-inner">
+                    <div class="message-area">
+                      <div class="input-group">
+                        <textarea class="form-control" placeholder="Type message..."
+                        [(ngModel)]="MessageModelDataObj.Message_Text" name="msg" required
+                        [ngClass]="{ 'is-invalid': submitted && fx.message.errors }" formControlName="message"
+                        (keydown)="triggerFunction($event)">
+                        </textarea>
+                        <span class="input-group-append">
+                            <button class="btn btn-custom" type="button" (click)="SentMessageNew(MessageModelDataObj)">
+                                <i class="fa fa-send"></i>
+                              </button>
+                        </span>
+                        <div *ngIf="show1" class="invalid-feedback">
+                          <div >this field is required</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

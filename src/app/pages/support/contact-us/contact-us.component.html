@@ -1,0 +1,104 @@
+<div class="card">
+    <div class="card-body">
+        <div class="container" [ngClass]="{ 'HelpCursor': isHelpActive }" style="border-radius: 0px;">
+            <div class="row">
+
+                <div class="col-6">
+
+                    <div class="module-box-header p-2 h4 my-0">
+                      Contact Us
+                      <a class="pull-right" data-toggle="tooltip" (click)="SetHelpFlag()" data-placement="top"
+                      title="Item Help" style="cursor: pointer;">Need Help
+                      <i class="fas fa-question"></i>&nbsp; &nbsp;
+                    </a>
+                  </div>
+
+                    <div class="container">
+                      <form [formGroup]="formUsrCommonGroup" (ngSubmit)="FormButton()">
+                        <label for="fname" [ngClass]="{ 'HelpCursor': isHelpActive }"(click)="DispalyInfo($event,'First Name')">First Name<span style="color: red">*</span></label>
+                        <input type="text" id="fname" [(ngModel)]="ContactUsModelObj.Con_Us_FName"
+                        formControlName="FName"name="firstname" placeholder="Your name.."
+                         (click)="DispalyInfo($event,'First Name')"[readonly]="isHelpActive" [ngClass]="{ 'is-invalid': submitted && fx.FName.errors }">
+                        <div *ngIf="submitted && fx.FName.errors" class="invalid-feedback">
+                          <div *ngIf="fx.FName.errors.required">this field is required</div>
+                        </div>
+
+                        <label for="sub" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                        (click)="DispalyInfo($event,'Subject')">Subject<span style="color: red">*</span></label>
+                        <input type="text" id="sub" [(ngModel)]="ContactUsModelObj.Con_Us_Subject"
+                        formControlName="subject"name="subject" placeholder="Enter Subject.."(click)="DispalyInfo($event,'Subject')"
+                        [readonly]="isHelpActive" [ngClass]="{ 'is-invalid': submitted && fx.subject.errors }">
+                        <div *ngIf="submitted && fx.subject.errors" class="invalid-feedback">
+                          <div *ngIf="fx.subject.errors.required">this field is required</div>
+                        </div>
+
+                        <label for="email"  (click)="DispalyInfo($event,'Email')"
+                         [ngClass]="{ 'HelpCursor': isHelpActive }">Email<span style="color: red">*</span></label>
+                        <input type="email" id="email"[(ngModel)]="ContactUsModelObj.Con_Us_Email"
+                        formControlName="Emailval" name="email" placeholder="Enter Your Email.."
+                        (click)="DispalyInfo($event,'Email')"
+                        [readonly]="isHelpActive" [ngClass]="{ 'is-invalid': submitted && fx.Emailval.errors }">
+                        <div *ngIf="submitted && fx.Emailval.errors" class="invalid-feedback">
+                          <div *ngIf="fx.Emailval.errors.required">this field is required</div>
+                          <div *ngIf="fx.Emailval.errors.email">Email must be a valid email address</div>
+                        </div>
+
+                        <label for="number"  (click)="DispalyInfo($event,'Mobile Number')"
+                        [ngClass]="{ 'HelpCursor': isHelpActive }">Mobile Number</label>
+                        <input type="number" id="number"[(ngModel)]="ContactUsModelObj.Con_Us_Contact_Number"
+                        formControlName="Numberval" name="number" placeholder="Enter Your Mobile.."
+                        (click)="DispalyInfo($event,'Mobile Number')"
+                        [readonly]="isHelpActive" [ngClass]="{ 'HelpCursor': isHelpActive }">
+
+                        <label for="subject"  (click)="DispalyInfo($event,'Message')"
+                        [ngClass]="{ 'HelpCursor': isHelpActive }">Message<span style="color: red">*</span></label>
+                        <textarea id="subject" name="subjectm" [(ngModel)]="ContactUsModelObj.Con_Us_Message"
+                        formControlName="Messageval" placeholder="Write something.." style="height:200px"
+                        (click)="DispalyInfo($event,'Message')"
+                        [readonly]="isHelpActive" [ngClass]="{ 'is-invalid': submitted && fx.Messageval.errors }"></textarea>
+                        <div *ngIf="submitted && fx.Messageval.errors" class="invalid-feedback">
+                          <div *ngIf="fx.Messageval.errors.required">this field is required</div>
+                        </div>
+
+                        <button id="client_viewdetail_1" class="btn btn-primary" type="submit"
+                    [disabled]="isLoading">
+                    <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}"></i>
+                    {{button}}
+                  </button>
+                      </form>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="container"style="margin-top: 48px;">
+                        <form >
+              <div class="row">
+                <div class="col-12">
+                    <div style="width:100%;float:left;">
+                        <h3>Ipreservation Live</h3>
+                        <p></p>
+                        <p>
+                      </p>
+                        <p><b>Washington:</b><br>
+                          1600 Pennsylvania Avenue NW<br>
+                          Washington, DC 20500<br>
+                          United States</p>
+                        <p>Contact us: <a href="mailto:dev@ipreservationlive.com">dev@ipreservationlive.com</a></p>
+
+                        </div>
+                </div>
+              </div>
+              <div class="row">
+               <div class="col-12"style="border:2px solid black">
+                  <agm-map [latitude]="38.8985764" [longitude]="-77.0335503" [zoom]="17">
+                    <agm-marker [latitude]="38.8985764" [longitude]="-77.0335503"></agm-marker>
+                  </agm-map>
+               </div>
+               </div>
+               </form>
+            </div>
+                </div>
+                </div>
+        </div>
+
+    </div>
+</div>

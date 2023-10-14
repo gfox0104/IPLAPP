@@ -1,0 +1,31 @@
+.v1 {
+  display: flex;
+}
+.report {
+  margin: 15px 15px;
+}
+.firstColumn {
+  border-left: none !important;
+}
+
+.cell {
+  border-top: 1px solid #6e6b6b !important;
+  border-bottom: 1px solid #6e6b6b !important;
+  vertical-align: middle;
+  color: #000;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 12px;
+  transition: none !important;
+  border-left: 1px dotted #c7c7c7 !important;
+}
+
+.dgrid-cell {
+  min-height: 27px !important;
+  padding-top: 4px !important;
+  padding-bottom: 4px;
+}
+
+.tableRow.headerRow.v1.stickyReportHeader > div {
+  padding: 9px 50px;
+}

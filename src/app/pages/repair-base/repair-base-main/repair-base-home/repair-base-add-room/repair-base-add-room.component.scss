@@ -1,0 +1,51 @@
+.add-room{
+    margin-top: 20px;
+    .card{
+        margin: 20px 0px;
+        font-size: 16px;
+        
+        .txtArea{
+            width: 100%;
+            height: 200px;
+        }
+        .k-dropdown{
+            width: 100%;
+        }
+        .decoration-btn{
+            text-decoration: underline; 
+            cursor: pointer;
+        }
+        .decoration-btn:hover{
+            color:aquamarine;
+        }
+    }
+}
+.areaItem{
+    height: 30px; 
+    margin: 5px; 
+    display: flex; 
+    align-items: center; 
+    background-color: lightgray;
+    cursor: pointer;
+}
+.areaItem:visited {
+    color: red;
+}
+.repair-footer{
+    display: flex;
+    background: rgba(0, 0, 0, 0.9);
+    position: fixed;
+    width: 100%;
+    height: 50px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0 1.5rem;
+}
+.repair-footer-btn{
+    margin-left: 10px;
+}
+.profitOverhead{
+    display: flex;
+    justify-content: space-between;
+}

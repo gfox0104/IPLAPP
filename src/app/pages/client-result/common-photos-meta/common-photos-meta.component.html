@@ -1,0 +1,230 @@
+<div  class="row  row-cols-4 module-box m-0">
+  <div class="col-3">
+    <div class="row">
+      <div class=" jab">
+        <div class="overlay" style="min-width: 110%;">
+          <ul>
+            <li>
+              <a href="javascript:void(0)" style="color: white;" (click)="OpenModal(OpenModelcontent)">
+                <i class="fas fa-camera"></i>&nbsp;Upload
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div *ngIf="BindDataModelObj.Client_Result_Photo_FilePath != ''">
+          <img [src]="BindDataModelObj.Client_Result_Photo_FilePath" class="img-responsive"
+            style="height: 184px; width: 110%;">
+        </div>
+        <div *ngIf="BindDataModelObj.Client_Result_Photo_FilePath == ''">
+          <img src="../../assets/images/bg.png" class="img-responsive" style="height: 279px; width: 109%;">
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="col-9" >
+    <div class="columnvise"  style="margin-top: 17px;">
+
+      <div >
+        <label for="GPS"><b>GPS:</b> &nbsp;Lat : {{BindDataModelObj.GPSLatitude}}, Lon : {{BindDataModelObj.GPSLongitude}}</label>
+      </div>
+      <div >
+        <label for="LockCode"><b>Lock Code: </b>{{BindDataModelObj.Lock_Code}}</label>&nbsp;
+      </div>
+	    <div >
+        <label for="Locklocation"><b>Lock Location: </b>{{BindDataModelObj.Lock_Location}}</label>&nbsp;
+      </div>
+	   <div>
+        <label for="KeyCode"><b>Key Code:</b>{{BindDataModelObj.Key_Code}}</label>&nbsp;
+      </div>
+	   <div >
+        <label for="GateCode"><b>Gate Code:</b>{{BindDataModelObj.Gate_Code}}</label>&nbsp;
+      </div>
+	     <div >
+        <label for="LoteSize"><b>Lot Size: </b>{{BindDataModelObj.Lotsize}}</label>&nbsp;
+      </div>
+    </div>
+
+  <div class="col col-md-3 columnvise" style="margin-top: 17px; ">
+
+          <div class=" Sidemove" >
+            <label  for="Contractor"><b>Contractor: </b></label>
+            <b > {{BindDataModelObj.Cont_Name}}</b>
+          </div>
+
+	    <div class="Sidemove" >
+        <label for="Assigned"><b>Assigned Date:
+          </b> {{BindDataModelObj.assigned_date | date:'MM/dd/yyyy'}}</label>
+      </div>
+      <div class="Sidemove" >
+        <label for="StartDate"><b>Start Date: </b> {{BindDataModelObj.startDate | date:'MM/dd/yyyy'}}</label>
+      </div>
+       <div class="Sidemove" >
+        <label for="Estimatedcompletion"><b>EST.Completion:</b> {{BindDataModelObj.EstimatedDate | date:'MM/dd/yyyy'}}</label>
+      </div>
+       <div class="Sidemove">
+        <label for="FieldComplete"><b>Field Complete: {{BindDataModelObj.Field_complete_date |date: "MM/dd/yyyy" }}</b></label>
+      </div>
+</div>
+
+<div class="col col-md-4 columnvise" style=" margin-right:15px;  margin-top: 17px; ">
+
+
+        <div class="Sidemove">
+            <label for="Coordinator"><b>Coordinator: </b></label>
+            <b > {{BindDataModelObj.Cordinator_Name}}</b>
+        </div>
+
+	   <div class="Sidemove"  *ngIf="!IsCategoryDropdown">
+        <label for="Category"><b>Category: </b>
+          {{BindDataModelObj.Work_Type_Name}} &nbsp; <a (click)="ShowCategoryDropdown()">select</a>
+        </label>&nbsp;
+      </div>
+      <div class="Sidemove"  *ngIf="IsCategoryDropdown">
+        <label for="Category"><b>Category: </b></label>
+        &nbsp;
+        <kendo-dropdownlist class="form-control form-control-sm col-8" [data]="CategoryList"
+          [filterable]="true"
+          [(ngModel)]="BindDataModelObj.Category"
+          [textField]="'Cat_Name'" [valueField]="'Cat_ID'"
+          [valuePrimitive]="true"
+          (valueChange)="ChangeCategory($event)"
+
+          (filterChange)="FilterCategoryDropdown($event)">
+      </kendo-dropdownlist>
+      </div>
+	   <div class="Sidemove">
+        <label for="Customer"><b>Customer: </b>{{BindDataModelObj.Cust_Num_Number}}</label>&nbsp;
+      </div>
+	    <div class="Sidemove">
+        <label for="Batf"><b>BATF: </b> <span *ngIf="BindDataModelObj.BATF">YES</span>
+          <span *ngIf="!BindDataModelObj.BATF">NO</span>
+        </label>
+      </div>
+	   <div class="Sidemove">
+        <label for="Rush"><b>Rush: </b>{{BindDataModelObj.rus_Name}}</label>&nbsp;
+      </div>
+ </div>
+ </div>
+</div>
+
+
+<div [hidden]='clientdetails' class="mt-4" >
+  <div >
+  <h4 class="module-box-header" >Client Details</h4>
+  </div>
+  <div class="row module-box m-0 p-1 mt-n2">
+    <div class="col-3">
+      <label for="LoanNumber"><b>Loan Number: </b> {{BindDataModelObj.Loan_Number}}</label>
+    </div>
+    <div class="col-3">
+      <label for="LoanType"><b>Loan Type: </b> {{BindDataModelObj.Loan_Type}}</label>&nbsp;
+    </div>
+    <div class="col-3">
+      <label for="Mort"><b>Mortgagor : {{BindDataModelObj.Mortgagor}}</b></label>
+    </div>
+    <div class="col-3">
+      <label for="Mort"><b>Weather Info : <span><a  (click)="Openweather(weather)"><i class="fas fa-cloud-sun"></i> </a></span></b></label>
+    </div>
+
+  </div>
+</div>
+
+
+<div [hidden]='tabhide'>
+  <div [hidden]='HeaderCoditional' class="tab-content pt-3" id="myTabContent">
+    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+      <!-- <div  class="row module-box-header m-0 pt-0"> -->
+        <h4 (click)='hideDetails()' class="module-box-header m-0 col-12" >Client
+          <svg  style="float: right;" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z"/></svg>
+          Details</h4>
+      <!-- </div> -->
+      <div *ngIf='hideClient' class=" p-1 row module-box  m-0">
+        <div class="col-md-3 col-sm-3 col-6">
+          <label for="cleintDetails"><b>Client: </b> {{BindDataModelObj.ClientMetaData}}</label>&nbsp;
+        </div>
+        <div class="col-md-3 col-sm-3 col-6">
+          <label for="Wo"><b>Work Type:</b></label>&nbsp;<b>{{BindDataModelObj.WT_WorkType}}</b><br>
+          <label for="BrokerInfo"><b>Broker Info : {{BindDataModelObj.Broker_Info}}</b></label>&nbsp;<br>
+          <label for="LoanNumber"><b>Loan Number: </b> {{BindDataModelObj.Loan_Number}}</label>&nbsp; <br>
+          <label for="LoanType"><b>Loan Type: </b> {{BindDataModelObj.Loan_Type}}</label>&nbsp;<br>
+          <label for="Mort"><b>Mortgagor : {{BindDataModelObj.Mortgagor}}</b></label>&nbsp;
+        </div>
+        <div class="col-md-3 col-sm-3 col-6">
+          <label for="Received"><b>Received: </b>
+            {{BindDataModelObj.Received_Date | date:'MM/dd/yyyy'}}</label>&nbsp; <br>
+          <label for="ClientDue"><b>Client Due:
+            </b>{{BindDataModelObj.clientDueDate | date:'MM/dd/yyyy'}}</label>&nbsp;
+          <br>
+          <label for="OfficeApproved"><b>Office Approved:{{BindDataModelObj.OfficeApproved_date | date: "MM/dd/yyyy"}}
+            </b></label>&nbsp; <br>
+          <label for="Senttoclient"><b>Sent to Client:{{BindDataModelObj.SentToClient_date | date: "MM/dd/yyyy"}}
+            </b></label>&nbsp; <br>
+          <label for="CompletedDate"><b>Completed Date:
+            </b>{{BindDataModelObj.Complete_Date | date:'MM/dd/yyyy'}}</label>&nbsp; <br>
+          <label for="CancelledDate"><b>Cancelled Date:
+            </b>{{BindDataModelObj.Cancel_Date | date:'MM/dd/yyyy'}}</label>&nbsp;
+        </div>
+        <div class="col-md-3 col-sm-3 col-6">
+          <label for="ProcessorName"><b>Processor Info:
+            </b>{{BindDataModelObj.Processor_Name}}</label><br>
+            <label for="Mort"><b>Weather Info : <span><a  (click)="Openweather(weather)"><i class="fas fa-cloud-sun"></i> </a></span></b></label><br>
+            <label for="backprovider"><b>Background Provider : {{BindDataModelObj.Back_Chk_ProviderName}}</b></label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #OpenModelcontent let-modal>
+  <div class="modal-header">
+    <h4> Upload Photos</h4>
+    <button type="button" class="close" (click)="modal.close('Save click')" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-6">
+        <input #imageInput type="file" class="form-control" id="image" title="Select File..." accept="image/*">
+      </div>
+      <div class="col-6">
+        <button (click)="processImage(imageInput)" class="btn btn-primary waves-effect waves-light"
+          [disabled]="isLoading">
+          <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}"></i>
+          {{button}}</button>
+      </div>
+    </div>
+    <br>
+  </div>
+</ng-template>
+
+<ng-template #weather let-modal>
+  <div class="modal-header">
+
+      <div class="col-11 text-center module-subheader ">
+          <h5 style="color: black;" class="uppercase"> {{BindDataModelObj.city}} </h5>
+      </div>
+      <button
+      type="button"
+      (click)="CloseModel()">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div id="weatherDashboardContainer" style="margin-top:-13px;">
+      <div class="card">
+        <div class="card-body" style="background-color: rgb(249 249 249)">
+
+          <div class="row">
+            <app-weather-item-list [openWeatherMap]="openWeatherMap | async"></app-weather-item-list>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</ng-template>

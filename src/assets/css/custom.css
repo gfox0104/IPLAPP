@@ -1,0 +1,314 @@
+.icons {
+    width: 20%;
+   /* padding: 0px 10px; */
+   padding: 0px 10px 0px 28px;
+    margin-top: 50px;
+    float: left;
+}
+
+.icons-list {
+    padding-bottom: 60px;
+    /* width: 1000px; */
+    margin: auto;
+}
+
+.icons i {
+    width: 100%;
+    text-align: center;
+    font-size: 60px;
+    color: #323232;
+    float: left;
+}
+
+.icons a {
+    height:100% !important;
+    width: 100%;
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
+    float: left;
+    padding: 30px 0px;
+    padding-top: 30px;
+    padding-right: 0px;
+    padding-bottom: 30px;
+    padding-left: 0px;
+    /* border-radius: 5px; */
+    transition: .3s all;
+}
+
+.icons a:hover {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+
+.icons-list .icons a span {
+    font-size: 16px;
+    font-family: Roboto, sans-serif;
+    color: #323232;
+    text-align: center;
+    width: 100%;
+    float: left;
+    margin-top: 0px;
+    font-weight: bold;
+}
+
+
+/* .buttonsclone {
+    width: 100%;
+    float: left;
+    margin-bottom: 20px;
+}
+.buttonsclone a {
+
+    background: #323232;
+    padding: 10px 20px;
+    float: left;
+    margin-right: 20px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    color: #fff;
+    font-family: roboto;
+
+}
+.buttonsclone a i {
+
+    background: #fff;
+    color: #333;
+    padding: 3px 5px;
+    border-radius: 40px;
+    margin-right: 10px;
+
+}
+.row.bottominfo h5 {
+    color: #fff;
+    font-size: 16px;
+}
+.row.bottombox {
+    width: 100%;
+    float: left;
+}
+.row.bottominfo {
+    width: 100%;
+    float: left;
+    border: none !important;
+}
+.row.bottominfo .col-12 {
+    border: none !important;
+    width: 100%;
+}
+.row.bottombox .innerpart {
+    padding: 10px 30px;
+	height:auto;
+}
+.toprow {
+    width: 100%;
+    float: left;
+}
+.form-group.col-md-3 {
+    float: left;
+}
+.row.bottombox .innerpart {
+    padding: 10px 30px;
+    float: left;
+    width: 100%;
+}
+.bottomrow {
+    padding: 0px 12px;
+    width: 100%;
+    float: left;
+    margin-top: -30px;
+}
+.float-right {
+    float: right !important;
+    width: 100%;
+    margin-top: 30px;
+    padding: 0px 11px;
+}
+.float-right .btn.btn-primary.waves-effect.waves-light {
+    float: left;
+    margin-right: 15px;
+    background: #323232;
+    border: none;
+}
+.custom-switch .custom-control-label::after {
+    background-color: #323232 !important;
+}
+.list-unstyled.topnav-menu.float-right.mb-0 {
+    width: auto;
+    margin: 0px !important;
+}
+.buttonsclone.groups {
+    float: right;
+    width: auto;
+}
+.row.tabledata {
+    width: 100%;
+    float: left;
+
+    padding: 0px;
+	margin-top:20px;
+}
+.row.tabledata table {
+    width: 100%;
+    float: left;
+}
+.row.tabledata thead {
+    background: #323232;
+    padding: 0px;
+    float: left;
+    width: 100%;
+}
+.row.tabledata tbody {
+    width: 100%;
+    float: left;
+}
+.row.tabledata thead tr,.row.tabledata tbody tr {
+    width: 100%;
+    float: left;
+}
+.row.tabledata thead tr th:nth-child(1),.row.tabledata tbody tr td:nth-child(1) {
+    width: 60%;
+	float:left;
+}
+.row.tabledata thead tr th:nth-child(2), .row.tabledata thead tr th:nth-child(3),.row.tabledata tbody tr td:nth-child(2), .row.tabledata tbody tr td:nth-child(3) {
+
+    width: 20%;
+    float: left;
+	border-left:1px solid #999;
+}
+.row.tabledata tbody tr td a {
+    color: #333;
+    padding: 5px;
+}
+.row.tabledata thead tr th{ color:#fff; padding:10px; }
+.row.tabledata tbody tr td { color:#323232; padding:10px; }
+.row.tabledata tbody tr td a .fa.fa-minus {
+    background: #323232;
+    color: #fff;
+    padding: 3px 4px;
+    border-radius: 50px;
+    font-size: 10px;
+}
+.row.tabledata tbody tr td a .fa.fa-eye {
+
+    color: #323232;
+    margin-top:2px;
+	float:left;
+    font-size: 18px;
+}
+.row.tabledata tbody tr:nth-child(2n){ background:#efefef; }
+.row.tabledata tbody tr:hover { background:#ccc !important; }
+.row.bottombox.tableview {
+    background: #efefef;
+}
+.row.bottombox.tableview .float-right {
+    margin: 0px !important;
+        margin-top: 0px;
+    padding-bottom: 20px;
+    margin-top: 0px !important;
+}
+.row.tabledata {
+    width: 100%;
+    float: left;
+    padding: 10px;
+    margin: 0px !important;
+        margin-top: 0px;
+    margin-top:0px !important;
+}
+.card-body {
+    padding-right: 0px !important;
+}
+.row.tabledata thead tr, .row.tabledata tbody tr {
+    width: 100%;
+    float: left;
+    border: 1px solid #ccc;
+} */
+
+
+/* import excel component css start*/
+
+.w-how-header-dropdown {
+    width: 200px;
+}
+
+.message-header-contractor{
+    background-color: #f25022 !important;
+    color: black;
+}
+.message-header-client{
+    background-color: #7FBA00 !important;
+    color: black;
+}
+.message-header-internal{
+    background-color: #3f729b !important;
+    color: black;
+}
+.message-nav-header{
+    margin-top:6px !important
+}
+.message-nav-header.nav > li > a{
+    margin-left:15px !important
+}
+.textbox-as-label{
+  border: 0 !important;
+  font-weight: bolder !important;
+  box-shadow: none !important;
+  margin-left:15px !important;
+}
+/* import excel component css end*/
+input[type="text"] {
+  width: 100%;
+  outline: none;
+  padding: 8px;
+  box-sizing: border-box;
+  transition: 0.3s;
+}
+
+
+
+.inputWithIcon input[type="text"] {
+  padding-left: 25px;
+}
+
+.inputWithIcon {
+  position: relative;
+}
+
+.inputWithIcon i {
+  position: absolute;
+  left: 0;
+  top: 1px;
+  padding: 9px 8px;
+  color: #aaa;
+  transition: 0.3s;
+}
+
+
+.inputWithIcon.inputIconBg i {
+  background-color: #aaa;
+  color: #fff;
+  padding: 9px 4px;
+  border-radius: 4px 0 0 4px;
+}
+
+.inputWithIcon.inputIconBg input[type="text"]:focus + i {
+  color: #fff;
+  background-color: dodgerBlue;
+}
+.invoicePaymentDetails{
+  font-size: 20px;
+  background-color: beige;
+  margin-bottom: 15px
+}
+
+.ecdnote-modal-header{
+  background-color: #FFFF88;
+  padding: 0.3rem 0.3rem;
+  border-radius: calc(1rem - 1px)
+}
+.ecdnote-modal-body{
+  background-color: #FDF9E1;
+  border-radius: calc(1rem - 1px)
+}
+.pcrHistoryIcon {
+    margin-left: 8px;
+    color: black;
+}

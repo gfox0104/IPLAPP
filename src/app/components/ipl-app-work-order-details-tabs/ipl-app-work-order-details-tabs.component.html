@@ -1,0 +1,566 @@
+
+ <div class="m-0 mt-3 row module-box">
+  <h4 (click)='showComment()' class="col-md-12 module-box-header m-0">
+    Work Order Details
+    <svg style="float: right;" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z"/></svg>
+  </h4>
+  <div *ngIf='commentBox' class="p-1  col-md-12 ml-0" >
+<div class=" m-0 row"  >
+  <div class=" col-12 tab-content" style="padding-top: 2.3rem !important; margin-left: 5px;">
+    <ul class="p-0 m-0 module-box-header nav nav-tabs"  id="myreco" role="tablist" >
+      <li class="nav-item" style="margin-left: 2px;">
+        <a class="nav-link active" id="doc-tab" data-toggle="tab" href="#comnts" role="tab"
+          aria-controls="Client" aria-selected="true">Comments</a>
+      </li>
+      <li class="nav-item" [hidden]="tabhide">
+        <a class="nav-link" id="log-tab" data-toggle="tab" href="#tasks" role="tab" aria-controls="field"
+          aria-selected="false">Task</a>
+      </li>
+      <li class="nav-item" [hidden]="tabhide">
+        <a class="nav-link" id="impo-tab" data-toggle="tab" href="#instructions" role="tab" aria-controls="field"
+          aria-selected="false">Instructions</a>
+      </li>
+      <li class="nav-item" [hidden]="tabhide">
+        <a class="nav-link" id="impo-tab" data-toggle="tab" href="#infos" role="tab" aria-controls="field"
+          aria-selected="false">Information/Correction Needed</a>
+      </li>
+    </ul>
+
+    <div class="tab-pane fade show active" id="comnts" role="tabpanel" aria-labelledby="doc-tab">
+      <div class="module-box  table-responsive" >
+        <div *ngIf='commentBox' class="p-1  col-md-12">
+          <div>
+            <kendo-editor id="myFrame" [(ngModel)]="SigleEditBoxModelObj.Inst_Ch_Text"></kendo-editor>
+          </div>
+          <div class="mt-1 row">
+            <div class="col-12 col-sm-12" style="margin-bottom: -3px;">
+              <button id="client_viewdetail_1"  class="btn btn-primary" style="margin-left: 10px; border-radius: 8px;" (click)='ClientResultInstruCSumbit(content,0)' [disabled]="isLoading">
+                <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}"></i> {{button}}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class=" module-box tab-pane fade mr-0 ml-0 module-box" id="tasks" role="tabpanel" aria-labelledby="log-tab" [hidden]="tabhide">
+      <div class="module-box  table-responsive" >
+        <div class="p-2" *ngIf='taskBox'>
+            <div class="col-md-12 onLarge row m-0 mt-2 text-dark font-weight-bold ">
+              <div class="row col-md-12 p-0 m-0 module-box">
+                <div class="text-center row m-0 col-md-12 p-0">
+                  <div class="col-md-7 p-0 row m-0">
+                    <div class="col-md-6 p-0"></div>
+                    <div class="col-md-6 p-0 row m-0">
+                      <div class="col-md-6" style="background-color: #edeef0; color: black;" [hidden]='processorh'>Contractor</div>
+                      <div class="col-md-6" style="background-color: #bbb7b8; color: black;" [hidden]='OfficeResulth'>Client</div>
+                    </div>
+                  </div>
+                  <div class="col-md-5 p-0"></div>
+                </div>
+                <div class="col-md-12 p-0 row m-0 text-center">
+                  <div class="col-md-7 p-0 row m-0">
+                    <div class="col-md-6 p-0 row m-0">
+                      <div class="col-md-4"> Task Type</div>
+                      <div class="col-md-4">Task Name</div>
+                      <div class="col-md-4">Qty</div>
+                    </div>
+                    <div class="col-md-6 p-0 row m-0">
+                      <div class="col-md-3" style="background-color: #edeef0;" [hidden]='processorh'> Price</div>
+                      <div class="col-md-3 p-0" style="background-color: #edeef0;" [hidden]='processorh'> Total Price</div>
+                      <div class="col-md-3" style="background-color: #bbb7b8;" [hidden]='OfficeResulth'> Price</div>
+                      <div class="col-md-3 p-0" style="background-color: #bbb7b8;" [hidden]='OfficeResulth'> Total Price</div>
+                    </div>
+                  </div>
+                  <div class="col-md-5 p-0 row m-0">
+                    <div class="col-md-9">Comments</div>
+                    <div class="col-md-3 text-center">Action</div>
+                  </div>
+                </div>
+
+            <!-- Task Header ends -->
+            <!-- Task Body -->
+            <div class="col-12  p-0">
+              <div class="col-12 p-0 row m-0" *ngFor="let item of InstructionDataArray;index as indx">
+                <div class="col-7 p-0 row m-0">
+                  <div class="col-6 p-0 row m-0">
+
+                    <div class="col-4">
+                      <select id="TaskType" class="form-control form-control-sm" (change)="TaskNameFilterMethod(item.Instr_Task_pkeyId)" [(ngModel)]="item.Instr_Task_pkeyId">
+                        <option value='0'>Select</option>
+                        <option [ngValue]="kb.Inst_Task_pkeyId" *ngFor="let kb of taskTypeNameArrayNew"> {{kb.Inst_Task_Name}}</option>
+                      </select>
+
+                      <div *ngIf="item.Instr_Task_pkeyId == 3" [hidden]="taskType">
+                        <span style="color: red;font-size: 9px;">{{taskreq}}</span>
+                      </div>
+                    </div>
+
+                    <div class="col-5"  [ngClass]="{'highlight' : (item.Instr_Task_Name == 0) && isTaskInstruction}">
+                      <div class="example-wrapper" *ngIf='!item.Instr_Task_pkeyId || item.Instr_Task_pkeyId == 0'>
+                        <kendo-dropdownlist class="newClass form-control form-control-sm"
+                        [defaultItem]="defaultTaskItem"
+                        [textField]="'Task_Name'"
+                        [valueField]="'Task_pkeyID'">
+                      </kendo-dropdownlist>
+                    </div>
+
+                    <div class="example-wrapper" *ngIf="item.Instr_Task_pkeyId == 1 || item.Instr_Task_pkeyId == 3">
+                      <kendo-dropdownlist *ngIf="item.Instr_Task_Name != 'other'" class="newClass form-control form-control-sm"
+                      [data]="taskList1"
+                      [defaultItem]="defaultTaskItem"
+                      [filterable]="true"
+                      [textField]="'Task_Name'"
+                      [valueField]="'Task_pkeyID'"
+                      (filterChange)="TaskList1Filter($event)"
+                      [(ngModel)]="item.Instr_Task_Name"
+                      [valuePrimitive]="true"
+                      [ngModelOptions]="{standalone: true}"
+                      (valueChange)="TaskNameMetaData_Method(item, indx)"></kendo-dropdownlist>
+                    </div>
+
+                    <div class="example-wrapper" *ngIf="item.Instr_Task_pkeyId == 2">
+                      <kendo-dropdownlist *ngIf="item.Instr_Task_Name != 'other'" class="newClass form-control form-control-sm"
+                      [data]="taskList2"
+                      [defaultItem]="defaultTaskItem"
+                      [filterable]="true"
+                      [textField]="'Task_Name'"
+                      [valueField]="'Task_pkeyID'"
+                      (filterChange)="TaskList2Filter($event)"
+                      [(ngModel)]="item.Instr_Task_Name"
+                      [valuePrimitive]="true"
+                      [ngModelOptions]="{standalone: true}"
+                      (valueChange)="TaskNameMetaData_Method(item, indx)"></kendo-dropdownlist>
+                    </div>
+
+                    <div *ngIf="item.Instr_Task_Name == 'other'"><input type = "text" [(ngModel)]="item.Instr_Other_Task_Name" class="form-control" AlphanumericOnly>
+                      <a (click)='backdropdown(item)'><i class="fas fa-arrow-alt-circle-left"></i></a>
+                    </div>
+                  </div>
+
+                  <div class="col-3" >
+                    <input type="number" placeholder="Enter Qty" (blur)="ClinetResultQtyInstrucation_Method()"
+                    (keypress)="validate($event)" [(ngModel)]="item.Instr_Qty" class="form-control form-control-sm">
+                  </div>
+                </div>
+                <div class="col-6 p-0 row m-0">
+                  <div class="inputWithIcon inputIconBg col-3 [hidden]='processorh'" style="background-color:#edeef0; ">
+                    <input type="text" (blur)="ClinetResultInstCont_Price_Method()" (keypress)="validate($event)" [(ngModel)]="item.Instr_Contractor_Price"
+                    placeholder=" Enter Contractor Price" [disabled]="true"
+                    class="form-control form-control-sm" [disabled]="item.isBidPriceDisable" style="padding-left:20px !important"/>
+                    <i class="fa fa-dollar-sign" aria-hidden="true"></i>
+                    <div *ngIf="item.isBidPriceDisable" class="Mydropdown">
+                      Price can not be changed.
+                    </div>
+                  </div>
+
+                  <div class="inputWithIcon inputIconBg col-3 [hidden]='processorh'" style="background-color:#edeef0; ">
+                    <input type="text" [(ngModel)]="item.Instr_Contractor_Total" placeholder="Contractor Price" [disabled]="true"
+                    class="form-control form-control-sm" style="padding-left:20px !important"/>
+                    <i class="fa fa-dollar-sign" aria-hidden="true"></i>
+                  </div>
+
+                  <div class="inputWithIcon inputIconBg col-3 [hidden]='OfficeResulth'" style="background-color:#bbb7b8; ">
+                    <input type="text" (blur)="ClinetResultInstClient_Price_Method()"
+                    (keypress)="validate($event)" [(ngModel)]="item.Instr_Client_Price"
+                    placeholder="Enter Client Price" [disabled]="true"
+                     class="form-control form-control-sm" [disabled]="item.isBidPriceDisable" style="padding-left:20px !important"/>
+                    <i class="fa fa-dollar-sign" aria-hidden="true"></i>
+                    <div *ngIf="item.isBidPriceDisable" class="Mydropdown">
+                      Price can not be changed.
+                    </div>
+                  </div>
+
+                  <div class="inputWithIcon inputIconBg col-3 [hidden]='OfficeResulth'" style="background-color:#bbb7b8; ">
+                    <input type="text" [(ngModel)]="item.Instr_Client_Total"
+                    placeholder="Client Price" [disabled]="true"
+                    class="form-control form-control-sm" style="padding-left:20px !important"/>
+                    <i class="fa fa-dollar-sign" aria-hidden="true"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="col-5 p-0 row m-0">
+                <div class="col-9">
+                  <textarea style="width:100%;" class="textarea" [(ngModel)]="item.Instr_Task_Comment"> </textarea>
+                </div>
+                <div class="col-3 text-center" >
+                  <span>
+                    <a [href]="item.TMF_Task_localPath" target="_blank"
+                    [download]="item.TMF_Task_localPath"><i class="fas fa-file-pdf"
+                    style="color: black;"></i> </a>
+                  </span>
+                  &nbsp;
+                  <span>
+                    <a href="javascript:void(0)" class="up" (click)='upmethod(item,indx)'>
+                      <i class=" fas fa-arrow-up" style="color: black;"></i>
+                    </a>
+                  </span>
+                  &nbsp;
+                  <span>
+                    <a href="javascript:void(0)" class="down" (click)='downMethod(item,indx)'>
+                      <i class=" fas fa-arrow-down" style="color: black;"></i>
+                    </a>
+                  </span>
+                  &nbsp;&nbsp;
+                  <span>
+                    <a href="javascript:void(0)" (click)='InstructionRemove(item, indx)'>
+                      <i class="fa fa-trash" style="color: black;"></i>
+                    </a>
+                  </span>
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+          <!-- Small Size -->
+          <div style="color: black !important;" *ngIf="InstructionDataArray.length > 0" class="col-12 onSmall module-box p-1 my-1 mx-0">
+            <div class="col-12 p-0 row m-0 text-dark" *ngFor="let item of InstructionDataArray;index as indx">
+              <hr *ngIf="indx>0" class="col-10">
+                <div class="col-12 p-0 row mx-0 my-1">
+
+                  <div class="col-4">
+                    <div class="text-center font-weight-bold">Task Type</div>
+                    <select id="TaskType" class="form-control form-control-sm"(change)="TaskNameFilterMethod(item.Instr_Task_pkeyId)"
+                    [(ngModel)]="item.Instr_Task_pkeyId">
+                    <option value='0'>Select</option>
+                    <option [ngValue]="kb.Inst_Task_pkeyId" *ngFor="let kb of taskTypeNameArrayNew">
+                      {{kb.Inst_Task_Name}}
+                    </option>
+
+                  </select>
+                  <div *ngIf="item.Instr_Task_pkeyId == 3" [hidden]="taskType">
+                    <span style="color: red;font-size: 9px;">{{taskreq}}</span></div>
+                  </div>
+                  <div class="col-4"  [ngClass] = "{'highlight' : (item.Instr_Task_Name == 0) && isTaskInstruction}">
+                    <div class="text-center font-weight-bold">Task Name</div>
+                    <div class="example-wrapper" *ngIf = '!item.Instr_Task_pkeyId || item.Instr_Task_pkeyId == 0'>
+                      <kendo-dropdownlist class="newClass form-control form-control-sm"
+                      [defaultItem]="defaultTaskItem"
+                      [textField]="'Task_Name'"
+                      [valueField]="'Task_pkeyID'"
+                      >
+                    </kendo-dropdownlist>
+                    </div>
+
+                  <div class="example-wrapper" *ngIf = "item.Instr_Task_pkeyId == 1 || item.Instr_Task_pkeyId == 3">
+                    <kendo-dropdownlist *ngIf="item.Instr_Task_Name != 'other'" class="newClass form-control form-control-sm"
+                    [data]="taskList1"
+                    [defaultItem]="defaultTaskItem"
+                    [filterable]="true"
+                    [textField]="'Task_Name'"
+                    [valueField]="'Task_pkeyID'"
+                    (filterChange)="TaskList1Filter($event)"
+                    [(ngModel)]="item.Instr_Task_Name"
+                    [valuePrimitive]="true"
+                    [ngModelOptions]="{standalone: true}"
+                    (valueChange) = "TaskNameMetaData_Method(item, indx)">
+                  </kendo-dropdownlist>
+                </div>
+                <div class="example-wrapper" *ngIf = "item.Instr_Task_pkeyId == 2">
+                  <kendo-dropdownlist *ngIf="item.Instr_Task_Name != 'other'" class="newClass form-control form-control-sm"
+                  [data]="taskList2"
+                  [defaultItem]="defaultTaskItem"
+                  [filterable]="true"
+                  [textField]="'Task_Name'"
+                  [valueField]="'Task_pkeyID'"
+                  (filterChange)="TaskList2Filter($event)"
+                  [(ngModel)]="item.Instr_Task_Name"
+                  [valuePrimitive]="true"
+                  [ngModelOptions]="{standalone: true}"
+                  (valueChange) = "TaskNameMetaData_Method(item, indx)">
+                </kendo-dropdownlist>
+              </div>
+                  <div *ngIf="item.Instr_Task_Name == 'other'"><input type = "text" [(ngModel)]="item.Instr_Other_Task_Name" class="form-control"
+                    AlphanumericOnly><a (click)='backdropdown(item)'><i class="fas fa-arrow-alt-circle-left"></i></a></div>
+
+                </div>
+                <div class="col-4" >
+                  <div class="text-center font-weight-bold">Qty</div>
+                  <input type="number" placeholder="Enter Qty" (blur)="ClinetResultQtyInstrucation_Method()"
+                  (keypress)="validate($event)" [(ngModel)]="item.Instr_Qty"
+                  class="form-control form-control-sm">
+                </div>
+                </div>
+                <div class="col-12 p-0 row mx-0 my-1">
+                  <div style="background-color:#edeef0; " class="col-6 p-1 row m-0">
+                    <div class="text-center col-12 font-weight-bold">Contractor</div>
+                    <div style="background-color:#edeef0; " class="col-6" [hidden]='processorh'>
+                      <div class="text-center font-weight-bold">Price</div>
+                      <input type="text" (blur)="ClinetResultInstCont_Price_Method()"
+                      (keypress)="validate($event)" [(ngModel)]="item.Instr_Contractor_Price"
+                          placeholder=" Enter Contractor Price" class="form-control form-control-sm">
+                    </div>
+                    <div style="background-color:#edeef0; " class="col-6" [hidden]='processorh'>
+                      <div class="text-center font-weight-bold">Total Price</div>
+                      <input type="text" [(ngModel)]="item.Instr_Contractor_Total" placeholder="Contractor Price" [disabled]="true"
+                        class="form-control form-control-sm">
+                    </div>
+                  </div>
+                  <div style="background-color:#bbb7b8; " class="col-6 p-1 row m-0">
+                    <div class="col-12 text-center font-weight-bold">Client</div>
+                    <div style="background-color:#bbb7b8; " class="col-6" [hidden]='OfficeResulth'>
+                      <div class="text-center font-weight-bold">Price</div>
+                      <input type="text" (blur)="ClinetResultInstClient_Price_Method()"
+                        (keypress)="validate($event)" [(ngModel)]="item.Instr_Client_Price"
+                        placeholder="Enter Client Price" class="form-control form-control-sm">
+                    </div>
+                    <div style="background-color:#bbb7b8; " class="col-6" [hidden]='OfficeResulth'>
+                      <div class="text-center font-weight-bold">Total Price</div>
+                      <input type="text"
+                        [(ngModel)]="item.Instr_Client_Total" placeholder="Client Price" [disabled]="true"
+                        class="form-control form-control-sm">
+                      </div>
+                  </div>
+                </div>
+              <div class="col-12 p-0 row mx-0 my-1">
+                <div class="col-9">
+                  <div class="col-12 font-weight-bold text-center">Comments </div>
+                  <textarea style="width:100%;" class="textarea" [(ngModel)]="item.Instr_Task_Comment"> </textarea>
+                </div>
+                <div class="col-3 text-center" >
+                  <div class="font-weight-bold">Actions</div>
+                  <span>
+                    <a [href]="item.TMF_Task_localPath" target="_blank"
+                      [download]="item.TMF_Task_localPath">
+                      <i class="fas fa-file-pdf"
+                        style="color: black;">
+                      </i> </a>
+                    </span> &nbsp;
+                    <span>
+                      <a href="javascript:void(0)" class="up" (click)='upmethod(item,indx)'>
+                        <i class=" fas fa-arrow-up" style="color: black;">
+                        </i>
+                      </a>
+                    </span>&nbsp;
+                    <span>
+                      <a href="javascript:void(0)" class="down" (click)='downMethod(item,indx)'>
+                        <i class=" fas fa-arrow-down" style="color: black;">
+                        </i>
+                      </a>
+                    </span>&nbsp;&nbsp;
+                  <span>
+                    <a href="javascript:void(0)" (click)='InstructionRemove(item, indx)'>
+                      <i class="fa fa-trash" style="color: black;">
+                      </i>
+                    </a>
+                  </span>
+                  </div>
+              </div>
+            </div>
+
+            <!--test-->
+          </div>
+          <!--  -->
+          <!--  -->
+          <div class="col-12  p-0" style="margin-top:10px">
+              <div class="col-12 p-0 row m-0" *ngIf="InstructionDataArray.length>0">
+                <div class="col-7 p-0 row m-0">
+                  <div class="col-6 p-0 row m-0">
+                    <div class="col-4"><input type="text" [disabled]="true"  [value]="'Count '+rowCount_Task" class="form-control form-control-sm textbox-as-label"></div>
+                    <div class="col-4"></div>
+                    <div class="col-4">
+
+                      <input type="text" [disabled]="true"  value="Total" class="form-control form-control-sm textbox-as-label">
+                    </div>
+                  </div>
+                  <div class="col-6 p-0 row m-0">
+
+                    <div class="inputWithIcon inputIconBg col-3"  [hidden]='processorh'>
+                      <input type="text"  [disabled]="true" class="form-control form-control-sm textbox-as-label" style="padding-left:0px !important; "/>
+                    </div>
+
+                      <div class="inputWithIcon inputIconBg col-3"  [hidden]='processorh'>
+                        <input type="text"  [disabled]="true"[(ngModel)]="contractorTotalPriceSum"
+                        [value]="getTaskFooterSum()"
+                           class="form-control form-control-sm textbox-as-label" style="padding-left:0px !important;margin-left:5px !important" />
+                        <i class="fa fa-dollar-sign" aria-hidden="true" style="background-color:white;color:#aaa"></i>
+                      </div>
+
+
+                      <div class="inputWithIcon inputIconBg col-3"  [hidden]='OfficeResulth'>
+                        <input type="text"  [disabled]="true" class="form-control form-control-sm textbox-as-label" style="padding-left:0px !important;"/>
+                      </div>
+
+                      <div class="inputWithIcon inputIconBg col-3"  [hidden]='OfficeResulth'>
+                        <input type="text"  [disabled]="true"[(ngModel)]="clientTotalPriceSum"
+                        [value]="getTaskFooterSum()"
+                           class="form-control form-control-sm textbox-as-label" style="padding-left:0px !important;margin-left:5px !important"/>
+                        <i class="fa fa-dollar-sign" aria-hidden="true" style="background-color:white;color:#aaa"></i>
+                      </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+
+          <div  class="mt-1 ml-0 mb-1 row">
+            <div class="col-12 col-sm-12">
+              <button id="client_viewdetail_1" class="btn btn-primary" (click)='AddMoreInstruction(1)'>
+                <i class="fas fa-plus-circle">&nbsp;Add Task</i>
+              </button>
+              <button id="client_viewdetail_1" class="btn btn-primary"
+                (click)='ClientResultInstruCSumbit(content, 1)' [disabled]="isLoading" style="margin-left:6px;">
+                <i class="fa" [ngClass]="{ 'fa-save': !isLoading}">&nbsp;{{button}}</i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class=" module-box tab-pane fade mr-0 ml-0 module-box" id="instructions" role="tabpanel" aria-labelledby="log-tab" [hidden]="tabhide">
+      <div class="module-box  table-responsive" >
+        <div *ngIf='instructionBox'>
+          <div class="col-12 p-0 mt-2 result-table" >
+            <div class="table-text-center col-12 p-0 m-0 align-items-center row" *ngFor="let item of InstDataArray;index as indx">
+              <div class="col-md-2 col-sm-2 col-6">
+                <kendo-dropdownlist *ngIf="item.Instr_Task_pkeyId != -99" class="form-control form-control-sm newClass"
+                [data]="InstrDrpList"
+                [defaultItem]="defaultInsTaskItem"
+                [filterable]="true"
+                [textField]="'Inst_Task_Name'"
+                [valueField]="'Inst_Task_pkeyId'"
+                (filterChange)="InstTaskList2Filter($event)"
+                [(ngModel)]="item.Instr_Task_pkeyId"
+                [valuePrimitive]="true"
+                [ngModelOptions]="{standalone: true}"
+                (valueChange)="getdescription(item)">
+                </kendo-dropdownlist>
+              <div *ngIf="item.Instr_Task_pkeyId == -99">
+                <input type = "text" [(ngModel)]="item.Instr_Other_Task_Name" class="form-control"
+                AlphanumericOnly><a (click)='backInsdropdown(item)'><i class="fas fa-arrow-alt-circle-left"></i></a>
+              </div>
+              </div>
+              <div class="col-6">
+                <kendo-editor [(ngModel)]="item.Instr_Details_Data"></kendo-editor>
+              </div>
+              <div class="col-md-3 col-sm-3 col-9 row">
+              <div  class="small-box p-1 col-4 ">
+                <div style="font-weight: bold;color: black;">Qty</div>
+                <input type="text" (blur)="ClinetResultQtyInstrucationISTRUNEW_Method()"
+                  [(ngModel)]="item.Instr_Qty_Text"  (keypress)="validate($event)"
+                  placeholder="Qty" class="form-control form-control-sm">
+              </div>
+              <div class="small-box p-1 col-4">
+                <div style="font-weight: bold;color: black;">Price</div>
+
+                <div class="inputWithIcon inputIconBg" >
+                  <input type="text"(blur)="ClinetResultPriceInstrucationISTRUNEW_Method()"
+                  [(ngModel)]="item.Instr_Price_Text"  (keypress)="validate($event)"
+                  placeholder="Price"
+                   class="form-control form-control-sm"/>
+                  <i class="fa fa-dollar-sign" aria-hidden="true"></i>
+                </div>
+              </div>
+              <div  class="small-box p-1 col-4">
+                <div style="font-weight: bold;color: black;">Total</div>
+
+                <div class="inputWithIcon inputIconBg  ">
+                  <input type="text" [(ngModel)]="item.Instr_Total_Text"  (keypress)="validate($event)"
+                  placeholder="Total" [disabled]="true"
+                   class="form-control form-control-sm"/>
+                  <i class="fa fa-dollar-sign" aria-hidden="true"></i>
+                </div>
+              </div>
+              </div>
+              <div class="col-md-1 col-3 row m-0 mt-2" style="justify-content: space-between;" >
+                <span>
+                  <a href="javascript:void(0)"><i class="fa fa-arrow-up" (click)="taskcommentdata(item,indx)"
+                      style="color: black;" aria-hidden="true"></i>
+                  </a>
+                </span>
+                &nbsp;
+                <span>
+                  <a href="javascript:void(0)"><i class="fa fa-eye" style="color: black;"></i> </a>
+                </span>
+                &nbsp;
+                <span>
+                  <a href="javascript:void(0)" (click)='InstRemove(item,indx)'> <i class="fa fa-trash"style="color: black;"></i>
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 p-0 mt-2 result-table" *ngIf="InstDataArray.length>0">
+              <div class="table-text-center col-12 p-0 m-0 align-items-center row">
+                <div class="col-md-2 col-sm-2 col-6">
+                  <input type="text" [disabled]="true"  [value]="'Count '+rowCount_Instruction" class="form-control form-control-sm textbox-as-label">
+                </div>
+                <div class="col-6"></div>
+                <div class="col-md-3 col-sm-3 col-9 row">
+                  <div  class="col-3 ">
+                    <input type="text" [disabled]="true"  value="Total" class="form-control form-control-sm textbox-as-label">
+                  </div>
+
+                  <div class="inputWithIcon inputIconBg  col-3 " style="margin-left:15px;">
+                    <input type="text"  [disabled]="true"[(ngModel)]="instructionPriceSum"
+                    [value]="getInstructionFooterSum()"
+                       class="form-control form-control-sm textbox-as-label" style="padding-left:0px !important;margin-left:5px !important"/>
+                    <i class="fa fa-dollar-sign" aria-hidden="true" style="background-color:white;color:#aaa"></i>
+                  </div>
+
+
+                  <div class="inputWithIcon inputIconBg   col-3 ">
+                    <input type="text"  [disabled]="true" [(ngModel)]="instructionTotalPriceSum"
+                    [value]="getInstructionFooterSum()"
+                       class="form-control form-control-sm textbox-as-label" style="padding-left:0px !important;margin-left:5px !important"/>
+                    <i class="fa fa-dollar-sign" aria-hidden="true" style="background-color:white;color:#aaa"></i>
+                  </div>
+                </div>
+                <div class="col-md-1 col-3 row m-0 mt-2"></div>
+              </div>
+
+        </div>
+          <div class="mt-1 mb-1 ml-0 row">
+            <div class="col-12">
+              <button id="client_viewdetail_1" class="btn btn-primary" (click)='AddMoreInstruction(3)'><i
+                  class="fas fa-plus-circle">&nbsp;Add Instruction</i>
+                </button>
+              <button id="client_viewdetail_1" class="btn btn-primary"
+                (click)='ClientResultInstruCSumbit(content,2)' [disabled]="isLoading" style="margin-left: 6px;">
+                <i class="fa" [ngClass]="{'fa-save': !isLoading}">&nbsp;{{button}}</i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class=" module-box tab-pane fade mr-0 ml-0 module-box" id="infos" role="tabpanel" aria-labelledby="log-tab" [hidden]="tabhide">
+      <div class="module-box  table-responsive">
+    <div *ngIf='commentBox' class="p-1  col-md-12">
+      <div>
+
+        Message appear here
+      </div>
+      <div class="mt-1 row">
+        <div class="col-12 col-sm-12 ml-2" style="margin-bottom: -3px;">
+          <button id="client_viewdetail_1" class="btn btn-primary" (click)='ClientResultInstruCSumbit(content,0)'
+            [disabled]="isLoading">
+            <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}"> </i>
+             {{button}}</button>
+        </div>
+      </div>
+    </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    Message
+    <button type="button" class="close" (click)="modal.close('Save click')" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="text-center">
+      <span>{{MessageFlag}}</span>
+      <hr>
+      <button id="client_viewdetail_1" class="btn btn-primary" (click)="modal.close('Save click')">Continue</button>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,557 @@
+<form>
+  <div class="form-row p-2">
+    <div class="col-md-3">
+      <div class="form-group">
+        <div class="input-group">
+          <label class="form-control form-control-sm">{{ Filter.StartDate |
+            date:'MM/dd/yyyy'}}
+            <span *ngIf="!Filter.StartDate"></span>
+          </label>
+          <input class="form-control form-control-sm" placeholder="yyyy-mm-dd"
+            [(ngModel)]="Filter.StartDate" [ngModelOptions]="{standalone: true}"
+            ngbDatepicker #dt9="ngbDatepicker" firstDayOfWeek="7" style="display: none">
+          <div class="input-group-append">
+            <button class="btn btn-outline-info btn-xs"
+              (click)="dt9.toggle()" type="button"><i class="fas fa-calendar-alt"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <div class="input-group">
+          <label class="form-control form-control-sm">{{ Filter.EndDate |
+            date:'MM/dd/yyyy'}}
+            <span *ngIf="!Filter.EndDate"></span>
+          </label>
+          <input class="form-control form-control-sm" placeholder="yyyy-mm-dd"
+            [(ngModel)]="Filter.EndDate" [ngModelOptions]="{standalone: true}"
+            ngbDatepicker #dt1="ngbDatepicker" firstDayOfWeek="7" style="display: none">
+          <div class="input-group-append">
+            <button class="btn btn-outline-info btn-xs"
+              (click)="dt1.toggle()" type="button"><i class="fas fa-calendar-alt"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="getProfitLossComparison()"
+      >
+        Run Report
+      </button>
+      <button
+        type="button"
+        (click)="getProfiAndLossComparisonPDF()"
+        class="btn btn-primary ml-2"
+      >
+        <i
+          class="fa"
+          [ngClass]="{
+            'fa-spin fa-spinner': IsPDFGenerate,
+            'fa-print': !IsPDFGenerate
+          }"
+        ></i>
+      </button>
+
+    </div>
+  </div>
+</form>
+
+<div class="report">
+  <div class="reportToolBar">
+    <div class="rightDiv">
+      <div class="pencilIcon hi hi-email"></div>
+      <div class="pencilIcon hi hi-print"></div>
+      <div class="pencilIcon hi hi-export">
+        <span class="downArrow"></span>
+      </div>
+      <div class="gearIcon hi hi-settings-o"></div>
+    </div>
+  </div>
+  <div class="reportArea">
+    <div class="reportHeader focusable-text">
+      <div class="text-center">
+        <div class="companyNameRow">
+          <div class="companyName">
+            <h4>Profit and Loss Comparison</h4>
+          </div>
+        </div>
+        <div class="dateRangeRow">
+          As of {{ CurrentDate | date: "mediumDate" }}
+        </div>
+      </div>
+    </div>
+    <div *ngIf="!IsLoadProfitLoss">
+      <div
+        class="dgrid dgrid-grid ui-widget dgrid-03 reportsGrid universal-grid reportsGridCompact"
+      >
+        <div
+          class="dgrid-header dgrid-header-row ui-widget-header"
+          role="row"
+          style="width: 100%; top: 441px; left: 318px"
+        >
+          <table
+            class="dgrid-row-table"
+            role="presentation"
+            id="dgrid_0-header"
+          >
+            <tr class="dgrid-spacer-row">
+              <th
+                class="dgrid-cell dgrid-cell-padding dgrid-column-0-0"
+                role="columnheader"
+              >
+                <div class="dgrid-resize-header-container">
+                  <div class="dgrid-resize-handle resizeNode-0-0"></div>
+                </div>
+              </th>
+              <th
+                class="dgrid-cell dgrid-cell-padding dgrid-column-0-1-1"
+                role="columnheader"
+              >
+                <div class="dgrid-resize-header-container">
+                  <div class="dgrid-resize-handle resizeNode-0-1-1"></div>
+                </div>
+              </th>
+              <th
+                class="dgrid-cell dgrid-cell-padding dgrid-column-0-1-2"
+                role="columnheader"
+              >
+                <div class="dgrid-resize-header-container">
+                  <div class="dgrid-resize-handle resizeNode-0-1-2"></div>
+                </div>
+              </th>
+            </tr>
+            <tr>
+              <th
+                class="dgrid-cell dgrid-cell-padding dgrid-column-0-0 left bold firstColumn firstParentColumn"
+                role="columnheader"
+                rowspan="2"
+              >
+                <div class="dgrid-resize-header-container">
+                  <div class="dgrid-resize-handle resizeNode-0-0"></div>
+                </div>
+              </th>
+              <th
+                class="dgrid-cell dgrid-cell-padding dgrid-column-0-1 parentColumn right bold dgrid-focus"
+                role="columnheader"
+                colspan="2"
+                tabindex="0"
+              >
+                Total
+              </th>
+            </tr>
+            <tr>
+              <th
+                class="dgrid-cell dgrid-cell-padding dgrid-column-0-1-1 right bold"
+                role="columnheader"
+                rowspan="1"
+              >
+                <div class="text-center dgrid-resize-header-container">
+                  {{ Filter.StartDate | date }} - {{ Filter.EndDate | date }}
+                  <div class="dgrid-resize-handle resizeNode-0-1-1"></div>
+                </div>
+              </th>
+              <th
+                class="dgrid-cell dgrid-cell-padding dgrid-column-0-1-2 right bold"
+                role="columnheader"
+                rowspan="1"
+              >
+                <div class="text-center dgrid-resize-header-container">
+                  {{ OldStartDate | date }} - {{ OldEndDate | date }}
+                  <div class="dgrid-resize-handle resizeNode-0-1-2"></div>
+                </div>
+              </th>
+            </tr>
+          </table>
+        </div>
+        <div
+          class="dgrid-scroller"
+          style="margin-top: 38px; margin-bottom: 0px"
+        >
+          <div class="dgrid-content ui-widget-content ml-2 mr-2">
+            <div class="dgrid-row dgrid-row-even ui-state-default rootHeader">
+              <table class="dgrid-row-table">
+                <tr (click)="IncomeIsShow = !IncomeIsShow">
+                  <td
+                    class="dgrid-cell col-33 dgrid-cell-padding dgrid-column-0-0 black left"
+                  >
+                    <i
+                      class="fa"
+                      [ngClass]="{
+                        'fa-caret-right': !IncomeIsShow,
+                        'fa-caret-down': IncomeIsShow
+                      }"
+                    ></i>
+                    Income
+                  </td>
+                  <td
+                    class="dgrid-cell col-33 text-center dgrid-cell-padding dgrid-column-0-1 black left wrap"
+                  >
+                    <div *ngIf="ProfitAndLossComparison != null">
+                      <b [hidden]="IncomeIsShow">{{
+                        ProfitAndLossComparison.TotalIncome | currency
+                      }}</b>
+                    </div>
+                  </td>
+                  <td
+                    class="dgrid-cell col-33 text-center dgrid-cell-padding dgrid-column-0-1 black left wrap"
+                  >
+                    <div *ngIf="ProfitAndLossComparison != null">
+                      <b [hidden]="IncomeIsShow">{{
+                        ProfitAndLossComparison.TotalOldIncome | currency
+                      }}</b>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div
+              class="dgrid-tree-container"
+              [hidden]="!IncomeIsShow"
+              style="display: block"
+            >
+              <div
+                role="row"
+                class="dgrid-row ui-state-default dgrid-row-odd"
+                id="dgrid_0-row-9"
+              >
+                <table class="dgrid-row-table" role="presentation">
+                  <tr>
+                    <td
+                      class="dgrid-cell col-33 dgrid-cell-padding dgrid-column-0-0 black left grandTotalRow topSummary"
+                      role="gridcell"
+                    >
+                      <div
+                        class="dgrid-expando-icon"
+                        style="margin-left: 15px; float: left"
+                      >
+                        &nbsp;
+                      </div>
+                      Sales
+                    </td>
+                    <td
+                      class="dgrid-cell col-33 text-center dgrid-cell-padding dgrid-column-0-1 right wrap grandTotalRow topSummary bold"
+                      role="gridcell"
+                    >
+                      <span *ngIf="ProfitAndLossComparison != null">{{
+                        ProfitAndLossComparison.TotalSales | currency
+                      }}</span>
+                    </td>
+                    <td
+                      class="dgrid-cell col-33 text-center dgrid-cell-padding dgrid-column-0-1 right wrap grandTotalRow topSummary bold"
+                      role="gridcell"
+                    >
+                      <span *ngIf="ProfitAndLossComparison != null">{{
+                        ProfitAndLossComparison.TotalOldSales | currency
+                      }}</span>
+                    </td>
+                  </tr>
+                  <tr *ngFor="let Income of ProfitAndLossComparison.Income">
+                    <td
+                      class="dgrid-cell col-33 dgrid-cell-padding dgrid-column-0-0 black left grandTotalRow topSummary"
+                      role="gridcell"
+                    >
+                      <div
+                        class="dgrid-expando-icon"
+                        style="margin-left: 15px; float: left"
+                      >
+                        &nbsp;
+                      </div>
+                      {{ Income.AccountName }}
+                    </td>
+                    <td
+                      class="dgrid-cell col-33 text-center dgrid-cell-padding dgrid-column-0-1 right wrap grandTotalRow topSummary bold"
+                      role="gridcell"
+                    >
+                      <span *ngIf="ProfitAndLossComparison != null">{{
+                        Income.Amount | currency
+                      }}</span>
+                    </td>
+                    <td
+                      class="dgrid-cell col-33 text-center dgrid-cell-padding dgrid-column-0-1 right wrap grandTotalRow topSummary bold"
+                      role="gridcell"
+                    ></td>
+                  </tr>
+                  <tr>
+                    <td
+                      class="dgrid-cell col-33 text-bold dgrid-cell-padding dgrid-column-0-0 black left grandTotalRow topSummary bold"
+                      role="gridcell"
+                    >
+                      <div
+                        class="dgrid-expando-icon"
+                        style="margin-left: 9px; float: left"
+                      >
+                        &nbsp;
+                      </div>
+                      Total Income
+                    </td>
+                    <td
+                      class="dgrid-cell col-33 text-bold text-center dgrid-cell-padding dgrid-column-0-1 right wrap grandTotalRow topSummary bold"
+                      role="gridcell"
+                    >
+                      <span *ngIf="ProfitAndLossComparison != null">{{
+                        ProfitAndLossComparison.TotalIncome | currency
+                      }}</span>
+                    </td>
+                    <td
+                      class="dgrid-cell col-33 text-bold text-center dgrid-cell-padding dgrid-column-0-1 right wrap grandTotalRow topSummary bold"
+                      role="gridcell"
+                    >
+                      <span *ngIf="ProfitAndLossComparison != null">{{
+                        ProfitAndLossComparison.TotalOldIncome | currency
+                      }}</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      class="dgrid-cell col-33 dgrid-cell-padding dgrid-column-0-0 black left grandTotalRow topSummary bold"
+                      role="gridcell"
+                    >
+                      <div
+                        class="dgrid-expando-icon"
+                        style="margin-left: 9px; float: left"
+                      >
+                        &nbsp;
+                      </div>
+                      GROSS PROFIT
+                    </td>
+                    <td
+                      class="dgrid-cell col-33 text-center dgrid-cell-padding dgrid-column-0-1 right wrap grandTotalRow topSummary bold"
+                      role="gridcell"
+                    >
+                      <span *ngIf="ProfitAndLossComparison != null">{{
+                        ProfitAndLossComparison.GrossProfit | currency
+                      }}</span>
+                    </td>
+                    <td
+                      class="dgrid-cell col-33 text-center dgrid-cell-padding dgrid-column-0-1 right wrap grandTotalRow topSummary bold"
+                      role="gridcell"
+                    >
+                      <span *ngIf="ProfitAndLossComparison != null">{{
+                        ProfitAndLossComparison.GrossOldProfit | currency
+                      }}</span>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+            <div class="dgrid-row ui-state-default rootHeader dgrid-row-odd">
+              <table class="dgrid-row-table" role="presentation">
+                <tr (click)="ExpensesIsShow = !ExpensesIsShow">
+                  <td
+                    class="dgrid-cell col-33 dgrid-cell-padding dgrid-column-0-0 black left"
+                    role="gridcell"
+                  >
+                    <i
+                      class="fa"
+                      [ngClass]="{
+                        'fa-caret-right': !ExpensesIsShow,
+                        'fa-caret-down': ExpensesIsShow
+                      }"
+                    ></i>
+                    Expenses
+                  </td>
+                  <td
+                    class="dgrid-cell col-33 text-center dgrid-cell-padding dgrid-column-0-1 black left wrap"
+                  >
+                    <span
+                      *ngIf="
+                        ProfitAndLossComparison != null &&
+                        ProfitAndLossComparison.TotalExpenses != null
+                      "
+                    >
+                      <b [hidden]="ExpensesIsShow">{{
+                        ProfitAndLossComparison.TotalExpenses | currency
+                      }}</b></span
+                    >
+                  </td>
+                  <td
+                    class="dgrid-cell col-33 text-center dgrid-cell-padding dgrid-column-0-1 black left wrap"
+                  >
+                    <span
+                      *ngIf="
+                        ProfitAndLossComparison != null &&
+                        ProfitAndLossComparison.TotalExpenses != null
+                      "
+                    >
+                      <b [hidden]="ExpensesIsShow">{{
+                        ProfitAndLossComparison.TotalOldExpenses | currency
+                      }}</b></span
+                    >
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div
+              class="dgrid-tree-container"
+              [hidden]="!ExpensesIsShow"
+              style="display: block"
+            >
+              <div
+                *ngIf="
+                  ProfitAndLossComparison != null &&
+                  ProfitAndLossComparison.Expenses != null
+                "
+                role="row"
+                class="dgrid-row dgrid-row-even ui-state-default"
+                id="dgrid_0-row-6"
+              >
+                <table class="dgrid-row-table" role="presentation">
+                  <tr *ngFor="let expense of ProfitAndLossComparison.Expenses">
+                    <td
+                      style="width: 45%"
+                      class="dgrid-cell dgrid-cell-padding dgrid-column-0-0 black left"
+                      role="gridcell"
+                    >
+                      <div
+                        class="dgrid-expando-icon"
+                        style="margin-left: 27px; float: left"
+                      >
+                        &nbsp;
+                      </div>
+                      {{ expense.AccountName }}
+                    </td>
+                    <td
+                      class="dgrid-cell text-left dgrid-cell-padding dgrid-column-0-1 right wrap"
+                      role="gridcell"
+                    >
+                      <span> {{ expense.Amount | currency }}</span>
+                    </td>
+                    <td
+                      class="dgrid-cell text-right dgrid-cell-padding dgrid-column-0-1 right wrap"
+                      role="gridcell"
+                    >
+                      <span> </span>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+              <div class="dgrid-preload" style="display: none"></div>
+              <div
+                role="row"
+                class="dgrid-row ui-state-default dgrid-row-even"
+                id="dgrid_0-row-19"
+              >
+                <table class="dgrid-row-table" role="presentation">
+                  <tr>
+                    <td
+                      class="dgrid-cell col-33 text-bold dgrid-cell-padding dgrid-column-0-0 black left grandTotalRow topSummary bold"
+                      role="gridcell"
+                    >
+                      <div
+                        class="dgrid-expando-icon"
+                        style="margin-left: 9px; float: left"
+                      >
+                        &nbsp;
+                      </div>
+                      Total Expenses
+                    </td>
+                    <td
+                      class="dgrid-cell col-33 text-bold text-center dgrid-cell-padding dgrid-column-0-1 black right wrap grandTotalRow topSummary bold"
+                      role="gridcell"
+                    >
+                      <span>
+                        <span
+                          *ngIf="
+                            ProfitAndLossComparison != null &&
+                            ProfitAndLossComparison.TotalExpenses != null
+                          "
+                          ><b>{{
+                            ProfitAndLossComparison.TotalExpenses | currency
+                          }}</b>
+                        </span></span
+                      >
+                    </td>
+                    <td
+                      class="dgrid-cell col-33 text-bold text-center dgrid-cell-padding dgrid-column-0-1 black right wrap grandTotalRow topSummary bold"
+                      role="gridcell"
+                    >
+                      <span>
+                        <span
+                          *ngIf="
+                            ProfitAndLossComparison != null &&
+                            ProfitAndLossComparison.TotalExpenses != null
+                          "
+                          ><b>{{
+                            ProfitAndLossComparison.TotalOldExpenses | currency
+                          }}</b>
+                        </span></span
+                      >
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+            <div
+              role="row"
+              class="dgrid-row ui-state-default dgrid-row-even"
+              id="dgrid_0-row-19"
+            >
+              <table class="dgrid-row-table" role="presentation">
+                <tr>
+                  <td
+                    class="dgrid-cell col-33 dgrid-cell-padding dgrid-column-0-0 black left grandTotalRow topSummary bold"
+                    role="gridcell"
+                  >
+                    <div
+                      class="dgrid-expando-icon"
+                      style="margin-left: 4px; float: left"
+                    >
+                      &nbsp;
+                    </div>
+                    Profit
+                  </td>
+                  <td
+                    class="dgrid-cell col-33 text-center dgrid-cell-padding dgrid-column-0-1 black right wrap grandTotalRow topSummary bold"
+                    role="gridcell"
+                  >
+                    <span>
+                      <span
+                        *ngIf="
+                          ProfitAndLossComparison != null &&
+                          ProfitAndLossComparison.Profit != null
+                        "
+                        ><b>{{
+                          ProfitAndLossComparison.Profit -
+                            ProfitAndLossComparison.TotalExpenses | currency
+                        }}</b>
+                      </span></span
+                    >
+                  </td>
+                  <td
+                    class="dgrid-cell col-33 text-center dgrid-cell-padding dgrid-column-0-1 black right wrap grandTotalRow topSummary bold"
+                    role="gridcell"
+                  >
+                    <span>
+                      <span
+                        *ngIf="
+                          ProfitAndLossComparison != null &&
+                          ProfitAndLossComparison.Profit != null
+                        "
+                        ><b>{{
+                          ProfitAndLossComparison.OldProfit -
+                            ProfitAndLossComparison.TotalOldExpenses | currency
+                        }}</b>
+                      </span></span
+                    >
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div
+          class="dgrid-header dgrid-header-scroll dgrid-scrollbar-width ui-widget-header"
+          style="height: 38px"
+        ></div>
+        <div class="dgrid-footer dgrid-footer-hidden"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div *ngIf="IsLoadProfitLoss" class="loader m-auto"></div>
+    </div>
+  </div>
+</div>

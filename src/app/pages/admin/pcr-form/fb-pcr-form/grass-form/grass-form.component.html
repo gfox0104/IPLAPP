@@ -1,0 +1,655 @@
+<div class="container-fluid">
+    <div class="row">
+        <app-breadcrumb></app-breadcrumb>
+    </div>
+    <div class="row m-0">
+        <div class="" style="width: 100%;">
+            <div class="">
+                <div class="row m-0 module-box-header">
+                    <h4 class="page-title" style="font-weight: bolder">Grass Form</h4>
+                    <hr>
+                    <a [routerLink]="['/home/forms/template-fb-forms']" class="btn btn-primary mr-1 h35">
+                        <i class="fas fa-arrow-alt-circle-left"></i>
+                        Back
+                    </a>
+
+                </div>
+
+                <div class="row m-0">
+                    <div class="col-12 bg-pattern">
+                        <div>
+                            <div data-pattern="priority-columns ">
+                                <!-- <hr> -->
+                                <div class="row module-box p-1">
+                                    <div class="row col-12">
+                                        <div class="col-lg-6">
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label>Grass Cut Completed?</label>
+                                                    <br>
+
+                                                    <div class="radio radio-info form-check-inline">
+                                                        <input type="radio" id="Grass_GrassCutComp1"
+                                                            (change)="IsGrassCutCompleted(PCRGrassInfoModelObj.Grass_GrassCutComp)"
+                                                            [(ngModel)]="PCRGrassInfoModelObj.Grass_GrassCutComp"
+                                                            [ngModelOptions]="{standalone: true}" value="Yes - Completed"
+                                                            name="Grass_GrassCutComp">
+                                                        <label for="Grass_GrassCutComp1"> Yes - Completed </label>
+                                                    </div>
+                                                    <div class="radio form-check-inline">
+                                                        <input type="radio" id="Grass_GrassCutComp1"
+                                                            (change)="IsGrassCutCompleted(PCRGrassInfoModelObj.Grass_GrassCutComp)"
+                                                            [(ngModel)]="PCRGrassInfoModelObj.Grass_GrassCutComp"
+                                                            [ngModelOptions]="{standalone: true}" value="No - Explain"
+                                                            name="Grass_GrassCutComp">
+                                                        <label for="Grass_GrassCutComp2"> No - Explain</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6" [hidden]="LotSize">
+                                                    <div class="form-group">
+                                                        <label for="exampleInputPhone">Lot Size</label>
+                                                        <input type="email" class="form-control form-control-sm"
+                                                            id="exampleInputPhone"
+                                                            [(ngModel)]="PCRGrassInfoModelObj.Grass_LotSize"
+                                                            [ngModelOptions]="{standalone: true}" placeholder="Enter LotSize">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label>Occupancy ?</label>
+                                            <br>
+
+                                            <div class="radio radio-info form-check-inline">
+                                                <input type="radio" id="Grass_Occupancy1"
+                                                    [(ngModel)]="PCRGrassInfoModelObj.Grass_Occupancy"
+                                                    [ngModelOptions]="{standalone: true}" value="Vacant"
+                                                    name="Grass_Occupancy">
+                                                <label for="Grass_Occupancy1"> Vacant </label>
+                                            </div>
+                                            <div class="radio form-check-inline">
+                                                <input type="radio" id="Grass_Occupancy2"
+                                                    [(ngModel)]="PCRGrassInfoModelObj.Grass_Occupancy"
+                                                    [ngModelOptions]="{standalone: true}" value="Partial Vacant"
+                                                    name="Grass_Occupancy">
+                                                <label for="Grass_Occupancy2"> Partial Vacant </label>
+                                            </div>
+                                            <div class="radio form-check-inline">
+                                                <input type="radio" id="Grass_Occupancy3"
+                                                    [(ngModel)]="PCRGrassInfoModelObj.Grass_Occupancy"
+                                                    [ngModelOptions]="{standalone: true}" value="Occupied"
+                                                    name="Grass_Occupancy">
+                                                <label for="Grass_Occupancy3"> Occupied </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mt-1 row col-12">
+                                        <div class="dropdown-divider col-12"></div>
+                                        <div class="col-lg-6">
+                                            <label>Unable To Cut</label>
+
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+
+                                                    <div class="radio form-check-inline">
+                                                        <input type="radio" id="Grass_UnableToCut1"
+                                                            value="Bidding - cannot cut per regs"
+                                                            [(ngModel)]="PCRGrassInfoModelObj.Grass_UnableToCut"
+                                                            (change)="IsUnableToCut(PCRGrassInfoModelObj.Grass_UnableToCut)"
+                                                            [ngModelOptions]="{standalone: true}" name="popopopo">
+                                                        <label for="Grass_UnableToCut1"> Bidding - cannot cut per regs
+                                                        </label>
+                                                    </div><br>
+                                                    <div class="radio form-check-inline">
+                                                        <input type="radio" id="Grass_UnableToCut2"
+                                                            value="Short - cut not needed"
+                                                            [(ngModel)]="PCRGrassInfoModelObj.Grass_UnableToCut"
+                                                            (change)="IsUnableToCut(PCRGrassInfoModelObj.Grass_UnableToCut)"
+                                                            [ngModelOptions]="{standalone: true}" name="popopopo">
+                                                        <label for="Grass_UnableToCut2"> Short - cut not needed </label>
+                                                    </div><br>
+                                                    <div class="radio form-check-inline">
+                                                        <input type="radio" id="Grass_UnableToCut3" value="Dead Grass"
+                                                            [(ngModel)]="PCRGrassInfoModelObj.Grass_UnableToCut"
+                                                            (change)="IsUnableToCut(PCRGrassInfoModelObj.Grass_UnableToCut)"
+                                                            [ngModelOptions]="{standalone: true}" name="popopopo">
+                                                        <label for="Grass_UnableToCut3"> Dead Grass </label>
+                                                    </div><br>
+                                                    <div class="radio form-check-inline">
+                                                        <input type="radio" id="Grass_UnableToCut4" value="No Grass"
+                                                            [(ngModel)]="PCRGrassInfoModelObj.Grass_UnableToCut"
+                                                            (change)="IsUnableToCut(PCRGrassInfoModelObj.Grass_UnableToCut)"
+                                                            [ngModelOptions]="{standalone: true}" name="popopopo">
+                                                        <label for="Grass_UnableToCut4"> No Grass </label>
+                                                    </div><br>
+                                                    <div class="radio form-check-inline">
+                                                        <input type="radio" id="Grass_UnableToCut5" value="Other"
+                                                            [(ngModel)]="PCRGrassInfoModelObj.Grass_UnableToCut"
+                                                            (change)="IsUnableToCut(PCRGrassInfoModelObj.Grass_UnableToCut)"
+                                                            [ngModelOptions]="{standalone: true}" name="popopopo">
+                                                        <label for="Grass_UnableToCut5"> Other </label>
+                                                    </div>
+
+                                                </div>
+                                                <div class="form-group col-md-6">
+
+                                                    <div class="radio form-check-inline">
+                                                        <input type="radio" id="Grass_UnableToCut6"
+                                                            value="Desert Landscaping"
+                                                            [(ngModel)]="PCRGrassInfoModelObj.Grass_UnableToCut"
+                                                            (change)="IsUnableToCut(PCRGrassInfoModelObj.Grass_UnableToCut)"
+                                                            [ngModelOptions]="{standalone: true}" name="popopopo">
+                                                        <label for="Grass_UnableToCut6"> Desert Landscaping </label>
+                                                    </div><br>
+
+                                                    <div class="radio form-check-inline">
+                                                        <input type="radio" id="Grass_UnableToCut7"
+                                                            value="HOA Maintains"
+                                                            [(ngModel)]="PCRGrassInfoModelObj.Grass_UnableToCut"
+                                                            (change)="IsUnableToCut(PCRGrassInfoModelObj.Grass_UnableToCut)"
+                                                            [ngModelOptions]="{standalone: true}" name="popopopo">
+                                                        <label for="Grass_UnableToCut7"> HOA Maintains </label>
+                                                    </div><br>
+                                                    <div class="radio form-check-inline">
+                                                        <input type="radio" id="Grass_UnableToCut8" value="For Sale"
+                                                            [(ngModel)]="PCRGrassInfoModelObj.Grass_UnableToCut"
+                                                            (change)="IsUnableToCut(PCRGrassInfoModelObj.Grass_UnableToCut)"
+                                                            [ngModelOptions]="{standalone: true}" name="popopopo">
+                                                        <label for="Grass_UnableToCut8"> For Sale </label>
+                                                    </div><br>
+
+                                                    <div class="radio form-check-inline">
+                                                        <input type="radio" id="Grass_UnableToCut9"
+                                                            value="Property Occupied"
+                                                            [(ngModel)]="PCRGrassInfoModelObj.Grass_UnableToCut"
+                                                            (change)="IsUnableToCut(PCRGrassInfoModelObj.Grass_UnableToCut)"
+                                                            [ngModelOptions]="{standalone: true}" name="popopopo">
+                                                        <label for="Grass_UnableToCut9"> Property Occupied </label>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="form-row" [hidden]="OtherNote">
+                                                <div class="form-group col-md-12">
+                                                    <label for="exampleInputPhone">Other Note</label>
+                                                    <textarea class="form-control form-control-sm"
+                                                        id="exampleInputPhone"
+                                                        [(ngModel)]="PCRGrassInfoModelObj.Grass_OtherNote"
+                                                        [ngModelOptions]="{standalone: true}"
+                                                        placeholder="Enter Other Note"></textarea>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label>Property Secure ?<br>If no, describe where in notes</label>
+                                            <br>
+
+                                            <div class="radio radio-info form-check-inline">
+                                                <input type="radio" id="Grass_PropertySecure1"
+                                                    [(ngModel)]="PCRGrassInfoModelObj.Grass_PropertySecure"
+                                                    [ngModelOptions]="{standalone: true}" value="Yes"
+                                                    name="Grass_PropertySecure">
+                                                <label for="Grass_PropertySecure1"> Yes </label>
+                                            </div>
+                                            <div class="radio form-check-inline">
+                                                <input type="radio" id="Grass_PropertySecure2"
+                                                    [(ngModel)]="PCRGrassInfoModelObj.Grass_PropertySecure"
+                                                    [ngModelOptions]="{standalone: true}" value="No"
+                                                    name="Grass_PropertySecure">
+                                                <label for="Grass_PropertySecure2"> No </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mt-1 row col-12">
+                                        <div class="dropdown-divider col-12"></div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group col-md-6">
+                                                <label for="dateCompleted">Enter Completion Date : </label>
+                                                <div class="row input-group">
+                                                    <label style="color: black;font-weight: 500;"
+                                                        class="col-12 form-control">{{
+                                                        PCRGrassInfoModelObj.Grass_dateCompleted |
+                                                        date:'MM/dd/yyyy' }}
+                                                    </label>
+                                                    <input class="col-12 form-control" placeholder="yyyy-mm-dd"
+                                                        [(ngModel)]="PCRGrassInfoModelObj.Grass_dateCompleted"
+                                                        [ngModelOptions]="{standalone: true}" id="dateCompleted"
+                                                        ngbDatepicker #dt4="ngbDatepicker"
+                                                        firstDayOfWeek="7"
+                                                        style="display: none; color: black; ">
+                                                    <div class="input-group-append">
+                                                        <button class="btn btn-outline-info btn-xs"
+                                                            (click)="dt4.toggle()" type="button"> <i
+                                                                class="fas fa-calendar-alt"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label>Pool Present ?</label>
+                                            <br>
+
+                                            <div class="radio radio-info form-check-inline">
+                                                <input type="radio" id="Grass_PoolPresent1"
+                                                    [(ngModel)]="PCRGrassInfoModelObj.Grass_PoolPresent"
+                                                    [ngModelOptions]="{standalone: true}" value="Yes"
+                                                    name="Grass_PoolPresent">
+                                                <label for="Grass_PoolPresent1"> Yes </label>
+                                            </div>
+                                            <div class="radio form-check-inline">
+                                                <input type="radio" id="Grass_PoolPresent2"
+                                                    [(ngModel)]="PCRGrassInfoModelObj.Grass_PoolPresent"
+                                                    [ngModelOptions]="{standalone: true}" value="No"
+                                                    name="Grass_PoolPresent">
+                                                <label for="Grass_PoolPresent2"> No </label>
+                                            </div> <br>
+
+                                            <label>Pool Secure ?</label>
+                                            <br>
+
+                                            <div class="radio radio-info form-check-inline">
+                                                <input type="radio" id="Grass_PoolSecure1"
+                                                    [(ngModel)]="PCRGrassInfoModelObj.Grass_PoolSecure"
+                                                    [ngModelOptions]="{standalone: true}" value="Yes"
+                                                    name="Grass_PoolSecure">
+                                                <label for="Grass_PoolSecure1"> Yes </label>
+                                            </div>
+                                            <div class="radio form-check-inline">
+                                                <input type="radio" id="Grass_PoolSecure2"
+                                                    [(ngModel)]="PCRGrassInfoModelObj.Grass_PoolSecure"
+                                                    [ngModelOptions]="{standalone: true}" value="No"
+                                                    name="Grass_PoolSecure">
+                                                <label for="Grass_PoolSecure2"> No </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mt-1 row col-12">
+                                        <div class="dropdown-divider col-12"></div>
+                                        <div class="col-lg-6">
+                                            <div class="form-row">
+                                                <div class="form-group col-md-4">
+                                                    <label>For Sale ?</label>
+                                                    <br>
+
+                                                    <div class="radio radio-info form-check-inline">
+                                                        <input type="radio" id="Grass_ForSale1"
+                                                            (change)="IsForSale(PCRGrassInfoModelObj.Grass_ForSale)"
+                                                            [(ngModel)]="PCRGrassInfoModelObj.Grass_ForSale"
+                                                            [ngModelOptions]="{standalone: true}" value="Realtor"
+                                                            name="Grass_ForSale">
+                                                        <label for="Grass_ForSale1"> Realtor </label>
+                                                    </div>
+                                                    <div class="radio form-check-inline">
+                                                        <input type="radio" id="Grass_ForSale2"
+                                                            (change)="IsForSale(PCRGrassInfoModelObj.Grass_ForSale)"
+                                                            [(ngModel)]="PCRGrassInfoModelObj.Grass_ForSale"
+                                                            [ngModelOptions]="{standalone: true}" value="Owner"
+                                                            name="Grass_ForSale">
+                                                        <label for="Grass_ForSale2"> Owner </label>
+                                                    </div>
+                                                    <div class="radio form-check-inline">
+                                                        <input type="radio" id="Grass_ForSale3"
+                                                            (change)="IsForSale(PCRGrassInfoModelObj.Grass_ForSale)"
+                                                            [(ngModel)]="PCRGrassInfoModelObj.Grass_ForSale"
+                                                            [ngModelOptions]="{standalone: true}" value="No Sign"
+                                                            name="Grass_ForSale">
+                                                        <label for="Grass_ForSale3"> No Sign </label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <label>For Rent ?</label>
+                                                    <br>
+
+                                                    <div class="radio radio-info form-check-inline">
+                                                        <input type="radio" id="Grass_ForRent1"
+                                                            [(ngModel)]="PCRGrassInfoModelObj.Grass_ForRent"
+                                                            [ngModelOptions]="{standalone: true}" value="Yes"
+                                                            name="Grass_ForRent">
+                                                        <label for="Grass_ForRent1"> Yes </label>
+                                                    </div>
+                                                    <div class="radio form-check-inline">
+                                                        <input type="radio" id="Grass_ForRent2"
+                                                            [(ngModel)]="PCRGrassInfoModelObj.Grass_ForRent"
+                                                            [ngModelOptions]="{standalone: true}" value="No"
+                                                            name="Grass_ForRent">
+                                                        <label for="Grass_ForRent2"> No </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4" [hidden]="RealtorInfo">
+                                                    <div class="form-group">
+                                                        <label for="Grass_RealtorPh1">Realtor Phone</label>
+                                                        <input type="email" class="form-control form-control-sm"
+                                                            id="Grass_RealtorPh1" numbersOnly maxlength="10"
+                                                            [(ngModel)]="PCRGrassInfoModelObj.Grass_RealtorPh"
+                                                            [ngModelOptions]="{standalone: true}"
+                                                            placeholder="Enter Phone No.">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="Grass_RealtorName1">Realtor Name</label>
+                                                        <input type="text" class="form-control form-control-sm"
+                                                            AlphabetOnly
+                                                            [(ngModel)]="PCRGrassInfoModelObj.Grass_RealtorName"
+                                                            [ngModelOptions]="{standalone: true}"
+                                                            id="Grass_RealtorName1" placeholder="Enter Name">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label>Violation Posted ?</label>
+                                            <br>
+
+                                            <div class="radio radio-info form-check-inline">
+                                                <input type="radio" id="Grass_ViolationPost1"
+                                                    [(ngModel)]="PCRGrassInfoModelObj.Grass_ViolationPost"
+                                                    [ngModelOptions]="{standalone: true}" value="Yes"
+                                                    name="Grass_ViolationPost">
+                                                <label for="Grass_ViolationPost1"> Yes </label>
+                                            </div>
+                                            <div class="radio form-check-inline">
+                                                <input type="radio" id="Grass_ViolationPost2"
+                                                    [(ngModel)]="PCRGrassInfoModelObj.Grass_ViolationPost"
+                                                    [ngModelOptions]="{standalone: true}" value="No"
+                                                    name="Grass_ViolationPost">
+                                                <label for="Grass_ViolationPost2"> No </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mt-1 row col-12">
+                                        <div class="dropdown-divider col-12"></div>
+                                        <div class="col-lg-6">
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <h5>Exterior Damages</h5>
+                                                    <label>New Damages Found</label>
+                                                    <br>
+                                                    <div class="radio radio-info form-check-inline">
+                                                        <input type="radio" id="Grass_ExtDamage1"
+                                                            (change)="IsExteriorDamages(PCRGrassInfoModelObj.Grass_ExtDamage)"
+                                                            [(ngModel)]="PCRGrassInfoModelObj.Grass_ExtDamage"
+                                                            [ngModelOptions]="{standalone: true}" value="Yes"
+                                                            name="Grass_ExtDamage">
+                                                        <label for="Grass_ExtDamage1"> Yes </label>
+                                                    </div>
+                                                    <div class="radio form-check-inline">
+                                                        <input type="radio" id="Grass_ExtDamage2"
+                                                            (change)="IsExteriorDamages(PCRGrassInfoModelObj.Grass_ExtDamage)"
+                                                            [(ngModel)]="PCRGrassInfoModelObj.Grass_ExtDamage"
+                                                            [ngModelOptions]="{standalone: true}" value="No"
+                                                            name="Grass_ExtDamage">
+                                                        <label for="Grass_ExtDamage2"> No </label>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-6" [hidden]="DamageNote">
+                                                    <label for="exampleInputPhone">Explain all new damages</label>
+                                                    <textarea class="form-control form-control-sm"
+                                                        id="exampleInputPhone"
+                                                        [(ngModel)]="PCRGrassInfoModelObj.Grass_ExtDamageNote"
+                                                        [ngModelOptions]="{standalone: true}"
+                                                        placeholder="Enter Note"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-2">
+                                                    <label>Damages</label>
+                                                </div>
+                                                <div class="form-group col-md-2">
+                                                    <input type="button" class="btn-danger"
+                                                        (click)="AllSelectData('Yes')" value="Yes">
+                                                </div>
+                                                <div class="form-group col-md-2">
+                                                    <input type="button" class="btn-info" (click)="AllSelectData('No')"
+                                                        value="No">
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-2">
+                                                    <label>Fire</label>
+                                                </div>
+                                                <div class="form-group col-md-2">
+                                                    <div class="radio radio-info form-check-inline">
+                                                        <input type="radio" id="Grass_FireDamage1"
+                                                            [(ngModel)]="PCRGrassInfoModelObj.Grass_FireDamage"
+                                                            [ngModelOptions]="{standalone: true}" value="Yes"
+                                                            name="Grass_FireDamage">
+                                                        <label for="Grass_FireDamage1"> </label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-2">
+                                                    <div class="radio form-check-inline">
+                                                        <input type="radio" id="Grass_FireDamage2"
+                                                            [(ngModel)]="PCRGrassInfoModelObj.Grass_FireDamage"
+                                                            [ngModelOptions]="{standalone: true}" value="No"
+                                                            name="Grass_FireDamage">
+                                                        <label for="Grass_FireDamage2"> </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-2">
+                                                    <label>Neglect</label>
+                                                </div>
+                                                <div class="form-group col-md-2">
+                                                    <div class="radio radio-info form-check-inline">
+                                                        <input type="radio" id="Grass_NeglectDamage1"
+                                                            [(ngModel)]="PCRGrassInfoModelObj.Grass_NeglectDamage"
+                                                            [ngModelOptions]="{standalone: true}" value="Yes"
+                                                            name="Grass_NeglectDamage">
+                                                        <label for="Grass_NeglectDamage1"> </label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-2">
+                                                    <div class="radio form-check-inline">
+                                                        <input type="radio" id="Grass_NeglectDamage2"
+                                                            [(ngModel)]="PCRGrassInfoModelObj.Grass_NeglectDamage"
+                                                            [ngModelOptions]="{standalone: true}" value="No"
+                                                            name="Grass_NeglectDamage">
+                                                        <label for="Grass_NeglectDamage2"> </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-2">
+                                                    <label>Vandal</label>
+                                                </div>
+                                                <div class="form-group col-md-2">
+                                                    <div class="radio radio-info form-check-inline">
+                                                        <input type="radio" id="Grass_VandalDamage1"
+                                                            [(ngModel)]="PCRGrassInfoModelObj.Grass_VandalDamage"
+                                                            [ngModelOptions]="{standalone: true}" value="Yes"
+                                                            name="Grass_VandalDamage">
+                                                        <label for="Grass_VandalDamage1"> </label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-2">
+                                                    <div class="radio form-check-inline">
+                                                        <input type="radio" id="Grass_VandalDamage2"
+                                                            [(ngModel)]="PCRGrassInfoModelObj.Grass_VandalDamage"
+                                                            [ngModelOptions]="{standalone: true}" value="No"
+                                                            name="Grass_VandalDamage">
+                                                        <label for="Grass_VandalDamage2"> </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-2">
+                                                    <label>Freeze</label>
+                                                </div>
+                                                <div class="form-group col-md-2">
+                                                    <div class="radio radio-info form-check-inline">
+                                                        <input type="radio" id="Grass_FrezeDamage1"
+                                                            [(ngModel)]="PCRGrassInfoModelObj.Grass_FrezeDamage"
+                                                            [ngModelOptions]="{standalone: true}" value="Yes"
+                                                            name="Grass_FrezeDamage">
+                                                        <label for="Grass_FrezeDamage1"> </label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-2">
+                                                    <div class="radio form-check-inline">
+                                                        <input type="radio" id="Grass_FrezeDamage2"
+                                                            [(ngModel)]="PCRGrassInfoModelObj.Grass_FrezeDamage"
+                                                            [ngModelOptions]="{standalone: true}" value="No"
+                                                            name="Grass_FrezeDamage">
+                                                        <label for="Grass_FrezeDamage2"> </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-2">
+                                                    <label>Stom</label>
+                                                </div>
+                                                <div class="form-group col-md-2">
+                                                    <div class="radio radio-info form-check-inline">
+                                                        <input type="radio" id="Grass_StormDamage1"
+                                                            [(ngModel)]="PCRGrassInfoModelObj.Grass_StormDamage"
+                                                            [ngModelOptions]="{standalone: true}" value="Yes"
+                                                            name="Grass_StormDamage">
+                                                        <label for="Grass_StormDamage1"> </label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-2">
+                                                    <div class="radio form-check-inline">
+                                                        <input type="radio" id="Grass_StormDamage2"
+                                                            [(ngModel)]="PCRGrassInfoModelObj.Grass_StormDamage"
+                                                            [ngModelOptions]="{standalone: true}" value="No"
+                                                            name="Grass_StormDamage">
+                                                        <label for="Grass_StormDamage2"> </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-2">
+                                                    <label>Flood</label>
+                                                </div>
+                                                <div class="form-group col-md-2">
+                                                    <div class="radio radio-info form-check-inline">
+                                                        <input type="radio" id="Grass_FloodDamage1"
+                                                            [(ngModel)]="PCRGrassInfoModelObj.Grass_FloodDamage"
+                                                            [ngModelOptions]="{standalone: true}" value="Yes"
+                                                            name="Grass_FloodDamage">
+                                                        <label for="Grass_FloodDamage1"> </label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-2">
+                                                    <div class="radio form-check-inline">
+                                                        <input type="radio" id="Grass_FloodDamage2"
+                                                            [(ngModel)]="PCRGrassInfoModelObj.Grass_FloodDamage"
+                                                            [ngModelOptions]="{standalone: true}" value="No"
+                                                            name="Grass_FloodDamage">
+                                                        <label for="Grass_FloodDamage2"> </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-2">
+                                                    <label>Roof Leak</label>
+                                                </div>
+                                                <div class="form-group col-md-2">
+                                                    <div class="radio radio-info form-check-inline">
+                                                        <input type="radio" id="Grass_RoofLeakDamage1"
+                                                            [(ngModel)]="PCRGrassInfoModelObj.Grass_RoofLeakDamage"
+                                                            [ngModelOptions]="{standalone: true}" value="Yes"
+                                                            name="Grass_RoofLeakDamage">
+                                                        <label for="Grass_RoofLeakDamage1"> </label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-2">
+                                                    <div class="radio form-check-inline">
+                                                        <input type="radio" id="Grass_RoofLeakDamage2"
+                                                            [(ngModel)]="PCRGrassInfoModelObj.Grass_RoofLeakDamage"
+                                                            [ngModelOptions]="{standalone: true}" value="No"
+                                                            name="Grass_RoofLeakDamage">
+                                                        <label for="Grass_RoofLeakDamage2"> </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label>No. of openings not boarded</label>
+                                            <input type="text" class="form-control form-control-sm"
+                                                id="Grass_NotBoarded1" numbersOnly
+                                                [(ngModel)]="PCRGrassInfoModelObj.Grass_NotBoarded"
+                                                [ngModelOptions]="{standalone: true}">
+                                            <label>No. of openings boarded</label>
+                                            <input type="text" class="form-control form-control-sm"
+                                                id="Grass_Boarded1" numbersOnly
+                                                [(ngModel)]="PCRGrassInfoModelObj.Grass_Boarded"
+                                                [ngModelOptions]="{standalone: true}">
+                                                <br>
+                                                <label>Exterior debris present ?</label>
+                                                <br>
+
+                                                <div class="radio radio-info form-check-inline">
+                                                    <input type="radio" id="Grass_ExtDebPresent1"
+                                                        [(ngModel)]="PCRGrassInfoModelObj.Grass_ExtDebPresent"
+                                                        [ngModelOptions]="{standalone: true}" value="Yes"
+                                                        name="Grass_ExtDebPresent">
+                                                    <label for="Grass_ExtDebPresent1"> Yes </label>
+                                                </div>
+                                                <div class="radio form-check-inline">
+                                                    <input type="radio" id="Grass_ExtDebPresent2"
+                                                        [(ngModel)]="PCRGrassInfoModelObj.Grass_ExtDebPresent"
+                                                        [ngModelOptions]="{standalone: true}" value="No"
+                                                        name="Grass_ExtDebPresent">
+                                                    <label for="Grass_ExtDebPresent2"> No </label>
+                                                </div> <br>
+
+                                                <label>Upon arrival were trees touching house, fence lines or other structures ?</label>
+                                                <br>
+
+                                                <div class="radio radio-info form-check-inline">
+                                                    <input type="radio" id="Grass_TreeTouching1"
+                                                        [(ngModel)]="PCRGrassInfoModelObj.Grass_TreeTouching"
+                                                        [ngModelOptions]="{standalone: true}" value="Yes"
+                                                        name="Grass_TreeTouching">
+                                                    <label for="Grass_TreeTouching1"> Yes </label>
+                                                </div>
+                                                <div class="radio form-check-inline">
+                                                    <input type="radio" id="Grass_TreeTouching2"
+                                                        [(ngModel)]="PCRGrassInfoModelObj.Grass_TreeTouching"
+                                                        [ngModelOptions]="{standalone: true}" value="No"
+                                                        name="Grass_TreeTouching">
+                                                    <label for="Grass_TreeTouching2"> No </label>
+                                                </div>
+
+                                                <br>
+
+                                                <label>Upon arrival were shrubs/vines touching house, fence lines or other structures ?</label>
+                                                <br>
+                                                <div class="radio radio-info form-check-inline">
+                                                    <input type="radio" id="Grass_ShrubsTouching1"
+                                                        [(ngModel)]="PCRGrassInfoModelObj.Grass_ShrubsTouching"
+                                                        [ngModelOptions]="{standalone: true}" value="Yes"
+                                                        name="Grass_ShrubsTouching">
+                                                    <label for="Grass_ShrubsTouching1"> Yes </label>
+                                                </div>
+                                                <div class="radio form-check-inline">
+                                                    <input type="radio" id="Grass_ShrubsTouching2"
+                                                        [(ngModel)]="PCRGrassInfoModelObj.Grass_ShrubsTouching"
+                                                        [ngModelOptions]="{standalone: true}" value="No"
+                                                        name="Grass_ShrubsTouching">
+                                                    <label for="Grass_ShrubsTouching2"> No </label>
+                                                </div><br>
+                                                <br>
+                                                <label for="exampleInputPhone">Notes, Comments, Other. Please explain violations, demo notices.</label>
+                                                    <textarea class="form-control form-control-sm"
+                                                        id="Grass_Comment1"
+                                                        [(ngModel)]="PCRGrassInfoModelObj.Grass_Comment"
+                                                        [ngModelOptions]="{standalone: true}"
+                                                        placeholder="Enter Comment"></textarea>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

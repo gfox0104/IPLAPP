@@ -1,0 +1,132 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="">
+            <div class="col-12">
+                <form (ngSubmit)="wtFormButton()">
+                <div class="row m-0 module-box-header">
+                    <h4 class="page-title" style="font-weight: bolder">Five Brothers Form List</h4>
+                    <hr>
+                    <button type="submit" class="btn btn-primary waves-effect waves-light" [disabled]="isLoading">
+                        <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}"></i>
+                        {{button}}</button> &nbsp;&nbsp;
+
+                    <button type="button" id="Back" (click)="clickBack()" class="btn btn-primary mr-1 h35">
+                        <i class="fas fa-arrow-alt-circle-left"></i>
+                        Back</button>
+                </div>
+
+                <div class="row m-0 module-box">
+                    <kendo-grid #gridUser [kendoGridBinding]="gridData" [pageSize]="25" [pageable]="true"
+                        [sortable]="true" [filterable]="false" [selectable]="true" [groupable]="false"
+                        [skip]="state.skip" [sort]="state.sort" [filter]="state.filter"
+                        (dataStateChange)="dataStateChange($event)">
+                        <kendo-grid-column field="Fb_Dynamic_Tab_Name" title="Form Name" [width]="200">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="Fb_Dynamic_WorkTypeId" title="WorkType Group" [width]="200">
+                            <ng-template kendoGridCellTemplate let-dataItem let-i="rowIndex">
+                      <div class="example-wrapper">
+                        <kendo-dropdownlist class="form-control form-control-sm" [data]="drpWTList"
+                          [defaultItem]="defaultWTItem" [filterable]="true"
+                          [textField]="'Work_Type_Name'" [valueField]="'Work_Type_Cat_pkeyID'" (filterChange)="workTypeFilter($event)"
+                          [(ngModel)]="dataItem.Fb_Dynamic_WorkTypeId" [valuePrimitive]="true"
+                          [ngModelOptions]="{standalone: true}">
+                        </kendo-dropdownlist>
+                      </div>
+                    </ng-template>
+                        </kendo-grid-column>
+
+                        <kendo-grid-column field="Fb_Dynamic_IsActive" title="Active" [width]="80" filter="boolean">
+                            <ng-template kendoGridCellTemplate let-dataItem let-i="rowIndex">
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" (change)="checkChange($event,dataItem.Fb_Dynamic_pkeyID,1)"
+                                        class="custom-control-input" id="switchFb_Dynamic_IsActive{{i}}"
+                                        [checked]="dataItem.Fb_Dynamic_IsActive">
+                                    <label class="custom-control-label"
+                                        for="switchFb_Dynamic_IsActive{{i}}"></label>
+                                </div>
+
+                            </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column field="Fb_Dynamic_Office_Results" title="Office Results" [width]="80"
+                            filter="boolean">
+                            <ng-template kendoGridCellTemplate let-dataItem let-i="rowIndex">
+                                <div class="custom-control custom-switch" *ngIf="dataItem.Fb_Dynamic_IsActive">
+                                    <input type="checkbox" (change)="checkChange($event,dataItem.Fb_Dynamic_pkeyID,2)"
+                                        class="custom-control-input" id="switchFb_Dynamic_Office_Results{{i}}"
+                                        [checked]="dataItem.Fb_Dynamic_Office_Results">
+                                    <label class="custom-control-label"
+                                        for="switchFb_Dynamic_Office_Results{{i}}"></label>
+                                </div>
+                                <div class="custom-control custom-switch" *ngIf="!dataItem.Fb_Dynamic_IsActive">
+                                    <input type="checkbox" (change)="checkChange($event,dataItem.Fb_Dynamic_pkeyID,2)"
+                                        class="custom-control-input" id="switchFb_Dynamic_Office_Results{{i}}"
+                                        [checked]="dataItem.Fb_Dynamic_Office_Results" [disabled]="true">
+                                    <label class="custom-control-label"
+                                        for="switchFb_Dynamic_Office_Results{{i}}"></label>
+                                </div>
+                            </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column field="Fb_Dynamic_FieldResults" title="Field Results" [width]="80"
+                            filter="boolean">
+                            <ng-template kendoGridCellTemplate let-dataItem let-i="rowIndex">
+                                <div class="custom-control custom-switch" *ngIf="dataItem.Fb_Dynamic_IsActive">
+                                    <input type="checkbox" (change)="checkChange($event,dataItem.Fb_Dynamic_pkeyID,3)"
+                                        class="custom-control-input" id="switchFb_Dynamic_FieldResults{{i}}"
+                                        [checked]="dataItem.Fb_Dynamic_FieldResults">
+                                    <label class="custom-control-label"
+                                        for="switchFb_Dynamic_FieldResults{{i}}"></label>
+                                </div>
+                                <div class="custom-control custom-switch" *ngIf="!dataItem.Fb_Dynamic_IsActive">
+                                    <input type="checkbox" (change)="checkChange($event,dataItem.Fb_Dynamic_pkeyID,3)"
+                                        class="custom-control-input" id="switchFb_Dynamic_FieldResults{{i}}"
+                                        [checked]="dataItem.Fb_Dynamic_FieldResults" [disabled]="true">
+                                    <label class="custom-control-label"
+                                        for="switchFb_Dynamic_FieldResults{{i}}"></label>
+                                </div>
+                            </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column title="Action" width="80">
+                            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+
+                                <a (click)="ViewFormInModel(pcrForms,dataItem)" data-toggle="tooltip"
+                                    data-placement="top" title="View Record" style="cursor: pointer"> <i
+                                        class="fa fa-eye mr-1"></i>
+                                </a>
+
+
+                            </ng-template>
+                        </kendo-grid-column>
+
+
+                        <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+                            <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+                            <kendo-pager-numeric-buttons [buttonCount]="10"></kendo-pager-numeric-buttons>
+                            <kendo-pager-next-buttons></kendo-pager-next-buttons>
+                            <kendo-pager-info></kendo-pager-info>
+                            <kendo-pager-page-sizes [pageSizes]="[25, 50, 75, 100, 150, 200]"></kendo-pager-page-sizes>
+                        </ng-template>
+                    </kendo-grid>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #pcrForms let-modal>
+  <div class="modal-header">
+    <div>
+      <h4 class="page-title" style="font-weight: bolder; line-height: 1.5;">
+        {{selectedFormObject.Fb_Dynamic_Tab_Name}} Form
+      </h4>
+    </div>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+      <app-pcr-grass-form [WorkorderId]="0" *ngIf="selectedFormObject.Fb_Dynamic_pkeyID==pcrFormTypeEnum.Grass"></app-pcr-grass-form>
+      <app-pcr-preservation-form [WorkorderId]="0" *ngIf="selectedFormObject.Fb_Dynamic_pkeyID==pcrFormTypeEnum.Preservation"></app-pcr-preservation-form>
+      <app-inspection-form [WorkorderId]="0" *ngIf="selectedFormObject.Fb_Dynamic_pkeyID==pcrFormTypeEnum.PCR_Inspection"></app-inspection-form>
+  </div>
+</ng-template>

@@ -1,0 +1,563 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="row m-0" style="width:81rem;">
+            <div class="col-12 bg-pattern">
+                <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="field-tab">
+                    <ul class="module-subheader m-0 nav nav-tabs" id="myproperty" role="tablist">
+
+                        <li class="nav-item">
+                            <a class="nav-link active" id="bidhistory-tab" data-toggle="tab" href="#bidhistory"
+                                role="tab" (click)="TabClickMethod(1)" aria-controls="bidhistory"
+                                aria-selected="true">Pressure Test</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="bidhistory-tab" data-toggle="tab" href="#invoicehistory" role="tab"
+                                (click)="TabClickMethod(2)" aria-controls="invoicehistory" aria-selected="true">
+                                Upload Photos</a>
+                        </li>
+                    </ul>
+                    <div class="pt-0 tab-content" id="mypropertyContent">
+                        <div class="tab-pane fade show active" id="bidhistory" role="tabpanel"
+                            aria-labelledby="bidhistory-tab">
+                            <div class="row m-0">
+                                <div class="col-12">
+
+                                    <div style="box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;padding-bottom:0.5rem"
+                                        (click)=" FormButton1(true)">
+                                        <div>
+                                            <h4 class="page-title"
+                                                style="font-weight: bolder;background-color: hwb(203deg 69% 21%); height:2rem;padding-left: 1rem;padding-top: 0.5rem;">
+                                                Pressure Test</h4>
+                                        </div>
+                                        <div
+                                            style="box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;width: 98%;margin: 1rem;">
+                                            <div class="d-flex">
+                                                <div class="w-50 mx-3" style="text-align: end;">
+
+                                                </div>
+
+                                                <div style="border:1px solid #7e7575"></div>
+                                                <div class="w-50">
+                                                    <div class="radio radio-info form-check-inline mx-3">
+                                                        <input type="radio" id="PT_WaterSource" value="Well Water"
+                                                            name="PT_WaterSource"  [(ngModel)]="PCR_CW_Pressure_Test_Model.PT_WaterSource">
+                                                        <label for="PT_WaterSource">Well Water </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="d-flex">
+                                                <div class="w-50 mx-3" style="text-align: end;"></div>
+
+                                                <div style="border:1px solid #7e7575"></div>
+                                                <div class="w-50">
+                                                    <div class="radio radio-info form-check-inline mx-3">
+                                                        <input type="radio" id="PT_WaterSource" value="City Water" name="PT_WaterSource" [(ngModel)]="PCR_CW_Pressure_Test_Model.PT_WaterSource">
+                                                        <label for="PT_WaterSource"> City Water </label>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="d-flex">
+                                                <div class="w-50 mx-3" style="text-align: end;">
+                                                    <label>What type or water source dose this property use?*</label>
+                                                     <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover1="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_CW_Pressure_Test','PT_WaterSource')" (mouseleave)="HistoryPopover1.close()"></span>
+
+                                                </div>
+
+                                                <div style="border:1px solid #7e7575"></div>
+                                                <div class="w-50">
+                                                    <div class="radio radio-info form-check-inline mx-3">
+                                                        <input type="radio" id="PT_WaterSource"
+                                                            value="Both" name="PT_WaterSource" [(ngModel)]="PCR_CW_Pressure_Test_Model.PT_WaterSource">
+                                                        <label for="PT_WaterSource"> Both </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex">
+                                                <div class="w-50 mx-3" style="text-align: end;"></div>
+
+                                                <div style="border:1px solid #7e7575"></div>
+                                                <div class="w-50">
+                                                    <div class="radio radio-info form-check-inline mx-3">
+                                                        <input type="radio" id="PT_WaterSource"
+                                                            value="Shared System" name="PT_WaterSource" [(ngModel)]="PCR_CW_Pressure_Test_Model.PT_WaterSource">
+                                                        <label for="PT_WaterSource"> Shared System </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div style="border:1px solid #7e7575"></div>
+                                            <div class="d-flex">
+                                                <div class="w-50 mx-3" style="text-align: end;">
+                                                    <label>Is the water off at the curb?*</label>
+                                                      <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover2="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_CW_Pressure_Test','PT_WaterOffCurb')" (mouseleave)="HistoryPopover2.close()"></span>
+                                                </div>
+
+                                                <div style="border:1px solid #7e7575"></div>
+                                                <div class="w-50">
+                                                    <div class="radio radio-info form-check-inline mx-3 ">
+                                                        <input type="radio" id="PT_WaterOffCurb" value="Yes"
+                                                            name="PT_WaterOffCurb" [(ngModel)]="PCR_CW_Pressure_Test_Model.PT_WaterOffCurb">
+                                                        <label for="PT_WaterOffCurb">Yes</label>
+                                                    </div>
+                                                    <div class="radio radio-info form-check-inline ">
+                                                        <input type="radio" id="PT_WaterOffCurb" value="No"
+                                                            name="PT_WaterOffCurb" [(ngModel)]="PCR_CW_Pressure_Test_Model.PT_WaterOffCurb">
+                                                        <label for="PT_WaterOffCurb">No</label>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div style="border:1px solid #7e7575"></div>
+                                            <div class="d-flex">
+                                                <div class="w-50 mx-3" style="text-align: end;">
+                                                    <label>Is the water off at that meter?*</label>
+                                                     <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover3="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_CW_Pressure_Test','PT_WaterOffMeter_Curb')" (mouseleave)="HistoryPopover3.close()"></span>
+                                                </div>
+
+                                                <div style="border:1px solid #7e7575"></div>
+                                                <div class="w-50">
+                                                    <div class="radio radio-info form-check-inline mx-3 ">
+                                                        <input type="radio" id="PT_WaterOffMeter_Curb" value="Yes"
+                                                            name="PT_WaterOffMeter_Curb" [(ngModel)]="PCR_CW_Pressure_Test_Model.PT_WaterOffMeter_Curb">
+                                                        <label for="PT_WaterOffMeter_Curb">Yes</label>
+                                                    </div>
+                                                    <div class="radio radio-info form-check-inline ">
+                                                        <input type="radio" id="PT_WaterOffMeter_Curb" value="No"
+                                                            name="PT_WaterOffMeter_Curb" [(ngModel)]="PCR_CW_Pressure_Test_Model.PT_WaterOffMeter_Curb">
+                                                        <label for="PT_WaterOffMeter_Curb">No</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div style="border:1px solid #7e7575"></div>
+                                            <div class="d-flex">
+                                                <div class="w-50 mx-3" style="text-align: end;">
+                                                    <label>Is there water in the lines?*</label>
+                                                    <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover4="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_CW_Pressure_Test','PT_WaterInTheLines_Curb')" (mouseleave)="HistoryPopover4.close()"></span>
+                                                </div>
+
+                                                <div style="border:1px solid #7e7575"></div>
+                                                <div class="w-50">
+                                                    <div class="radio radio-info form-check-inline mx-3 ">
+                                                        <input type="radio" id="PT_WaterInTheLines_Curb" value="Yes"
+                                                            name="PT_WaterInTheLines_Curb" [(ngModel)]="PCR_CW_Pressure_Test_Model.PT_WaterInTheLines_Curb">
+                                                        <label for="PT_WaterInTheLines_Curb">Yes</label>
+                                                    </div>
+                                                    <div class="radio radio-info form-check-inline ">
+                                                        <input type="radio" id="PT_WaterInTheLines_Curb" value="No"
+                                                            name="PT_WaterInTheLines_Curb" [(ngModel)]="PCR_CW_Pressure_Test_Model.PT_WaterInTheLines_Curb">
+                                                        <label for="PT_WaterInTheLines_Curb">No</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div style="border:1px solid #7e7575"></div>
+                                            <div class="d-flex">
+                                                <div class="w-50 mx-3" style="text-align: end;">
+                                                    <label>Were you able to pressure test the domestic water
+                                                        system?*</label>
+                                                    <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover5="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_CW_Pressure_Test','PT_PressureDomesticWaterSystem_Curb')" (mouseleave)="HistoryPopover5.close()"></span>
+                                                </div>
+
+                                                <div style="border:1px solid #7e7575"></div>
+                                                <div class="w-50">
+                                                    <div class="radio radio-info form-check-inline mx-3 ">
+                                                        <input type="radio" id="PT_PressureDomesticWaterSystem_Curb"
+                                                        [ngModelOptions]="{standalone: true}" value="Yes"
+                                                            name="PT_PressureDomesticWaterSystem_Curb"
+                                                            
+                                                             [(ngModel)]="PCR_CW_Pressure_Test_Model.PT_PressureDomesticWaterSystem_Curb">
+                                                        <label for="PT_PressureDomesticWaterSystem_Curb">Yes</label>
+                                                    </div>
+                                                    <div class="radio radio-info form-check-inline">
+                                                        <input type="radio" id="PT_PressureDomesticWaterSystem_Curb"
+                                                        [ngModelOptions]="{standalone: true}" value="No"
+                                                            name="PT_PressureDomesticWaterSystem_Curb"
+                                                            
+                                                            [(ngModel)]="PCR_CW_Pressure_Test_Model.PT_PressureDomesticWaterSystem_Curb">
+                                                        <label for="PT_PressureDomesticWaterSystem_Curb">No</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex" style=" border: 1px solid #dbd1d1;" *ngIf="PCR_CW_Pressure_Test_Model.PT_PressureDomesticWaterSystem_Curb=='No'" >
+                                                <div class="w-50 mx-3" style="text-align: end;" >
+                                                    <label>Please Provide the reason you were unable to pressure check
+                                                        the hot and cold side of the well domestic system.</label>
+                                                    <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover6="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_CW_Pressure_Test','PT_Reason_Curb')" (mouseleave)="HistoryPopover6.close()"></span>
+                                                </div>
+
+                                                <div style="border:1px solid #7e7575" ></div>
+                                                <div class="w-50" >
+                                                    <div class="mx-3">
+                                                        <input type="text" id="PT_Reason_Curb"
+                                                            style="height:1.5rem;width:28rem" [(ngModel)]="PCR_CW_Pressure_Test_Model.PT_Reason_Curb">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div style="border:1px solid #7e7575"></div>
+                                            <div class="d-flex">
+                                                <div class="w-50 mx-3" style="text-align: end;">
+                                                    <label>Did the system hold pressure?*</label>
+                                                    <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover7="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_CW_Pressure_Test','PT_SystemHoldPressure_Curb')" (mouseleave)="HistoryPopover7.close()"></span>
+                                                </div>
+
+                                                <div style="border:1px solid #7e7575"></div>
+                                                <div class="w-50">
+                                                    <div class="radio radio-info form-check-inline mx-3 ">
+                                                        <input type="radio" id="PT_SystemHoldPressure_Curb" value="Yes"
+                                                            name="PT_SystemHoldPressure_Curb" [(ngModel)]="PCR_CW_Pressure_Test_Model.PT_SystemHoldPressure_Curb">
+                                                        <label for="PT_SystemHoldPressure_Curb">Yes</label>
+                                                    </div>
+                                                    <div class="radio radio-info form-check-inline ">
+                                                        <input type="radio" id="PT_SystemHoldPressure_Curb" value="No"
+                                                            name="PT_SystemHoldPressure_Curb" [(ngModel)]="PCR_CW_Pressure_Test_Model.PT_SystemHoldPressure_Curb">
+                                                        <label for="PT_SystemHoldPressure_Curb">No</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div style="border:1px solid #7e7575"></div>
+                                            <div class="d-flex">
+                                                <div class="w-50 mx-3" style="text-align: end;">
+                                                    <label>Were there visible plumbing breaks?*</label>
+                                                    <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover8="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_CW_Pressure_Test','PT_VisiblePlumbingBreaks_Curb')" (mouseleave)="HistoryPopover8.close()"></span>
+                                                </div>
+
+                                                <div style="border:1px solid #7e7575"></div>
+                                                <div class="w-50">
+                                                    <div class="radio radio-info form-check-inline mx-3 ">
+                                                        <input type="radio" id="PT_VisiblePlumbingBreaks_Curb" value="Yes"
+                                                            name="PT_VisiblePlumbingBreaks_Curb" [(ngModel)]="PCR_CW_Pressure_Test_Model.PT_VisiblePlumbingBreaks_Curb">
+                                                        <label for="PT_VisiblePlumbingBreaks_Curb">Yes</label>
+                                                    </div>
+                                                    <div class="radio radio-info form-check-inline ">
+                                                        <input type="radio" id="PT_VisiblePlumbingBreaks_Curb" value="No"
+                                                            name="PT_VisiblePlumbingBreaks_Curb" [(ngModel)]="PCR_CW_Pressure_Test_Model.PT_VisiblePlumbingBreaks_Curb">
+                                                        <label for="PT_VisiblePlumbingBreaks_Curb">No</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div style="border:1px solid #7e7575"></div>
+                                            <div class="d-flex">
+                                                <div class="w-50 mx-3" style="text-align: end;">
+                                                    <label>Were all breaks capped?*</label>
+                                                    <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover9="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_CW_Pressure_Test','PT_AllBreaksCapped_Curb')" (mouseleave)="HistoryPopover9.close()"></span>
+                                                </div>
+
+                                                <div style="border:1px solid #7e7575"></div>
+                                                <div class="w-50">
+                                                    <div class="radio radio-info form-check-inline mx-3 ">
+                                                        <input type="radio" id="PT_AllBreaksCapped_Curb"
+                                                        [ngModelOptions]="{standalone: true}" value="Yes"
+                                                            name="PT_AllBreaksCapped_Curb"
+                                                            [(ngModel)]="PCR_CW_Pressure_Test_Model.PT_AllBreaksCapped_Curb"
+                                                           >
+                                                        <label for="PT_AllBreaksCapped_Curb">Yes</label>
+                                                    </div>
+                                                    <div class="radio radio-info form-check-inline ">
+                                                        <input type="radio" id="PT_AllBreaksCapped_Curb"
+                                                        [ngModelOptions]="{standalone: true}" value="No"
+                                                            name="PT_AllBreaksCapped_Curb"
+                                                            [(ngModel)]="PCR_CW_Pressure_Test_Model.PT_AllBreaksCapped_Curb"
+                                                           >
+                                                        <label for="PT_AllBreaksCapped_Curb">No</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex" style=" border: 1px solid #dbd1d1;" *ngIf="PCR_CW_Pressure_Test_Model.PT_AllBreaksCapped_Curb=='No'">
+                                                <div class="w-50 mx-3" style="text-align: end;" >
+                                                    <label>Explain why all breaks were not capped?*</label>
+                                                    <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover10="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_CW_Pressure_Test','PT_ExplainBreaksCapped_Curb')" (mouseleave)="HistoryPopover10.close()"></span>
+                                                </div>
+
+                                                <div style="border:1px solid #7e7575" ></div>
+                                                <div class="w-50">
+                                                    <div class="mx-3" >
+                                                        <input type="text" id="PT_ExplainBreaksCapped_Curb"
+                                                            style="height:1.5rem;width:28rem" [(ngModel)]="PCR_CW_Pressure_Test_Model.PT_ExplainBreaksCapped_Curb">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div style="border:1px solid #7e7575"></div>
+                                            <div class="d-flex">
+                                                <div class="w-50 mx-3" style="text-align: end;">
+                                                    <label>Is the water off at the well?*</label>
+                                                    <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover11="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_CW_Pressure_Test','PT_WaterOffWell')" (mouseleave)="HistoryPopover11.close()"></span>
+                                                </div>
+
+                                                <div style="border:1px solid #7e7575"></div>
+                                                <div class="w-50">
+                                                    <div class="radio radio-info form-check-inline mx-3 ">
+                                                        <input type="radio" id="PT_WaterOffWell" value="Yes"
+                                                            name="PT_WaterOffWell" [(ngModel)]="PCR_CW_Pressure_Test_Model.PT_WaterOffWell">
+                                                        <label for="PT_WaterOffWell">Yes</label>
+                                                    </div>
+                                                    <div class="radio radio-info form-check-inline ">
+                                                        <input type="radio" id="PT_WaterOffWell" value="No"
+                                                            name="PT_WaterOffWell" [(ngModel)]="PCR_CW_Pressure_Test_Model.PT_WaterOffWell">
+                                                        <label for="PT_WaterOffWell">No</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div style="border:1px solid #7e7575"></div>
+                                            <div class="d-flex">
+                                                <div class="w-50 mx-3" style="text-align: end;">
+                                                    <label>Is there water in the lines?*</label>
+                                                    <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover12="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_CW_Pressure_Test','PT_WaterInTheLines_Well')" (mouseleave)="HistoryPopover12.close()"></span>
+                                                </div>
+
+                                                <div style="border:1px solid #7e7575"></div>
+                                                <div class="w-50">
+                                                    <div class="radio radio-info form-check-inline mx-3 ">
+                                                        <input type="radio" id="PT_WaterInTheLines_Well" value="Yes"
+                                                            name="PT_WaterInTheLines_Well" [(ngModel)]="PCR_CW_Pressure_Test_Model.PT_WaterInTheLines_Well">
+                                                        <label for="PT_WaterInTheLines_Well">Yes</label>
+                                                    </div>
+                                                    <div class="radio radio-info form-check-inline ">
+                                                        <input type="radio" id="PT_WaterInTheLines_Well" value="No"
+                                                            name="PT_WaterInTheLines_Well" [(ngModel)]="PCR_CW_Pressure_Test_Model.PT_WaterInTheLines_Well">
+                                                        <label for="PT_WaterInTheLines_Well">No</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div style="border:1px solid #7e7575"></div>
+                                            <div class="d-flex">
+                                                <div class="w-50 mx-3" style="text-align: end;">
+                                                    <label>Were you able to pressure test the Well domestic
+                                                        system?*</label>
+                                                    <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover13="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_CW_Pressure_Test','PT_PressureDomesticWaterSystem_Well')" (mouseleave)="HistoryPopover13.close()"></span>
+                                                </div>
+
+                                                <div style="border:1px solid #7e7575"></div>
+                                                <div class="w-50">
+                                                    <div class="radio radio-info form-check-inline mx-3 ">
+                                                        <input type="radio" id="PT_PressureDomesticWaterSystem_Well"
+                                                        [ngModelOptions]="{standalone: true}" value="Yes"
+                                                            name="PT_PressureDomesticWaterSystem_Well"
+                                                            [(ngModel)]="PCR_CW_Pressure_Test_Model.PT_PressureDomesticWaterSystem_Well"
+                                                           >
+                                                        <label for="PT_PressureDomesticWaterSystem_Well">Yes</label>
+                                                    </div>
+                                                    <div class="radio radio-info form-check-inline ">
+                                                        <input type="radio" id="PT_PressureDomesticWaterSystem_Well"
+                                                        [ngModelOptions]="{standalone: true}" value="No"
+                                                            name="PT_PressureDomesticWaterSystem_Well"
+                                                            [(ngModel)]="PCR_CW_Pressure_Test_Model.PT_PressureDomesticWaterSystem_Well"
+                                                           >
+                                                        <label for="PT_PressureDomesticWaterSystem_Well">No</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex" style=" border: 1px solid #dbd1d1;" *ngIf="PCR_CW_Pressure_Test_Model.PT_PressureDomesticWaterSystem_Well=='No'">
+                                                <div class="w-50 mx-3" style="text-align: end;" >
+                                                    <label>Please Provide the reason you were unable to pressure check
+                                                        the hot and cold side of the well domestic system?*</label>
+                                                    <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover14="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_CW_Pressure_Test','PT_Reason_Well')" (mouseleave)="HistoryPopover14.close()"></span>
+                                                </div>
+
+                                                <div style="border:1px solid #7e7575" ></div>
+                                                <div class="w-50">
+                                                    <div class="mx-3" >
+                                                        <input type="text" id="PT_Reason_Well"
+                                                            style="height:1.5rem;width:28rem" [(ngModel)]="PCR_CW_Pressure_Test_Model.PT_Reason_Well">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div style="border:1px solid #7e7575"></div>
+                                            <div class="d-flex">
+                                                <div class="w-50 mx-3" style="text-align: end;">
+                                                    <label>Did the system hold pressure?*</label>
+                                                    <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover15="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_CW_Pressure_Test','PT_SystemHoldPressure_Well')" (mouseleave)="HistoryPopover15.close()"></span>
+                                                </div>
+
+                                                <div style="border:1px solid #7e7575"></div>
+                                                <div class="w-50">
+                                                    <div class="radio radio-info form-check-inline mx-3 ">
+                                                        <input type="radio" id="PT_SystemHoldPressure_Well" value="Yes"
+                                                            name="PT_SystemHoldPressure_Well"
+                                                            [(ngModel)]="PCR_CW_Pressure_Test_Model.PT_SystemHoldPressure_Well">
+                                                        <label for="PT_SystemHoldPressure_Well">Yes</label>
+                                                    </div>
+                                                    <div class="radio radio-info form-check-inline ">
+                                                        <input type="radio" id="PT_SystemHoldPressure_Well" value="No"
+                                                            name="PT_SystemHoldPressure_Well" [(ngModel)]="PCR_CW_Pressure_Test_Model.PT_SystemHoldPressure_Well">
+                                                        <label for="PT_SystemHoldPressure_Well">No</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div style="border:1px solid #7e7575"></div>
+                                            <div class="d-flex">
+                                                <div class="w-50 mx-3" style="text-align: end;">
+                                                    <label>Were there visible plumbing breaks?*</label>
+                                                    <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover16="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_CW_Pressure_Test','PT_VisiblePlumbingBreaks_Well')" (mouseleave)="HistoryPopover16.close()"></span>
+                                                </div>
+
+                                                <div style="border:1px solid #7e7575"></div>
+                                                <div class="w-50">
+                                                    <div class="radio radio-info form-check-inline mx-3 ">
+                                                        <input type="radio" id="PT_VisiblePlumbingBreaks_Well" value="Yes"
+                                                            name="PT_VisiblePlumbingBreaks_Well" [(ngModel)]="PCR_CW_Pressure_Test_Model.PT_VisiblePlumbingBreaks_Well">
+                                                        <label for="PT_VisiblePlumbingBreaks_Well">Yes</label>
+                                                    </div>
+                                                    <div class="radio radio-info form-check-inline ">
+                                                        <input type="radio" id="PT_VisiblePlumbingBreaks_Well" value="No"
+                                                            name="PT_VisiblePlumbingBreaks_Well" [(ngModel)]="PCR_CW_Pressure_Test_Model.PT_VisiblePlumbingBreaks_Well">
+                                                        <label for="PT_VisiblePlumbingBreaks_Well">No</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div style="border:1px solid #7e7575"></div>
+                                            <div class="d-flex">
+                                                <div class="w-50 mx-3" style="text-align: end;">
+                                                    <label>Were all breaks capped?*</label>
+                                                    <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover17="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_CW_Pressure_Test','PT_AllBreaksCapped_Well')" (mouseleave)="HistoryPopover17.close()"></span>
+                                                </div>
+
+                                                <div style="border:1px solid #7e7575"></div>
+                                                <div class="w-50">
+                                                    <div class="radio radio-info form-check-inline mx-3 ">
+                                                        <input type="radio" id="PT_AllBreaksCapped_Well"
+                                                        [ngModelOptions]="{standalone: true}" value="Yes"
+                                                            name="PT_AllBreaksCapped_Well"
+                                                            [(ngModel)]="PCR_CW_Pressure_Test_Model.PT_AllBreaksCapped_Well"
+                                                            >
+                                                        <label for="PT_AllBreaksCapped_Well">Yes</label>
+                                                    </div>
+                                                    <div class="radio radio-info form-check-inline ">
+                                                        <input type="radio" id="PT_AllBreaksCapped_Well"
+                                                        [ngModelOptions]="{standalone: true}" value="No"
+                                                            name="PT_AllBreaksCapped_Well"
+                                                            [(ngModel)]="PCR_CW_Pressure_Test_Model.PT_AllBreaksCapped_Well"
+                                                            >
+                                                        <label for="PT_AllBreaksCapped_Well">No</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="d-flex" style=" border: 1px solid #dbd1d1;" *ngIf="PCR_CW_Pressure_Test_Model.PT_AllBreaksCapped_Well=='No'">
+                                                <div class="w-50 mx-3" style="text-align: end;" >
+                                                    <label>Explain why all breaks were not capped?*</label>
+                                                    <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover18="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_CW_Pressure_Test','PT_ExplainBreaksCapped_Well')" (mouseleave)="HistoryPopover18.close()"></span>
+                                                </div>
+
+                                                <div style="border:1px solid #7e7575" ></div>
+                                                <div class="w-50">
+                                                    <div class="mx-3" >
+                                                        <input type="text" id="inlineRadio1Sold"
+                                                            style="height:1.5rem;width:28rem" [(ngModel)]="PCR_CW_Pressure_Test_Model.PT_ExplainBreaksCapped_Well">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="invoicehistory" role="tabpanel"
+                            aria-labelledby="invoicehistory-tab">
+                            <div class="row m-0">
+                                <div class="col-12" id="OccupancyInfo" role="tabpanel" aria-labelledby="OccupancyInfo">
+                                    <div style="box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;padding-bottom:0.5rem"
+                                        (click)=" ViolationSubmit(true)">
+                                        <div>
+                                            <h4 class="page-title"
+                                                style="font-weight: bolder;background-color: hwb(203deg 69% 21%);height:2rem;padding-left: 1rem;padding-top: 0.5rem;">
+                                                Upload Photos</h4>
+                                        </div>
+
+                                        <div class="d-flex" style="justify-content:space-around;">
+                                            <div class="card" style="width: 20rem;">
+                                                <div class="card-header">
+                                                    <h5>Before</h5>
+
+                                                    <button class="btn btn-primary">Actions</button>
+                                                    <p style="font-size:x-large;">0</p>
+                                                </div>
+                                                <div class="card-body">
+
+                                                </div>
+                                            </div>
+
+                                            <div class="card" style="width: 20rem;">
+                                                <div class="card-header">
+                                                    <h5>Action</h5>
+                                                    <button class="btn btn-primary">Actions</button>
+                                                    <p style="font-size:x-large;">0</p>
+                                                </div>
+                                                <div class="card-body" style="height: 16rem;">
+
+                                                </div>
+                                            </div>
+                                            <div class="card" style="width: 20rem;">
+                                                <div class="card-header">
+                                                    <h5>After</h5>
+                                                    <button class="btn btn-primary">Actions</button>
+                                                    <p style="font-size:x-large;">0</p>
+                                                </div>
+                                                <div class="card-body">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-1 form-row" *ngIf="WorkorderId>0">
+                  <div class="float-right" (click)="SaveForm()">
+                    &nbsp;&nbsp;&nbsp;
+                 <button id="client_viewdetail_1" class="btn btn-primary" type="submit"
+                      [disabled]="isLoading">
+                      <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}"></i>
+                      {{button}}</button>
+                  </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<ng-template #HistoryDetails>
+  <app-ipl-form-history-hover [HistoryData]="PCR_HistoryList" [ColumnName]="PctHistoryConfigureObj.ColumnName" [KeyName]="PctHistoryConfigureObj.KeyName"></app-ipl-form-history-hover>
+</ng-template>

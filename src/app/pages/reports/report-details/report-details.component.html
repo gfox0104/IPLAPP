@@ -1,0 +1,401 @@
+
+<ng-template #content let-modal >
+  <div class="modal-header">
+      Message
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true" (click)="modal.close('Save click')">×</span>
+      </button>
+  </div>
+  <div class="modal-body">
+
+      <div class="text-center">
+
+          <span>{{MessageFlag}}</span>
+          <hr>
+          <button id="client_viewdetail_1" class="btn btn-primary" (click)="modal.close('Save click')">Ok</button>
+
+      </div>
+  </div>
+</ng-template>
+<div class="container-fluid" [ngClass]="{ 'HelpCursor': isHelpActive }" style="margin-top: 1% !important; margin-left: -3px; " >
+  <div >
+    <div >
+      <h3 class="module-box-header mb-0 m-0" (click)='showComment()'>Report Details
+
+        <a class="pull-right" data-toggle="tooltip" (click)="SetHelpFlag()" data-placement="top"
+                title="Item Help" style="cursor: pointer;">Need Help
+                <i class="fas fa-question"></i>&nbsp;&nbsp;
+              </a>
+              <svg style="float: right;margin-right: 11px;" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z"/></svg>
+      </h3>
+        <form [formGroup]="formUsrCommonGroup" (ngSubmit)="FormButton(content)" *ngIf='commentBox' style=" margin-right: -32px; ">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="module-subheader p-1" style="background-color: white;">
+              <div class="form-row mb-1">
+                <div class="col-md-6 row m-0">
+                  <div class="form-group col-md-6">
+                    <input type="checkbox" id="clientinvoice" [(ngModel)]="ReportsModelObj.IsClientCheck" [ngModelOptions]="{standalone: true}"
+                    (change)="ClientCheckChange()" class="check" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Client Invoice')">
+                      <label for="clientinvoice" style="margin-left: 5px;" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Client Invoice')"> Client Invoice <span style="color: red">*</span> </label>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <input type="checkbox" id="contractorinvoice" [(ngModel)]="ReportsModelObj.IsContractorCheck" [ngModelOptions]="{standalone: true}"
+                    (change)="ClientCheckChange()" class="check" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Contractor Invoice')">
+                      <label for="contractorinvoice" style="margin-left: 5px;" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Contractor Invoice')"> Contractor Invoice <span style="color: red">*</span> </label>
+                  </div>
+                  <div class="col-md-12 form-group">
+                    <div *ngIf="isRadioSelect" class="Mydropdown">please checked at least one option.</div>
+                  </div>
+                </div>
+                <div class="col-md-6 row" style="display: contents;justify-content: end;">
+                  <button  class="btn btn-primary mr-1" type="submit" [disabled]="isLoading">
+                    <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}"></i>
+                    {{button}}
+                  </button>&nbsp;&nbsp;
+                  <button class="btn btn-primary" type="button" (click)="CancelClick()">Cancel</button>&nbsp;&nbsp;
+                  <button class="btn btn-primary" type="button" (click)="ShowPaymentBox(1)" [disabled]="disableClientRange">Client Payments</button>&nbsp;&nbsp;
+                <button class="btn btn-primary" type="button" (click)="ShowPaymentBox(2)" [disabled]="disableConRange">Contractor Payments</button>&nbsp;&nbsp;
+                <button class="btn btn-primary" style="color: white;" data-toggle="tooltip" title="Export Excel" (click)="exportToExcel(grid)"[disabled]="disableexcel"><i class="fa fa-file-excel-o" aria-hidden="true"></i></button>&nbsp;&nbsp;
+                <button class="btn btn-primary" style="color: white;" data-toggle="tooltip" title="Export PDF" (click)="pdfgenerate()"[disabled]="disableexcel"><i class="fa fa-print"></i></button>
+
+
+              </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-2">
+                          <label [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Status')"> Select Status <span style="color: red">*</span> </label>
+                          <select class="form-control form-control-sm" [(ngModel)]="ReportsModelObj.LabelData"
+                          [ngModelOptions]="{standalone: true}" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Status')">
+                          <option value='0'>Select</option>
+                          <option [ngValue]="kb.lableId" *ngFor="let kb of selectionLable">
+                            {{kb.lableText}}
+                        </option>
+                      </select>
+                      <div *ngIf="isLabelSelect" class="Mydropdown">this field is required</div>
+                </div>
+                <div class="form-group col-md-2">
+                  <label [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'From')"> From <span style="color: red">*</span> </label>
+                  <div class="form-group">
+                    <div class="input-group">
+                      <label [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'From')"
+                        class="form-control form-control-sm">{{ReportsModelObj.LableFromDate | date: "MM/dd/yyyy"}}
+                        <span *ngIf="!ReportsModelObj.LableFromDate">Enter Date</span> </label>
+                      <input class="form-control form-control-sm" placeholder="yyyy-mm-dd"
+                        [(ngModel)]="ReportsModelObj.LableFromDate" [ngModelOptions]="{standalone: true}"
+                        ngbDatepicker #dtr1="ngbDatepicker" firstDayOfWeek="7" style="display: none">
+                      <div class="input-group-append">
+                        <button class="btn btn-outline-info btn-xs" [ngClass]="{ 'HelpCursor': isHelpActive }" [disabled]="isHelpActive"
+                          (click)="dtr1.toggle()" type="button"><i class="fas fa-calendar-alt"></i></button>
+                      </div>
+                      <div *ngIf="isFromSelect" class="Mydropdown">this field is required</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group col-md-2">
+                  <label [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'To')"> To <span style="color: red">*</span> </label>
+                  <div class="form-group">
+                    <div class="input-group">
+                      <label [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'To')"
+                        class="form-control form-control-sm">{{ReportsModelObj.LableFromTo| date: "MM/dd/yyyy"}}
+                        <span *ngIf="!ReportsModelObj.LableFromTo">Enter Date</span> </label>
+                      <input class="form-control form-control-sm" placeholder="yyyy-mm-dd"
+                        [(ngModel)]="ReportsModelObj.LableFromTo" [ngModelOptions]="{standalone: true}"
+                        ngbDatepicker #dtr2="ngbDatepicker" firstDayOfWeek="7" style="display: none">
+                      <div class="input-group-append">
+                        <button class="btn btn-outline-info btn-xs"  [ngClass]="{ 'HelpCursor': isHelpActive }" [disabled]="isHelpActive"
+                          (click)="dtr2.toggle()" type="button"><i class="fas fa-calendar-alt"></i></button>
+                      </div>
+                      <div *ngIf="isToSelect" class="Mydropdown">this field is required</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group col-md-2">
+                  <label [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Group by')"> Group by </label>
+                  <select class="form-control form-control-sm" [(ngModel)]="ReportsModelObj.GroupByData"
+                        [ngModelOptions]="{standalone: true}"
+                        [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Group by')">
+                        <option value='0'>Select</option>
+                        <option [ngValue]="kb.groupById" *ngFor="let kb of groupByList">
+                          {{kb.groupByText}}
+                      </option>
+                    </select>
+                </div>
+                <div class="form-group col-md-2">
+                          <div class="row">
+                            <div class="col-md-6">
+                              <label [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'IPL Invoice')"> IPL Invoice# </label>
+                              <input type="number" min="0" oninput="validity.valid||(value='');"
+                              class="form-control form-control-sm"  [(ngModel)]="ReportsModelObj.InvoiceRangeStart" [ngModelOptions]="{standalone: true}"
+                              [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'IPL Invoice')" [readonly] = "isHelpActive" >
+                            </div>
+                            <div class="col-md-6">
+                              <label [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'To')"> To </label>
+                              <input type="number" min="0" oninput="validity.valid||(value='');"
+                              class="form-control form-control-sm"  [(ngModel)]="ReportsModelObj.InvoiceRangeEnd" [ngModelOptions]="{standalone: true}"
+                              [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'To')" [readonly] = "isHelpActive">
+                            </div>
+                          </div>
+                </div>
+                <div class="form-group col-md-2">
+                  <div class="row">
+                    <div class="col-md-7">
+                      <label [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Client Invoice')"> Client Invoice# </label>
+                      <input type="number" min="0" oninput="validity.valid||(value='');"
+                      class="form-control form-control-sm"  [(ngModel)]="ReportsModelObj.ClientInvoiceRangeStart" [ngModelOptions]="{standalone: true}" [disabled]="disableClientRange"
+                      [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Client Invoice')" [readonly] = "isHelpActive">
+                    </div>
+                    <div class="col-md-5">
+                      <label [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'To')"> To </label>
+                      <input type="number" min="0" oninput="validity.valid||(value='');"
+                      class="form-control form-control-sm"  [(ngModel)]="ReportsModelObj.ClientInvoiceRangeEnd" [ngModelOptions]="{standalone: true}" [disabled]="disableClientRange"
+                      [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'To')" [readonly] = "isHelpActive">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row" *ngFor="let item of formArrayVal;">
+                <div class="form-group col-md-3" *ngFor="let dropdown of multiDropdowns">
+                          <label [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,dropdown.label)"> {{dropdown.label}} </label>
+                          <ng-multiselect-dropdown  [placeholder]="'select ' + dropdown.label"
+                          [settings]="dropdown.settings" [(ngModel)]="item[dropdown.model]" [ngModelOptions]="{standalone: true}"
+                          [data]="dropdown.data"
+                          [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,dropdown.label)">
+                          </ng-multiselect-dropdown>
+                </div>
+
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-2">
+                         <label [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Extra column')"> Select Extra column </label>
+                          <ng-multiselect-dropdown  [placeholder]="'Select'"
+                          [settings]="dropdownSettings" [(ngModel)]="ReportsModelObj.ExtraColumnData" [ngModelOptions]="{standalone: true}"
+                          [data]="extraColumnArray" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Extra column')">
+                          </ng-multiselect-dropdown>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      <br>
+      <h3 class="module-box-header mb-0 m-0" (click)='showpayment()'> {{title}} Payment
+        <svg style="float: right;margin-right: 11px;" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z"/></svg>
+      </h3>
+      <div [hidden]="PaymentBox">
+      <div class="row m-0 mt-1 module-subheader" [hidden]='paymentclick'>
+
+      <div class="col-md-3 " >
+
+        <form [formGroup]="paymentFormGroup" style="margin-top: 10px;" (ngSubmit)="onSubmit()">
+          <div class="row" style="margin-top: 5px; margin-bottom: 5px;" *ngFor="let column of formFields"
+            [ngSwitch]="column.field">
+            <div class="col-5">
+              <label class="col-form-label" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,column.title)">
+                {{column.title}}
+                <span style="color: red" *ngIf="column.required">*</span>
+              </label>
+            </div>
+            <div class="col-7">
+              <div *ngSwitchCase="'paymentDate'" class="input-group">
+                <label class="form-control form-control-sm" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Payment Date')">
+                  {{RecordPaymentObj.paymentDate | date: "MM/dd/yyyy"}}
+                  <span *ngIf="!RecordPaymentObj.paymentDate">Enter Date</span> </label>
+                <input class="form-control form-control-sm" placeholder="yyyy-mm-dd"
+                  [(ngModel)]="RecordPaymentObj.paymentDate" [ngModelOptions]="{standalone: true}" ngbDatepicker
+                  #rp="ngbDatepicker" firstDayOfWeek="7" style="display: none">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-info btn-xs" [disabled]="isHelpActive" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="rp.toggle()" type="button"><i
+                      class="fas fa-calendar-alt"></i></button>
+                </div>
+                <div *ngIf="column.required && submitted && fx[column.formControlName].errors" class="invalid-feedback">
+                  <div *ngIf="fx[column.formControlName].errors.required">this field is required</div>
+                </div>
+              </div>
+              <input *ngSwitchCase="'checkNumber'" type="number" [(ngModel)]="RecordPaymentObj[column.field]" numbersOnly
+                [formControlName]="column.formControlName" class="form-control form-control-sm" [readonly] = "isHelpActive"
+                [ngClass]="{'is-invalid': submitted && fx[column.formControlName].errors}"
+                [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Check Number')">
+              <div *ngIf="column.required && submitted && fx[column.formControlName].errors" class="invalid-feedback">
+                <div *ngIf="fx[column.formControlName].errors.required">this field is required</div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <label *ngIf="submitted && paymentFormGroup.invalid" style="color:red">*
+                Field is Required
+              </label> <br>
+              <button class="btn btn-primary" style="margin-bottom: 10px;" type="submit" [disabled]="ispaymentButtonLoading">
+                <i class="fa mr-1" [ngClass]="{'fa-spin fa-spinner': ispaymentButtonLoading, 'fa-save': !ispaymentButtonLoading}"></i>
+                {{paymentButton}}</button>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+    <br>
+      <div class=" p-2" [hidden]='clientgrid' >
+        <h3 class="module-box-header my-0 ">Invoice Report Details</h3>
+        <kendo-grid #grid="kendoGrid" class="module-box"
+        [data]="clientgridData"
+        [pageSize]="state.take"
+        [skip]="state.skip"
+        [sort]="state.sort"
+        [group]="state.group"
+        [sortable]="{ mode: 'multiple' }"
+        [pageable]="true"
+        [groupable]="{ showFooter: true }"
+        (dataStateChange)="dataStateChange($event)"
+    >
+              <kendo-grid-column width="140" field="check" title="" [locked]="locked" *ngIf = "!disableClientRange || !disableConRange">
+                <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+                  <div style="padding-left: 4px;">
+                    <input type="checkbox" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Invoice')"/>
+                  </div>
+                </ng-template>
+                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                  <div>
+                    <input type="checkbox" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Invoice')" *ngIf = "!disableClientRange && dataItem.Client_Pay_Invoice_Id > 0" [(ngModel)]="dataItem.RowCheckBox"  />
+                    <input type="checkbox" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Invoice')" *ngIf = "!disableConRange && dataItem.Con_Pay_Invoice_Id > 0" [(ngModel)]="dataItem.RowCheckBox"  />
+                    <input type="number" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Amount')" [readonly] = "isHelpActive" placement="right" ngbTooltip="Enter Amount" class="form-control" *ngIf = "dataItem.RowCheckBox" style="margin-left: 5px;width: 80px;height: 30px;" [(ngModel)]="dataItem.RowAmount"/>
+                    <input type="text" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Comment')" [readonly] = "isHelpActive" placement="right" ngbTooltip="Enter Comment" class="form-control" *ngIf = "dataItem.RowCheckBox" style="margin-top: 5px;width: 100px;height: 30px;" [(ngModel)]="dataItem.RowComment"/>
+                  </div>
+                </ng-template>
+              </kendo-grid-column>
+              <kendo-grid-column title="Action" width="100" [locked]="false">
+
+              <ng-template kendoGridCellTemplate let-dataItem>
+                <a class="edit" [routerLink]="getReportDetailsUrl(dataItem)" target="_blank" class="k-grid-ignore-click"
+                  title="view Records">
+                  <i class="fa fa-eye"></i> &nbsp; &nbsp; View
+                </a>
+              </ng-template>
+            </kendo-grid-column>
+              <kendo-grid-column *ngFor="let column of ReportColumns" width="{{column.width}}" [locked]="column.locked" [hidden]="column.hidden"
+                  field="{{column.field}}" title="{{column.title}}">
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'dueDate'">
+                      {{dataItem.dueDate | date: 'MM/dd/yyyy'}}
+                  </ng-template>
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'Field_complete_date'">
+                      {{dataItem.Field_complete_date | date: 'MM/dd/yyyy'}}
+                  </ng-template>
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'SentToClient_date'">
+                      {{dataItem.SentToClient_date | date: 'MM/dd/yyyy'}}
+                  </ng-template>
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'OfficeApproved_date'">
+                      {{dataItem.OfficeApproved_date | date: 'MM/dd/yyyy'}}
+                  </ng-template>
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'Client_InvoiceDate'">
+                      {{dataItem.Client_InvoiceDate | date: 'MM/dd/yyyy'}}
+                  </ng-template>
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'Client_InvoicePaid_Date'">
+                      {{dataItem.Client_InvoicePaid_Date | date: 'MM/dd/yyyy'}}
+                  </ng-template>
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'Con_InvoicePaid_Date'">
+                      {{dataItem.Con_InvoicePaid_Date | date: 'MM/dd/yyyy'}}
+                  </ng-template>
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'Con_InvoiceDate'">
+                      {{dataItem.Con_InvoiceDate | date: 'MM/dd/yyyy'}}
+                  </ng-template>
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'Client_InvoiceTotal'">
+                      {{currencySymbol}}{{dataItem.Client_InvoiceTotal===null?"0.00":dataItem.Client_InvoiceTotal.toFixed(2)}}
+                  </ng-template>
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'Client_InvoicePaid'">
+                    {{currencySymbol}}{{dataItem.Client_InvoicePaid===null?"0.00":dataItem.Client_InvoicePaid.toFixed(2)}}
+                </ng-template>
+
+
+
+                <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'Con_InvoiceTotal'">
+                  {{currencySymbol}}{{dataItem.Con_InvoiceTotal===null?"0.00":dataItem.Con_InvoiceTotal.toFixed(2)}}
+              </ng-template>
+              <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'Con_InvoicePaid'">
+                {{currencySymbol}}{{dataItem.Con_InvoicePaid===null?"0.00":dataItem.Con_InvoicePaid.toFixed(2)}}
+            </ng-template>
+            <ng-template kendoGridGroupHeaderTemplate let-group="group"
+                      *ngIf="column.field === 'Client_InvoiceTotal'">
+                      <span title="Group Header Template for Total">
+                        Total: {{currencySymbol}}{{ group.value.toFixed(2) }}
+                      </span>
+                  </ng-template>
+                  <ng-template kendoGridGroupFooterTemplate let-group="group" let-aggregates
+                      *ngIf="column.field === 'Client_InvoiceTotal'">
+                      <span title="Group Footer Template for ClientTotal">
+                        Total : {{currencySymbol}}{{ aggregates.Client_InvoiceTotal.sum.toFixed(2) }}
+                        <br/><br/>
+                        Due : {{currencySymbol}}{{ (aggregates.Client_InvoiceTotal.sum - aggregates.Client_InvoicePaid.sum).toFixed(2)}}
+                      </span>
+                  </ng-template>
+                  <ng-template kendoGridGroupFooterTemplate let-group="group" let-aggregates
+                      *ngIf="column.field === 'Client_InvoiceTotal'">
+                      <span title="Group Footer Template for ClientTotal">
+                        Total : {{currencySymbol}}{{ aggregates.Client_InvoiceTotal.sum.toFixed(2) }}
+                      </span>
+                  </ng-template>
+                  <ng-template kendoGridGroupFooterTemplate let-group="group" let-aggregates
+                      *ngIf="column.field === 'Client_InvoicePaid'">
+                      <span title="Group Footer Template for ClientPaid">
+                        Paid : {{currencySymbol}}{{ aggregates.Client_InvoicePaid.sum.toFixed(2) }}
+                        <br/><br/>
+                        Count : {{ aggregates.Client_InvoiceTotal.count }}
+                      </span>
+                  </ng-template>
+                  <ng-template kendoGridGroupFooterTemplate let-group="group" let-aggregates
+                      *ngIf="column.field === 'Con_InvoiceTotal'">
+                      <span title="Group Footer Template for ContractorTotal">
+                        Total : {{currencySymbol}}{{ aggregates.Con_InvoiceTotal.sum.toFixed(2) }}
+                        <br/><br/>
+                        Due : {{currencySymbol}}{{ (aggregates.Con_InvoiceTotal.sum - aggregates.Con_InvoicePaid.sum).toFixed(2)}}
+                      </span>
+                  </ng-template>
+                  <ng-template kendoGridGroupFooterTemplate let-group="group" let-aggregates
+                      *ngIf="column.field === 'Con_InvoicePaid'">
+                      <span title="Group Footer Template for ContractorTotal">
+                        Paid : {{currencySymbol}}{{ aggregates.Con_InvoicePaid.sum.toFixed(2) }}
+                        <br/><br/>
+                        Count : {{ aggregates.Con_InvoiceTotal.count }}
+                      </span>
+                  </ng-template>
+                  <ng-template kendoGridFooterTemplate let-column let-columnIndex="columnIndex">
+                    <div *ngIf="column.field=='Client_InvoicePaid'">
+                      Total : {{currencySymbol}}{{clientPaidSum.toFixed(2)}}
+                    </div>
+                    <div *ngIf="column.field=='Client_InvoiceTotal'">
+                      Total : {{currencySymbol}}{{clientTotalSum.toFixed(2)}}
+                    </div>
+
+
+                    <div *ngIf="column.field=='Con_InvoicePaid'">
+                      Total : {{currencySymbol}}{{con_clientPaidSum.toFixed(2)}}
+                    </div>
+                    <div *ngIf="column.field=='Con_InvoiceTotal'">
+                      Total : {{currencySymbol}}{{con_clientTotalSum.toFixed(2)}}
+                    </div>
+
+                  </ng-template>
+              </kendo-grid-column>
+              <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+                <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+                <kendo-pager-numeric-buttons [buttonCount]="10"></kendo-pager-numeric-buttons>
+                <kendo-pager-next-buttons></kendo-pager-next-buttons>
+                 <kendo-pager-info></kendo-pager-info>
+                 <!-- <kendo-pager-page-sizes [pageSizes]="[50,100,200,300,400,500]" [attr.disabled]="isDisabled ? 'disabled' : null" [class.disabled]="isDisabled"></kendo-pager-page-sizes> -->
+                  <kendo-pager-page-sizes [pageSizes]="getPageSizes()"></kendo-pager-page-sizes>
+                  <!-- <kendo-pager-page-sizes [disabled]="isDisabled" [pageSizes]="[50,100,200,300,400,500]"></kendo-pager-page-sizes>  -->
+              </ng-template>
+              <kendo-grid-excel fileName="Report.xlsx"></kendo-grid-excel>
+              <kendo-grid-pdf fileName="Report.pdf" [allPages]="true" paperSize="A4" [repeatHeaders]="true" [landscape]="true">
+
+              </kendo-grid-pdf>
+          </kendo-grid>
+      </div>
+    </div>
+<br>
+    </div>
+  </div>
+  <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="default" color="#fff" type="timer" [fullScreen]="true">
+    <p style="color: white">Loading...</p>
+  </ngx-spinner>
+</div>

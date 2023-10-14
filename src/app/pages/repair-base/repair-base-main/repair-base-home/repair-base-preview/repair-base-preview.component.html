@@ -1,0 +1,119 @@
+<div class="preview">
+    
+    <div id="preview-print" class="repair-preview module-box p-2">
+        <h1 class="preview-logo">
+            <img src="../../../../../../assets/images/bbLogoReportHD.jpg" style="margin-right: 10px;"/>
+            RepairBASE Preservation Estimate
+        </h1>
+        <hr/>
+        <h3 class="preview-header">
+            {{RepairBaseModelObj.RB_Address}} {{RepairBaseModelObj.RB_City}} {{RepairBaseModelObj.RB_Zip}}
+        </h3>
+        <div>
+            <div>Bluebook ID#: {{RepairBaseModelObj.RB_OrderID}}</div>
+            <div>Bedrooms:{{RepairBaseCharactoristicsModelObj.RB_Bedrooms}} Baths:{{RepairBaseCharactoristicsModelObj.RB_Fullbaths}} 
+                Year Built:{{RepairBaseCharactoristicsModelObj.RB_YearBuilt}} Total Living Area:{{RepairBaseCharactoristicsModelObj.RB_LivingArea}} SF
+            </div>
+            <div>
+                Property Type:{{RepairBaseModelObj.RB_PropertyType}}
+            </div>
+            <div>
+                Date Printed: {{currentDate}}
+            </div>
+        </div>
+        <div class="repair-summary">
+            <div class="summary-header">
+                <div class="unithead">Repair Summary</div>
+                <div class="subject-property">Subject Property</div>
+            </div>
+            <div class="summary-body">
+                <div class="row">
+                    <div class="col-md-4" *ngFor="let area of areas">
+                        <div>{{area.areaLabel}}: ${{area.totalPrice}}</div>
+                    </div>
+                </div>
+                <hr/>
+                <div class="total-repair">
+                    <div>Estimated Total Repairs: </div>
+                    <div class="price">${{totalEstimatePrice}}</div>
+                </div>
+            </div>
+        </div>
+        <div>LR = Lender Required CR = Cosmetic Repair CL = Claims Recovery HZ = Hazard / Secure</div>
+        <div class="preview-detail">
+            <div class="detail-header unithead">{{RepairBaseModelObj.RB_Address}} {{RepairBaseModelObj.RB_City}} {{RepairBaseModelObj.RB_Zip}}</div>
+            <div class="detail-body">
+                <div *ngFor="let area of areas">
+                    <hr/>
+                    <div class="row area_label justify-content-center">
+                        <h3>Repair Details For {{area.areaLabel}}</h3>
+                    </div>
+                    <hr/>
+                    <kendo-grid [data]="area.repairs">
+                        <kendo-grid-column field="itemXREF" title="Item#Code" width="100" [headerStyle]="{'background-color': '#323232','color': '#fff','line-height': '1em'}">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="description" title="Description" width="200" [headerStyle]="{'background-color': '#323232','color': '#fff','line-height': '1em'}">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="code" title="Code" width="100" [headerStyle]="{'background-color': '#323232','color': '#fff','line-height': '1em'}">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="quantity" title="Quantity" width="100" [headerStyle]="{'background-color': '#323232','color': '#fff','line-height': '1em'}">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="itemUM" title="UOM" width="100" [headerStyle]="{'background-color': '#323232','color': '#fff','line-height': '1em'}">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="bluebookPPU" title="RepairBase PPU" width="150" [headerStyle]="{'background-color': '#323232','color': '#fff','line-height': '1em'}">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="ppu" title="Vendor PPU" width="100" [headerStyle]="{'background-color': '#323232','color': '#fff','line-height': '1em'}">
+                        </kendo-grid-column>
+                        <kendo-grid-column  field="vendorPPU" title="Vendor Diff. Tot" width="150" [headerStyle]="{'background-color': '#323232','color': '#fff','line-height': '1em'}">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="totalCost" title="Total" width="100" [headerStyle]="{'background-color': '#323232','color': '#fff','line-height': '1em'}">
+                        </kendo-grid-column>
+                    </kendo-grid>
+                    <div class="area-total-price">Estimated {{area.areaLabel}} Repairs: <div class="price"> ${{area.totalPrice}}</div></div>
+                </div>
+            </div>
+        </div>
+        <div class="preview-desciption">
+            <img src="../../../../../../assets/images/stickypoweredby.png" />
+            <p>
+                Copyright © 2021 Bluebook International - All Rights Reserved
+            </p>
+            <p>
+                DISCLAIMER: This report is subject to Bluebook’s and/or the provider of this report’s 
+            (collectively the “Company”) Terms & Conditions, Users License, Privacy Policy, and 
+            any applicable contract terms. All information, however derived, entered or implemented 
+            including all data contained herein, is the sole property of the Company and its third 
+            party providers. This report (including graphs, charts, and photos) is derived from the 
+            use of proprietary automated valuation technologies, modeling, public record data, other 
+            data, your inputs, and proprietary predictive technologies. Your use constitutes a license. 
+            This report and the data contained in it may not be re-sold, remarketed, syndicated, 
+            compiled, or published without prior written permission from Company. 
+            This report does NOT constitute an appraisal, contractor’s estimate/bid, or similar 
+            valuation. Inputs may not include visual inspections, neighborhood characteristics, 
+            demographics, topography, disaster surge pricing, and other factors that may influence 
+            values. Company does not offer tax advice, accounting advice, or contractor estimates. 
+            You should consult with appropriate financial, legal, construction, and/or real estate 
+            professionals before acting on or utilizing the report. THIS REPORT IS AN OPINION THAT 
+            MAY BE INACCURATE AND IS PROVIDED SOLELY AS AN INFORMATIONAL TOOL NOT DESIGNED TO PROVIDE 
+            DEFINITIVE ANSWERS. ALL ELEMENTS ARE OFFERED “AS IS” AND COMPANY EXPRESSLY DISCLAIMS ANY 
+            AND ALL WARRANTIES, REPRESENTATIONS, AND GUARANTEES OF ANY NATURE, EXPRESS, IMPLIED OR 
+            OTHERWISE, INCLUDING BUT NOT LIMITED TO ANY IMPLIED WARRANTIES OF MERCHANTABLITILY, 
+            NONINFRINGEMENT, TITLE, QUIET ENJOYMENT, ACCURACY, OR FITNESS FOR A PARTICULAR PURPOSE. 
+            IN NO EVENT SHALL COMPANY (OR ITS SUPPLIERS) BE LIABLE FOR ANY GENERAL, DIRECT, SPECIAL, 
+            INCIDENTAL, INDIRECT OR CONSEQUENTIAL DAMAGES OF ANY KIND, OR ANY DAMAGES WHATSOEVER 
+            (INCLUDING WITHOUT LIMITATION, THOSE RESULTING FROM USE OF THE PRODUCT, INCLUDING : (1) 
+            RELIANCE ON THE MATERIALS PRESENTED, (2) COSTS OF REPLACEMENT GOODS, (3) LOSS OF USE, 
+            DATA OR PROFITS, (4) DELAYS OR BUSINESS INTERRUPTIONS, (5) AND ANY THEORY OF LIABILITY, 
+            ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF INFORMATION) WHETHER OR 
+            NOT COMPANY HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+            </p>
+        </div>
+    </div>
+    <div class="preview-footer justify-content-end align-items-center">
+        <div class="row justify-content-end">
+            <!-- <button class="btn btn-primary repair-footer-btn" (click)="previewEstimate()">Preview Estimate</button> -->
+            <button class="btn btn-primary repair-footer-btn" (click)="printEstimate()">Generate PDF Report</button>
+            <button class="btn btn-primary repair-footer-btn" (click)="goback()">Go Back</button>
+        </div>
+    </div>
+</div>

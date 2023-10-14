@@ -1,0 +1,94 @@
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="" style="width: 100% !important;">
+            <div class="">
+
+                <div class="row m-0 module-box-header">
+                    <h4 class=" page-title" style="font-weight: bolder;">Preview Forms </h4>
+                    <hr>
+                </div>
+                <div class="module-subheader p-1 pl-2">
+                    <button (click)="viewFormByID();" type="submit" id="Back" class="btn btn-primary mr-1 h35">
+                        <i class="fas fa-arrow-alt-circle-left"></i>
+                        Back</button>
+                </div>
+                <div class="col-lg-12 module-box p-2">
+                    <div>
+                        <div class="form-row justify-content-around">
+                            <div *ngFor="let que of questionList;let i = index;" class="module-box p-1 col-md-5 mb-2">
+                                <div class="d-flex p-2">
+                                    <div class="col-md-11 " >
+                                        <h4> {{que.Question}}</h4>
+                                        <h6>
+                                            {{que.Instructions}}
+                                        </h6>
+                                        <!-- <h6>question type => {{que.QuestionTypeId}}</h6> -->
+                                    </div>
+                                    <div class="col-md-1" *ngIf="que.QuestionAnswers?.length > 0">
+                                        <i class="far fa-check-square fa-2x" style="color: green;"
+                                            aria-hidden="true"></i>
+                                    </div>
+
+                                    <div class="col-md-1" *ngIf="que.QuestionAnswers?.length == 0">
+                                        <i class="far fa-times-circle fa-2x" style="color: #000;"
+                                            aria-hidden="true"></i>
+                                    </div>
+                                </div>                               
+                                <!--que master-->
+                                <div class="pl-3">
+
+                                    <select class="form-cont rol form-control-sm" *ngIf="que.QuestionTypeId==3"
+                                        (change)="ddlChange($event,que,i)">
+                                        <option value="0">Select</option>
+                                        <option *ngFor="let item of que.Options" value="{{item.OptionId}}">
+                                            {{item.OptionName}}
+                                        </option>
+                                    </select>
+
+                                    <div class="custom-control custom-switch" *ngIf="que.QuestionTypeId==1">
+                                        <div *ngFor="let item of que.Options;let j = index;">
+                                            <input type="checkbox" class="custom-control-input"
+                                                id="switchDefault{{item.OptionId}}" (change)="checkChange($event,item.OptionId,que,i)">
+                                            <label class="custom-control-label" for="switchDefault{{item.OptionId}}">
+                                                {{item.OptionName}}
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <textarea *ngIf="que.QuestionTypeId==2" (change)="textChange($event,que,i)"></textarea>
+
+                                    <input type="text" *ngIf="que.QuestionTypeId==5||que.QuestionTypeId==6" (change)="textChange($event,que,i)">
+
+                                    <input type="number" *ngIf="que.QuestionTypeId==8" (change)="textChange($event,que,i)">
+                                    <input type="date" *ngIf="que.QuestionTypeId==7">
+
+
+                                    
+
+                                    <div class="radio radio-info" *ngIf="que.QuestionTypeId==4">
+                                        <div *ngFor="let item of que.Options">
+                                            <input name="{{item.Option_QuestionId}}" type="radio" (change)="radioQueChange(item.OptionId, que,i)"
+                                                id="{{ item.OptionId }}" value="{{ item.OptionId }}">
+                                            <label for="{{ item.OptionId }}">{{item.OptionName}}</label>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="que.InvalidFR" class="Mydropdown" style="width: 50%;font-size: 90%;">Field rule is not followed.</div>
+                                </div>
+
+                                <!--end que master-->
+
+
+                                
+
+                                
+
+                               
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

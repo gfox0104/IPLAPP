@@ -1,0 +1,138 @@
+<div class="row" style="margin-left: 0px; margin-right: -25px;">
+  <div class="col">
+    <kendo-grid #gridUser class="module-box" [kendoGridBinding]="gridData" [pageSize]="15" [pageable]="true" [sortable]="true"
+      [filterable]="true" [selectable]="true" [groupable]="false" [reorderable]="true">
+
+      <kendo-grid-column title="Action" width="150" [locked]="true">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <div class="row" style="display: inline;">
+            <a class="edit" [routerLink]="dataItem.ViewUrl" class="k-grid-ignore-click" title="view Records">
+              <i class="fa fa-eye"></i> &nbsp; &nbsp; View
+            </a>
+          </div>
+        </ng-template>
+      </kendo-grid-column>
+
+      <kendo-grid-column *ngFor="let column of gridColumns" [field]="column.field" [title]="column.title" [width]="column.width">
+        <!-- <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'dueDate'">
+          <div>{{dataItem[column.field] | date:"MM/dd/yyyy"}}</div>
+        </ng-template> -->
+
+        <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'dueDate'">
+          <span  class="whole-cell" [style.backgroundColor]="colorDate(dataItem[column.field], column.field)">
+            <div style="margin-left:-5px">{{dataItem[column.field] | date:"MM/dd/yyyy"}}</div>
+          </span>
+        </ng-template>
+
+        <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'EstimatedDate'">
+          <b>{{dataItem[column.field] | date:"MM/dd/yyyy"}}</b> &nbsp;&nbsp;
+          <img src="assets/images/calendar.png" class="mr-2 cursor-pinter message"
+          (click)="OpenEstimateDateModal(dataItem, EstimateDateModal)">
+        </ng-template>
+
+        <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'ContractorName'">
+          <span class="whole-cell" [style.backgroundColor]="SetColor(dataItem.ContractorBackColor)" [style.color]="'white'" [style.fontWeight]="'bold'"
+                      *ngIf="dataItem.ContractorName != null && dataItem.ContractorName.length > 1">
+                      <div>{{dataItem[column.field]}}</div>
+          </span>
+        </ng-template>
+
+        <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'photocount'">
+          <div class="d-flex align-items-center">
+            <a class="edit" [routerLink]="dataItem.ViewPhotosUrl" class="k-grid-ignore-click" title="view Records">
+              <img src="assets/images/images.png" class="mr-2 cursor-pinter"> &nbsp; &nbsp; {{dataItem.photocount}}
+            </a>
+          </div>
+        </ng-template>
+        <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'ecdnotecount'">
+          <div class="d-flex align-items-center">
+            <img src="assets/images/pinned_notes.png" class="mr-2 cursor-pinter message"
+            (click)="openECDNotesModal(dataItem, EcdNoteBox)">
+            <div>{{dataItem.ecdnotecount==undefined?0:dataItem.ecdnotecount}}</div>
+          </div>
+        </ng-template>
+        <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'messagecount'">
+          <div class="d-flex align-items-center">
+            <img src="assets/images/message.png" class="mr-2 cursor-pinter message"
+              (click)="openMessageBox(dataItem, messageBox)">
+          </div>
+        </ng-template>
+
+
+      </kendo-grid-column>
+
+
+      <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+        <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+        <kendo-pager-numeric-buttons [buttonCount]="10"></kendo-pager-numeric-buttons>
+        <kendo-pager-next-buttons></kendo-pager-next-buttons>
+        <kendo-pager-info></kendo-pager-info>
+        <kendo-pager-page-sizes [pageSizes]="[15, 30, 50, 100]"></kendo-pager-page-sizes>
+      </ng-template>
+    </kendo-grid>
+  </div>
+</div>
+<ng-template #EcdNoteBox let-modal let-c="close" let-d="dismiss">
+  <div class="modal-header ecdnote-modal-header">
+    <h5 style="color: black;">Estimated Completion Date Notes</h5>
+    <button type="button" (click)="modal.close('Save click')" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">×</span>
+    </button>
+
+  </div>
+  <div class="modal-body ecdnote-modal-body">
+       <!-- Message box popup -->
+       <div class="row">
+        <div class="col-12">
+          <app-ipl-app-ecd-notes-box [workOrderId]="actionIPLNOs[0].WorkOrder_Id" (NoteRefresh)="GetWorkoOrderTracker()"></app-ipl-app-ecd-notes-box>
+        </div>
+      </div>
+  </div>
+</ng-template>
+<ng-template #EstimateDateModal let-modal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h5 style="color: black;">Change Estimate Date</h5>
+    <button type="button" (click)="modal.close('Save click')" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="formUsrCommonGroup" (ngSubmit)="SubmitForm()">
+      <div class="form-row">
+      <div class="col-4">
+        <label>Change Estimated Date</label>
+      </div>
+      <div class="col-6">
+        <label class="form-control form-control-sm">{{EstimateDate |  date:'MM/dd/yyyy' }}
+          <span *ngIf="!EstimateDate">Date</span> </label>
+        <input class="form-control form-control-sm" placeholder="yyyy-mm-dd" [(ngModel)]="EstimateDate"
+          [ngModelOptions]="{standalone: true}" ngbDatepicker #dt1="ngbDatepicker" firstDayOfWeek="7" style="display: none">
+
+      </div>
+      <div class="col-2">
+        <div class="input-group-append">
+          <button class="btn btn-outline-info btn-xs" (click)="dt1.toggle()" type="button"><i
+              class="fas fa-calendar-alt"></i></button>
+        </div>
+      </div>
+    </div>
+      <input type="submit" value="Save" class="btn btn-primary waves-effect waves-light">
+    </form>
+  </div>
+</ng-template>
+<ng-template #messageBox let-modal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h5 style="color: black;">Send Message</h5>
+    <button type="button" (click)="modal.close('Save click')" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+       <!-- Message box popup -->
+       <div class="row">
+        <div class="col-12">
+          <app-ipl-app-message-box [IPLNumbers]="actionIPLNOs"></app-ipl-app-message-box>
+        </div>
+      </div>
+  </div>
+</ng-template>

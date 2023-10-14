@@ -1,0 +1,7 @@
+<agm-map [latitude]="workOrder.gpsLatitude" [longitude]="workOrder.gpsLongitude" [zoom]="5" [fullscreenControl]="true"
+  style="width: 100%; height: 600px;">
+  <ng-container>
+    <agm-marker [latitude]="workOrder.gpsLatitude" [longitude]="workOrder.gpsLongitude" [title]="workOrder.address1">
+    </agm-marker>
+  </ng-container>
+</agm-map>

@@ -1,0 +1,36 @@
+<div class="container row">
+  <div class="col-3" style="padding: 0px !important;">
+    
+    <div *ngIf="!measuring" style="padding-bottom: 10px;">
+      <button class="btn btn-primary btn-sm" (click)="zoom(true)"><i class="fas fa-search-plus"></i>
+        Zoom</button>
+      <button class="btn btn-primary btn-sm" (click)="zoom(false)" style="margin-left: 4px;"><i
+          class="fas fa-search-minus"></i>
+        Zoom</button>
+    </div>
+  </div>
+  <div class="col-md-7" style="padding: 0px !important;">
+    <div class="justify-conent-between" *ngIf="measuring">
+      <button class="btn btn-primary btn-sm mr-2" (click)="showMeasure(false)">Editing</button>
+      
+    </div>
+    <div class="show-image " style="float: none;">
+      <canvas style="border: 1px solid black; width: 100%; height: auto;" id="image-editorr" width="640"
+        height="480"></canvas>
+      <input type="button" [disabled]='PrevBtnHide' (click)='prevImage()' class="update btn-primary"
+        style="font-size: 19px;" value="<" />
+      <input type="button" [disabled]='NextBtnHide' (click)='nextImag()' class="delete btn-primary"
+        style="font-size: 19px;" value=">" />
+    </div>
+  </div>
+  <div class="col-2">
+    <p>FileName: <span>{{metadata.User_Track_File_Name}}</span></p>
+    <p>DateTimeOriginal: <span>
+        {{ metadata.User_Track_Created_Date | date: 'dd/MM/yyyy hh:mm a' }}</span></p>
+    <p>Total Mouse: <span>{{ metadata.User_Track_Mouse_Captured_Count }}</span></p>
+    <p>Total Keyboard: <span>{{ metadata.User_Track_Keyboard_Captured_Count }}</span></p>
+  </div>
+</div>
+
+
+

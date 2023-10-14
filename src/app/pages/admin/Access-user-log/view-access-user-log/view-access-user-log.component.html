@@ -1,0 +1,56 @@
+<div class="container-fluid">
+    <div class="row">
+      <div class="">
+        <div class="col-12">
+          <iplapp-content-header title="Access User Log " ></iplapp-content-header>
+          <div class="float-right">
+            <button type="Back" class="btn btn-primary waves-effect waves-light" [routerLink]="['/home/adminlinkpage']">
+              <i class="fas fa-arrow-alt-circle-left mr-1"></i> Back</button> &nbsp;&nbsp;
+          </div>
+
+          <div class="module-subheader p-1 pl-2" >
+            <iplapp-filter-form   [modelObj]="viewAccessUserLogModalModelObj" [formFilters]="AccessUserLogFilters"
+            (filterCall)="filterCall()" (clearData)="clearData()" (saveFilterData)="saveFilterData()">
+          </iplapp-filter-form>
+
+          </div>
+          <div class="row m-0 module-box">
+            <kendo-grid #gridUser [kendoGridBinding]="griddata" [pageSize]="25" [pageable]="true" [sortable]="true"
+              [filterable]="false" [selectable]="true" [groupable]="false" [skip]="state.skip" [sort]="state.sort"
+              [filter]="state.filter" (dataStateChange)="dataStateChange($event)" >
+              <kendo-grid-column field="Acc_UserAction" title="Access User Action"
+                 [width]="200">
+              </kendo-grid-column>
+              <kendo-grid-column field="Acc_Access_Log_Data" title="Access Log Data"
+                 [width]="200">
+              </kendo-grid-column>
+              <kendo-grid-column field="Acc_Type_of_Log" title="Access Type of Log"
+                 [width]="200">
+              </kendo-grid-column>
+              <kendo-grid-column field="Acc_Log_Details" title="Access Log Details"
+                 [width]="200">
+              </kendo-grid-column>
+              <kendo-grid-column field="Acc_CreatedBy" title="Created By"
+                 [width]="200">
+              </kendo-grid-column>
+              <kendo-grid-column field="Acc_ModifiedBy" title="Last Modified By"
+                 [width]="200">
+              </kendo-grid-column>
+
+              <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+                <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+                <kendo-pager-numeric-buttons [buttonCount]="10"></kendo-pager-numeric-buttons>
+                <kendo-pager-next-buttons></kendo-pager-next-buttons>
+                <kendo-pager-info></kendo-pager-info>
+                <kendo-pager-page-sizes [pageSizes]="[25, 50, 75, 100, 150, 200]"></kendo-pager-page-sizes>
+              </ng-template>
+            </kendo-grid>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+

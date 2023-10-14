@@ -1,0 +1,91 @@
+<!-- <p>import-client-payment works!</p> -->
+<div class="container-fluid import-client-payment" mousekeyboard>
+    <form class="k-form" [formGroup]="registerForm" style="width: 100%">
+        <fieldset class="k-form-fieldset">
+            <legend class="k-form-legend">Import Client Payments</legend>
+        <div class="row request-new">
+            <div class="col-md-12 import-client-payment">
+                <div>Client Company</div>
+                <div>Description/instructions</div>
+            </div>
+        </div>
+        <div class="row mt-20">
+            <div class="allowed-file-desc col-md-12">
+                <div>Excel, CVS, Tab</div>
+                <div>
+                    The import must be an Excel(XLS, XLSX), CVS, or ODS file
+                    <br>
+                    You can associate the columns from the spreed sheet to PPW columns on the next step.
+                </div>
+            </div>
+        </div>
+        <!-- <div class="row mt-20">
+            
+        </div> -->
+        <!-- <div class="row mt-20"> -->
+            
+            <kendo-formfield>
+                <label for="ICP_Attach">Select the import file</label>
+                <!-- <input formControlName="ICP_Attach" kendoTextBox #ICP_Attach/> -->
+                <kendo-upload
+                    formControlName="ICP_Attach"
+                    [saveUrl]="uploadSaveUrl"
+                    [removeUrl]="uploadRemoveUrl"
+                    [restrictions]="myRestrictions">
+                </kendo-upload>
+            </kendo-formfield>
+            <kendo-formfield>
+                <label for="ICP_Number">Check Number</label>
+                <input formControlName="ICP_Number" kendoTextBox #ICP_Number required/>
+                <kendo-formerror>Error: number is required</kendo-formerror>
+            </kendo-formfield>
+            <kendo-formfield>
+                <label for="ICP_Date">Check Date</label>
+                <kendo-datepicker
+                    #ICP_Date
+                    formControlName="ICP_Date"
+                >
+                </kendo-datepicker>
+            </kendo-formfield>
+            <kendo-formfield>
+                <label for="ICP_Date">Select Company</label>
+                <kendo-dropdownlist
+                    #ICP_Company
+                    formControlName="ICP_Company"
+                    [data]="ICP_Companies"
+                    [defaultItem]="{ Client_Company_Name: 'Select Company', Client_pkeyID: null }"
+                    [textField]="'Client_Company_Name'"
+                    [valueField]="'Client_pkeyID'"
+                    [valuePrimitive]="true"
+                    required
+                >
+                </kendo-dropdownlist>
+            </kendo-formfield>
+            
+        <!-- </div> -->
+        <!-- <div class="row mt-20">
+            
+        </div>
+        
+        <div class="row mt-20">
+           
+        </div> -->
+       
+        <div class="k-form-buttons send-btn mt-20">
+            <!-- <button class="k-button k-primary" (click)="submitForm()">Submit</button>
+            <button class="k-button" (click)="clearForm()">Clear</button> -->
+            <button id="import_btn" class="btn btn-primary" (click)="submitForm()" 
+                >
+                <!-- <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}"></i> -->
+                Process
+            </button>
+            <button id="cancel_btn" class="btn btn-primary" (click)="clearForm()" 
+                >
+                <!-- <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}"></i> -->
+                Cancel
+            </button>
+        </div>
+        </fieldset>
+    </form>
+    
+</div>

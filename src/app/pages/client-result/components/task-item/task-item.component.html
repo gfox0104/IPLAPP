@@ -1,0 +1,160 @@
+<td style="width: 12%;" [ngClass]="{'highlight' : item[properties.TaskID] == 0 && errorSubmit}">
+  <div class="example-wrapper" *ngIf="item[properties.TaskID] != -99" style="max-width: 300px;min-width: 300px;">
+    <kendo-dropdownlist class="form-control form-control-sm" [data]="bidTaskList" [defaultItem]="defaultTaskItem"
+      [filterable]="true" [textField]="'Task_Name'" [valueField]="'Task_pkeyID'" (filterChange)="taskFilter($event)"
+      [(ngModel)]="item[properties.TaskID]" [valuePrimitive]="true" [ngModelOptions]="{standalone: true}"
+      (valueChange)="clinetResultBid_Method()" (selectionChange)="changetask($event)">
+    </kendo-dropdownlist>
+  </div>
+  <div *ngIf="item[properties.TaskID] == -99">
+    <input type="text" [(ngModel)]="item[properties.Other_Task_Name]" class="form-control">
+    <a (click)='backdropdown()'><i class="fas fa-arrow-alt-circle-left"></i></a>
+  </div>
+
+    <div class="example-wrapper dagamagagagagagaga" style="margin-top:5px;" [hidden]="importidflag">
+      <kendo-dropdownlist class="form-control form-control-sm" [data]="DamageItemsList" [defaultItem]="defaultDamageItem" [filterable]="true"
+        [textField]="'Import_Client_DamageItem_Name'" [valueField]="'Import_Client_DamageItem_PkeyID'"
+        [(ngModel)]="item.Task_Ext_DamageCauseId" [ngModelOptions]="{standalone: true}"
+        (filterChange)="DamageItemFilter($event)" [valuePrimitive]="true" (valueChange)="DamageItem_Method()">
+      </kendo-dropdownlist>
+    </div>
+
+</td>
+<td style="width: 5%;"
+  [ngClass]="{'highlight' : (item[properties.Qty] == 0 ||  item[properties.Qty] == ' ')  && errorSubmit}">
+  <input type="text" [(ngModel)]="item[properties.Qty]" (blur)="clinetResultQtyBid_Method()"
+    (keypress)="validate($event)" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm">
+
+    <div [hidden]="importidflag">
+      <input type="text" style="margin-top:5px;" [(ngModel)]="item.Task_Ext_Location" placeholder="Location"
+      [ngModelOptions]="{standalone: true}" class="form-control form-control-sm">
+    </div>
+
+
+</td>
+<td style="width: 6%">
+  <select class="form-control form-control-sm p-0" [(ngModel)]="item[properties.Uom_ID]"
+    [ngModelOptions]="{standalone: true}">
+    <option value='0'>select</option>
+    <option [ngValue]="kb.UOM_pkeyId" *ngFor="let kb of UOMList">
+      {{kb.UOM_Name}}
+    </option>
+  </select>
+
+    <div [hidden]="importidflag">
+      <input type="text" style="margin-top:5px;" [(ngModel)]="item.Task_Ext_Length" placeholder="Length"
+      [ngModelOptions]="{standalone: true}" class="form-control form-control-sm">
+    </div>
+
+</td>
+<td style="width:8%;background-color:#edeef0;" [hidden]='processorh'
+  [ngClass]="{'highlight' : item[properties.Cont_Price] === '' && errorSubmit}">
+  <div class="inputWithIcon inputIconBg">
+  <input type="text" [(ngModel)]="item[properties.Cont_Price]" [disabled]="item.isBidPriceDisable"
+    (blur)="clinetResultBid_Cont_Price_Method()" (keypress)="validate($event)" [ngModelOptions]="{standalone: true}"
+    class="form-control form-control-sm">
+    <i class="fa fa-dollar-sign" aria-hidden="true"></i>
+  <div *ngIf="item.isBidPriceDisable" class="Mydropdown" style="margin: 0px">
+    Price can not be changed.
+  </div>
+</div>
+
+    <div [hidden]="importidflag">
+      <input type="text" style="margin-top:5px;" [(ngModel)]="item.Task_Ext_Width" placeholder="Width"
+       [ngModelOptions]="{standalone: true}" class="form-control form-control-sm">
+    </div>
+
+</td>
+<td style="width:8%;;background-color:#edeef0;" [hidden]='processorh'>
+  <div class="inputWithIcon inputIconBg">
+  <input type="text" [(ngModel)]="item[properties.Cont_Total]" [disabled]="true" [disabled]="true"
+    [ngModelOptions]="{standalone: true}" class="form-control form-control-sm">
+    <i class="fa fa-dollar-sign" aria-hidden="true"></i>
+  </div>
+    <div [hidden]="importidflag">
+      <input type="text" style="margin-top:5px;" [(ngModel)]="item.Task_Ext_Height" placeholder="Height"
+      [ngModelOptions]="{standalone: true}" class="form-control form-control-sm">
+    </div>
+
+</td>
+<td style="width:8%;background-color:#bbb7b8;" [hidden]='OfficeResulth'
+  [ngClass]="{'highlight' : item[properties.Clnt_Price] === '' && errorSubmit}">
+  <div class="inputWithIcon inputIconBg">
+  <input type="text" [(ngModel)]="item[properties.Clnt_Price]" [ngModelOptions]="{standalone: true}"
+    [disabled]="item.isBidPriceDisable" (blur)="clinetResultBid_Clnt_Price_Method()" (keypress)="validate($event)"
+    class="form-control form-control-sm">
+  <div *ngIf="item.isBidPriceDisable" class="Mydropdown" style="margin: 0px">
+    Price can not be changed.
+  </div>
+  <i class="fa fa-dollar-sign" aria-hidden="true"></i>
+</div>
+
+    <div [hidden]="importidflag">
+      <input type="text" style="margin-top:5px;" [(ngModel)]="item.Task_Ext_Men" placeholder="Men"
+      [ngModelOptions]="{standalone: true}" class="form-control form-control-sm">
+    </div>
+
+</td>
+<td style="width:8%;background-color:#bbb7b8;" [hidden]='OfficeResulth'>
+  <div class="inputWithIcon inputIconBg">
+  <input type="text" [(ngModel)]="item[properties.Clnt_Total]" [disabled]="true" [ngModelOptions]="{standalone: true}"
+    class="form-control form-control-sm">
+    <i class="fa fa-dollar-sign" aria-hidden="true"></i>
+  </div>
+    <div [hidden]="importidflag">
+      <input type="text" style="margin-top:5px;" [(ngModel)]="item.Task_Ext_Hours" placeholder="Hours"
+       [ngModelOptions]="{standalone: true}" class="form-control form-control-sm">
+    </div>
+
+</td>
+<td style="width: 40%;">
+  <div class="row pl-1">
+    <div class="col-md-11 col-8">
+      <textarea [(ngModel)]="item[properties.Comments]" [ngModelOptions]="{standalone: true}" style="width: 93%;"
+        class="ttblecomment form-control form-control-sm">
+      </textarea>
+      <select *ngIf="item.Task_Bid_PreTextHide" style="width: 90%;margin-top: 5px;" size="3"
+        class="form-control form-control-sm" [(ngModel)]="item.Task_Bid_PresetTemp"
+        [ngModelOptions]="{standalone: true}" (change)="clientrsultBid_PresetSET()">
+        <option [ngValue]="kb.Task_Preset_Text" *ngFor="let kb of PresetText">
+          {{kb.Task_Preset_Text}}
+        </option>
+      </select>
+      <div class="custom-control custom-checkbox" *ngIf="type === 'Bid'">
+        <input type="checkbox" [(ngModel)]="item.Task_Bid_PreTextHide" (click)="toggleShow()"
+          [ngModelOptions]="{standalone: true}" class="custom-control-input" id="violationx{{indx}}">
+        <label class="custom-control-label" for="violationx{{indx}}">
+          <span *ngIf="item.Task_Bid_PreTextHide">Hide Preset</span>
+          <span *ngIf="!item.Task_Bid_PreTextHide">Show Preset</span>
+        </label>
+      </div>
+
+    </div>
+    <!-- <div class="col-md-1 col-4"> -->
+    <div class="ttblechk col-md-1 col-4">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" [(ngModel)]="item[properties.Violation]" [ngModelOptions]="{standalone: true}"
+          class="custom-control-input" id="violation{{type}}{{indx}}">
+        <label class="custom-control-label" for="violation{{type}}{{indx}}">Violation</label>
+      </div>
+
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" [(ngModel)]="item[properties.damage]" class="custom-control-input"
+          id="damage{{type}}{{indx}}">
+        <label class="custom-control-label" for="damage{{type}}{{indx}}">Damage</label>
+      </div>
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" [(ngModel)]="item[properties.Hazards]" class="custom-control-input"
+          id="hazards{{type}}{{indx}}">
+        <label class="custom-control-label" for="hazards{{type}}{{indx}}">Hazards</label>
+      </div>
+    </div>
+  </div>
+</td>
+<td style="text-align: center;">
+  <span>
+    <a style="cursor: pointer; " (click)='removeClientResultBid()'>
+      <span><i class="fa fa-trash"></i></span>
+    </a>
+  </span>
+</td>

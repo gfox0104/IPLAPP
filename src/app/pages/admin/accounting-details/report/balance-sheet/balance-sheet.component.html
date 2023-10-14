@@ -1,0 +1,740 @@
+<form>
+  <div class="form-row p-2">
+    <div class="col-md-3">
+      <div class="form-group">
+        <div class="input-group">
+          <label class="form-control form-control-sm">{{ Filter.StartDate |
+            date:'MM/dd/yyyy'}}
+            <span *ngIf="!Filter.StartDate"></span>
+          </label>
+          <input class="form-control form-control-sm" placeholder="yyyy-mm-dd"
+            [(ngModel)]="Filter.StartDate" [ngModelOptions]="{standalone: true}"
+            ngbDatepicker #dt9="ngbDatepicker" firstDayOfWeek="7" style="display: none">
+          <div class="input-group-append">
+            <button class="btn btn-outline-info btn-xs"
+              (click)="dt9.toggle()" type="button"><i class="fas fa-calendar-alt"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <div class="input-group">
+          <label class="form-control form-control-sm">{{ Filter.EndDate |
+            date:'MM/dd/yyyy'}}
+            <span *ngIf="!Filter.EndDate"></span>
+          </label>
+          <input class="form-control form-control-sm" placeholder="yyyy-mm-dd"
+            [(ngModel)]="Filter.EndDate" [ngModelOptions]="{standalone: true}"
+            ngbDatepicker #dt1="ngbDatepicker" firstDayOfWeek="7" style="display: none">
+          <div class="input-group-append">
+            <button class="btn btn-outline-info btn-xs"
+              (click)="dt1.toggle()" type="button"><i class="fas fa-calendar-alt"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <button type="button" class="btn btn-primary" (click)="getBalanceSheet()">
+        Run Report
+      </button>
+      <button
+        type="button"
+        (click)="getBalanceSheetPDF()"
+        class="btn btn-primary ml-2"
+      >
+        <i
+          class="fa"
+          [ngClass]="{
+            'fa-spin fa-spinner': IsPDFGenerate,
+            'fa-print': !IsPDFGenerate
+          }"
+        ></i>
+      </button>
+
+    </div>
+  </div>
+</form>
+
+<div class="">
+  <div class="report">
+    <div class="reportToolBar">
+      <div class="rightDiv">
+        <div class="pencilIcon hi hi-email"></div>
+        <div class="pencilIcon hi hi-print"></div>
+        <div class="pencilIcon hi hi-export">
+          <span class="downArrow"></span>
+        </div>
+        <div class="gearIcon hi hi-settings-o"></div>
+      </div>
+    </div>
+    <div class="reportArea">
+      <div class="reportHeader focusable-text">
+        <div class="text-center">
+          <div class="companyNameRow">
+            <div class="companyName">
+              <h4>Balance Sheet</h4>
+            </div>
+          </div>
+          <div class="dateRangeRow">
+            As of {{ CurrentDate | date: "mediumDate" }}
+          </div>
+        </div>
+      </div>
+      <div *ngIf="!IsLoadBalance">
+        <div
+          class="dgrid dgrid-grid ui-widget dgrid-03 reportsGrid universal-grid reportsGridCompact"
+        >
+          <div class="dgrid-header dgrid-header-row ui-widget-header">
+            <div class="dgrid-resize-header-container text-right pr-1">
+              Total
+              <div class="dgrid-resize-handle resizeNode-0-1"></div>
+            </div>
+          </div>
+          <div
+            class="dgrid-scroller"
+            style="margin-top: 38px; margin-bottom: 0px"
+          >
+            <div class="dgrid-content ui-widget-content ml-2 mr-2">
+              <div class="dgrid-row dgrid-row-even ui-state-default rootHeader">
+                <table class="dgrid-row-table">
+                  <tr (click)="AssetsIsShow = !AssetsIsShow">
+                    <td
+                      class="dgrid-cell dgrid-cell-padding dgrid-column-0-0 black left"
+                    >
+                      <i
+                        class="fa"
+                        [ngClass]="{
+                          'fa-caret-right': !AssetsIsShow,
+                          'fa-caret-down': AssetsIsShow
+                        }"
+                      ></i>
+                      Assets
+                    </td>
+                    <td
+                      class="dgrid-cell text-right dgrid-cell-padding dgrid-column-0-1 black left wrap"
+                    >
+                      <div *ngIf="BalanceSheet != null">
+                        <b [hidden]="AssetsIsShow">{{
+                          BalanceSheet.TotalAsset | currency
+                        }}</b>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+              <div
+                class="dgrid-tree-container"
+                [hidden]="!AssetsIsShow"
+                style="display: block"
+              >
+                <div
+                  class="dgrid-row dgrid-row-even ui-state-default rootHeader"
+                >
+                  <table class="dgrid-row-table" role="presentation">
+                    <tr (click)="CurrentAssetsIsShow = !CurrentAssetsIsShow">
+                      <td
+                        class="dgrid-cell dgrid-cell-padding dgrid-column-0-0 black left"
+                        role="gridcell"
+                        style="padding-left: 5px"
+                      >
+                        <i
+                          class="fa"
+                          [ngClass]="{
+                            'fa-caret-right': !CurrentAssetsIsShow,
+                            'fa-caret-down': CurrentAssetsIsShow
+                          }"
+                        ></i>
+                        Current Assets
+                      </td>
+                      <td
+                        class="dgrid-cell text-right dgrid-cell-padding dgrid-column-0-1 black left wrap"
+                        role="gridcell"
+                      >
+                        <div *ngIf="BalanceSheet != null">
+                          <b [hidden]="CurrentAssetsIsShow">{{
+                            BalanceSheet.Assets.TotalCurrentAssets | currency
+                          }}</b>
+                        </div>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+                <div
+                  class="dgrid-tree-container"
+                  [hidden]="!CurrentAssetsIsShow"
+                  style="display: block"
+                >
+                  <div class="dgrid-row dgrid-row-even ui-state-default">
+                    <table
+                      class="dgrid-row-table"
+                      *ngIf="
+                        BalanceSheet != null &&
+                        BalanceSheet.Assets != null &&
+                        BalanceSheet.Assets.CurrentAssets != null
+                      "
+                      role="presentation"
+                    >
+                      {{
+                        BalanceSheet.CurrentAssets | currency
+                      }}
+                      <tr
+                        *ngFor="
+                          let currentasset of BalanceSheet.Assets.CurrentAssets
+                        "
+                      >
+                        <td
+                          class="dgrid-cell dgrid-cell-padding dgrid-column-0-0 black left"
+                          role="gridcell"
+                          style="padding-left: 7px"
+                        >
+                          <div
+                            class="dgrid-expando-icon"
+                            style="margin-left: 18px; float: left"
+                          >
+                            &nbsp;
+                          </div>
+                          {{ currentasset.AccountName }}
+                        </td>
+                        <td
+                          class="dgrid-cell text-right dgrid-cell-padding dgrid-column-0-1 right wrap"
+                          role="gridcell"
+                        >
+                          <span> {{ currentasset.Amount | currency }}</span>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                  <div
+                    *ngIf="
+                      BalanceSheet != null &&
+                      BalanceSheet.Assets != null &&
+                      BalanceSheet.Assets.AccountsReceivable != null
+                    "
+                    role="row"
+                    class="dgrid-row pl-2 dgrid-row-even ui-state-default rootHeader"
+                    id="dgrid_0-row-5"
+                  >
+                    <table class="dgrid-row-table" role="presentation">
+                      <tr
+                        (click)="
+                          AccountsReceivableIsShow = !AccountsReceivableIsShow
+                        "
+                      >
+                        <td
+                          class="dgrid-cell dgrid-cell-padding dgrid-column-0-0 black left"
+                          role="gridcell"
+                          style="padding-left: 7px"
+                        >
+                          <i
+                            class="fa"
+                            [ngClass]="{
+                              'fa-caret-right': !AccountsReceivableIsShow,
+                              'fa-caret-down': AccountsReceivableIsShow
+                            }"
+                          ></i>
+                          Accounts receivable (Debtors)
+                        </td>
+                        <td
+                          class="dgrid-cell text-right dgrid-cell-padding dgrid-column-0-1 black left wrap"
+                          role="gridcell"
+                        >
+                          <div *ngIf="BalanceSheet != null">
+                            <b [hidden]="AccountsReceivableIsShow">{{
+                              BalanceSheet.Assets.TotalAccountsReceivable
+                                | currency
+                            }}</b>
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                  <div
+                    class="dgrid-tree-container"
+                    [hidden]="!AccountsReceivableIsShow"
+                    style="display: block"
+                  >
+                    <div
+                      *ngIf="
+                        BalanceSheet != null &&
+                        BalanceSheet.Assets != null &&
+                        BalanceSheet.Assets.AccountsReceivable != null
+                      "
+                      role="row"
+                      class="dgrid-row dgrid-row-even ui-state-default"
+                      id="dgrid_0-row-6"
+                    >
+                      <table class="dgrid-row-table" role="presentation">
+                        <tr
+                          *ngFor="
+                            let accountsreceivable of BalanceSheet.Assets
+                              .AccountsReceivable
+                          "
+                        >
+                          <td
+                            class="dgrid-cell dgrid-cell-padding dgrid-column-0-0 black left"
+                            role="gridcell"
+                            style="padding-left: 9px"
+                          >
+                            <div
+                              class="dgrid-expando-icon"
+                              style="margin-left: 27px; float: left"
+                            >
+                              &nbsp;
+                            </div>
+                            {{ accountsreceivable.CustomerName }}
+                          </td>
+                          <td
+                            class="dgrid-cell text-right dgrid-cell-padding dgrid-column-0-1 right wrap"
+                            role="gridcell"
+                          >
+                            <span>
+                              {{ accountsreceivable.Amount | currency }}</span
+                            >
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div
+                      role="row"
+                      class="dgrid-row ui-state-default dgrid-row-odd"
+                      id="dgrid_0-row-7"
+                    >
+                      <table
+                        class="dgrid-row-table text-bold"
+                        role="presentation"
+                      >
+                        <tr>
+                          <td
+                            class="dgrid-cell dgrid-cell-padding dgrid-column-0-0 black left totalRow bold"
+                            role="gridcell"
+                            style="padding-left: 7px"
+                          >
+                            <div
+                              class="dgrid-expando-icon"
+                              style="margin-left: 27px; float: left"
+                            >
+                              &nbsp;
+                            </div>
+                            Total Accounts receivable (Debtors)
+                          </td>
+                          <td
+                            class="dgrid-cell text-right dgrid-cell-padding dgrid-column-0-1 right wrap totalRow bold"
+                            role="gridcell"
+                          >
+                            <span *ngIf="BalanceSheet != null">{{
+                              BalanceSheet.Assets.TotalAccountsReceivable
+                                | currency
+                            }}</span>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div class="dgrid-preload" style="display: none"></div>
+                  </div>
+                  <div
+                    role="row"
+                    class="dgrid-row ui-state-default dgrid-row-odd"
+                    id="dgrid_0-row-8"
+                  >
+                    <table
+                      class="dgrid-row-table text-bold"
+                      role="presentation"
+                    >
+                      <tr>
+                        <td
+                          class="dgrid-cell dgrid-cell-padding dgrid-column-0-0 black left totalRow bold"
+                          role="gridcell"
+                          style="padding-left: 5px"
+                        >
+                          <div
+                            class="dgrid-expando-icon"
+                            style="margin-left: 18px; float: left"
+                          >
+                            &nbsp;
+                          </div>
+                          Total Current Assets
+                        </td>
+                        <td
+                          class="dgrid-cell text-right dgrid-cell-padding dgrid-column-0-1 right wrap totalRow bold"
+                          role="gridcell"
+                        >
+                          <span *ngIf="BalanceSheet != null">{{
+                            BalanceSheet.Assets.TotalCurrentAssets | currency
+                          }}</span>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                  <div class="dgrid-preload" style="display: none"></div>
+                </div>
+                <div
+                  role="row"
+                  class="dgrid-row ui-state-default dgrid-row-odd"
+                  id="dgrid_0-row-9"
+                >
+                  <table class="dgrid-row-table text-bold" role="presentation">
+                    <tr>
+                      <td
+                        class="dgrid-cell dgrid-cell-padding dgrid-column-0-0 black left grandTotalRow topSummary bold"
+                        role="gridcell"
+                      >
+                        <div
+                          class="dgrid-expando-icon"
+                          style="margin-left: 9px; float: left"
+                        >
+                          &nbsp;
+                        </div>
+                        Total Assets
+                      </td>
+                      <td
+                        class="dgrid-cell text-right dgrid-cell-padding dgrid-column-0-1 right wrap grandTotalRow topSummary bold"
+                        role="gridcell"
+                      >
+                        <span *ngIf="BalanceSheet != null">{{
+                          BalanceSheet.TotalAsset | currency
+                        }}</span>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+              <div class="dgrid-row ui-state-default rootHeader dgrid-row-odd">
+                <table class="dgrid-row-table" role="presentation">
+                  <tr
+                    (click)="
+                      LiabilitiesAndEquityIsShow = !LiabilitiesAndEquityIsShow
+                    "
+                  >
+                    <td
+                      class="dgrid-cell dgrid-cell-padding dgrid-column-0-0 black left"
+                      role="gridcell"
+                    >
+                      <i
+                        class="fa"
+                        [ngClass]="{
+                          'fa-caret-right': !LiabilitiesAndEquityIsShow,
+                          'fa-caret-down': LiabilitiesAndEquityIsShow
+                        }"
+                      ></i>
+                      Liabilities and Equity
+                    </td>
+                    <td
+                      class="dgrid-cell text-right dgrid-cell-padding dgrid-column-0-1 black left wrap"
+                    >
+                      <span
+                        *ngIf="
+                          BalanceSheet != null &&
+                          BalanceSheet.LiabilitiesAndEquity != null
+                        "
+                      >
+                        <b [hidden]="LiabilitiesAndEquityIsShow">{{
+                          BalanceSheet.LiabilitiesAndEquity
+                            .TotalLiabilitiesAndEquity | currency
+                        }}</b></span
+                      >
+                    </td>
+                  </tr>
+                </table>
+              </div>
+              <div
+                class="dgrid-tree-container"
+                [hidden]="!LiabilitiesAndEquityIsShow"
+                style="display: block"
+              >
+                <div
+                  role="row"
+                  class="dgrid-row dgrid-row-even ui-state-default rootHeader"
+                  id="dgrid_0-row-11"
+                >
+                  <table class="dgrid-row-table" role="presentation">
+                    <tr
+                      (click)="
+                        CurrentLiabilitiesIsShow = !CurrentLiabilitiesIsShow
+                      "
+                    >
+                      <td
+                        class="dgrid-cell dgrid-cell-padding dgrid-column-0-0 black left"
+                        role="gridcell"
+                        style="padding-left: 5px"
+                      >
+                        <i
+                          class="fa"
+                          [ngClass]="{
+                            'fa-caret-right': !CurrentLiabilitiesIsShow,
+                            'fa-caret-down': CurrentLiabilitiesIsShow
+                          }"
+                        ></i>
+                        Current Liabilities
+                      </td>
+                      <td
+                        class="dgrid-cell text-right dgrid-cell-padding dgrid-column-0-1 black left wrap"
+                        role="gridcell"
+                      >
+                        <span *ngIf="BalanceSheet != null"
+                          ><b [hidden]="CurrentLiabilitiesIsShow">{{
+                            BalanceSheet.LiabilitiesAndEquity.TotalLiabilities
+                              | currency
+                          }}</b></span
+                        >
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+                <div
+                  class="dgrid-tree-container"
+                  [hidden]="!CurrentLiabilitiesIsShow"
+                  style="display: block"
+                >
+                  <div
+                    *ngIf="
+                      BalanceSheet != null &&
+                      BalanceSheet.Assets != null &&
+                      BalanceSheet.Assets.AccountsReceivable != null
+                    "
+                    role="row"
+                    class="dgrid-row dgrid-row-even ui-state-default"
+                    id="dgrid_0-row-6"
+                  >
+                    <table class="dgrid-row-table" role="presentation">
+                      <tr
+                        *ngFor="
+                          let currentLiabilities of BalanceSheet
+                            .LiabilitiesAndEquity.CurrentLiabilities
+                        "
+                      >
+                        <td
+                          style="padding-left: 30px"
+                          class="dgrid-cell dgrid-cell-padding dgrid-column-0-0 black left"
+                          role="gridcell"
+                        >
+                          {{ currentLiabilities.AccountName }}
+                        </td>
+                        <td
+                          class="dgrid-cell text-right dgrid-cell-padding dgrid-column-0-1 right wrap"
+                          role="gridcell"
+                        >
+                          <span>
+                            {{ currentLiabilities.Amount | currency }}</span
+                          >
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                  <div
+                    role="row"
+                    class="dgrid-row ui-state-default dgrid-row-odd"
+                    id="dgrid_0-row-7"
+                  >
+                    <table
+                      class="dgrid-row-table text-bold"
+                      role="presentation"
+                    >
+                      <tr>
+                        <td
+                          class="dgrid-cell dgrid-cell-padding dgrid-column-0-0 black left totalRow bold"
+                          role="gridcell"
+                        >
+                          <div
+                            class="dgrid-expando-icon"
+                            style="margin-left: 27px; float: left"
+                          >
+                            &nbsp;
+                          </div>
+                          Total Current Liabilities
+                        </td>
+                        <td
+                          class="dgrid-cell text-right dgrid-cell-padding dgrid-column-0-1 right wrap totalRow bold"
+                          role="gridcell"
+                        >
+                          <span
+                            *ngIf="
+                              BalanceSheet != null &&
+                              BalanceSheet.LiabilitiesAndEquity != null
+                            "
+                            >{{
+                              BalanceSheet.LiabilitiesAndEquity.TotalLiabilities
+                                | currency
+                            }}</span
+                          >
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                  <div class="dgrid-preload" style="display: none"></div>
+                </div>
+                <div
+                  role="row"
+                  class="dgrid-row dgrid-row-odd ui-state-default rootHeader"
+                  id="dgrid_0-row-15"
+                >
+                  <table class="dgrid-row-table" role="presentation">
+                    <tr (click)="EquityIsShow = !EquityIsShow">
+                      <td
+                        class="dgrid-cell dgrid-cell-padding dgrid-column-0-0 black left"
+                        role="gridcell"
+                        style="padding-left: 5px"
+                      >
+                        <i
+                          class="fa"
+                          [ngClass]="{
+                            'fa-caret-right': !EquityIsShow,
+                            'fa-caret-down': EquityIsShow
+                          }"
+                        ></i>
+                        Equity
+                      </td>
+                      <td
+                        class="dgrid-cell text-right dgrid-cell-padding dgrid-column-0-1 black left wrap"
+                        role="gridcell"
+                      >
+                        <span
+                          *ngIf="
+                            BalanceSheet != null &&
+                            BalanceSheet.LiabilitiesAndEquity != null
+                          "
+                          ><b [hidden]="EquityIsShow">{{
+                            BalanceSheet.LiabilitiesAndEquity.TotalEquity
+                              | currency
+                          }}</b>
+                        </span>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+                <div
+                  class="dgrid-tree-container"
+                  [hidden]="!EquityIsShow"
+                  style="display: block"
+                >
+                  <div
+                    role="row"
+                    class="dgrid-row dgrid-row-even ui-state-default"
+                    id="dgrid_0-row-16"
+                    *ng-if="
+                      BalanceSheet.LiabilitiesAndEquity != null &&
+                      BalanceSheet.LiabilitiesAndEquity.Equity != null
+                    "
+                  >
+                    <table class="dgrid-row-table" role="presentation">
+                      <tr
+                        *ngFor="
+                          let eqity of BalanceSheet.LiabilitiesAndEquity.Equity
+                        "
+                      >
+                        <td
+                          class="dgrid-cell dgrid-cell-padding dgrid-column-0-0 black left"
+                          role="gridcell"
+                          style="margin-left: 27px; float: left"
+                        >
+                          {{ eqity.AccountName }}
+                        </td>
+                        <td
+                          class="dgrid-cell text-right dgrid-cell-padding dgrid-column-0-1 black left wrap"
+                          role="gridcell"
+                        >
+                          {{ eqity.Amount | currency }}
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+
+                  <div
+                    role="row"
+                    class="dgrid-row ui-state-default dgrid-row-even"
+                    id="dgrid_0-row-18"
+                  >
+                    <table
+                      class="dgrid-row-table text-bold"
+                      role="presentation"
+                    >
+                      <tr>
+                        <td
+                          class="dgrid-cell dgrid-cell-padding dgrid-column-0-0 black left totalRow bold"
+                          role="gridcell"
+                          style="padding-left: 5px"
+                        >
+                          <div
+                            class="dgrid-expando-icon"
+                            style="margin-left: 18px; float: left"
+                          >
+                            &nbsp;
+                          </div>
+                          Total Equity
+                        </td>
+                        <td
+                          class="dgrid-cell text-right dgrid-cell-padding dgrid-column-0-1 black right wrap totalRow bold"
+                          role="gridcell"
+                        >
+                          <span>
+                            <span
+                              *ngIf="
+                                BalanceSheet != null &&
+                                BalanceSheet.LiabilitiesAndEquity != null
+                              "
+                              ><b>{{
+                                BalanceSheet.LiabilitiesAndEquity.TotalEquity
+                                  | currency
+                              }}</b>
+                            </span></span
+                          >
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+                <div
+                  role="row"
+                  class="dgrid-row ui-state-default dgrid-row-even"
+                  id="dgrid_0-row-19"
+                >
+                  <table class="dgrid-row-table text-bold" role="presentation">
+                    <tr>
+                      <td
+                        class="dgrid-cell dgrid-cell-padding dgrid-column-0-0 black left grandTotalRow topSummary bold"
+                        role="gridcell"
+                      >
+                        <div
+                          class="dgrid-expando-icon"
+                          style="margin-left: 9px; float: left"
+                        >
+                          &nbsp;
+                        </div>
+                        Total Liabilities and Equity
+                      </td>
+                      <td
+                        class="dgrid-cell text-right dgrid-cell-padding dgrid-column-0-1 black right wrap grandTotalRow topSummary bold"
+                        role="gridcell"
+                      >
+                        <span>
+                          <span
+                            *ngIf="
+                              BalanceSheet != null &&
+                              BalanceSheet.LiabilitiesAndEquity != null
+                            "
+                            ><b>{{
+                              BalanceSheet.LiabilitiesAndEquity
+                                .TotalLiabilitiesAndEquity | currency
+                            }}</b>
+                          </span></span
+                        >
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="dgrid-header dgrid-header-scroll dgrid-scrollbar-width ui-widget-header"
+            style="height: 38px"
+          ></div>
+          <div class="dgrid-footer dgrid-footer-hidden"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div *ngIf="IsLoadBalance" class="loader m-auto"></div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,277 @@
+<div class="container-fluid" mousekeyboard [ngClass]="{ 'HelpCursor': isHelpActive }">
+  <div class="">
+    <div class="">
+      <form [formGroup]="formUsrCommonGroup" (ngSubmit)="FormButton()">
+        
+        <br>
+        <div>
+          <div class="row m-0">
+            <div class="col-12 p-0">
+              <div class="form-row m-0">
+                <div class="form-group col-md-12 module-box-header mb-0">
+                  <h5 >Your Company Info
+                    <a class="pull-right" data-toggle="tooltip" (click)="SetHelpFlag()" data-placement="top" title="Item Help"
+                    style="cursor: pointer;">Need Help
+                    <i class="fas fa-question"></i>&nbsp;&nbsp;
+                  </a>
+                  </h5>
+                </div>
+              </div>
+            </div>
+            <div class="form-row module-subheader m-0 col-12 p-1" >
+              <div class="float-right">
+                <button id="client_viewdetail_1" class="btn btn-primary" *ngIf="IsEditDisable"
+                  (click)="EditForms()">
+                  <i class="far fa-edit mr-1"></i> Edit</button>
+                <button id="client_viewdetail_1" class="btn btn-primary" type="submit" *ngIf="!IsEditDisable"
+                  [disabled]="isLoading">
+                  <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}"></i>
+                  {{button}}
+                </button>
+                <button id="client_viewdetail_1" class="btn btn-primary" [routerLink]="['/home/adminlinkpage']"
+                  style="margin-left: 6px;">
+                  <i class="fas fa-arrow-alt-circle-left mr-1"></i> Back</button>
+              </div>
+            </div>
+          </div>
+          <div class="row m-0">
+            <div class="col-lg-5 module-box">
+              <div >
+                <div class="form-row">
+                  <div class="form-group col-md-5">
+                    <label class="col-form-label" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'Company Name')" for="userName1">Company Name <span style="color: red">*</span></label>
+                    <input class="form-control form-control-sm" [(ngModel)]="CompanyInfoModelObj.YR_Company_Name"
+                      formControlName="CompanyNameVal"
+                      [ngClass]="{ 'is-invalid': submitted && fx.CompanyNameVal.errors }" 
+                      [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'Company Name')"
+                      id="userName1"
+                      placeholder="Enter Company Name">
+                    <div *ngIf="submitted && fx.CompanyNameVal.errors" class="invalid-feedback">
+                      <div *ngIf="fx.CompanyNameVal.errors.required">this field is required</div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label class="col-form-label" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'Contact Name')"
+                     for="Lastx"> Contact Name <span style="color: red">*</span></label>
+                    <input type="text" id="Lastx" class="form-control form-control-sm"
+                      [(ngModel)]="CompanyInfoModelObj.YR_Company_Con_Name" formControlName="ContactNameVal"
+                      [ngClass]="{ 'is-invalid': submitted && fx.ContactNameVal.errors }"
+                      [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'Contact Name')"
+                      placeholder="Enter Contact Name">
+                    <div *ngIf="submitted && fx.ContactNameVal.errors" class="invalid-feedback">
+                      <div *ngIf="fx.ContactNameVal.errors.required">this field is required</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label class="col-form-label" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'Email')"
+                     for="qwer">Email <span style="color: red">*</span></label>
+                    <input type="text" class="form-control form-control-sm"
+                      [(ngModel)]="CompanyInfoModelObj.YR_Company_Email" formControlName="EmailVal"
+                      [ngClass]="{ 'is-invalid': submitted && fx.EmailVal.errors }"
+                      [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'Email')"
+                       id="qwer"
+                      placeholder="Enter Email ID">
+                    <div *ngIf="submitted && fx.EmailVal.errors" class="invalid-feedback">
+                      <div *ngIf="fx.EmailVal.errors.required">this field is required</div>
+                      <div *ngIf="fx.EmailVal.errors.email">Email must be a valid email address</div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label class="col-form-label" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'Phone')"
+                     for="iuyr">Phone <span style="color: red">*</span></label>
+                    <input type="text" min="0" class="form-control form-control-sm" id="iuyr" numbersOnly
+                      [(ngModel)]="CompanyInfoModelObj.YR_Company_Phone" formControlName="PhoneVal"
+                      [ngClass]="{ 'is-invalid': submitted && fx.PhoneVal.errors }"
+                      [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'Phone')"
+                       placeholder="Enter Phone No.">
+                    <div *ngIf="submitted && fx.PhoneVal.errors" class="invalid-feedback">
+                      <div *ngIf="fx.PhoneVal.errors.required">this field is required</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-12">
+                    <label class="col-form-label" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'Address')"
+                    for="ytgghf">Address<span style="color: red">*</span></label>
+                    <textarea type="text" class="form-control form-control-sm" id="ytgghf"
+                      [(ngModel)]="CompanyInfoModelObj.YR_Company_Address" formControlName="AddressVal"
+                      [ngClass]="{ 'is-invalid': submitted && fx.AddressVal.errors }"
+                      [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'Address')"
+                      placeholder="Enter Address"> </textarea>
+                    <div *ngIf="submitted && fx.AddressVal.errors" class="invalid-feedback">
+                      <div *ngIf="fx.AddressVal.errors.required">this field is required</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-row">
+
+                  <div class="form-group col-md-4">
+                    <label class="col-form-label" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'State')"
+                     for="qweCiStatetyr">State <span style="color: red">*</span></label>
+                    <select class="form-control form-control-sm" [(ngModel)]="CompanyInfoModelObj.YR_Company_State"
+                    [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'State')"
+                      formControlName="disbledFaltux" id="qweCiStatetyr" (change)="State_Method();">
+                      <option value='0'>select</option>
+                      <option [ngValue]="kb.IPL_StateID" *ngFor="let kb of StateList">
+                        {{kb.IPL_StateName}}
+                      </option>
+                    </select>
+                    <div *ngIf="StateFlag" class="Mydropdown">this field is required
+                    </div>
+                  </div>
+   
+
+                  <div class="form-group col-md-4">
+                    <label class="col-form-label" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'City')"
+                    for="qweCityr">City <span style="color: red">*</span></label>
+                    <input type="text" class="form-control form-control-sm" AlphabetOnly
+                      [(ngModel)]="CompanyInfoModelObj.YR_Company_City" formControlName="CityVal"
+                      [ngClass]="{ 'is-invalid': submitted && fx.CityVal.errors }" 
+                      [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'City')"
+                      id="qweCityr"
+                      placeholder="Enter City">
+                    <div *ngIf="submitted && fx.CityVal.errors" class="invalid-feedback">
+                      <div *ngIf="fx.CityVal.errors.required">this field is required</div>
+                    </div>
+                  </div>
+                  
+                  <div class="form-group col-md-4">
+                    <label class="col-form-label" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'Zip')"
+                     for="qweCZipityr">Zip <span style="color: red">*</span></label>
+                    <input type="text" min="0" class="form-control form-control-sm" numbersOnly maxlength="6"
+                      [(ngModel)]="CompanyInfoModelObj.YR_Company_Zip" formControlName="ZipVal"
+                      [ngClass]="{ 'is-invalid': submitted && fx.ZipVal.errors }"
+                      [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'Zip')"
+                       id="qweCZipityr"
+                      placeholder="Enter Zip">
+                    <div *ngIf="submitted && fx.ZipVal.errors" class="invalid-feedback">
+                      <div *ngIf="fx.ZipVal.errors.required">this field is required</div>
+                    </div>
+                  </div>
+                </div>
+                <br>
+                <br>
+                <br>
+              </div>
+            </div>
+            <div class="col-lg-2"></div>
+            <div class="col-lg-5 module-box">
+              <div >
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label class="col-form-label" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'Support Email')"
+                     for="qwSupporteCityr">Support Email </label>
+                    <input type="text" class="form-control form-control-sm" formControlName="disbledFaltu"
+                      [(ngModel)]="CompanyInfoModelObj.YR_Company_Support_Email" 
+                      [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'Support Email')"
+                      id="qwSupporteCityr"
+                      placeholder="Enter Support Email">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label class="col-form-label" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'Support Phone')"
+                    for="qwrtereCityr">Support Phone </label>
+                    <input type="text" min="0" class="form-control form-control-sm" numbersOnly
+                      [(ngModel)]="CompanyInfoModelObj.YR_Company_Support_Phone" formControlName="disbledFaltu1"
+                      [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'Support Phone')"
+                      id="qwrtereCityr" placeholder="Enter Support Phone">
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-12">
+                    <label class="col-form-label" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'PDF Heading')"
+                     for="ytgterteghf">PDF Heading</label>
+                    <textarea type="text" class="form-control form-control-sm" id="ytgterteghf" rows="1"
+                      [(ngModel)]="CompanyInfoModelObj.YR_Company_PDF_Heading" 
+                      [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'PDF Heading')"
+                      formControlName="disbledFaltu2"
+                      placeholder="Enter PDF Heading"> </textarea>
+                  </div>
+
+                </div>
+                <div class="form-row" >
+                  <div class="form-group col-md-6">
+                    <label class="col-form-label"  [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'Logo')"
+                    for="qwrtLogoereCityr">Logo </label>
+                    <input #imageInput type="file" class="form-control" id="qwrtLogoereCityr" title="Select File..."
+                      accept="image/*" (change)="processImage($event)" 
+                      [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'Logo')"
+                      formControlName="fileedit">
+                     
+                  </div>
+                  <div class="form-group col-md-6" *ngIf="imgpath">
+                    <label class="col-form-label"
+                    for="qwrtLogoerefsdCityr">Document </label>
+                    <div *ngIf="!ImgFlag">
+                      <a href="{{imgpath}}" title="click to open document new tab" style="color:blue;cursor:pointer"
+                        target="_blank"> preview document</a>
+                    </div>
+                    <br>
+                    <img [src]="imgpath" *ngIf="ImgFlag" style="width: 72px;height: 72px;" alt="company logo" class="img-thumbnail">
+                  </div>
+                </div>
+
+                <div class="form-row" >
+                  <div class="form-group col-md-6">
+                    <label class="col-form-label"  [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'App Logo')"
+                    for="qwrtLogoereCityr">App Logo </label>
+                    <input #imageInput type="file" class="form-control" id="qwrtLogoereCityr" title="Select File..."
+                      accept="image/*" (change)="processFile($event)" 
+                      [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'App Logo')"
+                      formControlName="fileedit">
+                     
+                  </div>
+              
+                    <img [src]="applogo" style="width: 72px;height: 72px;" alt="company logo" class="img-thumbnail">
+                
+                </div>
+
+                <div class="form-row">
+                  <div class="float-right">
+                    <label for="InvestmentSihhhze" *ngIf="formUsrCommonGroup.invalid"
+                      style="color:red;margin-top:10px">*
+                      Field is Required
+                    </label> <br>
+
+                    
+                  </div>
+                </div>
+                <br>
+                <br>
+                <br>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

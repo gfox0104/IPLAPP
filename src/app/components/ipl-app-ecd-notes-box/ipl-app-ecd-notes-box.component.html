@@ -1,0 +1,112 @@
+<div class="row">
+  <div class="col-12">
+
+    <table id="table" class="table col-11.5 mt-1 mb-1">
+      <thead>
+        <th>Date</th>
+        <th>Comment</th>
+        <th>Created By</th>
+        <th *ngIf="IsAddEditDeleteVisible">Action</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of ECD_Note_List; index as indx">
+          <td width="10%">
+            {{ item.ECD_Note_Date |date:"MM/dd/yyyy" }}
+          </td>
+          <td width="75%">
+            {{ item.ECD_Note_Comment }}
+          </td>
+          <td width="10%">
+            {{ item.CreatedByUser }}
+          </td>
+          <td width="10%" *ngIf="IsAddEditDeleteVisible">
+
+            <span>
+              <a href="javascript:void(0)" (click)="EditNote(AddECDNote,item)">
+                <i class="fa fa-edit" style="color: black;"></i>
+              </a>
+            </span>
+            &nbsp;&nbsp;
+            <span>
+              <a href="javascript:void(0)" (click)="DeleteNote(item)">
+                <i class="fa fa-trash" style="color: black;"></i>
+              </a>
+            </span>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <td colspan="4" *ngIf="IsAddEditDeleteVisible">
+            <button type="button" style="float: right;" (click)="OpenAddEcdPopup(AddECDNote)" class="btn btn-primary btn-sm mr-1"  >Add Note</button>
+        </td>
+      </tfoot>
+    </table>
+  </div>
+</div>
+<ng-template #AddECDNote let-modal let-c="close" let-d="dismiss">
+  <div class="modal-header ecdnote-modal-header">
+    <h5 style="color: black;">{{tital}} ECD Notes</h5>
+    <button type="button" id="btnNotesModalClose" (click)="modal.close('Add Note Modal')" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">×</span>
+    </button>
+
+  </div>
+  <div class="modal-body ecdnote-modal-body">
+       <!-- Message box popup -->
+       <div class="row">
+        <div class="col-12">
+          <form [formGroup]="formUsrCommonGroup" (ngSubmit)="FormButton()">
+            <div class="form-row">
+            <div class="form-group col-md-12">
+              <label for="inputCityrfDate" class="col-form-label">Date <span
+                  style="color: red">*</span></label>
+              <div class="form-group">
+                <div class="input-group">
+                  <label class="form-control form-control-sm" >{{ ecdNotesObject.ECD_Note_Date |
+                    date:'MM/dd/yyyy'}}
+                    <span *ngIf="!ecdNotesObject.ECD_Note_Date">Enter Date</span>
+                  </label>
+                  <input class="form-control form-control-sm" placeholder="yyyy-mm-dd"
+                    [(ngModel)]="ecdNotesObject.ECD_Note_Date" [ngModelOptions]="{standalone: true}"
+                    ngbDatepicker #dt1="ngbDatepicker" firstDayOfWeek="7" style="display: none" required
+                    firstDayOfWeek="7"
+                    [ngClass]="{ 'is-invalid': submitted && !ecdNotesObject.ECD_Note_Date }">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-info btn-xs"
+                      (click)="dt1.toggle()" type="button"><i class="fas fa-calendar-alt"></i></button>
+                  </div>
+                  <div *ngIf="submitted && !ecdNotesObject.ECD_Note_Date" class="invalid-feedback">
+                    <div *ngIf="!ecdNotesObject.ECD_Note_Date">this field is required</div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="form-group col-md-12">
+              <textarea type="text" class="form-control form-control-sm"
+                rows="3" placeholder="Type comment here"
+                formControlName="ECD_Note_Comment" [(ngModel)]="ecdNotesObject.ECD_Note_Comment"
+                [ngClass]="{ 'is-invalid': submitted && fx.ECD_Note_Comment.errors }"></textarea>
+              <div *ngIf="submitted && fx.ECD_Note_Comment.errors" class="invalid-feedback">
+                <div *ngIf="fx.ECD_Note_Comment.errors.required">this field is required</div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="float-right">
+                <button id="client_viewdetail_1" class="btn btn-primary mr-1" type="submit" [disabled]="isLoading">
+                  <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}"></i>
+                  {{button}}
+                </button>
+
+                <button id="client_viewdetail_2" class="btn btn-primary mr-1" type="button" [disabled]="isLoading"
+                (click)="modal.close('Add Note Modal')">
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+          </form>
+        </div>
+      </div>
+  </div>
+</ng-template>

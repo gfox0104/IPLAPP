@@ -1,0 +1,18 @@
+<div class="container-fluid ">
+    <div class="card">
+        <div class="card-body">
+            <app-breadcrumb title="Allowables"></app-breadcrumb>
+        <div class="icons-list">
+          <div class="row">
+            <div class="icons text-center mt-0" style="width: auto !important;" *ngFor="let item of AllowablesLinks">
+              <a [routerLink]="item.routerLink">
+                <img src = "{{item.images}}" style="width: 88px; ">
+                <span>{{item.title}}</span>
+  
+              </a>
+            </div>          
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

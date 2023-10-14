@@ -1,0 +1,444 @@
+<div class="container-fluid mt-2" [ngClass]="{ 'HelpCursor': isHelpActive }">
+  <div class="">
+    <div class="">
+      <form [formGroup]="formUsrCommonGroup" (ngSubmit)="FormButton()">
+        <div class="col-12 module-box-header mb-0">
+          <h5>Add Client Company
+            <a class="pull-right mr-2" data-toggle="tooltip" (click)="SetHelpFlag()" data-placement="top"
+            title="Item Help" style="cursor: pointer;">Need Help
+            <i class="fas fa-question"></i>&nbsp;&nbsp;
+            </a>
+          </h5>
+        </div>
+        <div class="form-row m-0 col-12 module-subheader p-1" >
+          <div>
+            <a *ngIf="IsEditDisable" (click)="EditForms()" id="client_viewdetail_1" class="btn btn-primary"> <i
+                class="far fa-edit mr-1"></i> Edit </a>
+            <button type="submit" *ngIf="!IsEditDisable" id="client_viewdetail_1" class="btn btn-primary "
+              [disabled]="isLoading">
+              <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}"></i>
+              {{button}}</button>
+            &nbsp;&nbsp;&nbsp;
+            <a [routerLink]="['/home/client/viewclientcompanies']" class="btn btn-primary waves-effect waves-light">
+              Back</a>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="module-box p-2" >
+              <div class="form-row">
+                <div class="form-group col-md-12 text-center module-subheader" >
+                  <h5>Add Client</h5>
+                </div>
+              </div>
+              <div class="form-row">
+
+                <div class="form-group col-md-12">
+                  <label for="inputdgdfhCityrfSizefss" class="col-form-label" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Client Name')">Client Name <span
+                      style="color: red">*</span></label>
+                  <input type="text" class="form-control form-control-sm" id="inputdgdfhCityrfSizefss"
+                    [(ngModel)]="AddClientCompaniesModelObj.Client_Company_Name" formControlName="CompanyNameVal"
+                    [ngClass]="{ 'is-invalid': submitted && fx.CompanyNameVal.errors }"
+                    placeholder="Enter Client Name"
+                    [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Client Name')"
+                    [readonly]="isHelpActive">
+                  <div *ngIf="submitted && fx.CompanyNameVal.errors" class="invalid-feedback">
+                    <div *ngIf="fx.CompanyNameVal.errors.required">this field is required</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-12">
+                  <label class="col-form-label" for="password1fsfff" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Address')">Address <span style="color: red">*</span></label>
+                  <textarea type="text" id="password1fsfff" class="form-control" placeholder="Enter Address..."
+                    [(ngModel)]="AddClientCompaniesModelObj.Client_Billing_Address"
+                    formControlName="disbledFaltu" [readonly]="isHelpActive"
+                    [ngClass]="{ 'is-invalid': submitted && fx.disbledFaltu.errors }" (click)="DispalyInfo($event,'Address')"></textarea>
+                    <div *ngIf="submitted && fx.disbledFaltu.errors" class="invalid-feedback">
+                      <div *ngIf="fx.disbledFaltu.errors.required">this field is required</div>
+                    </div>
+                </div>
+              </div>
+
+
+              <div class="form-row">
+
+                <div class="form-group col-md-4">
+                  <label for="inputCityrfSizwdweaafss" class="col-form-label" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'State')">State
+                    <span style="color: red">*</span>
+                  </label>
+
+                  <kendo-dropdownlist
+                  [defaultItem]="defaultStateItem"
+                  [data]="drpStateList"
+                  [filterable]="true"
+                  [textField]="'IPL_StateName'"
+                  [valueField]="'IPL_StateID'"
+                  [(ngModel)]="AddClientCompaniesModelObj.Client_StateId"
+                  [valuePrimitive]="true"
+                  (valueChange)="selectChangeHandler($event)"
+                  (filterChange)="statehandleFilter($event)"
+                  [formControlName]="'disbledFaltu1'"
+                  style="width: 100%;"
+                  [readonly]="isHelpActive"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'State')"
+                  >
+                </kendo-dropdownlist>
+                <div *ngIf="StateValFlag" class="Mydropdown">this field is required</div>
+                </div>
+
+                <div class="form-group col-md-4">
+                  <label for="inputCitybddddnCode" class="col-form-label"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'City')">City
+                  </label>
+                  <input type="text" class="form-control form-control-sm" id="inputCitybddddnCode"
+                    placeholder="Enter City..." [(ngModel)]="AddClientCompaniesModelObj.Client_City"
+                    formControlName="disbledFaltu2" [readonly]="isHelpActive"
+                    [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'City')">
+
+                </div>
+
+                <div class="form-group col-md-4">
+                  <label class="col-form-label" for="ufdrr"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Zip')"> Zip
+                  <span style="color: red">*</span></label>
+                  <input type="text" id="ufdrr" class="form-control form-control-sm" placeholder="Enter Zip" numbersOnly
+                     [(ngModel)]="AddClientCompaniesModelObj.Client_ZipCode"
+                    formControlName="disbledFaltu3" [readonly]="isHelpActive"
+                    [ngClass]="{ 'is-invalid': submitted && fx.disbledFaltu3.errors }" (click)="DispalyInfo($event,'Zip')">
+                    <div *ngIf="submitted && fx.disbledFaltu3.errors" class="invalid-feedback">
+                      <div *ngIf="fx.disbledFaltu3.errors.required">this field is required</div>
+                    </div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label for="ggggggginputCitybnCode" class="col-form-label"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Client Discount')">Client Discount % </label>
+                  <input type="text" (keypress)="validate($event)"  class="form-control form-control-sm"
+                    id="ggggggginputCitybnCode" placeholder="Enter Client Discount %..."
+                    [(ngModel)]="AddClientCompaniesModelObj.Client_Discount" formControlName="disbledFaltu4"
+                    [readonly]="isHelpActive"
+                    [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Client Discount')">
+                </div>
+
+                <div class="form-group col-md-4">
+                  <label for="inputgdssgStatfde" class="col-form-label"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Contractor Discount')">Contractor Discount %</label>
+                  <input type="text"(keypress)="validate($event)" class="form-control form-control-sm"
+                    id="inputgdssgStatfde" placeholder="Enter Contractor Discount %..."
+                    [(ngModel)]="AddClientCompaniesModelObj.Client_Contractor_Discount" formControlName="disbledFaltu5"
+                    [readonly]="isHelpActive"
+                    [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Contractor Discount')">
+                </div>
+
+                <div class="form-group col-md-4">
+                  <label for="inputCityrfSizefssdwa" class="col-form-label"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Active')">Active</label>
+                  <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="kjhgfdsa" formControlName="ActiveVal"
+                      [(ngModel)]="AddClientCompaniesModelObj.Client_Active" (click)="Active_Method();"
+                      [ngClass]="{ 'is-invalid': fx.ActiveVal.touched && fx.ActiveVal.errors }"
+                      [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Active')">
+                    <label class="custom-control-label" for="kjhgfdsa"></label>
+                  </div>
+                  <!-- <div *ngIf="ActiveValFlag" class="Mydropdown">this field is required</div> -->
+                </div>
+              </div>
+              Client_IsActive
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="ifhdsd" class="col-form-label"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Name')">Name</label>
+                  <input type="text" class="form-control form-control-sm" id="ifhdsd" AlphabetOnly
+                    placeholder="Enter Name..." [(ngModel)]="AddClientCompaniesModelObj.Client_ContactName"
+                    formControlName="disbledFaltu21"
+                    [readonly]="isHelpActive"
+                    [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Name')">
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="ifdhghf" class="col-form-label"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Phone')">Phone</label>
+                  <input type="text" class="form-control form-control-sm" id="ifdhghf" numbersOnly
+                    placeholder="Enter Phone Number..." [(ngModel)]="AddClientCompaniesModelObj.Client_ContactPhone"
+                    formControlName="disbledFaltu22" [readonly]="isHelpActive"
+                    [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Phone')">
+                </div>
+              </div>
+              <div class="form-row">
+
+
+                <div class="form-group col-md-6">
+                  <label class="col-form-label" for="assd"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Email')"> Email
+                  <span style="color: red">*</span> </label>
+                  <input type="email" id="assd" class="form-control form-control-sm" placeholder="Enter Email"
+                    [(ngModel)]="AddClientCompaniesModelObj.Client_ContactEmail"
+                    [ngClass]="{ 'is-invalid': submitted && fx.disbledFaltu23.errors }"
+                    formControlName="disbledFaltu23" [readonly]="isHelpActive"
+                    [ngClass]="{ 'is-invalid': submitted && fx.disbledFaltu23.errors }" (click)="DispalyInfo($event,'Email')">
+                  <!-- <div *ngIf="submitted && fx.disbledFaltu23.errors" class="invalid-feedback">
+                    <div *ngIf="fx.disbledFaltu23.errors.required">this field is required</div>
+                    <div *ngIf="fx.disbledFaltu23.errors.email">Enter valid Email Id</div>
+                  </div> -->
+                  <div *ngIf="submitted && fx.disbledFaltu23.errors" class="invalid-feedback">
+                    <div *ngIf="fx.disbledFaltu23.errors.required">this field is required</div>
+                    <div *ngIf="fx.disbledFaltu23.errors.email">Email must be a valid email address</div>
+                  </div>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="inputWebsitebddddnCode" class="col-form-label"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'City')">Website</label>
+                  <input type="text" class="form-control form-control-sm" id="inputWebsitebddddnCode"
+                    placeholder="Enter Website..." [(ngModel)]="AddClientCompaniesModelObj.Client_Website_Link"
+                    formControlName="disbledFaltu24" [readonly]="isHelpActive"
+                    [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Website')">
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+            </div>
+
+            <div class="module-box p-2" >
+              <div class="form-row">
+                <div class="form-group col-md-12 text-center module-subheader" >
+                  <h5>Add Client Contact</h5>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="kjgfdds" class="col-form-label"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Contact Type')">Contact Type</label>
+                  <input type="text" class="form-control form-control-sm" id="kjgfdds"
+                    placeholder="Enter Contact Type..." [(ngModel)]="AddClientCompaniesModelObj.Client_ContactTypex"
+                    formControlName="disbledFaltu6" [readonly]="isHelpActive"
+                    [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Contact Type')">
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="kjgContactfdds" class="col-form-label"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Contact Name')">Contact Name</label>
+                  <input type="text" class="form-control form-control-sm" id="kjgContactfdds"
+                    placeholder="Enter Contact Name..." [(ngModel)]="AddClientCompaniesModelObj.Client_ContactNamex"
+                    formControlName="disbledFaltu7" [readonly]="isHelpActive"
+                    [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Contact Name')">
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="kjgfdds" class="col-form-label"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Contact Email')">Contact Email</label>
+                  <input type="email" class="form-control form-control-sm" id="kjgfdds" placeholder="Enter Email..."
+                    [(ngModel)]="AddClientCompaniesModelObj.Client_ContactEmailx" formControlName="disbledFaltu8"
+                    [readonly]="isHelpActive"
+                    [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Contact Email')"
+                    [ngClass]="{ 'is-invalid': submitted && fx.disbledFaltu8.errors }" (click)="DispalyInfo($event,'Email')">
+                </div>
+                <div *ngIf="submitted && fx.disbledFaltu8.errors" class="invalid-feedback">
+                  <div *ngIf="fx.disbledFaltu8.errors.email">Email must be a valid email address</div>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="kjgContactfdds" class="col-form-label"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Contact Phone Number')">Contact Phone Number</label>
+                  <input type="text" class="form-control form-control-sm" id="kjgContactfdds" numbersOnly
+                    placeholder="Enter Contact Number..." [(ngModel)]="AddClientCompaniesModelObj.Client_ContactPhonex"
+                    formControlName="disbledFaltu9" [readonly]="isHelpActive"
+                    [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Contact Phone Number')">
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" [(ngModel)]="AddClientCompaniesModelObj.MainClnt_Con_List_Active"
+                      formControlName="disbledFaltu10" class="custom-control-input" id="customCheckrerer"
+                      [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Active')">
+                    <label class="custom-control-label" for="customCheckrerer"
+                    [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Active')">Active</label>
+                  </div>
+                </div>
+                <div class="form-group col-md-4">
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" [(ngModel)]="AddClientCompaniesModelObj.MainClnt_Con_List_IsDelete"
+                      formControlName="disbledFaltu11" class="custom-control-input" id="dfdsfdsfd"
+                      [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Delete')">
+                    <label class="custom-control-label" for="dfdsfdsfd"
+                    [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Delete')">Delete</label>
+                  </div>
+                </div>
+                <div class="form-group col-md-4">
+                  <button type="button" class="btn btn-outline-primary waves-effect waves-light form-control"
+                    (click)="AddMoreRowContact()" title="click to add mutiple contact"> <i
+                      class="fas fa-plus-circle mr-1"></i>{{ContactBtn}} </button>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+            </div>
+            <div class="module-box mb-1 p-2" >
+              <div class="form-row">
+                <div class="form-group col-md-12 text-center module-subheader" >
+                  <h5>Client Contact List</h5>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="table-responsive">
+                  <table class="table mb-0">
+                    <thead class="thead-light">
+                      <tr>
+                        <th>Contact Type</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone Number</th>
+                        <th>Delete</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of MultipleContact;index as indx">
+                        <td>{{item.Clnt_Con_List_TypeName}}</td>
+                        <td>{{item.Clnt_Con_List_Name}}</td>
+                        <td>{{item.Clnt_Con_List_Email}}</td>
+                        <td>{{item.Clnt_Con_List_Phone}}</td>
+                        <td>
+                          <div class="custom-control custom-checkbox">
+                            <input onclick="return false" type="checkbox" [(ngModel)]="item.Clnt_Con_List_IsDelete"
+                              [ngModelOptions]="{standalone: true}" class="custom-control-input"
+                              id="customCheckfg11ctf{{indx}}">
+                            <label class="custom-control-label" for="customCheckfg11ctf{{indx}}"></label>
+                          </div>
+                        </td>
+                        <td><a (click)="EditRow(indx)" style="cursor: pointer"><i class="far fa-edit mr-1"></i>Edit</a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="module-box p-2" >
+              <div class="form-row">
+                <div class="form-group col-md-12 text-center module-subheader" >
+                  <h5>Client Data Settings</h5>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <!-- <div class="form-group col-md-4">
+                  <label for="ggsdinputCitybnCode" class="col-form-label"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Photo Re-size Height')">Photo Re-size Height</label>
+                  <input type="text" min="0" class="form-control form-control-sm" id="ggsdinputCitybnCode" numbersOnly
+                    maxlength="4" placeholder="Enter height.."
+                    [(ngModel)]="AddClientCompaniesModelObj.Client_Photo_Resize_height"
+                    formControlName="disbledFaltu12" [readonly]="isHelpActive"
+                    [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Photo Re-size Height')">
+                  <span class="font-13 text-muted">(default is 640x480, min is 320x240, max is 1024x768)</span>
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="inputfdghStatfde" class="col-form-label"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Width')">Width</label>
+                  <input type="text" min="0" class="form-control form-control-sm" id="inputfdghStatfde" numbersOnly
+                    maxlength="4" placeholder="Enter width..."
+                    [(ngModel)]="AddClientCompaniesModelObj.Client_Photo_Resize_width" formControlName="disbledFaltu13"
+                    [readonly]="isHelpActive"
+                    [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Width')">
+                </div> -->
+                <div class="form-group col-md-3">
+                  <label for="ggsdinputCitybnCode" class="col-form-label"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Photo Re-size Height')">Photo Re-size Width & Height</label>
+                  <select class="form-control form-control-sm" formControlName="disbledFaltu12"
+                    [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Photo Re-size Height')"
+                    [(ngModel)]="AddClientCompaniesModelObj.Client_Photo_Resize_HeightWidth">
+                    <option value='0x0'>Select</option>
+                    <option [ngValue]="size.Id" *ngFor="let size of ImageSizeArray">
+                      {{size.Name}}
+                    </option>
+                  </select>
+
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="sdfinputCityrfSizefss" class="col-form-label"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Date/Time Overlay')">Date/Time Overlay</label>
+                  <select id="sdfinputCityrfSizefss" class="form-control form-control-sm"
+                    [(ngModel)]="AddClientCompaniesModelObj.Client_DateTimeOverlay" formControlName="disbledFaltu14"
+                    [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Date/Time Overlay')">
+                    <option value='0'>Select</option>
+                    <option [ngValue]="kb.Id" *ngFor="let kb of DateTimeList">
+                      {{kb.Name}}
+                    </option>
+                  </select>
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="Backgroundew" class="col-form-label"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Background Provider')">Background Provider</label>
+                  <select id="Backgroundew" class="form-control form-control-sm"
+                    [(ngModel)]="AddClientCompaniesModelObj.Client_BackgroundProvider" formControlName="disbledFaltu15"
+                    [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Background Provider')">
+                    <option value='0'>Select</option>
+                    <option [ngValue]="kb.Id" *ngFor="let kb of BackgroundArry">
+                      {{kb.Name}}
+                    </option>
+                  </select>
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="dwdinputStatfde" class="col-form-label"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Start Date - Lock Order')">Start Date - Lock Order</label>
+                  <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="customggggggg1"
+                      [(ngModel)]="AddClientCompaniesModelObj.Client_Lock_Order" formControlName="disbledFaltu16"
+                      [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Lock Order')">
+                    <label class="custom-control-label" for="customggggggg1"
+                    [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Lock Order')">Lock Order</label>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row" *ngIf="AddClientCompaniesModelObj.Client_Lock_Order">
+                <div class="form-group col-md-12">
+                  <label for="inputCawdawityrfDatew"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Comments/Notes')">Lock Order Reason</label>
+                  <textarea type="text" class="form-control" id="inputCawdawityrfDatew"
+                    [(ngModel)]="AddClientCompaniesModelObj.Client_Lock_Order_Reason" formControlName="disbledFaltu25"
+                    placeholder="Enter Reason..." [readonly]="isHelpActive"
+                    [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Comments/Notes')"> </textarea>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+            </div>
+            <div class="module-box p-2">
+              <div class="form-row">
+                <div class="form-group col-md-12 text-center module-subheader">
+                  <h5>Comments</h5>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-12">
+                  <label for="inputCawdawityrfDatew"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Comments/Notes')">Comments/Notes </label>
+                  <textarea type="text" class="form-control" id="inputCawdawityrfDatew"
+                    [(ngModel)]="AddClientCompaniesModelObj.Client_Comments" formControlName="disbledFaltu17"
+                    placeholder="Enter Comments..." [readonly]="isHelpActive"
+                    [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Comments/Notes')"> </textarea>
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="float-right">
+                <label for="InvestmentSihhhze" *ngIf="formUsrCommonGroup.invalid" style="color:red;margin-top:10px">*
+                  Field is Required
+                </label> <br>
+              </div>
+            </div>
+            <br>
+            <br>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,114 @@
+
+<div class="col-12 row ">
+<div class="col-2"></div>
+<div class="col-md-8 col-lg-8 col-12">
+    <div class="container-fluid">
+        <div class="" style="margin-top: 20px;">            
+            <div class="module-box p-2">
+               
+                <a [routerLink]="['/support/supportdetail/tickethistory/history']" class="btn btn-primary pull-right"><i
+                    class="fas fa-arrow-alt-circle-left mr-1"></i> Back</a>
+                <h4>{{SupportTicketDataModelObj.User_fullname}}</h4>
+                <br>
+                <div class="row">                   
+                    <div class="col-md-4 col-12">                       
+                        <label>Ticket Id  :- {{SupportTicketDataModelObj.Sup_Tickets_ID}}</label>
+                    </div>
+                    <div class="col-md-4 col-12">
+                        <label>Date Added :- {{SupportTicketDataModelObj.AddDate | date:'MM/dd/yyyy'}}</label>
+                    </div>
+                    <div class="col-md-4 col-12">
+                        <label>Last Update :- {{SupportTicketDataModelObj.LastUpdate | date:'MM/dd/yyyy'}}</label>
+                    </div>
+                   
+                </div>
+                <div class="row">
+                    <div class="col-md-4 col-12">
+                        <label>Email:- {{SupportTicketDataModelObj.Sup_Tickets_Email}}</label>
+                    </div>
+                    <div class="col-md-4 col-12">
+                        <label>Phone No. :- {{SupportTicketDataModelObj.Sup_Tickets_Phone}}</label>
+                    </div>
+                    <div class="col-md-4 col-12">
+                        
+                    </div>
+                </div>
+               
+                <div class="row">
+                  
+                    <div class="col-12">
+                        <label>Subject :- {{SupportTicketDataModelObj.Sup_Tickets_Subject}}</label>
+                    </div>
+                   
+                    </div>
+                    
+                <hr>
+                <div class="row mx-2">
+                    <table class="table">
+                        <tr>
+                        <th>S.No</th>
+                        <th>File Name</th>
+                        <th>Download</th>
+                    </tr>
+                        <tr *ngFor="let item of Doclist  let i=index">
+                            <td>{{i + 1}}</td>
+                            <td>{{item.Support_Docs_File_Name}}</td>
+                            <td><a [href]="item.Support_Docs_File_Path" target="_blank"
+                                [download]="item.Support_Docs_File_Path"><i class="fa fa-download" aria-hidden="true"></i>
+                                Download file</a></td>
+                        </tr>
+                    </table>
+    
+                </div>
+                
+                <div class="row">
+                    <div class="col-12">                    
+                        <div class="module-box p-2" >
+                            <div class="col-md-12 p-1" *ngFor="let item of MsgList">
+                                <div class="p-1"  *ngIf="item.Support_Rep_IsComment">
+                                    <label  >
+                                        <i class="fas fa-user" aria-hidden="true"></i>
+                                         &nbsp;&nbsp;{{SupportTicketDataModelObj.User_fullname}} : <small>{{item.Support_Rep_CreatedOn | date:'MM/dd/yyyy'}}</small>
+                                    </label>
+                                    <p class="m-0" style="margin-left: 3% !important;">{{item.Support_Rep_Reply}}</p>
+                                </div>
+                                <div class="p-1" style="border-radius: 10px;
+                                margin-top: -2%;
+                                margin-bottom: 1%;
+                                margin-left: 4%;
+                                box-shadow: rgb(60 64 67 / 30%) 0px 1px 2px 0px, rgb(60 64 67 / 15%) 0px 1px 3px 1px;" *ngIf="!item.Support_Rep_IsComment">
+                                    <label >
+                                        <i class="fa fa-reply" aria-hidden="true"></i>
+                                        &nbsp;&nbsp;{{item.Ipl_Ad_User_First_Name}}
+                                        &nbsp;&nbsp;{{item.Ipl_Ad_User_Last_Name}} : <small>{{item.Support_Rep_CreatedOn | date:'MM/dd/yyyy'}}</small>
+                                    </label>
+                                    <p class="m-0" style="margin-left: 3% !important;">{{item.Support_Rep_Reply}}</p>
+                                </div>
+                            </div>
+                            
+                            <div *ngIf="SupportTicketDataModelObj.Sup_Comment_Show" class="col-md-12">
+                                <label>Add Comment : </label>
+                                <textarea id="message" class="form-control" name="message" placeholder="Type Comment..." style="height:100px" [(ngModel)]="AddCommentModelObj.Support_Rep_Reply">
+                                </textarea>
+                            </div>
+                            <div *ngIf="SupportTicketDataModelObj.Sup_Comment_Show" class="col-md-12" style="margin-top: 5px;">
+                                <button id="client_viewdetail_1" class="btn btn-primary"  type="button" (click)="SubmitComment()"
+                                [disabled]="isLoading">
+                                <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}"></i>
+                                {{button}}
+                            </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                </div>
+               
+               
+                
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-2"></div>
+</div>

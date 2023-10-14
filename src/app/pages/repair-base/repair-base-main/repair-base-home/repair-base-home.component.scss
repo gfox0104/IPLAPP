@@ -1,0 +1,20 @@
+.repair-home{
+    margin-top: 20px;
+    .row { 
+        margin: 20px 0px;
+    }
+    .card{
+        font-size: 16px;
+        .card-header{
+            background-color: #000003;
+            color: #ffffff;
+        }
+        .k-grid-ignore-click{
+            cursor: pointer;
+        }
+    }
+}
+
+.k-dateinput-wrap .k-input, .k-dropdown-wrap .k-input, .k-picker-wrap .k-input, .k-numeric-wrap .k-input{
+    padding-left: 14% !important;
+}

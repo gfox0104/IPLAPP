@@ -1,0 +1,36 @@
+import { Injectable } from '@angular/core';
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpProgressEvent, HttpEventType, HttpResponse } from '@angular/common/http';
+import { Observable, of, concat } from 'rxjs';
+import { delay } from 'rxjs/operators';
+import { BaseUrl } from 'src/app/services/apis/rest-api';
+import { environment } from 'src/environments/environment';
+
+@Injectable()
+
+export class ClientResultPhotoServices implements HttpInterceptor {
+
+  private apiUrlGet = BaseUrl + environment.ClientResult.ImageBackground;
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    //debugger
+    if (req.url === this.apiUrlGet) {
+      const events: Observable<HttpEvent<any>>[] = [0, 30, 60, 100].map((x) => of(<HttpProgressEvent>{
+        type: HttpEventType.UploadProgress,
+        loaded: x,
+        total: 100
+      }).pipe(delay(1000)));
+
+      const success = of(new HttpResponse({ status: 200 })).pipe(delay(1000));
+      events.push(success);
+
+      return concat(...events);
+    }
+
+    if (req.url === 'removeUrl') {
+      return of(new HttpResponse({ status: 200 }));
+    }
+
+    return next.handle(req);
+  }
+
+  //
+}

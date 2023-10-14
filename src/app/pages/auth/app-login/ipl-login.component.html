@@ -1,0 +1,60 @@
+<div class="container">
+    <div class="row justify-content-md-center">
+      <div class="col-md-12 col-lg-6 col-xl-5">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex justify-content-center">
+              <img src="assets/images/logo.jpg" style="width: 258px;" class="img-responsive">
+            </div>
+  
+            <form [formGroup]="form" (ngSubmit)="onLogin(content,form.value)">
+              <div class="form-group mb-3">
+                <label for="emailaddress1">USERNAME</label>
+                <input class="form-control form-control-sm" type="email" id="emailaddress1" required=""
+                  placeholder="Enter your username" [formControl]="email" [ngModel]="IplLoginModelObj.LoginName"
+                  [ngClass]="{ 'is-invalid': submitted && fx.email.errors }">
+                <div *ngIf="submitted && fx.email.errors" class="invalid-feedback">
+                  <div *ngIf="fx.email.errors.required">Username is required</div>
+                </div>
+              </div>
+         
+  
+              <div class="form-group mb-0 text-center">
+                <button id="client_viewdetail_1" class="btn btn-primary btn-md" type="submit" [disabled]="isLoading">
+                  <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-lock': !isLoading}"></i>
+                  {{button}}</button>
+              </div>
+            </form>
+  
+  
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div>
+    <footer class="footer footer-alt">
+      2023 &copy; IPRESERVATION LIVE <a href="#" class="text-white-50"></a>
+    </footer>
+  </div>
+  
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      Message
+      <button type="button" class="close" (click)="modal.close('Save click')" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="text-center">
+        <span>{{messageFlag}}</span>
+        <hr>
+        <button type="button" class="btn btn-primary waves-effect waves-light"
+          (click)="modal.close('Save click')">Close</button>
+      </div>
+    </div>
+  </ng-template>
+  
+
+  

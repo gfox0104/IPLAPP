@@ -1,0 +1,120 @@
+<div class="repair-search">
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    Search Estimate 
+                </div>
+                <div class="card-body">
+                    <form [formGroup]="formUsrCommonGroup" (ngSubmit)="FormButton()">
+                        <hr/>
+                        <div class="row">
+                            <div style="width: 100%;">
+                                <div class="row">
+                                    DATE QUERIES
+                                </div>
+                                <div class="row">
+                                    <div class="row col-md-12">
+                                        <div class="col-lg-3 col-md-6 col-sm-12">
+                                            <label for="RB_Startdate">Start:</label>
+                                            <input type="date" id="RB_Startdate" class="form-control"
+                                            formControlName="RB_Startdate" name="RB_Startdate" [(ngModel)]="RepairBaseSearchModelObj.RB_Startdate" placeholder="City..">
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-sm-12">
+                                            <label for="RB_Enddate">End:</label>
+                                            <input type="date" id="RB_Enddate" class="form-control" 
+                                            formControlName="RB_Enddate" name="RB_Enddate" [(ngModel)]="RepairBaseSearchModelObj.RB_Enddate" placeholder="State Code..">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr/>
+                        <div class="row">
+                            <div style="width: 100%;">
+                                <div class="row">
+                                    ORDER DETAILS QUERIES
+                                </div>
+                                <div class="row col-md-12">
+                                    <div class="col-lg-3 col-md-6 col-sm-12">
+                                        <label for="RB_BlueBook_ID">Bluebook Id Contains:</label>
+                                        <input type="text" id="RB_BlueBook_ID" class="form-control"
+                                        formControlName="RB_BlueBook_ID" name="RB_BlueBook_ID" [(ngModel)]="RepairBaseSearchModelObj.RB_BlueBook_ID" placeholder="Bluebook Id..">
+                                    </div>
+                                    <div class="col-lg-3 col-md-6 col-sm-12">
+                                        <label for="RB_Reference_ID">Reference Id Contains:</label>
+                                        <input type="text" id="RB_Reference_ID" class="form-control" 
+                                        formControlName="RB_Reference_ID" name="RB_Reference_ID" [(ngModel)]="RepairBaseSearchModelObj.RB_Reference_ID" placeholder="Reference Id..">
+                                    </div>
+                                    <div class="col-lg-3 col-md-6 col-sm-12">
+                                        <label for="RB_Batch_ID">Batch Id:</label>
+                                        <input type="text" id="RB_Batch_ID" class="form-control"
+                                        formControlName="RB_Batch_ID" name="RB_Batch_ID" [(ngModel)]="RepairBaseSearchModelObj.RB_Batch_ID" placeholder="Batch Id..">
+                                    </div>
+                                    <div class="col-md-3 col-sm-12">
+                                        <label for="RB_Order">Order Status:</label>
+                                        <input type="text" id="RB_Order" class="form-control"
+                                        formControlName="RB_Order" name="RB_Order" [(ngModel)]="RepairBaseSearchModelObj.RB_Order" placeholder="Order Status..">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr/>
+                        <div class="row">
+                            <div style="width: 100%;">
+                                <div class="row">
+                                    PROPERTY ADDRESS QUERIES
+                                </div>
+                                <div class="row">
+                                    <div class="row col-md-12">
+                                        <div class="col-lg-3 col-md-6 col-sm-12">
+                                            <label for="RB_City">City Contains:</label>
+                                            <input type="text" id="RB_City" class="form-control"
+                                            formControlName="RB_City" name="RB_City" [(ngModel)]="RepairBaseSearchModelObj.RB_City" placeholder="City..">
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-sm-12">
+                                            <label for="RB_State">State Code Contains:</label>
+                                            <input type="text" id="RB_State" class="form-control" 
+                                            formControlName="RB_State" name="RB_State" [(ngModel)]="RepairBaseSearchModelObj.RB_State" placeholder="State Code..">
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-sm-12">
+                                            <label for="RB_Zip">Zip Contains:</label>
+                                            <input type="text" id="RB_Zip" class="form-control"
+                                            formControlName="RB_Zip" name="RB_Zip" [(ngModel)]="RepairBaseSearchModelObj.RB_Zip" placeholder="Zip..">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr/>
+                        <div class="row">
+                            <div style="width: 100%;">
+                                <div class="row">
+                                    PROPERTY ADDRESS QUERIES
+                                </div>
+                                <div class="row">
+                                    <div class="row col-md-12">
+                                        <div class="col-lg-3 col-md-6 col-sm-12">
+                                            <label for="RB_Result_Num">Maximum number of results:</label>
+                                            <input type="text" id="RB_Result_Num" class="form-control"
+                                            formControlName="RB_Result_Num" name="RB_Result_Num" [(ngModel)]="RepairBaseSearchModelObj.RB_Result_Num" placeholder="Maximum number of results..">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="row">
+                                <div class="row col-md-12">
+                                    <div class="col-lg-3 col-md-6 col-sm-12">
+                                        <button class="btn btn-primary" type="submit">Search</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

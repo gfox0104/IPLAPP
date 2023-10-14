@@ -1,0 +1,219 @@
+<div class="">
+  <div class="module-box">
+    <div class="card-body">
+      <form [formGroup]="formUsrCommonGroup" (ngSubmit)="FormButton()">
+        <div class="row">
+          <div class="col-md-3 text-center" >
+            <div class="">
+              <div class="">
+                <div>
+                  <label>
+                    <input #imageInputBackground type="file" class="form-control" id="file" formControlName="selectimg"
+                      title="Select File..." accept="image/*" (change)="uploadprofileimage($event)">
+                    <div *ngIf="UserProfileModelObj.User_ImagePath == null">
+                      <img src="../../assets/images/users/userAvatar.png" style="border-radius:50%">
+                    </div>
+                    <div *ngIf="UserProfileModelObj.User_ImagePath != null">
+                      <img [src]="UserProfileModelObj.User_ImagePath "
+                        style="border-radius:50%; height: 158px; width: 164px;">
+                    </div>
+                  </label>
+                </div>
+                <div>
+                  <label>{{FullName}}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-3">
+                    <label>Login</label>
+                  </div>
+                  <div class="col-9">
+                    <input type="text" [(ngModel)]="UserProfileModelObj.User_LoginName" formControlName="userlogin"
+                      class="form-control" placeholder="Enter Login Name" readonly>
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col-3">
+                    <label>First Name</label>
+                  </div>
+                  <div class="col-9">
+                    <input type="text" [(ngModel)]="UserProfileModelObj.User_FirstName" formControlName="userfirst"
+                      class="form-control" placeholder="Enter First Name">
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col-3">
+                    <label>Last Name</label>
+                  </div>
+                  <div class="col-9">
+                    <input type="text" [(ngModel)]="UserProfileModelObj.User_LastName" formControlName="userlast"
+                      class="form-control" placeholder="Enter Last Name">
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col-3">
+                    <label>Email</label>
+                  </div>
+                  <div class="col-9">
+                    <input type="email" [(ngModel)]="UserProfileModelObj.User_Email" formControlName="useremail"
+                      class="form-control" placeholder="Enter Email ">
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col-3">
+                    <label>Address</label>
+                  </div>
+                  <div class="col-9">
+                    <textarea class="form-control" [(ngModel)]="UserProfileModelObj.User_Address"
+                      formControlName="useradd" placeholder="Enter City "></textarea>
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col-3">
+                    <label>City</label>
+                  </div>
+                  <div class="col-md-2 col-9">
+                    <input type="text" [(ngModel)]="UserProfileModelObj.User_City" formControlName="usercity"
+                      class="form-control" placeholder="Enter City ">
+                  </div>
+                  <div class="col-md-1 col-3 align-self-center">
+                    <label>State </label>
+                  </div>
+                  <div class="col-md-3 col-9">
+                    
+                    <kendo-dropdownlist 
+                      [defaultItem]="defaultStateItem"
+                      [data]="drpStateList"
+                      [filterable]="true"
+                      [textField]="'IPL_StateName'"
+                      [valueField]="'IPL_StateID'"
+                      [(ngModel)]="UserProfileModelObj.User_State_strval"
+                      (filterChange)="statehandleFilter($event)"
+                      [valuePrimitive]="true"
+                      [formControlName]="'userstate'"
+                      style="width: 100%;"
+                      class="form-control"
+                      >
+                    </kendo-dropdownlist>                 
+                   
+                  
+                  </div>
+                  <div class="col-md-1 col-3 align-self-center">
+                    <label>Pin</label>
+                  </div>
+                  <div class="col-md-2 col-9">
+                    <input type="text" [(ngModel)]="UserProfileModelObj.User_Zip" formControlName="userpin"
+                      class="form-control" placeholder="Enter Pin ">
+                  </div>
+                </div>
+                <br>
+
+                <div class="row">
+                  <div class="col-3">
+                    <label>Company</label>
+                  </div>
+                  <div class="col-md-3 col-9">
+                    <input type="text" [(ngModel)]="UserProfileModelObj.User_CompanyName" formControlName="usercompany"
+                      class="form-control" placeholder="Enter Company">
+                  </div>
+                  <div class="col-3">
+                    <label>Mobile</label>
+                  </div>
+                  <div class="col-md-3 col-9">
+                    <input type="number" [(ngModel)]="UserProfileModelObj.User_CellNumber" formControlName="usermob"
+                      class="form-control" placeholder="Enter Mobile">
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col-3">
+                    <label>Password</label>
+                  </div>
+                  <div class="col-md-3 col-9 input-group">
+                    <input class="form-control form-control-sm" type="password" id="fgfpjkhhhferwdg"
+                      placeholder="Enter  password" formControlName="userpassword"
+                      [type]="fieldTextType ? 'text' : 'password'"
+                      [(ngModel)]="UserProfileModelObj.User_Password"
+                      [ngClass]="{ 'is-invalid': submittedchange && fxChange.userpassword.errors }">
+                      <span  class="input-group-text" style=" width: 36px;height: 32px;">
+                       
+                          <i style="margin:1px;"
+                          class="fa"
+                          [ngClass]="{
+                            'fa-eye-slash': !fieldTextType,
+                            'fa-eye': fieldTextType
+                          }"
+                          (click)="toggleFieldTextType()"
+                        ></i>
+                       
+                      </span>
+                    <div *ngIf="submittedchange && fxChange.userpassword.errors" class="invalid-feedback">
+                      <div *ngIf="fxChange.userpassword.errors.required"> password is required</div>
+                      <div *ngIf="fxChange.userpassword.errors.minlength">Password must be at least 8 characters</div>
+                    </div>
+                  </div>
+                  
+                  <div class="col-3">
+                    <label>Confirm Password</label>
+                  </div>
+                  <div class="col-md-3 col-9 input-group">
+                    <input class="form-control form-control-sm" type="password" id="fgfmnhjkfdg"
+                      placeholder="Enter your new password" formControlName="userconpassword"
+                      [type]="fieldTextCon ? 'text' : 'password'"
+                      [(ngModel)]="UserProfileModelObj.User_PasswordConfirm"
+                      [ngClass]="{ 'is-invalid': submittedchange && fxChange.userconpassword.errors }">
+                      <span class="input-group-text" style=" width: 36px;height: 32px;">
+                      
+                          <i style="margin:1px;"
+                          class="fa"
+                          [ngClass]="{
+                            'fa-eye-slash': !fieldTextCon,
+                            'fa-eye': fieldTextCon
+                          }"
+                          (click)="toggleFieldTextCon()"
+                        ></i>
+                       
+                      </span>
+                    <div *ngIf="submittedchange && fxChange.userconpassword.errors" class="invalid-feedback">
+                      <div *ngIf="fxChange.userconpassword.errors.required">Confirm password is required</div>
+                      <div *ngIf="fxChange.userconpassword.errors.mustMatch">Password must match</div>
+                    </div>
+                  </div>
+              
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-12 d-flex justify-content-center">
+            <label for="InvestmentSihhhze" *ngIf="formUsrCommonGroup.invalid" style="color:red;margin-top:10px">*
+              Field is Required
+            </label> <br>
+            <!-- [routerLink]="['/client/addclientcompanies']" -->
+            <a *ngIf="IsEditDisable" (click)="EditForms()" id="client_viewdetail_1" class="btn btn-primary"> <i
+                class="far fa-edit mr-1"></i> Edit </a>
+            &nbsp;&nbsp;
+            <button type="submit" *ngIf="!IsEditDisable" id="client_viewdetail_1" class="btn btn-primary "
+              [disabled]="isLoading">
+              <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}"></i>
+              {{button}}</button>
+            &nbsp;
+            
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

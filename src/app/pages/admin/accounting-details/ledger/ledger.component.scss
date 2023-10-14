@@ -1,0 +1,17 @@
+.k-dateinput .k-dateinput-wrap {
+  padding-left: 45px;
+}
+
+.heading{
+  margin-top: 1.5% !important;
+  margin-bottom: 0% !important;
+}
+
+@media(max-width:900px){
+  .newDiv{
+    overflow-x: auto;
+  }
+  .ledgergrid{
+    width: 200%;
+  }
+}

@@ -1,0 +1,168 @@
+<div class="container-fluid mt-2" [ngClass]="{ 'HelpCursor': isHelpActive }"
+>
+  <div class="row">
+    <div class="col-12">
+      <div class="">
+        <form [formGroup]="formUsrCommonGroup">
+          <div>
+            <!-- clientresult -->
+            <ul class="nav nav-tabs module-box-header pb-0" id="myinv" role="tablist"  style="margin-right: 0px">
+
+              <li class="nav-item">
+                <a class="nav-link active" id="home2-tab" data-toggle="tab" href="#home2" role="tab"
+                  aria-controls="home2" aria-selected="true">Current Score</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="inscinvoice-tab" data-toggle="tab" href="#inscinvoice" role="tab"
+                  aria-controls="inscinvoice" aria-selected="true">Past Score Card</a>
+              </li>
+
+
+            </ul>
+            <div class="tab-content pt-0" id="myinvContent">
+              <div class="tab-pane fade show active " style="overflow-x: auto;" id="home2" role="tabpanel" aria-labelledby="home1-tab">
+                <div class="row m-0  onSmallKendo" >
+                  <kendo-grid class="module-box p-1"
+                  [kendoGridBinding]="gridView"
+                  [data]="view | async"
+                  [pageSize]="pageSize"
+                  [skip]="skip"
+                  [sortable]="true"
+                  [sort]="sort"
+                  [pageable]="true"
+                  [navigable]="true"
+                  (dataStateChange)="dataStateChange($event)">
+
+                  <kendo-grid-column field="Cont_Name" title="Contractor" >
+                  </kendo-grid-column>
+                  <kendo-grid-column field="Wo_Con_FScore_Month" title="Month">
+                  </kendo-grid-column>
+                  <kendo-grid-column field="Wo_Con_FScore_Wo_Count" title="Total Orders">
+                  </kendo-grid-column>
+                  <kendo-grid-column field="Wo_Con_Score_Work_Quality" title="Work Quality" >
+                  </kendo-grid-column>
+                    <kendo-grid-column field="Wo_Con_Score_Picturequality" title="Picture Quality" >
+                  </kendo-grid-column>
+                  <kendo-grid-column field="Wo_Con_Score_Follow_Inst" title="Follow Instructions" >
+                  </kendo-grid-column>
+                  <kendo-grid-column field="Wo_Con_Score_EstDate" title="Est Date">
+                  </kendo-grid-column>
+                  <kendo-grid-column field="Wo_Con_Score_DueDate" title="Due Date">
+                  </kendo-grid-column>
+                  <kendo-grid-column field="Wo_Con_FScore_Value" title="Overall score">
+                          </kendo-grid-column>
+                  <div *kendoGridDetailTemplate="let dataItem">
+                    <app-datalist-details [category]="dataItem"></app-datalist-details>
+                  </div>
+                  </kendo-grid>
+                </div>
+              </div>
+              <div class="tab-pane fade " id="inscinvoice" role="tabpanel" aria-labelledby="inscinvoice-tab">
+                <div class="row m-0 module-subheader p-1">
+                  <div class="col-md-2 col-4">
+                    <select  class="form-control form-control-sm" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'select year')"
+                    [(ngModel)]="ScoreCardsModelObj.Wo_Con_FScore_Year"  formControlName="yearval"  >
+                      <option value='0'>select year</option>
+                      <option [value]="kb.Wo_Con_FScore_Year" *ngFor="let kb of YearList">
+                        {{kb.Wo_Con_FScore_Year}}
+                      </option>
+                    </select>
+
+                   </div>
+                  <div class="col-md-2 col-4">
+                    <select  class="form-control form-control-sm" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'select month')"
+                     [(ngModel)]="ScoreCardsModelObj.Wo_Con_FScore_Month"  formControlName="monthval"  >
+                          <option value='0'>select month</option>
+                          <option [value]="kb.Wo_Con_FScore_Month" *ngFor="let kb of MonthList">
+                            {{kb.Wo_Con_FScore_Month}}
+                          </option>
+                        </select>
+
+                   </div>
+
+                  <div class="col-md-2 col-4">
+
+                    <kendo-dropdownlist class="newClass form-control form-control-sm" [disabled]="tabhide"
+                    [data]="conList2"
+                    [defaultItem]="defaultItemcon"
+                    [filterable]="true"
+                    [textField]="'Cont_Name'"
+                    [valueField]="'Wo_Con_FScore_ConID'"
+                    (filterChange)="ConList2Filter($event)"
+                    [(ngModel)]="ScoreCardsModelObj.Wo_Con_FScore_ConID"
+                    [valuePrimitive]="true"
+                    [ngModelOptions]="{standalone: true}"
+                    [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'select Contractor')"
+                  >
+                  </kendo-dropdownlist>
+                   </div>
+                  <div class="col-1">
+                    <button class="btn btn-primary" (click)="FormButton()">Find</button>
+                  </div>
+                 <div class="col-4"></div>
+                 <div class="col-1">
+                  <a class="pull-right" data-toggle="tooltip" (click)="SetHelpFlag()" data-placement="top"
+                  title="Item Help" style="cursor: pointer;">Need Help
+                  <i class="fas fa-question"></i>&nbsp; &nbsp;
+                </a>
+                 </div>
+
+                </div>
+                <div style="overflow-x: auto;">
+                <div class="row m-0  onSmallKendo">
+                  <kendo-grid  class="module-box p-1"
+                  [kendoGridBinding]="gridDetails"
+                  [data]="view | async"
+                  [pageSize]="pageSize"
+                  [skip]="skip"
+                  [sortable]="true"
+                  [sort]="sort"
+                  [pageable]="true"
+                  [navigable]="true"
+                  (dataStateChange)="dataStateChange($event)">
+                  <kendo-grid-column title="Action" width="100" [locked]="false">
+
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                      <a class="edit" (click)="showDetails($event, dataItem)" class="k-grid-ignore-click"
+                        title="view Records">
+                        <i class="fa fa-eye"></i> &nbsp; &nbsp; View
+                      </a>
+                    </ng-template>
+                  </kendo-grid-column>
+                    <kendo-grid-column field="Cont_Name" title="Contractor">
+                    </kendo-grid-column>
+                    <kendo-grid-column field="Wo_Con_FScore_Month" title="Month">
+                    </kendo-grid-column>
+                    <kendo-grid-column field="Wo_Con_FScore_Wo_Count" title="Total Orders">
+                    </kendo-grid-column>
+                      <kendo-grid-column field="Wo_Con_Score_Work_Quality" title="Work Quality"      >
+                    </kendo-grid-column>
+                      <kendo-grid-column field="Wo_Con_Score_Picturequality" title="Picture Quality"      >
+                    </kendo-grid-column>
+                    <kendo-grid-column field="Wo_Con_Score_Follow_Inst" title="Follow Instructions">
+                    </kendo-grid-column>
+                    <kendo-grid-column field="Wo_Con_Score_EstDate" title="Est Date">
+                    </kendo-grid-column>
+                    <kendo-grid-column field="Wo_Con_Score_DueDate" title="Due Date">
+                    </kendo-grid-column>
+                    <kendo-grid-column field="Wo_Con_FScore_Value" title="Overall score">
+                    </kendo-grid-column>
+                      <div *kendoGridDetailTemplate="let dataItem" style="overflow-x: auto;">
+                        <app-datalist-details class="onSmallKendo" [category]="dataItem"></app-datalist-details>
+                    </div>
+                  </kendo-grid>
+                 </div>
+                </div>
+              </div>
+
+          </div>
+          </div>
+
+      </form>
+      </div>
+    </div>
+  </div>
+  </div>

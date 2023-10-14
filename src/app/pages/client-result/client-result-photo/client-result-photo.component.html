@@ -1,0 +1,1559 @@
+
+<!-- <div class="row">
+  <div class="col-12">
+    <div class="col-12 bgroup d-flex m-0">
+      <button id="client_viewdetail_1" class="btnalign_00 btn btn-primary btn-xs" (click)="OpenUpload(true)">
+        <i class="fas fa-images mr-1">&nbsp;Upload Photos&nbsp;</i>
+      </button>
+      <button id="client_viewdetail_1" class="btnalign_01 btn btn-primary btn-xs" (click)="OpenUpload(false)">
+        <i class="fas fa-file-upload mr-1">&nbsp;Upload Document&nbsp;</i>
+      </button>
+      <button id="client_viewdetail_1" class="btnalign btn btn-primary btn-xs" hidden>
+        &nbsp;Show All
+      </button>
+      <button id="client_viewdetail_1" class="btnalign btn btn-primary btn-xs" (click)="download()" value="download">
+        <i class="fas mr-1 fa-cloud-download-alt">Download Photos</i>
+      </button>
+
+      <div class="dropdown">
+        <button style="height: 33px;" class="btnalign_01 btn btn-primary btn-xs dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-file-download mr-1">Download PDF</i>
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenu2"style="margin-top: -42px;">
+          <button class="dropdown-item" type="button" (click)= "Photopdfgenerate(1)">2 x 2 (L)</button>
+          <button class="dropdown-item" type="button" (click)= "Photopdfgenerate(2)">3 x 3 (L)</button>
+          <button class="dropdown-item" type="button" (click)= "Photopdfgenerate(3)">4 x 4 (L)</button>
+        </div>
+      </div>
+
+
+
+      <button id="client_viewdetail_1" class="btnalign btn btn-primary btn-xs" (click)="OpenTimeStamp(timeDateStamp)">
+        <i class="fas fa-stamp mr-1">&nbsp;Datastamp&nbsp;</i>
+      </button>
+      <button id="client_viewdetail_1" class="btnalign_01 btn btn-primary btn-xs" (click)="photoTransfer(transferContent)">
+        <i class="fas fa-copy mr-1">&nbsp;Photo Transfer&nbsp;</i>
+      </button>
+      <button id="client_viewdetail_1" class="btnalign btn btn-primary btn-xs" hidden>
+        <i class="fas fa-map mr-1">&nbsp;Map&nbsp;</i>
+
+
+      </button>
+
+      <div class="dropdown">
+        <button  id="client_viewdetail_1" style="height: 33px;" class="btnalign_00 btn btn-primary btn-xs dropdown-toggle" type="button" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-file-download mr-1">Task</i>
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenu3" style="margin-top: -42px;">
+          <button class="dropdown-item" type="button"(click)="bid(bidcontent)"> <i class="fas fa-plus-circle mr-1">&nbsp;Bid&nbsp;</i></button>
+          <button class="dropdown-item" type="button"(click)="Completion(invcontent)"> <i class="fas fa-list-ul mr-1">&nbsp;Completion&nbsp;</i></button>
+          <button class="dropdown-item" type="button"(click)="Damage(damagecontent)"> <i class="fas fa-house-damage mr-1">&nbsp;Damage&nbsp;</i></button>
+
+        </div>
+      </div>
+
+      <button id="client_viewdetail_1" class="btnalign_00 btn btn-primary btn-xs" (click)="photosInfo(photoInfo)">
+        <i class="fa fa-info-circle mr-1">&nbsp;Photos Info&nbsp;</i>
+      </button>
+      <button id="client_viewdetail_1" class="btnalign btn btn-primary btn-xs" (click)="openNav()">
+        <i class="fas fa-tags mr-1">&nbsp;Label Photo&nbsp;</i>
+      </button>
+      <button id="client_viewdetail_1" class="btnalign btn btn-primary btn-xs" (click)="RefreshImageData()">
+        <i class="fa fa-refresh mr-1"></i>
+      </button>
+    </div>
+
+    <div class="mt-3 container" style="max-width: 100%">
+      <div class="row">
+        <div class="{{ divclass }}" style="padding: 0">
+          <iplapp-photogallery label="All Photos" [ModelObj]="ModelObj" [photoObj]="ClientResultPhotoModelObj"
+            [photos]="GetPhotos" [(dataSend)]="dataSend" (removephoto)="RemoveImage()"
+            (photoModal)="PhotoModel($event, contentPhoto)">
+          </iplapp-photogallery>
+          <br />
+          <iplapp-photogallery label="Unlabeled" [ModelObj]="ModelObj" [photoObj]="ClientResultPhotoModelObj"
+            [photos]="unflag" [(dataSend)]="dataSend" (removephoto)="RemoveImage()"
+            (photoModal)="PhotoModel($event, contentPhoto)">
+          </iplapp-photogallery>
+          <br />
+          <div *ngFor="let task of taskname" style="margin-right: 0px; margin-left: 0px">
+            <iplapp-photogallery [label]="task.Task_Photo_Label_Name" isTask="true" [ModelObj]="ModelObj"
+              [photoObj]="ClientPhotoRefObj" [photos]="task.Items" [(dataSend)]="dataSend" (removephoto)="RemoveImage()"
+              (photoModal)="PhotoModel($event, contentPhoto)" (unlabe)="GetClientImages()">
+            </iplapp-photogallery>
+          </div>
+          <div class="module-box-header m-0 row">
+            <div class="col-7"><strong>All Documents </strong></div>
+            <div class="col-5" style="text-align: right; color: black">
+              <span>
+                <a (click)="DocumentViseTogle()" style="color: black" href="javascript:void(0)">
+                  <i class="fa fa-eye"></i>&nbsp;View &nbsp;
+                </a>
+              </span>
+            </div>
+          </div>
+          <div class="module-box row m-0" [hidden]="!Documentshow">
+            <div class="col-12 p-0">
+              <div class="table-responsive">
+                <table class="table text-center">
+                  <tr style="text-align: center">
+                    <th class="module-subheader">File Download</th>
+                    <th class="module-subheader">File Name</th>
+                  </tr>
+                  <tr *ngFor="let item of documentdlst">
+                    <td>
+                      <a [href]="item.Client_Result_Photo_FilePath" target="_blank"
+                        [download]="item.Client_Result_Photo_FilePath"><i class="fa fa-download" aria-hidden="true"></i>
+                        Download file</a>
+                    </td>
+                    <td>{{ item.Client_Result_Photo_FileName }}</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+          <br />
+          <iplapp-photogallery label="All Deleted" [ModelObj]="ModelObj" [photoObj]="ClientResultPhotoModelObj"
+            [photos]="deleteimg" [(dataSend)]="dataSend" (removephoto)="RemoveImage()"
+            (photoModal)="PhotoModel($event, contentPhoto)">
+          </iplapp-photogallery>
+        </div>
+
+        <div class="{{ div2 }}" id="sidebox" [hidden]="isShown">
+          <div class="container">
+            <div class="row" *ngIf="GetTaskPhotos">
+              <div class="col-md-12">
+                <div class="button-list p-2" style="background-color: white; box-shadow: 0 0 6px #b6babf">
+                  <div class="row m-0">
+                    <button class="btn btn-primary btn-sm" (click)="AddCustomLabel(CustomLabelPOPUP)"
+                      [disabled]="tabhide">
+                      Add CustomLabel
+                    </button>
+                    <span class="ml-auto" (click)="closeNav()">
+                      <img
+                        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAABUUlEQVQ4T62U2UoEQQxFz4Db/JYiOjqi4ooMIiOi+D8iiPoo7juIiP/lCnIlBZlY1eND11tX3TqVTm7SoObVqJlHBA4DXeAI+OjzmLSbwKHXeuAQcA1MA4/AIvBegI6YtgXcAUvAp7QeuAvsOcATMJ+BCnYLTDjtNnAQgYrwCmg74TMwB7zZXtMiGncawZdzEUoj6CUw4y68ALP2/QCMuTOlaDXBYoRJJ+i5g2j/1dIz6mAXwBrw5fNcss0gcGY5zNVFZ50IK0WYAAPAKbAQiCfAOvCde6nK2PKZLOGrKca92STr0xJQsBtAPsutIjQHFEzVm3IkAaT11c9CI9B3S+LJKuoarejTP9DYevGCWlBFSfnKPdgD9cAdYN/9ZoSlo1x+t2xI9PSyvCezqitKMA9Vy01a8VaqWk/j6/gf40tDYsNG3e+k6WfsgmOqt2uf2D81fEgVIyFBfAAAAABJRU5ErkJggg==" />
+                    </span>
+                  </div>
+                  <br />
+                  <kendo-panelbar>
+                    <kendo-panelbar-item title="Bids">
+                      <ng-template class="hello" kendoPanelBarContent *ngIf="bidItems.length > 0">
+                        <div *ngFor="let item of GetTaskPhotos">
+                          <div style="padding: 8px" *ngIf="item.ButtonName1 == 'Bid'">
+                            {{ item.Task_Photo_Label_Name }}
+                            <div class="row" style="margin-left: 10px">
+                              <button class="btn btn-warning btn-sm" style="
+                                  margin-top: 7px;
+                                  margin-left: 2px;
+                                  background-color: #f7b84b !important;
+                                " (click)="addbef(item, 'Bid')">
+                                Bid
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </ng-template>
+                    </kendo-panelbar-item>
+                    <kendo-panelbar-item title="Completion">
+                      <ng-template kendoPanelBarContent *ngIf="completionItems.length > 0">
+                        <div *ngFor="let item of GetTaskPhotos">
+                          <div style="padding: 8px" *ngIf="item.ButtonName1 == 'Before'">
+                            {{ item.Task_Photo_Label_Name }}<br />
+                            <button class="btn btn-warning btn-sm" style="
+                                margin-top: 7px;
+                                margin-left: 2px;
+                                padding: 3px;
+                                width: 55px;
+                                background-color: #f7b84b !important;
+                              " (click)="addbef(item, 'Before')">
+                              Before
+                            </button>
+                            <button class="btn btn-warning btn-sm" style="
+                                margin-top: 7px;
+                                margin-left: 2px;
+                                padding: 3px;
+                                width: 55px;
+                                background-color: #4fc6e1 !important;
+                              " (click)="addbef(item, 'During')">
+                              During
+                            </button>
+                            <button class="btn btn-warning btn-sm" style="
+                                margin-top: 7px;
+                                margin-left: 2px;
+                                padding: 3px;
+                                width: 55px;
+                                background-color: #148f77 !important;
+                              " (click)="addbef(item, 'After')">
+                              After
+                            </button>
+                          </div>
+                        </div>
+                      </ng-template>
+                    </kendo-panelbar-item>
+                    <kendo-panelbar-item title="Damage">
+                      <ng-template kendoPanelBarContent *ngIf="damageItems.length > 0">
+                        <div *ngFor="let item of GetTaskPhotos">
+                          <div style="padding: 8px" *ngIf="item.ButtonName1 == 'Damage'">
+                            {{ item.Task_Photo_Label_Name }}<br />
+                            <button class="btn btn-warning btn-sm" style="
+                                margin-top: 7px;
+                                margin-left: 2px;
+                                padding: 3px;
+                                width: 60px;
+                                background-color: #f7b84b !important;
+                              " (click)="addbef(item, 'Damage')">
+                              Damage
+                            </button>
+                          </div>
+                        </div>
+                      </ng-template>
+                    </kendo-panelbar-item>
+                    <kendo-panelbar-item title="Inspection">
+                      <ng-template style="position: relative; z-index: 99" kendoPanelBarContent
+                        *ngIf="inspectionItems.length > 0">
+                        <div *ngFor="let item of GetTaskPhotos">
+                          <div style="padding: 8px" *ngIf="item.ButtonName1 == 'Inspection'">
+                            {{ item.Task_Photo_Label_Name }}<br />
+                            <button class="btn btn-warning btn-sm" style="
+                                margin-top: 7px;
+                                margin-left: 2px;
+                                padding: 3px;
+                                width: 76px;
+                                background-color: #f7b84b !important;
+                              " (click)="addbef(item, 'Inspection')">
+                              Inspection
+                            </button>
+                          </div>
+                        </div>
+                      </ng-template>
+                    </kendo-panelbar-item>
+                    <kendo-panelbar-item title="Custom">
+                      <ng-template kendoPanelBarContent *ngIf="customItems.length > 0">
+                        <div *ngFor="let item of GetTaskPhotos">
+                          <div style="padding: 8px" *ngIf="item.ButtonName1 == 'Label'">
+                            {{ item.Task_Photo_Label_Name }}<br />
+                            <button class="btn btn-warning btn-sm" style="
+                                margin-top: 7px;
+                                margin-left: 2px;
+                                padding: 3px;
+                                width: 55px;
+                                background-color: #f7b84b !important;
+                              " (click)="addbef(item, 'Label')">
+                              Label
+                            </button>
+                          </div>
+                        </div>
+                      </ng-template>
+                    </kendo-panelbar-item>
+                  </kendo-panelbar>
+                </div>
+              </div>
+            </div>
+            <hr />
+
+          </div>
+        </div>
+        <br />
+      </div>
+      <br />
+    </div>
+    <br />
+
+    <ng-template #CustomLabelPOPUP let-modal>
+      <div class="modal-header">
+        <button type="button" (click)="modal.close('Save click')" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group col-md-12 text-center module-box-header mb-0">
+          <h5>Create Custom Label</h5>
+        </div>
+        <form class="module-box p-2">
+          <div class="form-row"></div>
+          <div class="form-group">
+            <div class="input-group">
+              <input type="text" class="form-control form-control-sm" [(ngModel)]="Custom_PhotoLabelObj.PhotoLabel_Name"
+                placeholder="Enter Custom Label Name.." [ngModelOptions]="{ standalone: true }" />
+              <div class="input-group-append">
+                <button (click)="CustomPhotoLabelSubmit()" class="btn btn-xs btn-primary waves-effect waves-light">
+                  <i class="fas fa-plus-circle"></i> Add
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="table-responsive" style="overflow: auto; white-space: nowrap">
+              <table class="table table-striped">
+                <tr style="text-align: center">
+
+                  <th>Label Name</th>
+                  <th>Action</th>
+                </tr>
+                <tr *ngFor="let item of CustomPhotoArray; index as inx" style="text-align: center">
+
+                  <td>
+                    <div *ngIf="item.showBtn == 'show'">
+                      <input type="text" [(ngModel)]="item.PhotoLabel_Name" [ngModelOptions]="{ standalone: true }"
+                        class="form-control form-control-sm" id="userNfuuiame1" placeholder="Enter Label Name" />
+                    </div>
+                    <div *ngIf="item.showBtn == undefined">
+                      {{ item.PhotoLabel_Name }}
+                    </div>
+                  </td>
+                  <td>
+                    <div *ngIf="item.showBtn == undefined">
+                      <button (click)="SingleClick_CustomPhotosDelete(item, inx)"
+                        [disabled]="item.PhotoLabel_Valtype == '0'"
+                        class="btn btn-xs btn-primary waves-effect waves-light">
+                        <i class="fas fa-trash mr-1"></i>Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </ng-template>
+    <ng-template #contentPhoto let-modal>
+      <div class="modal-header" style="border-bottom: 1px solid #dee2e6">
+        <div class="container-fluid row">
+          <div class="col"></div>
+          <div class="col-md-7 d-flex" style="overflow-x: auto">
+            <button class="btn btn-primary m-1" (click)="bid(bidcontent)" style="font-size: 11px">
+              <i class="fas fa-align-justify mr-1"></i>Create Bid
+            </button>
+            <button class="btn btn-primary m-1" (click)="Completion(invcontent)" style="font-size: 11px">
+              <i class="fas fa-plus-circle mr-1"></i>Create Completion
+            </button>
+            <button class="btn btn-primary m-1" (click)="Damage(damagecontent)" style="font-size: 11px">
+              <i class="fas fa-plus-circle mr-1"></i>Create Damage
+            </button>
+            <button class="btn btn-primary m-1" (click)="CopyLink()" style="font-size: 11px">
+              <i class="fas fa-copy mr-1"></i>CopyLink
+            </button>
+          </div>
+          <div class="col">
+            <button type="button" (click)="modal.close('Save click')" class="close" style="float: right"
+              data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-body align-baseline">
+        <app-photo-gallery [imgCurrentIndex]="imgCurrentIndex" [photos]="popImages" (saveChange)="SaveChange($event)"
+          [isSubmitted]="isSubmitted" [labels]="GetTaskPhotos">
+        </app-photo-gallery>
+      </div>
+    </ng-template>
+    <ng-template #bidcontent let-modal>
+      <div class="modal-header">
+        Create Bid
+        <button type="button" (click)="modal.close('Save click')" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <app-bid-client-result [loading]="true" [tabIndex]="0"> </app-bid-client-result>
+        <hr />
+        <button (click)="modal.close('Save click')" class="btn btn-primary">
+          Close
+        </button>
+      </div>
+    </ng-template>
+    <ng-template #invcontent let-modal>
+      <div class="modal-header">
+        <div class="row">Create Completion</div>
+        <button type="button" (click)="modal.close('Save click')" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <app-bid-client-result [loading]='true' [tabIndex]="1"> </app-bid-client-result>
+        <hr />
+        <button class="btn btn-primary" (click)="modal.close('Save click')">
+          Close
+        </button>
+      </div>
+    </ng-template>
+    <ng-template #damagecontent let-modal>
+      <div class="modal-header">
+        <div class="row">Create Damage</div>
+        <button type="button" (click)="modal.close('Save click')" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <app-bid-client-result [loading]='true' [tabIndex]="2"> </app-bid-client-result>
+        <hr />
+        <button class="btn btn-primary" (click)="modal.close('Save click')">
+          Close
+        </button>
+      </div>
+    </ng-template>
+    <ng-template #timeDateStamp let-modal>
+      <div class="modal-header">
+        <div class="row">Create TimeStamp</div>
+        <button type="button" (click)="modal.close('Save click')" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row m-0 module-box p-2">
+          <div class="container">
+
+            <div class="row">
+              <div class="form-group col-md-3 col-lg-3 col-6">
+                <div class="input-group align-center">
+                  <span class="mr-1 bold">Date: </span>
+                  <input type="date" class="ml-1 form-control form-control-sm" [(ngModel)]="timeStampData.date" />
+                </div>
+              </div>
+
+              <div class="form-group col-md-3 col-lg-3 col-6">
+                <div class="row input-group align-center">
+                  <span class="col-3 timecolor bold">Time: </span>
+                  <input type="text" class="ml-1 col-3 form-control form-control-sm"
+                    [(ngModel)]="timeStampData.modifyTime" />
+                    <input type="text" class="col-3 form-control form-control-sm" [(ngModel)]="timeStampData.lengthMins" />
+                  <select [(ngModel)]="timeStampData.isAM" class="col-3 p-0 form-control form-control-sm">
+                    <option value="AM">AM</option>
+                    <option value="PM">PM</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-6"></div>
+            </div>
+            <br>
+
+            <div class="col-4"></div>
+            <div class="form-group col-5">
+              <div class="input-group align-center">
+                <input type="checkbox" [(ngModel)]="timeStampData.printTime" class="form-control-sm" />
+                <span class="ml-1">Print time </span>
+              </div>
+            </div>
+
+            <div class="form-group col-3">
+              <div class="input-group align-center">
+                <input type="checkbox" [(ngModel)]="timeStampData.printDateTimeExif" class="form-control-sm" />
+                <span class="ml-1">Print Date/Time from EXIF Data </span>
+              </div>
+            </div>
+
+            <div class="form-group col-5">
+              <div class="input-group align-center">
+                <input type="checkbox" [(ngModel)]="timeStampData.printDescription" class="form-control-sm" />
+                <span class="ml-1">Print Descriptions: </span>
+              </div>
+              <div class="input-group" *ngIf = "timeStampData.printDescription">
+                <textarea  class="form-control-sm"[(ngModel)]="timeStampData.Description"></textarea>
+
+              </div>
+            </div>
+
+            <div class="form-group col-3">
+              <div class="input-group align-center">
+                <input type="checkbox" [(ngModel)]="timeStampData.stopPrinting" class="form-control-sm" />
+                <span class="ml-1">Don't print Date/time: </span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-3">
+                <button type="button" class="btn btn-primary" (click)="TimeStampDetails()">Save</button>&nbsp;&nbsp;
+                <button type="button" class="btn btn-primary">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template #transferContent let-modal>
+      <div class="modal-header">
+        Photo Transfer
+        <button type="button" (click)="modal.close('Save click')" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body pt-0">
+        <p class="black bold mb-2">
+          Selected Photos: <span>{{ dataSend.length }}</span>
+        </p>
+        <p class="black bold mb-2">Move or Copy Selected Photos to:</p>
+
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label> IPL#
+                </label>
+                <input type="text" class="form-control form-control-sm" [(ngModel)]="searchText"
+                [ngbTypeahead]="search" [inputFormatter]="formatter" [resultFormatter]="formatter"
+                (change)="getPhotoTransferTaskData(searchText)" />
+                <div *ngIf="IsPTIpl" class="Mydropdown">this field is required</div>
+              </div>
+
+              <div class="form-group col-md-6">
+                <label> Select Label
+                </label>
+
+                <select class="form-control form-control-sm" [(ngModel)]="photoTransferModelObj.LabelId"
+                  [ngModelOptions]="{standalone: true}" (change)="BindPhotoTask(photoTransferModelObj.LabelId)">
+                  <option value='0'>Select</option>
+                  <option [ngValue]="kb.lblIdId" *ngFor="let kb of LabelList">
+                    {{kb.lblText}}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label> Select Task
+                </label>
+                <select class="form-control form-control-sm" [(ngModel)]="photoTransferModelObj.TaskId"
+                  [ngModelOptions]="{standalone: true}">
+                  <option value='0'>Select</option>
+                  <option [ngValue]="kb.Task_Bid_pkeyID" *ngFor="let kb of photoTaskList">
+                    {{kb.Task_Photo_Label_Name}}
+                  </option>
+                </select>
+                <div *ngIf="IsPTTask" class="Mydropdown">this field is required</div>
+              </div>
+
+              <div class="form-group col-md-6" [hidden]="IsPTCmpTaskHdn">
+                <label> Select Completion Label
+                </label>
+
+                <select class="form-control form-control-sm" [(ngModel)]="photoTransferModelObj.CompletionLabelId"
+                  [ngModelOptions]="{standalone: true}" (change)="BindTaskBtnName(photoTransferModelObj.CompletionLabelId)">
+                  <option value='0'>Select</option>
+                  <option [ngValue]="kb.lblIdId" *ngFor="let kb of CompList">
+                    {{kb.lblText}}
+                  </option>
+                </select>
+                <div *ngIf="IsPTCmpTask" class="Mydropdown">this field is required</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="d-flex justify-content-center mt-2" *ngIf="isSubmitted">
+          <i class="fa fa-spin fa-spinner"></i>
+        </div>
+        <div class="d-flex justify-content-between mt-2">
+          <button class="btn btn-primary btn-xs" (click)="transferPhotos(2)">
+            Move to another Work Order
+          </button>
+          <button class="btn btn-primary btn-xs" (click)="transferPhotos(1)">
+            Copy to another Work Order
+          </button>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template #photoInfo let-modal>
+      <div class="modal-header">
+        Photo Info
+        <button type="button" (click)="modal.close('Save click')" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <kendo-grid #gridUser [kendoGridBinding]="infogridData" [pageSize]="15" [pageable]="true" [sortable]="true"
+        [selectable]="true" >
+        <kendo-grid-column field="Client_Result_Photo_UploadTimestamp" [title]="coltitile" [width]="200">
+          <ng-template kendoGridCellTemplate let-dataItem >
+
+            {{dataItem.Client_Result_Photo_UploadTimestamp | date: 'MM/dd/yyyy'}}
+
+        </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="Working_Hour" title="Working Hour" [width]="200">
+        </kendo-grid-column>
+        <kendo-grid-column field="Max_Distance" title="Max Distance" [width]="200">
+        </kendo-grid-column>
+        <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+          <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+          <kendo-pager-numeric-buttons [buttonCount]="10"></kendo-pager-numeric-buttons>
+          <kendo-pager-next-buttons></kendo-pager-next-buttons>
+          <kendo-pager-info></kendo-pager-info>
+          <kendo-pager-page-sizes [pageSizes]="[15, 30, 50, 100]"></kendo-pager-page-sizes>
+        </ng-template>
+      </kendo-grid>
+        <hr />
+        <button (click)="modal.close('Save click')" class="btn btn-primary">
+          Close
+        </button>
+      </div>
+    </ng-template>
+
+    <ngx-spinner name="loading" bdColor="rgba(0, 0, 0, 0.8)" size="default" color="#fff" type="timer"
+      [fullScreen]="true">
+      <p style="color: white">Loading...</p>
+    </ngx-spinner>
+    <ngx-spinner name="downloading" *ngIf="downloading == true" bdColor="rgba(0, 0, 0, 0.8)" size="default" color="#fff"
+      type="ball-clip-rotate" [fullScreen]="true">
+      <p style="color: white">Downloading!</p>
+    </ngx-spinner>
+  </div>
+</div> -->
+<!-- <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="default" color="#fff" type="timer" [fullScreen]="true">
+  <p style="color: white">Loading12...</p>
+</ngx-spinner> -->
+
+<!-- pradeep Start -->
+<div class="row" >
+  <div class="col-12">
+    <div class="mt-3">
+    <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="field-tab">
+
+      <div>
+  <ul class="module-subheader nav nav-tabs w-100 custom-tab-fixed-position" id="myphotostabs" role="tabs">
+    <li class="nav-item" *ngFor="let tab of tabs" (click)="onClickTab(tab)">
+      <a class="nav-link" [ngClass]="{'active': tab.active}" [hidden]="tab.hidden" [id]="tab.id" data-toggle="tab"
+        [href]="'#' + tab.link" role="tab" aria-controls="tab.link" aria-selected="true">{{tab.title}}</a>
+    </li>
+  </ul>
+  <div class="tab-content pt-0" id="myphotostabs" >
+    <div class="module-box tab-pane fade p-1" [ngClass]="{'show': tabs[0].active, 'active': tabs[0].active}" id="home2" role="workordersphoto" aria-labelledby="workordersphoto-tab">
+      <div class="row">
+        <div class="col-12">
+          <div class="col-12 bgroup d-flex m-0 fixed-photos-buttons">
+            <button id="client_viewdetail_1" class="btnalign_00 btn btn-primary btn-xs" (click)="OpenUpload(true)">
+              <i class="fas fa-images mr-1">&nbsp;Upload Photos&nbsp;</i>
+            </button>
+            <button id="client_viewdetail_1" class="btnalign_01 btn btn-primary btn-xs" (click)="OpenUpload(false)">
+              <i class="fas fa-file-upload mr-1">&nbsp;Upload Document&nbsp;</i>
+            </button>
+            <button id="client_viewdetail_1" class="btnalign btn btn-primary btn-xs" hidden>
+              &nbsp;Show All
+            </button>
+
+            <div class="dropdown">
+              <button style="height: 33px;background-color: #154266;border-radius:8px;" class="btnalign_01 btn btn-primary btn-xs dropdown-toggle" type="button" id="dropdownDownload" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas mr-1 fa-cloud-download-alt">&nbsp;Download Photos</i>
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownDownload"style="margin-top: -42px;">
+                <button class="dropdown-item" type="button" (click)="download()">All Photos</button>
+                <button class="dropdown-item" type="button" (click)="downloadSelectedPhotos()">Only Selected Photos</button>
+              </div>
+            </div>
+
+            <!--(click)="downloadDocument($event)"-->
+            <!-- <button id="client_viewdetail_1" class="btnalign_01 btn btn-primary btn-xs" (click)= "Photopdfgenerate()">
+              <i class="fas fa-file-download mr-1">&nbsp;Download PDF&nbsp;</i>
+            </button> -->
+            <div class="dropdown">
+              <button style="height: 33px;background-color: #154266;border-radius:8px;" class="btnalign_01 btn btn-primary btn-xs dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-file-download mr-1">&nbsp;Download PDF</i>
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenu2"style="margin-top: -42px;">
+                <button class="dropdown-item" type="button" (click)= "Photopdfgenerate(1)">2 x 2 (L)</button>
+                <button class="dropdown-item" type="button" (click)= "Photopdfgenerate(2)">3 x 3 (L)</button>
+                <button class="dropdown-item" type="button" (click)= "Photopdfgenerate(3)">4 x 4 (L)</button>
+              </div>
+            </div>
+
+
+
+            <button id="client_viewdetail_1" class="btnalign btn btn-primary btn-xs" (click)="OpenTimeStamp(timeDateStamp)">
+              <i class="fas fa-stamp mr-1">&nbsp;Datastamp&nbsp;</i>
+            </button>
+            <button id="client_viewdetail_1" class="btnalign_01 btn btn-primary btn-xs" (click)="photoTransfer(transferContent)">
+              <i class="fas fa-copy mr-1">&nbsp;Photo Transfer&nbsp;</i>
+            </button>
+            <button id="client_viewdetail_1" class="btnalign btn btn-primary btn-xs" hidden>
+              <i class="fas fa-map mr-1">&nbsp;Map&nbsp;</i>
+
+
+            </button>
+            <button id="client_viewdetail_1" class="btnalign btn btn-primary btn-xs" (click)="unlablePhotos()">
+              <i class="fas fa-tags mr-1">&nbsp;Unabel Photo&nbsp;</i>
+            </button>
+
+            <button id="client_viewdetail_1" class="btnalign btn btn-primary btn-xs" (click)="openNav()">
+              <i class="fas fa-tags mr-1">&nbsp;Label Photo&nbsp;</i>
+            </button>
+            <button id="client_viewdetail_1" class="btnalign btn btn-primary btn-xs" (click)="DeletePhotos()">
+              <i class="fas fa-trash mr-1">&nbsp;Delete Photo&nbsp;</i>
+            </button>
+            <button id="client_viewdetail_1" class="btnalign btn btn-primary btn-xs" (click)="RefreshImageData()">
+              <i class="fa fa-refresh mr-1"></i>
+            </button> 
+          </div>
+
+          <div class="mt-3 container tab-content-photos">
+            <div class="row">
+              <div class="{{ divclass }}" style="padding: 0 ;">
+                <iplapp-photogallery label="All Photos" [ModelObj]="ModelObj" [photoObj]="ClientResultPhotoModelObj"
+                  [photos]="GetPhotos" [(dataSend)]="dataSend" (removephoto)="RemoveImage()"
+                  (photoModal)="PhotoModel($event, contentPhoto)">
+                </iplapp-photogallery>
+                <br />
+                <iplapp-photogallery label="Unlabel" [ModelObj]="ModelObj" [photoObj]="ClientResultPhotoModelObj"
+                  [photos]="unflag" [(dataSend)]="dataSend" (removephoto)="RemoveImage()"
+                  (photoModal)="PhotoModel($event, contentPhoto)">
+                </iplapp-photogallery>
+                <br />
+                <div *ngFor="let task of taskname" style="margin-right: 0px; margin-left: 0px">
+                  <iplapp-photogallery [label]="task.Task_Photo_Label_Name" [isTask]="true" [ModelObj]="ModelObj"
+                    [photoObj]="ClientPhotoRefObj" [photos]="task.Items" [(dataSend)]="dataSend_lable" (removephoto)="RemoveImage()"
+                    (photoModal)="PhotoModel($event, contentPhoto)" (unlabe)="GetClientImages()">
+                  </iplapp-photogallery>
+                </div>
+                <div class="module-box-header m-0 row">
+                  <div class="col-7"><strong>All Documents  ({{documentdlst?.length}})</strong></div>
+                  <div class="col-5" style="text-align: right; color: black">
+                    <span>
+                      <a (click)="DocumentViseTogle()" style="color: black" href="javascript:void(0)">
+                        <i class="fa fa-eye"></i>&nbsp;View &nbsp;
+                      </a>
+                    </span>
+                  </div>
+                </div>
+                <div class="module-box row m-0" [hidden]="!Documentshow">
+                  <div class="col-12 p-0">
+                    <div class="table-responsive">
+                      <table class="table text-center">
+                        <tr style="text-align: center">
+                          <th class="module-subheader">File Download</th>
+                          <th class="module-subheader">File Name</th>
+                          <th class="module-subheader">Action</th>
+                        </tr>
+                        <tr *ngFor="let item of documentdlst">
+                          <td>
+                            <a [href]="item.Client_Result_Photo_FilePath" target="_blank"
+                              [download]="item.Client_Result_Photo_FilePath"><i class="fa fa-download" aria-hidden="true"></i>
+                              Download file</a>
+                          </td>
+                          <td>{{ item.Client_Result_Photo_FileName }}</td>
+                          <td>
+                            <a (click)="DeleteDocument(item)" style="color: black" href="javascript:void(0)">
+                              <i class="fa fa-trash"></i>
+                            </a>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <br />
+                <iplapp-photogallery label="All Deleted" [ModelObj]="ModelObj" [photoObj]="ClientResultPhotoModelObj"
+                  [photos]="deleteimg" [(dataSend)]="dataSend" (removephoto)="RemoveImage()"
+                  (photoModal)="PhotoModel($event, contentPhoto)">
+                </iplapp-photogallery>
+              </div>
+
+              <div class="{{ div2 }}" id="sidebox" [hidden]="isShown">
+                <div class="container">
+                  <div class="row" *ngIf="GetTaskPhotos">
+                    <div class="col-md-12">
+                      <!-- <div class="button-list p-2" style="background-color: white; box-shadow: 0 0 6px #b6babf"> -->
+                      <div class="button-list p-2 FixedPhotoLabel">
+                        <div class="row m-0">
+                          <button class="btn btn-primary btn-sm" (click)="AddCustomLabel(CustomLabelPOPUP)"
+                            [disabled]="tabhide">
+                            Add CustomLabel
+                          </button>
+                          <span class="ml-auto" (click)="closeNav()">
+                            <img
+                              src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAABUUlEQVQ4T62U2UoEQQxFz4Db/JYiOjqi4ooMIiOi+D8iiPoo7juIiP/lCnIlBZlY1eND11tX3TqVTm7SoObVqJlHBA4DXeAI+OjzmLSbwKHXeuAQcA1MA4/AIvBegI6YtgXcAUvAp7QeuAvsOcATMJ+BCnYLTDjtNnAQgYrwCmg74TMwB7zZXtMiGncawZdzEUoj6CUw4y68ALP2/QCMuTOlaDXBYoRJJ+i5g2j/1dIz6mAXwBrw5fNcss0gcGY5zNVFZ50IK0WYAAPAKbAQiCfAOvCde6nK2PKZLOGrKca92STr0xJQsBtAPsutIjQHFEzVm3IkAaT11c9CI9B3S+LJKuoarejTP9DYevGCWlBFSfnKPdgD9cAdYN/9ZoSlo1x+t2xI9PSyvCezqitKMA9Vy01a8VaqWk/j6/gf40tDYsNG3e+k6WfsgmOqt2uf2D81fEgVIyFBfAAAAABJRU5ErkJggg==" />
+                          </span>
+                        </div>
+                        <br />
+                        <!-- kendo panel bar -->
+                        <kendo-panelbar>
+                          <kendo-panelbar-item title="Bids">
+                            <ng-template class="hello" kendoPanelBarContent *ngIf="bidItems.length > 0">
+                              <div *ngFor="let item of GetTaskPhotos">
+                                <div style="padding: 8px" *ngIf="item.ButtonName1 == 'Bid'">
+                                  {{ item.Task_Photo_Label_Name }}
+                                  <div class="row" style="margin-left: 10px">
+                                    <button class="btn btn-warning btn-sm" style="
+                                        margin-top: 7px;
+                                        margin-left: 2px;
+                                        background-color: #f7b84b !important;
+                                      " (click)="addbef(item, 'Bid')">
+                                      Bid
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </ng-template>
+                          </kendo-panelbar-item>
+                          <kendo-panelbar-item title="Completion">
+                            <ng-template kendoPanelBarContent *ngIf="completionItems.length > 0">
+                              <div *ngFor="let item of GetTaskPhotos">
+                                <div style="padding: 8px" *ngIf="item.ButtonName1 == 'Before'">
+                                  {{ item.Task_Photo_Label_Name }}<br />
+                                  <button class="btn btn-warning btn-sm" style="
+                                      margin-top: 7px;
+                                      margin-left: 2px;
+                                      padding: 3px;
+                                      width: 55px;
+                                      background-color: #f7b84b !important;
+                                    " (click)="addbef(item, 'Before')">
+                                    Before
+                                  </button>
+                                  <button class="btn btn-warning btn-sm" style="
+                                      margin-top: 7px;
+                                      margin-left: 2px;
+                                      padding: 3px;
+                                      width: 55px;
+                                      background-color: #4fc6e1 !important;
+                                    " (click)="addbef(item, 'During')">
+                                    During
+                                  </button>
+                                  <button class="btn btn-warning btn-sm" style="
+                                      margin-top: 7px;
+                                      margin-left: 2px;
+                                      padding: 3px;
+                                      width: 55px;
+                                      background-color: #148f77 !important;
+                                    " (click)="addbef(item, 'After')">
+                                    After
+                                  </button>
+                                </div>
+                              </div>
+                            </ng-template>
+                          </kendo-panelbar-item>
+                          <kendo-panelbar-item title="Damage">
+                            <ng-template kendoPanelBarContent *ngIf="damageItems.length > 0">
+                              <div *ngFor="let item of GetTaskPhotos">
+                                <div style="padding: 8px" *ngIf="item.ButtonName1 == 'Damage'">
+                                  {{ item.Task_Photo_Label_Name }}<br />
+                                  <button class="btn btn-warning btn-sm" style="
+                                      margin-top: 7px;
+                                      margin-left: 2px;
+                                      padding: 3px;
+                                      width: 60px;
+                                      background-color: #f7b84b !important;
+                                    " (click)="addbef(item, 'Damage')">
+                                    Damage
+                                  </button>
+                                </div>
+                              </div>
+                            </ng-template>
+                          </kendo-panelbar-item>
+                          <kendo-panelbar-item title="Inspection">
+                            <ng-template style="position: relative; z-index: 99" kendoPanelBarContent
+                              *ngIf="inspectionItems.length > 0">
+                              <div *ngFor="let item of GetTaskPhotos">
+                                <div style="padding: 8px" *ngIf="item.ButtonName1 == 'Inspection'">
+                                  {{ item.Task_Photo_Label_Name }}<br />
+                                  <button class="btn btn-warning btn-sm" style="
+                                      margin-top: 7px;
+                                      margin-left: 2px;
+                                      padding: 3px;
+                                      width: 76px;
+                                      background-color: #f7b84b !important;
+                                    " (click)="addbef(item, 'Inspection')">
+                                    Inspection
+                                  </button>
+                                </div>
+                              </div>
+                            </ng-template>
+                          </kendo-panelbar-item>
+                          <kendo-panelbar-item title="Violation">
+                            <ng-template style="position: relative; z-index: 99" kendoPanelBarContent
+                              *ngIf="violationItems.length > 0">
+                              <div *ngFor="let item of GetTaskPhotos">
+                                <div style="padding: 8px" *ngIf="item.ButtonName1 == 'Violation'">
+                                  {{ item.Task_Photo_Label_Name }}<br />
+                                  <button class="btn btn-warning btn-sm" style="
+                                      margin-top: 7px;
+                                      margin-left: 2px;
+                                      padding: 3px;
+                                      width: 76px;
+                                      background-color: #f7b84b !important;
+                                    " (click)="addbef(item, 'Violation')">
+                                    Violation
+                                  </button>
+                                </div>
+                              </div>
+                            </ng-template>
+                          </kendo-panelbar-item>
+                          <kendo-panelbar-item title="Hazard">
+                            <ng-template style="position: relative; z-index: 99" kendoPanelBarContent
+                              *ngIf="hazardItems.length > 0">
+                              <div *ngFor="let item of GetTaskPhotos">
+                                <div style="padding: 8px" *ngIf="item.ButtonName1 == 'Hazard'">
+                                  {{ item.Task_Photo_Label_Name }}<br />
+                                  <button class="btn btn-warning btn-sm" style="
+                                      margin-top: 7px;
+                                      margin-left: 2px;
+                                      padding: 3px;
+                                      width: 76px;
+                                      background-color: #f7b84b !important;
+                                    " (click)="addbef(item, 'Hazard')">
+                                    Hazard
+                                  </button>
+                                </div>
+                              </div>
+                            </ng-template>
+                          </kendo-panelbar-item>
+                          <kendo-panelbar-item title="Custom">
+                            <ng-template kendoPanelBarContent *ngIf="customItems.length > 0">
+                              <div *ngFor="let item of GetTaskPhotos">
+                                <div style="padding: 8px" *ngIf="item.ButtonName1 == 'Label'">
+                                  {{ item.Task_Photo_Label_Name }}<br />
+                                  <button class="btn btn-warning btn-sm" style="
+                                      margin-top: 7px;
+                                      margin-left: 2px;
+                                      padding: 3px;
+                                      width: 55px;
+                                      background-color: #f7b84b !important;
+                                    " (click)="addbef(item, 'Label')">
+                                    Label
+                                  </button>
+                                </div>
+                              </div>
+                            </ng-template>
+                          </kendo-panelbar-item>
+                        </kendo-panelbar>
+                      </div>
+                    </div>
+                  </div>
+                  <hr />
+                  <!-- <ng-container class="cotainer" *ngFor="let item of GetTaskPhotos; let i = index" style="margin-top: 3px;">
+                    <div *ngIf="bidTaskDiv">
+                      <div *ngIf="BidVal == item.ButtonName1">
+                        <div class="row" style="margin-left: 10px;">
+                          <strong> <a href="javascript:void()"
+                              (click)="hideme[i] = !hideme[i]">{{item.Task_Photo_Label_Name}}</a>&nbsp;
+                            <span *ngIf="item.keycount">({{item.keycount}})</span>
+                            <span *ngIf="item.keycount == undefined">(0 Photo)</span>
+                          </strong>
+                        </div>
+                        <div class="row" style="margin-left: 10px;" [hidden]="!hideme[i]">
+                          <button class="btn btn-warning btn-sm "
+                            style="margin-top: 7px;margin-left: 2px;padding:3px; width: 55px; background-color:#f7b84b !important;"
+                            (click)=AddTaskPhotoSelect1(item,item.ButtonName1)
+                            *ngIf="item.ButtonName1!=''">{{item.ButtonName1}}</button>
+                          <button class="btn btn-success btn-sm "
+                            style="margin-top: 7px;margin-left: 2px;padding:3px; width: 55px; background-color:#148f77 !important;"
+                            (click)=AddTaskPhotoSelect2(item,item.ButtonName2)
+                            *ngIf="item.ButtonName2!=''">{{item.ButtonName2}}</button>
+                          <button class="btn btn-info btn-sm "
+                            style="margin-top: 7px;margin-left: 2px;padding:3px; width: 55px; background-color:#4fc6e1 !important;"
+                            (click)=AddTaskPhotoSelect3(item,item.ButtonName3)
+                            *ngIf="item.ButtonName3!=''">{{item.ButtonName3}}</button>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-container> -->
+                </div>
+              </div>
+              <br />
+            </div>
+            <br />
+          </div>
+          <br />
+
+          <ng-template #CustomLabelPOPUP let-modal>
+            <div class="modal-header">
+              <button type="button" (click)="modal.close('Save click')" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="form-group col-md-12 text-center module-box-header mb-0">
+                <h5>Create Custom Label</h5>
+              </div>
+              <form class="module-box p-2">
+                <div class="form-row"></div>
+                <div class="form-group">
+                  <div class="input-group">
+                    <input type="text" class="form-control form-control-sm" [(ngModel)]="Custom_PhotoLabelObj.PhotoLabel_Name"
+                      placeholder="Enter Custom Label Name.." [ngModelOptions]="{ standalone: true }" />
+                    <div class="input-group-append">
+                      <button (click)="CustomPhotoLabelSubmit()" class="btn btn-xs btn-primary waves-effect waves-light">
+                        <i class="fas fa-plus-circle"></i> Add
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="table-responsive" style="overflow: auto; white-space: nowrap">
+                    <table class="table table-striped">
+                      <tr style="text-align: center">
+                        <!-- <th>Select</th> -->
+                        <th>Label Name</th>
+                        <th>Action</th>
+                      </tr>
+                      <tr *ngFor="let item of CustomPhotoArray; index as inx" style="text-align: center">
+                        <!-- <td>
+                          <div class="custom-control custom-checkbox">
+                            <input
+                              type="checkbox"
+                              [(ngModel)]="item.Custom_label_Check"
+                              [ngModelOptions]="{ standalone: true }"
+                              class="custom-control-input"
+                              id="damageINVr{{ inx }}"
+                            />
+                            <label
+                              class="custom-control-label"
+                              for="damageINVr{{ inx }}"
+                            ></label>
+                          </div>
+                        </td> -->
+                        <td>
+                          <div *ngIf="item.showBtn == 'show'">
+                            <input type="text" [(ngModel)]="item.PhotoLabel_Name" [ngModelOptions]="{ standalone: true }"
+                              class="form-control form-control-sm" id="userNfuuiame1" placeholder="Enter Label Name" />
+                          </div>
+                          <div *ngIf="item.showBtn == undefined">
+                            {{ item.PhotoLabel_Name }}
+                          </div>
+                        </td>
+                        <td>
+                          <div *ngIf="item.showBtn == undefined">
+                            <button (click)="SingleClick_CustomPhotosDelete(item, inx)"
+                              [disabled]="item.PhotoLabel_Valtype == '0'"
+                              class="btn btn-xs btn-primary waves-effect waves-light">
+                              <i class="fas fa-trash mr-1"></i>Delete
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+                <!-- <div class="form-row">
+                    <button (click)='AddWO_CustomPhotos()' class="btn btn-primary waves-effect waves-light"
+                      [disabled]="isLoading">
+                      <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}"></i>
+                      {{button}}</button>
+                  </div> -->
+              </form>
+            </div>
+          </ng-template>
+          <ng-template #contentPhoto let-modal>
+            <div class="modal-header" style="border-bottom: 1px solid #dee2e6">
+              <div class="container-fluid row">
+                <div class="col"></div>
+                <div class="col-md-7 d-flex" style="overflow-x: auto">
+                  <button class="btn btn-primary m-1" (click)="bid(bidcontent)" style="font-size: 11px">
+                    <i class="fas fa-align-justify mr-1"></i>Create Bid
+                  </button>
+                  <button class="btn btn-primary m-1" (click)="Completion(invcontent)" style="font-size: 11px">
+                    <i class="fas fa-plus-circle mr-1"></i>Create Completion
+                  </button>
+                  <button class="btn btn-primary m-1" (click)="Damage(damagecontent)" style="font-size: 11px">
+                    <i class="fas fa-plus-circle mr-1"></i>Create Damage
+                  </button>
+                  <button class="btn btn-primary m-1" (click)="CopyLink()" style="font-size: 11px">
+                    <i class="fas fa-copy mr-1"></i>CopyLink
+                  </button>
+                </div>
+                <div class="col">
+                  <button type="button" (click)="modal.close('Save click')" class="close" style="float: right"
+                    data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="modal-body align-baseline">
+              <app-photo-gallery [imgCurrentIndex]="imgCurrentIndex" [photos]="popImages" (saveChange)="SaveChange($event)"
+                [isSubmitted]="isSubmitted" [labels]="GetTaskPhotos">
+              </app-photo-gallery>
+            </div>
+          </ng-template>
+          <ng-template #bidcontent let-modal>
+            <div class="modal-header">
+              Create Bid
+              <button type="button" (click)="modal.close('Save click')" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <app-bid-client-result [loading]='false' [tabIndex]="0"> </app-bid-client-result>
+              <hr />
+              <button (click)="modal.close('Save click')" class="btn btn-primary">
+                Close
+              </button>
+            </div>
+          </ng-template>
+          <ng-template #invcontent let-modal>
+            <div class="modal-header">
+              <div class="row">Create Completion</div>
+              <button type="button" (click)="modal.close('Save click')" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <app-bid-client-result [loading]='false' [tabIndex]="1"> </app-bid-client-result>
+              <hr />
+              <button class="btn btn-primary" (click)="modal.close('Save click')">
+                Close
+              </button>
+            </div>
+          </ng-template>
+          <ng-template #damagecontent let-modal>
+            <div class="modal-header">
+              <div class="row">Create Damage</div>
+              <button type="button" (click)="modal.close('Save click')" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <app-bid-client-result [loading]='false' [tabIndex]="2"> </app-bid-client-result>
+              <hr />
+              <button class="btn btn-primary" (click)="modal.close('Save click')">
+                Close
+              </button>
+            </div>
+          </ng-template>
+          <ng-template #timeDateStamp let-modal>
+            <div class="modal-header">
+              <div class="row">Create TimeStamp</div>
+              <button type="button" (click)="modal.close('Save click')" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="row m-0 module-box p-2">
+                <div class="container">
+                  <div class="row">
+                    <span class="mr-1 bold">Date: </span>
+                    <div class="form-group   col-md-3 col-lg-3 col-6">
+                      <div class="input-group">
+                        <label class="form-control form-control-sm ">{{ timeStampData.date |
+                          date:'MM/dd/yyyy'}}
+                          <span *ngIf="!timeStampData.date"></span>
+                        </label>
+                        <input class="form-control" placeholder="yyyy-mm-dd"
+                          [(ngModel)]="timeStampData.date" [ngModelOptions]="{standalone: true}"
+                          ngbDatepicker #dt10="ngbDatepicker" firstDayOfWeek="7" style="display: none">
+                        <div class="input-group-append">
+                          <button class="btn btn-outline-info btn-xs"
+                            (click)="dt10.toggle()" type="button"><i class="fas fa-calendar-alt"></i></button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-group col-md-3 col-lg-3 col-6">
+                      <div class="row input-group align-center">
+                        <span class="col-3 timecolor bold">Time: </span>
+                        <input type="text" class="ml-1 col-3 form-control form-control-sm"
+                          [(ngModel)]="timeStampData.modifyTime" />
+                          <input type="text" class="col-3 form-control form-control-sm" [(ngModel)]="timeStampData.lengthMins" />
+                        <select [(ngModel)]="timeStampData.isAM" class="col-3 p-0 form-control form-control-sm">
+                          <option value="AM">AM</option>
+                          <option value="PM">PM</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-6"></div>
+                  </div>
+                  <br>
+                  <!-- <div class="form-group col-md-4 col-lg-4 col-8">
+                    <div class="input-group row align-center">
+                      <span class="col-3 mr-1 bold">Length: </span>
+                      <input type="text" class="ml-1 col-2 form-control form-control-sm"
+                        [(ngModel)]="timeStampData.lengthHours" />
+                      <span class="col-2 bold">hr</span>
+                      <input type="text" class="col-2 form-control form-control-sm" [(ngModel)]="timeStampData.lengthMins" />
+                      <span class="col-2 bold">min</span>
+                    </div>
+                  </div> -->
+                  <div class="col-4"></div>
+                  <div class="form-group col-5">
+                    <div class="input-group align-center">
+                      <input type="checkbox" [(ngModel)]="timeStampData.printTime" class="form-control-sm" />
+                      <span class="ml-1">Print time </span>
+                    </div>
+                  </div>
+
+                  <div class="form-group col-3">
+                    <div class="input-group align-center">
+                      <input type="checkbox" [(ngModel)]="timeStampData.printDateTimeExif" class="form-control-sm" />
+                      <span class="ml-1">Print Date/Time from EXIF Data </span>
+                    </div>
+                  </div>
+
+                  <div class="form-group col-5">
+                    <div class="input-group align-center">
+                      <input type="checkbox" [(ngModel)]="timeStampData.printDescription" class="form-control-sm" />
+                      <span class="ml-1">Print Descriptions: </span>
+                    </div>
+                    <div class="input-group" *ngIf = "timeStampData.printDescription">
+                      <textarea  class="form-control-sm"[(ngModel)]="timeStampData.Description"></textarea>
+
+                    </div>
+                  </div>
+
+                  <div class="form-group col-3">
+                    <div class="input-group align-center">
+                      <input type="checkbox" [(ngModel)]="timeStampData.stopPrinting" class="form-control-sm" />
+                      <span class="ml-1">Don't print Date/time: </span>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12">
+                      <button type="button" class="btn btn-primary" (click)="PhotoTimeStampDownload(1)">Download All Photos</button>&nbsp;&nbsp;
+                      <button type="button" class="btn btn-primary" (click)="PhotoTimeStampDownload(2)" *ngIf="dataSend.length>0">Download Only Selected Photos</button>&nbsp;&nbsp;
+                      <button type="button" class="btn btn-primary" (click)="modal.close('Save click')">Cancel</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template #transferContent let-modal>
+            <div class="modal-header">
+              Photo Transfer
+              <button type="button" (click)="modal.close('Save click')" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body pt-0">
+              <p class="black bold mb-2">
+                Selected Photos: <span>{{ dataSend.length }}</span>
+              </p>
+              <p class="black bold mb-2">Move or Copy Selected Photos to:</p>
+
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label> IPL#</label>
+                      <!-- <input type="text" class="form-control form-control-sm" [(ngModel)]="searchText"
+                      [ngbTypeahead]="search" [inputFormatter]="formatter" [resultFormatter]="formatter"
+                      (keyup)="getPhotoTransferTaskData(searchText)" />
+                      <div *ngIf="IsPTIpl" class="Mydropdown">this field is required</div> -->
+                      <kendo-dropdownlist class="form-control form-control-sm" [data]="PhotoTransferIPLNo_List"
+                          [filterable]="true" [textField]="'IPLNO'"
+                          [valueField]="'IPLNO'" (filterChange)="PastWorkOrderFilter($event)" [(ngModel)]="photoTransferModelObj.IPLNO"
+                          [valuePrimitive]="true" [ngModelOptions]="{standalone: true}" (valueChange)="getPhotoTransferTaskData()">
+                        </kendo-dropdownlist>
+                        <div *ngIf="IsPTIpl" class="Mydropdown">this field is required</div>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                      <label> Select Label</label>
+                      <select class="form-control form-control-sm" [(ngModel)]="photoTransferModelObj.LabelId"
+                        [ngModelOptions]="{standalone: true}" (change)="BindPhotoTask(photoTransferModelObj.LabelId)">
+                        <option value='0'>Select</option>
+                        <option [ngValue]="kb.lblIdId" *ngFor="let kb of LabelList">
+                          {{kb.lblText}}
+                        </option>
+                      </select>
+                      <div *ngIf="IsPTLable" class="Mydropdown">this field is required</div>
+                    </div>
+                  </div>
+                  <div class="form-row">
+
+
+                    <!-- <div class="form-group col-md-6">
+                      <label> Select Task</label>
+
+                      <kendo-dropdownlist class="form-control form-control-sm text-dark" [data]="photoTaskList"
+                          [filterable]="true" [textField]="'TaskId'"
+                          [valueField]="'TaskId'"  [(ngModel)]="photoTransferModelObj.TaskId"
+                          [valuePrimitive]="true" [ngModelOptions]="{standalone: true}" (valueChange)="getPhotoTransferTaskData()">
+                        </kendo-dropdownlist>
+                        <div *ngIf="IsPTTask" class="Mydropdown">this field is required</div>
+                    </div>
+                    {{photoTransferModelObj.TaskId}} -->
+
+
+
+                    <div class="form-group col-md-6">
+                      <label> Select Task
+                      </label>
+                      <select class="form-control form-control-sm" [(ngModel)]="photoTransferModelObj.TaskId"
+                        [ngModelOptions]="{standalone: true}">
+                        <option value='0'>Select</option>
+                        <option [ngValue]="kb.Task_Bid_pkeyID" *ngFor="let kb of photoTaskList">
+                          {{kb.Task_Photo_Label_Name}}
+                        </option>
+                      </select>
+                      <div *ngIf="IsPTTask" class="Mydropdown">this field is required</div>
+                    </div>
+
+                    <div class="form-group col-md-6" [hidden]="IsPTCmpTaskHdn">
+                      <label> Select Completion Label
+                      </label>
+
+                      <select class="form-control form-control-sm" [(ngModel)]="photoTransferModelObj.CompletionLabelId"
+                        [ngModelOptions]="{standalone: true}" (change)="BindTaskBtnName(photoTransferModelObj.CompletionLabelId)">
+                        <option value='0'>Select</option>
+                        <option [ngValue]="kb.lblIdId" *ngFor="let kb of CompList">
+                          {{kb.lblText}}
+                        </option>
+                      </select>
+                      <div *ngIf="IsPTCmpTask" class="Mydropdown">this field is required</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- <div class="d-flex align-items-center">
+                <span class="mr-1 black">IPL#:</span>
+                <input type="text" style="max-width: 155px" class="form-control form-control-sm" [(ngModel)]="searchText"
+                  [ngbTypeahead]="search" [inputFormatter]="formatter" [resultFormatter]="formatter" />
+              </div> -->
+              <div class="d-flex justify-content-center mt-2" *ngIf="isSubmitted">
+                <i class="fa fa-spin fa-spinner"></i>
+              </div>
+              <div class="d-flex justify-content-between mt-2">
+                <button class="btn btn-primary btn-xs" (click)="transferPhotos(2)">
+                  Move to another Work Order
+                </button>
+                <button class="btn btn-primary btn-xs" (click)="transferPhotos(1)">
+                  Copy to another Work Order
+                </button>
+              </div>
+            </div>
+          </ng-template>
+
+          <ng-template #photoInfo let-modal>
+            <div class="modal-header">
+              Photo Info
+              <button type="button" (click)="modal.close('Save click')" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+          </ng-template>
+
+          <ng-template #downloadInfo let-modal>
+            <div class="modal-header">
+              Download is in progress! We will send you notification once download is completed!
+              <button type="button" (click)="modal.close('Save click')" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <hr />
+              <button (click)="modal.close('Save click')" class="btn btn-primary">
+                Close
+              </button>
+            </div>
+          </ng-template>
+
+
+          <ngx-spinner name="loading" bdColor="rgba(0, 0, 0, 0.8)" size="default" color="#fff" type="timer"
+            [fullScreen]="true">
+            <p style="color: white">Loading...</p>
+          </ngx-spinner>
+          <ngx-spinner name="downloading" *ngIf="downloading == true" bdColor="rgba(0, 0, 0, 0.8)" size="default" color="#fff"
+            type="ball-clip-rotate" [fullScreen]="true">
+            <p style="color: white">Downloading!</p>
+          </ngx-spinner>
+        </div>
+      </div>
+    </div>
+
+    <div class="module-box tab-pane fade p-1" [ngClass]="{'show': tabs[1].active, 'active': tabs[1].active}" id="home2" role="photoanalysis" aria-labelledby="photoanalysis-tab">
+        <div class="row m-0" style="margin-top: 2.5rem !important;">
+          <div class="col-12 p-0 " >
+              <div class="row m-0 mt-2 w-100" style="display: flex;">
+                <div style="height: fit-content;" class="row m-0 col-6 current pl-0">
+                  <h5 class="row m-0 col-12 header module-box-header" style="padding-left: 2% !important; height: 6vh !important;  border-bottom-left-radius: 0px">
+                    Current Photos ( <span>{{currentPhotos.length}}</span> )</h5>
+                  <div class="row col-12 m-0 photo-box module-box p-2 photo-collection">
+                    <div class="col-md-3 col-lg3 col-12" style="padding: 1%;" *ngFor="let photo of currentPhotos">
+                      <img [src]="photo.Client_Result_Photo_FilePath" class="img-fluid" alt="work-thumbnail"
+                        style="width: 100%; max-height: 100%; border-radius: 7px; box-shadow: 0 0 5px #b6babf;" (click)="openCurrentPhotoModal(photo)">
+                    </div>
+                  </div>
+                  <div >
+                  <iplapp-photo-view *ngIf="currentPhotoOpen" [index]="selectedCurrentImage" [photos]="currentPhotos"
+                    (closeModal)="closeCurrentPhotoModal($event)" [openImgLeft]="leftcnt"></iplapp-photo-view>
+                  </div>
+                </div>
+                <!-- <div class="col-2"></div> -->
+                <div style="height: fit-content;" class="row col-6 m-0 past pl-0">
+                  <div  class="row col-12 m-0 module-box-header">
+                    <h5 style="padding-left: 1% !important;"  class="p-0 col-5">Compared Photos ( <span>{{pastPhotos.length}}</span> )</h5>
+                    <select [(ngModel)]="OrderPastDTOObj.WorkOrder_ID" [ngModelOptions]="{standalone: true}"
+                      (change)="changeOrder($event)" class=" form-control form-control-sm col-7">
+                      <option *ngFor="let order of pastOrders; let i = index" [value]="order.WorkOrder_ID"
+                        [attr.selected]="i==0">
+                        {{order.WorkOrder_Data}}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="module-box photo-box p-2 row col-12 m-0 photo-collection">
+                    <div class="col-md-3 col-lg-3 col-12" style="padding: 1%;" *ngFor="let photo of pastPhotos">
+                      <img [src]="photo.Client_Result_Photo_FilePath" class="img-fluid" alt="work-thumbnail"
+                        style="width: 100%; max-height: 90%; border-radius: 7px; box-shadow: 0 0 5px #b6babf;" (click)="openPastPhotoModal(photo)">
+                    </div>
+                  </div>
+                  <iplapp-photo-view *ngIf="pastPhotoOpen" [index]="selectedPastImage" [photos]="pastPhotos"
+                  (closeModal)="closePastPhotoModal($event)" [openImgLeft]="rightcnt"></iplapp-photo-view>
+                </div>
+              </div>
+          </div>
+        </div>
+    </div>
+    <div class="module-box tab-pane fade p-1" [ngClass]="{'show': tabs[2].active, 'active': tabs[2].active}" id="home2" role="photohistory" aria-labelledby="photohistory-tab">
+      <div class="row mr-0" style="margin-top: 2.5rem !important; ">
+        <div class="col-12">
+            <div class="module-box" *ngIf="IPLList.length == 0">
+                <div class="row">
+                    <div class="col-5"></div>
+                    <div class="col-2" style="text-align: center;">
+                        <h3>No data found...</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-2" *ngFor="let ipl of  IPLList; let i = index">
+                <!-- <div  [hidden]='HeaderCoditional'> -->
+                <!-- <div  class="row module-box-header m-0 pt-0"> -->
+                <div (click)='hideGeneraltab(ipl.Client_Result_Photo_Wo_ID,i)' style="font-family:'system-ui'"
+                    class="h5 module-box-header m-0 col-12">
+                    #{{ipl.Client_Result_Photo_IPLNo}}
+                    <svg style="float: right;" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                        viewBox="0 0 24 24">
+                        <path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z" />
+                    </svg>
+                </div>
+                <!-- </div> -->
+                <div class="module-box" [hidden]='ipl.IsTabHidden'>
+                    <div class="col-lg-12">
+                        <div class="container" style="max-width: 100%">
+                            <div class="row">
+                                <div class="{{ divclass }}" style="padding-top: 5px">
+
+                                    <div *ngFor="let task of taskname"
+                                        style="margin-right: 0px; margin-left: 0px">
+                                        <iplapp-photohistorygallery [label]="task.Task_Photo_Label_Name"
+                                            [isTask]="true" [ModelObj]="ModelObj" [photoObj]="ClientPhotoRefObj"
+                                            [photos]="task.Items"
+                                            (photoModal)="PhotoModel($event, contentPhoto)">
+                                        </iplapp-photohistorygallery>
+                                    </div>
+                                    <br />
+                                </div>
+                            </div>
+                        </div>
+                        <ng-template #contentPhoto let-modal>
+                            <div class="modal-header" style="border-bottom: 1px solid #dee2e6">
+                                <div class="container-fluid row">
+                                    <div class="col"></div>
+                                    <div class="col-md-7 d-flex" style="overflow-x: auto">
+                                    </div>
+                                    <div class="col">
+                                        <button type="button" (click)="modal.close('Save click')" class="close"
+                                            style="float: right" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">×</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-body align-baseline">
+                                <app-photo-gallery [imgCurrentIndex]="imgCurrentIndex" [photos]="popImages"
+                                    [isButtonShow]="isButtonShow">
+                                </app-photo-gallery>
+                            </div>
+                        </ng-template>
+
+                        <ngx-spinner name="loading" bdColor="rgba(0, 0, 0, 0.8)" size="default" color="#fff"
+                            type="timer" [fullScreen]="true">
+                            <p style="color: white">Loading...</p>
+                        </ngx-spinner>
+                    </div>
+                    <!-- </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="module-box tab-pane fade p-1" [ngClass]="{'show': tabs[3].active, 'active': tabs[3].active}" id="home2" role="photodata" aria-labelledby="photodata-tab">
+      <div class="row" style="margin-top: 2.5rem !important;">
+        <div class="col-12">
+            <kendo-grid #gridUser [kendoGridBinding]="infogridData" [pageSize]="15" [pageable]="true" [sortable]="true"
+          [selectable]="true" >
+          <!-- <kendo-grid-column field="Client_Result_Photo_UploadTimestamp" [title]="coltitile" [width]="200">
+            <ng-template kendoGridCellTemplate let-dataItem >
+
+              {{dataItem.Client_Result_Photo_UploadTimestamp | date: 'MM/dd/yyyy'}}
+
+          </ng-template>
+          </kendo-grid-column> -->
+           <kendo-grid-column field="Client_Result_Photo_DateTimeOriginal" [title]="coltitile" [width]="200">
+            <ng-template kendoGridCellTemplate let-dataItem >
+
+              {{dataItem.Client_Result_Photo_DateTimeOriginal | date: 'MM/dd/yyyy'}}
+
+          </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column field="Working_Hour" title="Working Hour" [width]="200">
+          </kendo-grid-column>
+          <kendo-grid-column field="Max_Distance" title="Max Distance" [width]="200">
+          </kendo-grid-column>
+          <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+            <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+            <kendo-pager-numeric-buttons [buttonCount]="10"></kendo-pager-numeric-buttons>
+            <kendo-pager-next-buttons></kendo-pager-next-buttons>
+            <kendo-pager-info></kendo-pager-info>
+            <kendo-pager-page-sizes [pageSizes]="[15, 30, 50, 100]"></kendo-pager-page-sizes>
+          </ng-template>
+        </kendo-grid>
+
+        </div>
+    </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- <kendo-tabstrip  (tabSelect)="onTabSelect($event)" style="margin-top: 20px;color:black;">
+  <kendo-tabstrip-tab  [title]="'Work Orders Photo'" [selected]="true" [cssClass]="'custom-tab-fixed-position'">
+    <ng-template kendoTabContent>
+
+    </ng-template>
+</kendo-tabstrip-tab>
+  <kendo-tabstrip-tab [title]="'Photo Analysis'" >
+      <ng-template kendoTabContent>
+
+      </ng-template>
+  </kendo-tabstrip-tab>
+  <kendo-tabstrip-tab [title]="'Photo History'">
+      <ng-template kendoTabContent>
+
+      </ng-template>
+  </kendo-tabstrip-tab>
+  <kendo-tabstrip-tab [title]="'Photo Data'">
+    <ng-template kendoTabContent>
+
+    </ng-template>
+</kendo-tabstrip-tab>
+</kendo-tabstrip> -->
+<!-- end pradeep -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

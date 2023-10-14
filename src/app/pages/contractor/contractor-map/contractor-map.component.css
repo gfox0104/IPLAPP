@@ -1,0 +1,22 @@
+agm-map {
+    height: 600px;
+}
+.filter-group input{
+    margin-right: 10px;
+    margin-bottom: 10px;
+    height: 40px;
+
+    padding: 0 10px;
+}
+.search-box{
+    display: flex;
+    position: absolute;
+    z-index: 1;
+}
+.zip-search{
+    width: 250px;
+    /* height: 40px; */
+}
+.e-btn{
+    margin-left: 10px;
+}

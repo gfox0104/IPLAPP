@@ -1,0 +1,93 @@
+<div class="container-fluid" mousekeyboard [ngClass]="{ 'HelpCursor': isHelpActive }">
+  <div class="row">
+    <div class="">
+      <div class="col-12">
+        <div class="row m-0 module-box-header">
+          <h4 class="page-title" style="font-weight: bolder">Live User Location</h4>&nbsp;&nbsp;
+          <hr>
+          <button type="submit" id="Back" (click)="DeleteAll()" class="btn btn-primary mr-1 h35">
+            <i class="fa fa-trash"></i>
+            Delete</button>
+            <br>
+            <br>
+
+          <button type="submit" id="Back" (click)="clickBack()" class="btn btn-primary mr-1 h35">
+            <i class="fas fa-arrow-alt-circle-left"></i>
+            Back</button>
+            <br>
+            <br>
+          
+            <a class="pull-right" data-toggle="tooltip" (click)="SetHelpFlag()" data-placement="top" title="Item Help"
+            style="cursor: pointer;"><b>Need Help</b>
+            <i class="fas fa-question"></i>&nbsp;&nbsp;
+          </a> &nbsp;&nbsp;
+
+        </div>
+        <div class="module-subheader p-1 pl-2">
+          <form>
+            <div class="row" >
+              <div class="col-lg-12">
+                <div class="form-row">
+                  <div class="form-group col-md-2">
+                    <label class="col-form-label" for="name1" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'User Name')"
+                    >User Name</label>
+                    <input type="text" class="form-control form-control-sm" id="name1"
+                    [(ngModel)]="userName" [ngModelOptions]="{standalone: true}"
+                    [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'User Name')"
+                     placeholder="Enter User Name">
+                  </div>                 
+                </div>
+              </div>
+              <div class="col-lg-12">
+                <div class="form-row">
+                  <div class="form-group col-md-1 col-sm-2 col-4">
+                    <button id="client_viewdetail_1" class="btn btn-primary" (click)="filter()"><i
+                        class="fas fa-filter mr-1"></i>Filter</button>
+                  </div>
+
+                  <div class="form-group col-md-1 col-sm-2 col-4">
+                    <button id="client_viewdetail_1" class="btn btn-primary" (click)="clear()"><i
+                        class="fas fa-eraser mr-1"></i>Clear</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="row m-0 module-box">
+          <kendo-grid #gridUser [kendoGridBinding]="locationGridData" [pageSize]="25" [pageable]="true"
+            [sortable]="true" [filterable]="false" [selectable]="true" [groupable]="false" [skip]="state.skip"
+            [sort]="state.sort" [filter]="state.filter" (dataStateChange)="dataStateChange($event)">
+            <kendo-grid-column field="Name" title="User Name" [width]="200">
+            </kendo-grid-column>
+            
+            <kendo-grid-column field="IsDeleteChecked" title="Delete" [width]="80" filter="boolean">
+              <ng-template kendoGridCellTemplate let-dataItem let-i="rowIndex">
+                <input type="checkbox" style="float: none;" [checked]="dataItem.IsDeleteChecked"
+                  (change)="checkChange($event, i)" />
+              </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column title="Action" width="80">
+              <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                <a class="edit" data-toggle="tooltip" data-placement="top" (click)="Delete(dataItem)"
+                  title="Delete Record" style="cursor: pointer">
+                  <i class="fa fa-trash"></i>
+                </a>
+              </ng-template>
+            </kendo-grid-column>
+
+            <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+              <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+              <kendo-pager-numeric-buttons [buttonCount]="10"></kendo-pager-numeric-buttons>
+              <kendo-pager-next-buttons></kendo-pager-next-buttons>
+              <kendo-pager-info></kendo-pager-info>
+              <kendo-pager-page-sizes [pageSizes]="[25, 50, 75, 100, 150, 200]"></kendo-pager-page-sizes>
+            </ng-template>
+          </kendo-grid>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

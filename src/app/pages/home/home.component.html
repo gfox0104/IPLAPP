@@ -1,0 +1,271 @@
+<div class="container-fluid" mousekeyboard>
+  <div class="row mx-md-n1">
+    <div class="col-md-6 col-sm-12 px-md-1">
+      <div class="alert alert-success alert-dismissible">
+        Welcome <strong>{{clientName}}!</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-md-n1">
+    <div class="col-lg-6 col-md-12 px-md-1">
+      <div class="card-box px-md-1">
+        <div class="col-12">
+          <h5>Open Orders by Status</h5>
+          <kendo-grid #gridBid [kendoGridBinding]="openOrdersByStatus" [sortable]="true" style="font-size: 12px;"
+            [resizable]="true" scrollable="none" [filterable]="false" [groupable]="false" [reorderable]="true">
+            <kendo-grid-column *ngFor="let columnn of orderColumns; let i=index" [field]="columnn.field"
+              [title]="columnn.title" width="{{columnn.width}}"
+              [headerStyle]="{'background-color': '#323232','color': '#fff','line-height': '1em'}">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                <span
+                  [ngStyle]="{'color': colorCode(dataItem.Status_ID)}">{{columnn.title !== 'Total' ? dataItem[columnn.field] : (dataItem.PastStatusCount + dataItem.FutureStatusCount)}}</span>
+              </ng-template>
+            </kendo-grid-column>
+          </kendo-grid>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-6 px-md-1 pb-24">
+      <div class="card-box px-md-1 h-100">
+
+            <kendo-chart>
+              <kendo-chart-title text="Past Due"></kendo-chart-title>
+              <kendo-chart-series>
+
+                <kendo-chart-series-item
+                    type="donut" [data]="pastStatus"
+                    categoryField="value" field="value" colorField="color">
+                    <kendo-chart-series-item-labels
+                      [content]="labelContent"
+                      color="#fff" background="none">
+                    </kendo-chart-series-item-labels>
+                </kendo-chart-series-item>
+              </kendo-chart-series>
+              <kendo-chart-legend [visible]="false"></kendo-chart-legend>
+            </kendo-chart>
+
+        <div class="row legend">
+          <div class="col px-md-1 d-flex justify-content-center align-items-center"
+            *ngFor="let item of openOrders; let i=index">
+            <span [ngStyle]="{'background-color': colors[i]}"></span>
+            <p class="ml-1">{{item.Status_Name}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-6 px-md-1 pb-24">
+      <div class="card-box px-md-1 h-100">
+
+            <kendo-chart>
+              <kendo-chart-title text="Future"></kendo-chart-title>
+              <kendo-chart-series>
+
+                <kendo-chart-series-item
+                    type="donut" [data]="futureStatus" colorField="color"
+                    categoryField="value" field="value" >
+                  <kendo-chart-series-item-labels
+                    [content]="labelContent"
+                    color="#fff" background="none">
+                  </kendo-chart-series-item-labels>
+                </kendo-chart-series-item>
+              </kendo-chart-series>
+              <kendo-chart-legend [visible]="false"></kendo-chart-legend>
+            </kendo-chart>
+
+        <div class="row legend">
+          <div class="col px-md-1 d-flex justify-content-center align-items-center"
+            *ngFor="let item of openOrders; let i=index">
+            <span [ngStyle]="{'background-color': colors[i]}"></span>
+            <p class="ml-1">{{item.Status_Name}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-md-n1 pd-10" [hidden]="tabhide">
+    <div class="col-6 px-md-1">
+      <div class="card-box px-md-1">
+        <div class="col-12">
+          <h5>Open Orders by Client</h5>
+          <kendo-grid #gridBid [kendoGridBinding]="ordersByCompany" [sortable]="true" style="font-size: 12px;"
+            [resizable]="true" scrollable="none" [filterable]="false" [groupable]="false" [reorderable]="true">
+            <kendo-grid-column *ngFor="let columnn of companyColumns" [field]="columnn.field" [title]="columnn.title"
+              width="{{columnn.width}}"
+              [headerStyle]="{'background-color': '#323232','color': '#fff','line-height': '1em'}">
+              <ng-template kendoGridHeaderTemplate let-column let-columnIndex="columnIndex">
+                <span [style.color]="colorCode(columnn.statusId)">{{column.title}}</span>
+              </ng-template>
+              <ng-template kendoGridCellTemplate let-dataItem>
+                <span>{{dataItem[columnn.field]}}</span>
+              </ng-template>
+            </kendo-grid-column>
+
+          </kendo-grid>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 px-md-1 pb-24">
+      <div class="card-box px-md-1 h-100">
+            <kendo-chart>
+              <kendo-chart-title text="Open Orders by Client"></kendo-chart-title>
+              <kendo-chart-category-axis>
+                <kendo-chart-category-axis-item [categories]="companyName">
+                </kendo-chart-category-axis-item>
+              </kendo-chart-category-axis>
+              <kendo-chart-tooltip>
+              </kendo-chart-tooltip>
+              <kendo-chart-series>
+                <kendo-chart-series-item type="bar" [stack]="true" [data]="companyUnassigned" [color]="colors[0]">
+                </kendo-chart-series-item>
+                <kendo-chart-series-item type="bar" [data]="companyAssigned" [color]="colors[1]">
+                </kendo-chart-series-item>
+                <kendo-chart-series-item type="bar" [data]="companyComplete" [color]="colors[2]">
+                </kendo-chart-series-item>
+                <kendo-chart-series-item type="bar" [data]="companyApprove" [color]="colors[3]">
+                </kendo-chart-series-item>
+              </kendo-chart-series>
+            </kendo-chart>
+        <div class="row legend mt-2">
+          <div class="col px-md-1 d-flex justify-content-center align-items-center"
+            *ngFor="let item of status; let i=index">
+            <span [ngStyle]="{'background-color': statusColors[i]}"></span>
+            <p class="ml-1">{{item.Status_Name}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-md-n1">
+    <div class="col-lg-6 col-md-12 px-md-1">
+      <div class="card-box px-md-1">
+        <div class="col-12">
+          <h5>Open Orders by Date</h5>
+          <kendo-grid #gridBid [kendoGridBinding]="openOrdersByCompany"  [sortable]="true" style="font-size: 12px;"
+            [resizable]="true" scrollable="true" [filterable]="false" [groupable]="false" [reorderable]="true">
+            <kendo-grid-column *ngFor="let columnn of orderColumns1; let i=index" [field]="columnn.field"
+              [title]="columnn.title" width="{{columnn.width}}"
+              [headerStyle]="{'background-color': '#323232','color': '#fff','line-height': '1em'}">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                <span
+                  [ngStyle]="{'color': colorCode(dataItem.Status_ID)}">{{columnn.title !== 'Total' ? dataItem[columnn.field] : (dataItem.Pastdue + dataItem.Future)}}</span>
+              </ng-template>
+            </kendo-grid-column>
+
+          </kendo-grid>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-6 px-md-1 pb-24">
+      <div class="card-box px-md-1 h-100">
+
+            <kendo-chart>
+              <kendo-chart-title text="Past Due"></kendo-chart-title>
+              <kendo-chart-series>
+
+                <kendo-chart-series-item
+                    type="donut" [data]="pastStatus1"
+                    categoryField="value" field="value" colorField="color">
+                    <kendo-chart-series-item-labels
+                      [content]="labelContent"
+                      color="#fff" background="none">
+                    </kendo-chart-series-item-labels>
+                </kendo-chart-series-item>
+              </kendo-chart-series>
+              <kendo-chart-legend [visible]="false"></kendo-chart-legend>
+            </kendo-chart>
+
+
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-6 px-md-1 pb-24">
+      <div class="card-box px-md-1 h-100">
+
+            <kendo-chart>
+              <kendo-chart-title text="Future"></kendo-chart-title>
+              <kendo-chart-series>
+
+                <kendo-chart-series-item
+                    type="donut" [data]="futureStatus1" colorField="color"
+                    categoryField="value" field="value" >
+                  <kendo-chart-series-item-labels
+                    [content]="labelContent"
+                    color="#fff" background="none">
+                  </kendo-chart-series-item-labels>
+                </kendo-chart-series-item>
+              </kendo-chart-series>
+              <kendo-chart-legend [visible]="false"></kendo-chart-legend>
+            </kendo-chart>
+
+
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row mx-md-n1 pd-10" [hidden]="tabhide">
+    <div class="col-6 px-md-1">
+      <div class="card-box px-md-1">
+        <div class="col-12">
+          <h5>Open Invoices</h5>
+          <kendo-grid #gridBid [kendoGridBinding]="openOrderInvoices" [sortable]="true" style="font-size: 12px;"
+            [resizable]="true" scrollable="none" [filterable]="false" [groupable]="false" [reorderable]="true">
+            <kendo-grid-column *ngFor="let columnn of invoiceColumns" [field]="columnn.field" [title]="columnn.title"
+              [headerStyle]="{'background-color': '#323232','color': '#fff','line-height': '1em'}">
+              <ng-template kendoGridCellTemplate let-dataItem let-columnIndex="columnIndex">
+                <p><span *ngIf="columnIndex !== 0">$</span>{{dataItem[columnn.field]}}</p>
+              </ng-template>
+            </kendo-grid-column>
+          </kendo-grid>
+        </div>
+      </div>
+    </div>
+    <kendo-chart class="col-6">
+      <kendo-chart-title text="Open Invoices"></kendo-chart-title>
+      <kendo-chart-category-axis>
+        <kendo-chart-category-axis-item [categories]="companyNameInvoice">
+        </kendo-chart-category-axis-item>
+      </kendo-chart-category-axis>
+      <kendo-chart-tooltip>
+      </kendo-chart-tooltip>
+      <kendo-chart-series>
+        <kendo-chart-series-item type="bar" [stack]="true" [data]="invoiceFirstval">
+        </kendo-chart-series-item>
+        <kendo-chart-series-item type="bar" [data]="invoiceSecondval">
+        </kendo-chart-series-item>
+        <kendo-chart-series-item type="bar" [data]="invoiceThirdval">
+        </kendo-chart-series-item>
+        <kendo-chart-series-item type="bar" [data]="invoiceFourthval">
+        </kendo-chart-series-item>
+      </kendo-chart-series>
+    </kendo-chart>
+  </div>
+
+
+</div>
+
+<ng-template #idleUserBox let-modal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h5 style="color: black;">You Have Been Idle!</h5>
+    <button type="button" (click)="modal.close('Save click')" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="text-center">
+      <span>{{idleState}}</span>
+      <hr>
+      <div class="row mrgbtm">
+        <div class="col-md-6" >
+          <button type="button" class="btn btn-primary waves-effect waves-light" (click)="logout()">Logout</button>
+        </div>
+        <div class="col-md-6">
+          <button type="button" class="btn btn-primary waves-effect waves-light" (click)="stay()" *ngIf="!timedOut">Stay</button>
+          <button type="button" class="btn btn-primary waves-effect waves-light" (click)="closeModal()" *ngIf="timedOut">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

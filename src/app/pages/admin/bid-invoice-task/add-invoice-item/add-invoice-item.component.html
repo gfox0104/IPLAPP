@@ -1,0 +1,871 @@
+<ng-template #content let-modal>
+  <div class="modal-header">
+    Message
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="text-center">
+
+      <span>{{MessageFlag}}</span>
+      <hr>
+      <button type="button" class="btn btn-primary waves-effect waves-light"
+        (click)="modal.close('Save click')">Close..</button>
+    </div>
+  </div>
+</ng-template>
+<div class="container-fluid mt-2">
+
+  <div class="row" [ngClass]="{ 'HelpCursor': isHelpActive }">
+    <div class="col-lg-12">
+      <form [formGroup]="formUsrCommonGroup" (ngSubmit)="FormButton(content)">
+        <h4 class="module-box-header mb-0">Add Task
+          <a class="pull-right mr-2" data-toggle="tooltip" (click)="SetHelpFlag()" data-placement="top"
+        title="Item Help" style="cursor: pointer;">Need Help
+        <i class="fas fa-question"></i>&nbsp;&nbsp;
+        </a>
+        </h4>
+        <div class="form-row m-0 module-subheader p-1 pl-2">
+          <div class="float-right">
+
+            <a href="javascript:void(0)" *ngIf="IsEditDisable" (click)="EditForms()"
+              class="btn btn-primary waves-effect waves-light"> <i class="far fa-edit mr-1"></i> Edit </a>
+            <button type="submit" *ngIf="!IsEditDisable" class="btn btn-primary waves-effect waves-light"
+              [disabled]="isLoading">
+              <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}"></i>
+              {{button}}</button> &nbsp;&nbsp;
+
+            <a [routerLink]="['/home/task/bidinvoiceitemviewtask']" class="btn btn-primary"><i
+                class="fas fa-arrow-alt-circle-left mr-1"></i> Back</a>&nbsp;&nbsp;
+
+            <button type="button" class="btn btn-primary" (click)="open(contentCateFORM)"> <i
+                class="fas fa-plus-circle"></i> Add Task Group</button>
+
+          </div>
+        </div>
+
+        <div class="module-box p-2">
+          <div class="form-row">
+            <div class="form-group col-md-12 text-center module-subheader">
+              <h5>Task Settings</h5>
+            </div>
+          </div>
+          <div style="overflow-x: auto;">
+            <div class="form-row" style="width: max-content;">
+              <table class="table text-center">
+                <tr>
+                  <th [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Task Name')">Task Name
+                    <span style="color: red">*</span></th>
+                  <th [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Task Type')">Task Type
+                  </th>
+                  <th [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Task Group')">Task Group
+                  </th>
+                  <th [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'UOM')">UOM</th>
+                  <th [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'Default Contractor Unit Price')">Default Contractor Unit Price <span
+                      style="color: red">*</span></th>
+                  <th [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'Default Client Unit Price')">Default Client Unit Price <span
+                      style="color: red">*</span></th>
+                  <th [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Task Photo Label Name')">
+                    Task Photo Label Name</th>
+                  <th [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Auto Invoice Complete')">
+                    Auto Invoice Complete</th>
+                  <th [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Active')">Active </th>
+                  <th [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Flat Fee')">Flat Fee</th>
+                  <th [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Price Edit')">Price Edit
+                  </th>
+                  <th [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Disable Default')">Disable
+                    Default</th>
+                  <th [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Auto Assign')">Auto Assign</th>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="text" [(ngModel)]="BidInvoiceItemModelObj.Task_Name" formControlName="TaskName"
+                      (keyup)="ChangePhotoLabel()" [ngClass]="{ 'is-invalid': submitted && fx.TaskName.errors }"
+                      class="form-control form-control-sm" [readonly]="isHelpActive" id="userNfuuiame1"
+                      placeholder="Enter Task Name" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                      (click)="DispalyInfo($event,'Task Name')" AlphanumericOnly>
+                    <div *ngIf="submitted && fx.TaskName.errors" class="invalid-feedback">
+                      <div *ngIf="fx.TaskName.errors.required">this field is required</div>
+                    </div>
+                  </td>
+                  <td>
+                    <select class="form-control form-control-sm" [(ngModel)]="BidInvoiceItemModelObj.Task_Type"
+                      formControlName="TaskTypeVal" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                      (click)="DispalyInfo($event,'Task Type')">
+                      <option value='0'>select</option>
+                      <option [ngValue]="kb.Id" *ngFor="let kb of TaskTypeList">
+                        {{kb.Name}}
+                      </option>
+                    </select>
+                  </td>
+                  <td>
+                    <select class="form-control form-control-sm" [(ngModel)]="BidInvoiceItemModelObj.Task_Group"
+                      formControlName="TaskGroupVal" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                      (click)="DispalyInfo($event,'Task Group')">
+                      <option value='0'>select</option>
+                      <option [ngValue]="kb.Task_Group_pkeyID" *ngFor="let kb of TaskGroupList">
+                        {{kb.Task_Group_Name}}
+                      </option>
+                    </select>
+                  </td>
+                  <td>
+                    <select class="form-control form-control-sm" [(ngModel)]="BidInvoiceItemModelObj.Task_UOM"
+                      formControlName="TaskMeasureVal" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                      (click)="DispalyInfo($event,'UOM')">
+                      <option value='0'>select</option>
+                      <option [ngValue]="kb.UOM_pkeyId" *ngFor="let kb of TaskUOMList">
+                        {{kb.UOM_Name}}
+                      </option>
+                    </select>
+                  </td>
+                  <td>
+                    <input type="text" [(ngModel)]="BidInvoiceItemModelObj.Task_Contractor_UnitPrice"
+                      formControlName="ContractorUnitVal"
+                      [ngClass]="{ 'is-invalid': submitted && fx.ContractorUnitVal.errors }"
+                      class="form-control form-control-sm"  id="fsdfsdfds" placeholder="Enter Unit Price"
+                      [ngClass]="{ 'HelpCursor': isHelpActive }"
+                      (click)="DispalyInfo($event,'Default Contractor Unit Price')" [readonly]="isHelpActive">
+                    <div *ngIf="submitted && fx.ContractorUnitVal.errors" class="invalid-feedback">
+                      <div *ngIf="fx.ContractorUnitVal.errors.required">this field is required</div>
+                    </div>
+                  </td>
+                  <td>
+                    <input type="text" [(ngModel)]="BidInvoiceItemModelObj.Task_Client_UnitPrice"
+                      formControlName="ClientUnitVal" [ngClass]="{ 'is-invalid': submitted && fx.ClientUnitVal.errors }"
+                      class="form-control form-control-sm"  id="fsdfsdfds" placeholder="Enter Unit Price"
+                      [ngClass]="{ 'HelpCursor': isHelpActive }"
+                      (click)="DispalyInfo($event,'Default Client Unit Price')" [readonly]="isHelpActive">
+                    <div *ngIf="submitted && fx.ClientUnitVal.errors" class="invalid-feedback">
+                      <div *ngIf="fx.ClientUnitVal.errors.required">this field is required</div>
+                    </div>
+                  </td>
+                  <td>
+                    <input type="text" id="trdsdthf4" [(ngModel)]="BidInvoiceItemModelObj.Task_Photo_Label_Name"
+                      formControlName="TaskLabelVal" class="form-control form-control-sm" placeholder="Enter Label Name"
+                      [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Task Photo Label Name')"
+                      [readonly]="isHelpActive">
+                  </td>
+                  <td>
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input"
+                        [(ngModel)]="BidInvoiceItemModelObj.Task_AutoInvoiceComplete" formControlName="TaskCompleteVal"
+                        id="customCheckdsfds11c" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                        (click)="DispalyInfo($event,'Auto Invoice Complete')">
+                      <label class="custom-control-label" for="customCheckdsfds11c"
+                        [ngClass]="{ 'HelpCursor': isHelpActive }"
+                        (click)="DispalyInfo($event,'Auto Invoice Complete')"></label>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" id="customCheck11c"
+                        [(ngModel)]="BidInvoiceItemModelObj.Task_IsActive" formControlName="TaskActiveVal"
+                        [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Active')">
+                      <label class="custom-control-label" for="customCheck11c"
+                        [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Active')"></label>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" id="customCheck12c"
+                        [(ngModel)]="BidInvoiceItemModelObj.Task_Flat_Free" formControlName="TaskFlatFree"
+                        [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Flat Fee')">
+                      <label class="custom-control-label" for="customCheck12c"
+                        [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Flat Fee')"></label>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" id="customCheck13c"
+                        [(ngModel)]="BidInvoiceItemModelObj.Task_Price_Edit" formControlName="TaskPriceEdit"
+                        [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Price Edit')">
+                      <label class="custom-control-label" for="customCheck13c"
+                        [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Price Edit')"></label>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" id="customCheck14c"
+                        [(ngModel)]="BidInvoiceItemModelObj.Task_Disable_Default" formControlName="TaskDisableDefault"
+                        [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Disable Default')">
+                      <label class="custom-control-label" for="customCheck14c"
+                        [ngClass]="{ 'HelpCursor': isHelpActive }"
+                        (click)="DispalyInfo($event,'Disable Default')"></label>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" id="customCheck144c"
+                        [(ngModel)]="BidInvoiceItemModelObj.Task_Auto_Assign" formControlName="TaskIsAutoAssign"
+                        [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Auto Assign')">
+                      <label class="custom-control-label" for="customCheck144c"
+                        [ngClass]="{ 'HelpCursor': isHelpActive }"
+                        (click)="DispalyInfo($event,'Auto Assign')"></label>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="module-box mt-2 p-2">
+          <div class="form-row">
+            <div class="form-group col-md-12 text-center module-subheader">
+              <h5>Task Photo Settings</h5>
+            </div>
+          </div>
+          <div class="form-row p-1">
+            <table class="table">
+              <tr>
+                <th> Require measurement Photos</th>
+                <th> Require Load Photos</th>
+                <th> Photo Requirement</th>
+              </tr>
+              <tr>
+                <td >
+                  <div class="custom-control custom-checkbox custom-control-inline">
+                    <input type="checkbox" class="custom-control-input"
+                      [(ngModel)]="TaskPhotoSettingsModel.TPS_MeasurementBidStatus"
+                      id="TaskPhotos_ch1" [ngModelOptions]="{standalone: true}"
+                      [disabled]="isdisable">
+                    <label class="custom-control-label" for="TaskPhotos_ch1">Bids</label>
+                  </div>
+                  <div class="custom-control custom-checkbox custom-control-inline">
+                    <input type="checkbox" class="custom-control-input"
+                      [(ngModel)]="TaskPhotoSettingsModel.TPS_MeasurementCompletionStatus"
+                      id="TaskPhotos_ch2" [ngModelOptions]="{standalone: true}"
+                      [disabled]="isdisable">
+                      <label class="custom-control-label" for="TaskPhotos_ch2">Completion</label>
+                    </div>
+                </td>
+                <td>
+                  <div class="custom-control custom-checkbox custom-control-inline">
+                    <input type="checkbox" class="custom-control-input"
+                      [(ngModel)]="TaskPhotoSettingsModel.TPS_LoadPhotosCompletionStatus"
+                      id="TaskPhotos_ch3" [ngModelOptions]="{standalone: true}"
+                      [disabled]="isdisable">
+                    <label class="custom-control-label" for="TaskPhotos_ch3">Completion</label>
+                  </div>
+                </td>
+                <td>
+                  <div class="row">
+                    <div class="col-3">
+                      <input type="text" [(ngModel)]="TaskPhotoSettingsModel.TPS_PhotoRequirementMin"
+                      class="form-control form-control-sm" [readonly]="isHelpActive" id="userNfuuiame1"
+                      placeholder="Min" [ngModelOptions]="{standalone: true}"
+                      [disabled]="isdisable" numbersOnly>
+                    </div>
+                    <div class="col-3">
+                      <input type="text" [(ngModel)]="TaskPhotoSettingsModel.TPS_PhotoRequirementMax"
+                      class="form-control form-control-sm" [readonly]="isHelpActive" id="userNfuuiame1"
+                      placeholder="Max" [ngModelOptions]="{standalone: true}"
+                      [disabled]="isdisable" numbersOnly>
+                    </div>
+                    <div class="col-1">
+                      <div class="custom-control custom-checkbox custom-control-inline">
+                        <input type="checkbox" class="custom-control-input"
+                          [(ngModel)]="TaskPhotoSettingsModel.TPS_PhotoRequirementStatus"
+                          id="TaskPhotos_ch4" [ngModelOptions]="{standalone: true}"
+                          [disabled]="isdisable">
+                          <label class="custom-control-label" for="TaskPhotos_ch4">Enable </label>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              </table>
+              <table class="table table text-center">
+                <tr>
+                  <th>Inspection</th>
+                  <th>Bid</th>
+                  <th>Bid Measurement</th>
+                  <th>Completion Before</th>
+                  <th>Completion During</th>
+                  <th>Completion After</th>
+                  <th>Completion Load</th>
+                  <th>Completion Measurement</th>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="text" [(ngModel)]="TaskPhotoSettingsModel.TPS_Inspection"
+                    class="form-control form-control-sm" [readonly]="isHelpActive" id="userNfuuiame1"
+                    placeholder="Inspection" [ngModelOptions]="{standalone: true}"
+                    [disabled]="isdisable" numbersOnly>
+                  </td>
+                  <td>
+                    <input type="text" [(ngModel)]="TaskPhotoSettingsModel.TPS_Bid"
+                    class="form-control form-control-sm" [readonly]="isHelpActive" id="userNfuuiame1"
+                    placeholder="Bid" [ngModelOptions]="{standalone: true}"
+                    [disabled]="isdisable" numbersOnly>
+                  </td>
+                  <td>
+                    <input type="text" [(ngModel)]="TaskPhotoSettingsModel.TPS_BidMeasurement"
+                    class="form-control form-control-sm" [readonly]="isHelpActive" id="userNfuuiame1"
+                    placeholder="Bid Measurement" [ngModelOptions]="{standalone: true}"
+                    [disabled]="isdisable" numbersOnly>
+                  </td>
+                  <td>
+                    <input type="text" [(ngModel)]="TaskPhotoSettingsModel.TPS_CompletionBefore"
+                    class="form-control form-control-sm" [readonly]="isHelpActive" id="userNfuuiame1"
+                    placeholder="Completion Before" [ngModelOptions]="{standalone: true}"
+                    [disabled]="isdisable" numbersOnly>
+                  </td>
+                  <td>
+                    <input type="text" [(ngModel)]="TaskPhotoSettingsModel.TPS_CompletionDuring"
+                    class="form-control form-control-sm" [readonly]="isHelpActive" id="userNfuuiame1"
+                    placeholder="Completion During" [ngModelOptions]="{standalone: true}"
+                    [disabled]="isdisable" numbersOnly>
+                  </td>
+                  <td>
+                    <input type="text" [(ngModel)]="TaskPhotoSettingsModel.TPS_CompletionAfter"
+                    class="form-control form-control-sm" [readonly]="isHelpActive" id="userNfuuiame1"
+                    placeholder="Completion After" [ngModelOptions]="{standalone: true}"
+                    [disabled]="isdisable" numbersOnly>
+                  </td>
+                  <td>
+                    <input type="text" [(ngModel)]="TaskPhotoSettingsModel.TPS_CompletionLoad"
+                    class="form-control form-control-sm" [readonly]="isHelpActive" id="userNfuuiame1"
+                    placeholder="Completion Load" [ngModelOptions]="{standalone: true}"
+                    [disabled]="isdisable" numbersOnly>
+                  </td>
+                  <td>
+                    <input type="text" [(ngModel)]="TaskPhotoSettingsModel.TPS_CompletionMeasurement"
+                    class="form-control form-control-sm" [readonly]="isHelpActive" id="userNfuuiame1"
+                    placeholder="Completion Measurement" [ngModelOptions]="{standalone: true}"
+                    [disabled]="isdisable" numbersOnly>
+                  </td>
+                </tr>
+              </table>
+          </div>
+        </div>
+        <div class="module-box mt-2 p-2" [hidden]="!BidInvoiceItemModelObj.Task_AutoInvoiceComplete">
+          <div class="form-row">
+            <div class="form-group col-md-12 text-center module-subheader">
+              <h5>Custom Pricing Filter</h5>
+            </div>
+          </div>
+          <div class="form-row p-1">
+            <table style="overflow-x: auto;" class="table table-responsive">
+              <tr>
+                <th [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Customer')">Customer <i
+                    class="fas fa-filter mr-1"></i></th>
+                <th [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Client')">Client <i
+                    class="fas fa-filter mr-1"></i></th>
+                <th [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Work Type')">Work Type <i
+                    class="fas fa-filter mr-1"></i></th>
+                <th [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Work Type Group')">Work Type
+                  Group <i class="fas fa-filter mr-1"></i></th>
+                <th [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Loan Type')">Loan Type <i
+                    class="fas fa-filter mr-1"></i></th>
+                <th [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'State')">State <i
+                    class="fas fa-filter mr-1"></i></th>
+                <th [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'County')">County <i
+                    class="fas fa-filter mr-1"></i> </th>
+
+                <th [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Contractor')">Contractor <i
+                    class="fas fa-filter mr-1"></i></th>
+                <th [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Contractor Unit Price')">
+                  Contractor Unit Price</th>
+                <th [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Client Unit Price')">Client
+                  Unit Price</th>
+                  <th [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Lot Price Filter')">Lot Price Filter <i
+                    class="fas fa-filter mr-1"></i> </th>
+                <!-- <th [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'LOT Min')">LOT Min</th>
+                <th [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'LOT Max')">LOT Max</th> -->
+                <th [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Flat Fee')">Flat Fee</th>
+
+
+                <th>Remove</th>
+              </tr>
+              <tr *ngFor="let item of CustomeArrayVal; index as indx">
+                <td>
+                  <div class="example-wrapper">
+                    <kendo-dropdownlist [data]="datacustomer" [defaultItem]="defaultCustomer" [filterable]="true" [textField]="'Cust_Num_Number'"
+                      [valueField]="'Cust_Num_pkeyId'" placeholder="Select" (filterChange)="customerhandleFilter($event)"
+                      [(ngModel)]="item.Task_sett_price_Customer" [valuePrimitive]="true"
+                      [ngModelOptions]="{standalone: true}" (valueChange)="CustomerSelect($event,indx)"
+                      style="width: 130px;" [disabled]="isdisable" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                      (click)="DispalyInfo($event,'Customer')">
+                    </kendo-dropdownlist>
+                  </div>
+
+                </td>
+                <td>
+
+                  <div class="example-wrapper">
+                    <kendo-dropdownlist [data]="datacompany" [defaultItem]="defaultCompany" [filterable]="true" [textField]="'Client_Company_Name'"
+                      [valueField]="'Client_pkeyID'" (filterChange)="companyhandleFilter($event)"
+                      [(ngModel)]="item.Task_sett_price_Company" [valuePrimitive]="true"
+                      [ngModelOptions]="{standalone: true}" (valueChange)="CompanySelect($event,indx)"
+                      style="width: 130px;" [disabled]="isdisable" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                      (click)="DispalyInfo($event,'Client')">
+                    </kendo-dropdownlist>
+                  </div>
+
+                </td>
+                <td>
+                  <div class="example-wrapper">
+                    <kendo-dropdownlist [data]="dataWT" [defaultItem]="defaultWorkType" [filterable]="true" [textField]="'WT_WorkType'"
+                      [valueField]="'WT_pkeyID'" (filterChange)="worktypehandleFilter($event)"
+                      [(ngModel)]="item.Task_sett_price_WorkType" [valuePrimitive]="true"
+                      [ngModelOptions]="{standalone: true}" (valueChange)="WTSelect($event,indx)" style="width: 130px;"
+                      [disabled]="isdisable" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                      (click)="DispalyInfo($event,'Work Type')">
+                    </kendo-dropdownlist>
+                  </div>
+
+
+                </td>
+                <td>
+                  <div class="example-wrapper">
+                    <kendo-dropdownlist [data]="dataWTG" [defaultItem]="defaultWorkTypeGroup" [filterable]="true" [textField]="'Work_Type_Name'"
+                      [valueField]="'Work_Type_Cat_pkeyID'" (filterChange)="worktypegrouphandleFilter($event)"
+                      [(ngModel)]="item.Task_Work_price_TypeGroup" [valuePrimitive]="true"
+                      [ngModelOptions]="{standalone: true}" (valueChange)="WTGSelect($event,indx)" style="width: 130px;"
+                      [disabled]="isdisable" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                      (click)="DispalyInfo($event,'Work Type Group')">
+                    </kendo-dropdownlist>
+                  </div>
+
+                </td>
+                <td>
+                  <div class="example-wrapper">
+                    <kendo-dropdownlist [data]="dataLT" [defaultItem]="defaultLoanType" [filterable]="true" [textField]="'Loan_Type'"
+                      [valueField]="'Loan_pkeyId'" (filterChange)="loantypehandleFilter($event)"
+                      [(ngModel)]="item.Task_sett_price_Lone" [valuePrimitive]="true"
+                      [ngModelOptions]="{standalone: true}" (valueChange)="LTSelect($event,indx)" style="width: 130px;"
+                      [disabled]="isdisable" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                      (click)="DispalyInfo($event,'Loan Type')">
+                    </kendo-dropdownlist>
+                  </div>
+
+                </td>
+                <td>
+                  <div class="example-wrapper">
+                    <kendo-dropdownlist [data]="dataS" [defaultItem]="defaultState" [filterable]="true" [textField]="'IPL_StateName'"
+                      [valueField]="'IPL_StateID'" (filterChange)="statehandleFilter($event)"
+                      [(ngModel)]="item.Task_sett_price_State" [valuePrimitive]="true"
+                      [ngModelOptions]="{standalone: true}" (valueChange)="StateSelect($event,indx)"
+                      style="width: 130px;" [disabled]="isdisable" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                      (click)="DispalyInfo($event,'State')">
+                    </kendo-dropdownlist>
+                  </div>
+
+                </td>
+                <td>
+                  <div class="example-wrapper">
+                    <kendo-dropdownlist [data]="item.dataCoun" [defaultItem]="defaultCountry" [filterable]="true" [textField]="'COUNTY'"
+                      [valueField]="'ID'" (filterChange)="countyhandleFilter($event,indx)"
+                      [(ngModel)]="item.Task_sett_price_Country" [valuePrimitive]="true"
+                      [ngModelOptions]="{standalone: true}" (valueChange)="CountySelect($event,indx)"
+                      style="width: 130px;" [disabled]="isdisable" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                      (click)="DispalyInfo($event,'County')">
+                    </kendo-dropdownlist>
+                  </div>
+
+                </td>
+
+                <td>
+                  <div class="example-wrapper">
+                    <kendo-dropdownlist [data]="dataCon" [defaultItem]="defaultContractor" [filterable]="true" [textField]="'User_FirstName'"
+                      [valueField]="'User_pkeyID'" (filterChange)="contractorhandleFilter($event)"
+                      [(ngModel)]="item.Task_sett_price_Contractor" [valuePrimitive]="true"
+                      [ngModelOptions]="{standalone: true}" (valueChange)="ContractorSelect($event,indx)"
+                      style="width: 130px;" [disabled]="isdisable" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                      (click)="DispalyInfo($event,'Contractor')">
+                    </kendo-dropdownlist>
+                  </div>
+
+                </td>
+                <td>
+                  <input type="text" min="0" [(ngModel)]="item.Task_sett_price_Con_Unit_Price" 
+                    [ngModelOptions]="{standalone: true}" class="form-control form-control-sm" id="gfghfghgf"
+                    placeholder="Enter Unit Price..." [disabled]="isdisable" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'Contractor Unit Price')" [readonly]="isHelpActive">
+                </td>
+                <td>
+                  <input type="text" min="0" class="form-control form-control-sm" id="sdfdfgdf" 
+                    [(ngModel)]="item.Task_sett_price_CLI_Unit_Price" [ngModelOptions]="{standalone: true}"
+                    placeholder="Enter Unit Price..." [disabled]="isdisable" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'Client Unit Price')" [readonly]="isHelpActive">
+                </td>
+
+                <td>
+                  <div class="example-wrapper">
+                    <kendo-dropdownlist [data]="dataLT" [defaultItem]="defaultLoanType" [filterable]="true" [textField]="'Lot Price Filter'"
+                      [valueField]="'Loan_pkeyId'"
+                      [(ngModel)]="item.Task_sett_price_Lone" [valuePrimitive]="true"
+                      [ngModelOptions]="{standalone: true}"  style="width: 130px;"
+                      [disabled]="isdisable" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                      (click)="DispalyInfo($event,'Lot Price Filter')">
+                    </kendo-dropdownlist>
+                  </div>
+
+                </td>
+                <!-- <td>
+                  <input type="text" min="0" [(ngModel)]="item.Task_sett_price_LOT_Min" numbersOnly
+                    [ngModelOptions]="{standalone: true}" class="form-control form-control-sm" id="gfghfghgf"
+                    placeholder="Enter LOT Min" [disabled]="isdisable" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'LOT Min')" [readonly]="isHelpActive">
+                </td>
+                <td>
+                  <input type="text" min="0" class="form-control form-control-sm" id="sdfdfgdf" numbersOnly
+                    [(ngModel)]="item.Task_sett_price_LOT_Max" [ngModelOptions]="{standalone: true}"
+                    placeholder="Enter LOT Max" [disabled]="isdisable" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'LOT Max')" [readonly]="isHelpActive">
+                </td> -->
+                <td style="width: 100px;">
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="dwaawdw{{indx}}"
+                      [(ngModel)]="item.Task_sett_price_Flat_Free" [ngModelOptions]="{standalone: true}"
+                      [disabled]="isdisable" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                      (click)="DispalyInfo($event,'Flat Fee')">
+                    <label class="custom-control-label" for="dwaawdw{{indx}}" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                      (click)="DispalyInfo($event,'Flat Fee')"></label>
+                  </div>
+                </td>
+
+                <td style="text-align: center;">
+                  <span *ngIf="isdisable"><a href="javascript:void(0)" style="pointer-events: none;"> <i
+                        class="fa fa-trash"></i></a></span>
+                  <span *ngIf="!isdisable"><a href="javascript:void(0)" (click)="RemoveRow(item,indx)"> <i
+                        class="fa fa-trash"></i></a></span>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <button type="button"
+                class="btn btn-outline-primary waves-effect btn-xs waves-light form-control-sm pull-right"
+                title="click to add more" (click)="AddMoreRow()" [disabled]="isdisable"> <i
+                  class="fas fa-plus-circle"></i> Add
+                More</button>
+            </div>
+          </div>
+        </div>
+
+        <!--Auto Assing Task-->
+        <div class="module-box mt-2 p-2" [hidden]="!BidInvoiceItemModelObj.Task_Auto_Assign">
+          <div class="form-row">
+            <div class="form-group col-md-12 text-center module-subheader">
+              <h5>Auto Assign Task</h5>
+            </div>
+
+            <!-- <div class="row" style="width: 40rem;">
+              <div class="col-md-5 col-lg-5 col-12 " [ngClass]="{ 'HelpCursor': isHelpActive }"
+              (click)="DispalyInfo($event,' Auto-Assign')">
+                <label>Auto Assign Task </label>
+              </div>
+              <div class="col-md-4 col-8">
+                <input type="checkbox" [(ngModel)]="AddInvoiceItemsModelObj.Task_Auto_Assign" formControlName="TaskAutoAssign"
+                  (change)="hideshowDetails(AddInvoiceItemsModelObj.Task_Auto_Assign)" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                  (click)="DispalyInfo($event,' Auto-Assign')">&nbsp;&nbsp;&nbsp;&nbsp; <label>Enable Auto-Assign in WOs</label>
+              </div>
+            </div> -->
+
+            <div style="overflow-x: auto;">
+              <div class="form-row m-0" style="width: max-content;">
+                <table class="table text-center">
+                  <tr>
+                    <th [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Client')">Client <i
+                        class="fas fa-filter mr-1"></i></th>
+                    <th [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Customer')">Customer <i
+                        class="fas fa-filter mr-1"></i></th>
+                    <th [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Loan Type')">Loan Type
+                      <i class="fas fa-filter mr-1"></i></th>
+                    <th [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Work Type')">Work Type<i
+                        class="fas fa-filter mr-1"></i></th>
+                    <th [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Work Type Group')">Work
+                      Type Group<i class="fas fa-filter mr-1"></i></th>
+                    <th [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'State')">State <i
+                        class="fas fa-filter mr-1"></i></th>
+                    <th>Remove</th>
+                  </tr>
+                  <tr *ngFor="let item of FormArrayValDocument; index as indx">
+                    <td>
+                      <div class="adminAddTask">
+                        <!-- selectedItems -->
+                        <ng-multiselect-dropdown style="width: max-content" [placeholder]="'select Client'"
+                          [settings]="dropdownSettings" [data]="dropdownList" (onSelect)="onItemSelect($event)"
+                          (onSelectAll)="onSelectAll($event)" [ngModelOptions]="{standalone: true}"
+                          [(ngModel)]="item.WT_Task_Company" [disabled]="isdisable"
+                          [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Client')">
+                        </ng-multiselect-dropdown>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="adminAddTask">
+                        <ng-multiselect-dropdown [placeholder]="'select Customer'" [settings]="dropdownSettingsCustomer"
+                          [data]="CustomerNumberList" [ngModelOptions]="{standalone: true}"
+                          [(ngModel)]="item.WT_Task_Customer" [disabled]="isdisable"
+                          [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Customer')">
+                        </ng-multiselect-dropdown>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="adminAddTask">
+                        <ng-multiselect-dropdown [placeholder]="'select Loan Type'"
+                          [settings]="dropdownSettingsLoanType" [data]="LoanTypeList"
+                          [ngModelOptions]="{standalone: true}" [(ngModel)]="item.WT_Task_LoneType"
+                          [disabled]="isdisable" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                          (click)="DispalyInfo($event,'Loan Type')">
+                        </ng-multiselect-dropdown>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="adminAddTask">
+                        <ng-multiselect-dropdown [placeholder]="'select Work Type'"
+                          [settings]="dropdownSettingsWorkTypeList" [data]="WorkTypeList"
+                          [ngModelOptions]="{standalone: true}" [(ngModel)]="item.WT_Task_WorkType"
+                          [disabled]="isdisable" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                          (click)="DispalyInfo($event,'Work Type')">
+                        </ng-multiselect-dropdown>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="adminAddTask">
+                        <ng-multiselect-dropdown [placeholder]="'select Work Type Group'"
+                          [settings]="dropdownSettingsWorkTypeCategory" [data]="WorkTypeCategory"
+                          [ngModelOptions]="{standalone: true}" [(ngModel)]="item.WT_Task_WorkType_Group"
+                          [disabled]="isdisable" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                          (click)="DispalyInfo($event,'Work Type Group')">
+                        </ng-multiselect-dropdown>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="adminAddTask">
+                        <ng-multiselect-dropdown [placeholder]="'select State'" [settings]="dropdownSettingsState"
+                          [data]="StateList" [ngModelOptions]="{standalone: true}" [(ngModel)]="item.WT_Task_State"
+                          [disabled]="isdisable" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                          (click)="DispalyInfo($event,'State')">
+                        </ng-multiselect-dropdown>
+                      </div>
+                    </td>
+                    <td style="width: 179px; text-align: center;">
+                      <span *ngIf="isdisable"><a href="javascript:void(0)" style="pointer-events: none;"> <i
+                            class="fa fa-trash"></i></a></span>
+
+                      <span *ngIf="!isdisable"><a href="javascript:void(0)" (click)="RemoveRowDocument(item,indx)"> <i
+                            class="fa fa-trash"></i></a></span>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+
+
+
+
+        </div>
+
+        <!--End-->
+
+
+        <div class="module-box mt-2 p-2">
+          <div class="row">
+            <div class="col-lg-3">
+              <input type="button" class="btn" value="Add Document" (click)="docsupload(DocmentUpload)"
+                [disabled]="isdisable">
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-12">
+              <div class="table-responsive">
+                <table class="table">
+                  <tr style="text-align: center;background-color: #d4d4d4;">
+                    <th [ngClass]="{ 'HelpCursor': isHelpActive }"
+                          (click)="DispalyInfo($event,'Document Download Link')" style="border-right: 1px darkgray !important;">Document Download Link</th>
+                    <th [ngClass]="{ 'HelpCursor': isHelpActive }"
+                          (click)="DispalyInfo($event,'File Name')" style="border-right: 1px darkgray !important;">File Name</th>
+                    <th [ngClass]="{ 'HelpCursor': isHelpActive }"
+                          (click)="DispalyInfo($event,'Status')" style="border-right: 1px darkgray !important;">Status</th>
+                    <th>Remove</th>
+                  </tr>
+                  <tr *ngFor="let item of doclst">
+                    <td>
+                      <a [href]="item.TMF_Task_localPath" target="_blank" [download]="item.TMF_Task_localPath"
+                      [ngClass]="{ 'HelpCursor': isHelpActive }"
+                          (click)="DispalyInfo($event,'Document Download Link')">
+                        <i class="fas fa-download"></i> Download file</a>
+                    </td>
+
+                    <td [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'File Name')">{{ item.TMF_Task_FileName }}</td>
+
+                    <td style="text-align: center;">
+                      <input type="checkbox" value="item.TMF_Task_FileName" class="check_class"
+                        [(ngModel)]="item.chkflag" [ngModelOptions]="{standalone: true}" name="check"
+                        (change)="instrassin(item)" [disabled]="isdisable" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                        (click)="DispalyInfo($event,'Status')"
+                        >
+                    </td>
+
+
+                    <td style="text-align: center;">
+                      <span *ngIf="isdisable"><a href="javascript:void(0)" style="pointer-events: none;"> <i
+                            class="fa fa-trash"></i></a></span>
+
+                      <span *ngIf="!isdisable"><a href="javascript:void(0)" (click)="Removedoc(item)"> <i
+                            class="fa fa-trash"></i></a></span>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="module-box p-2 mt-2">
+          <table class="table text-center" style="width:40% ;">
+            <tr>
+              <th>Preset Text hi</th>
+              <th>Default</th>
+              <th>Action</th>
+            </tr>
+            <tr *ngFor="let item of FormArrayPresetVal; index as indx">
+              <td>
+                <textarea class="form-control form-control-sm" placeholder="Enter Preset Text" id="hfghddaawdawsdfgh"
+                [(ngModel)]="item.Task_Preset_Text" [ngModelOptions]="{standalone: true}"
+                [disabled]="isdisable" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                (click)="DispalyInfo($event,'Preset Text')" [readonly]="isHelpActive"></textarea>
+              </td>
+              <td style="width: 10%;">
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input"
+                    [(ngModel)]="item.Task_Preset_IsDefault"
+                    [id]="'Preset_ch'+item.Task_Preset_pkeyId" [ngModelOptions]="{standalone: true}"
+                    [disabled]="isdisable">
+                  <label class="custom-control-label" [for]="'Preset_ch'+item.Task_Preset_pkeyId"></label>
+                </div>
+              </td>
+              <td style="width:20% ;">
+                <button *ngIf="isdisable" type="button"
+                class="btn btn-outline-primary btn-xs waves-effect  form-control-sm"
+                style="margin-bottom: -8px;pointer-events: none;">
+                <i class="fa fa-trash" ></i></button>
+
+              <button *ngIf="!isdisable" type="button"
+                class="btn btn-outline-primary btn-xs waves-effect  form-control-sm"
+                (click)="RemoveRowPreset(indx,item)" style="margin-bottom: -8px;">
+                <i class="fa fa-trash"></i></button>
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td>
+                <button type="button" class="btn btn-outline-primary waves-effect btn-xs waves-light form-control-sm"
+                title="click to add more" (click)="AddMoreRowPreset()" [disabled]="isdisable"> <i
+                  class="fas fa-plus-circle"></i> Add More</button>
+              </td>
+            </tr>
+          </table>
+          <!-- <div class="form-row" *ngFor="let item of FormArrayPresetVal; index as indx">
+
+            <div class="form-group col-md-3">
+              <label *ngIf="indx == 0" for="hfghddaawdawsdfgh" class="col-form-label">Preset Text</label>
+              <textarea class="form-control form-control-sm" placeholder="Enter Preset Text" id="hfghddaawdawsdfgh"
+                [(ngModel)]="item.Task_Preset_Text" [ngModelOptions]="{standalone: true}"
+                [disabled]="isdisable" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                (click)="DispalyInfo($event,'Preset Text')" [readonly]="isHelpActive"></textarea>
+            </div>
+            <div class="form-group col-md-1">
+              <label *ngIf="indx == 0" for="hfghddaawdawsdfgh" class="col-form-label">Default</label>
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input"
+                  [(ngModel)]="TaskPhotoSettingsModel.MeasurementBids"
+                  id="TaskPhotos_ch5" >
+                <label class="custom-control-label" for="TaskPhotos_ch5"></label>
+              </div>
+            </div>
+            <div class="col-md-1" style="bottom: -2px;">
+              <label *ngIf="indx == 0" for="sdfdfasdgdf" class="col-form-label">Action</label>
+              <br>
+              <button *ngIf="isdisable" type="button"
+                class="btn btn-outline-primary btn-xs waves-effect  form-control-sm"
+                style="margin-bottom: -8px;pointer-events: none;">
+                <i class="fa fa-trash"></i></button>
+
+              <button *ngIf="!isdisable" type="button"
+                class="btn btn-outline-primary btn-xs waves-effect  form-control-sm"
+                (click)="RemoveRowPreset(indx,item)" style="margin-bottom: -8px;">
+                <i class="fa fa-trash"></i></button>
+            </div>
+            <div class="form-group col-md-8">
+            </div>
+          </div>
+          <br>
+          <div class="form-row">
+            <div class="form-group col-md-3">
+            </div>
+            <div class="form-group col-md-1">
+              <button type="button" class="btn btn-outline-primary waves-effect btn-xs waves-light form-control-sm"
+                title="click to add more" (click)="AddMoreRowPreset()" [disabled]="isdisable"> <i
+                  class="fas fa-plus-circle"></i> Add More</button>
+            </div>
+            <div class="form-group col-md-8">
+            </div>
+          </div> -->
+        </div>
+        <div class="form-row mt-2">
+          <div class="float-right">
+            <label *ngIf="formUsrCommonGroup.invalid" style="color:red">*
+              Field is Required
+            </label> <br>
+            <!-- [routerLink]="['/task/addinvoiceitems']" -->
+            <a href="javascript:void(0)" *ngIf="IsEditDisable" (click)="EditForms()"
+              class="btn btn-primary waves-effect waves-light"> <i class="far fa-edit mr-1"></i> Edit </a>
+            &nbsp;&nbsp;&nbsp;
+            <button type="submit" *ngIf="!IsEditDisable" class="btn btn-primary waves-effect waves-light"
+              [disabled]="isLoading">
+              <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}"></i>
+              {{button}}</button> &nbsp; &nbsp;
+
+            <a [routerLink]="['/home/task/bidinvoiceitemviewtask']" class="btn btn-primary"><i
+                class="fas fa-arrow-alt-circle-left mr-1"></i> Back</a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<ng-template #DocmentUpload let-modal>
+  <div class="modal-header">
+    Upload Documents
+    <button type="button" ngbAutofocus class="close" (click)="modal.close('Save click')" data-dismiss="modal"
+      aria-label="Close">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div>
+      <div class="row">
+        <div class="col-md-12">
+          <kendo-upload [saveUrl]="uploadSaveUrl" [removeUrl]="uploadRemoveUrl" [(ngModel)]="myFiles"
+            (error)="displayError($event)" (success)="displaySuccess($event);">
+          </kendo-upload>
+        </div>
+      </div>
+      <hr>
+      <button id="client_viewdetail_1" class="btn btn-primary" (click)="modal.close('Save click')">Close</button>
+    </div>
+  </div>
+</ng-template>
+<ng-template #contentCateFORM let-modal>
+  <div class="modal-header">
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div style="box-shadow: 0 0 4px gray;" class="p-2">
+      <app-ipl-app-task-group-manage (RefreshTaskGroup)="RefreshTaskGroup($event)"></app-ipl-app-task-group-manage>
+    </div>
+  </div>
+</ng-template>
+

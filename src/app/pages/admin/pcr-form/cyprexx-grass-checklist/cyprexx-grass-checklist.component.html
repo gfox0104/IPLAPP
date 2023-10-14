@@ -1,0 +1,1454 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="row m-0" style="width:81rem;">
+            <div class="col-12 bg-pattern">
+                <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="field-tab">
+                    <ul class="module-subheader m-0 nav nav-tabs" id="myproperty" role="tablist">
+
+                        <li class="nav-item">
+                            <a class="nav-link active" id="bidhistory-tab" data-toggle="tab" href="#bidhistory"
+                                role="tab" (click)="TabClickMethod(1)" aria-controls="bidhistory"
+                                aria-selected="true">Property Maintenance</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="bidhistory-tab" data-toggle="tab" href="#invoicehistory" role="tab"
+                                (click)="TabClickMethod(2)" aria-controls="invoicehistory" aria-selected="true">
+                                General Property Information</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="bidhistory-tab" data-toggle="tab" href="#PropertyType" role="tab"
+                                (click)="TabClickMethod(3)" aria-controls="PropertyType" aria-selected="true">Pool
+                                Information
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="bidhistory-tab" data-toggle="tab" href="#Utilities" role="tab"
+                                (click)="TabClickMethod(4)" aria-controls="Utilities" aria-selected="true">Utilities</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="bidhistory-tab" data-toggle="tab" href="#OccupancyInfo1" role="tab"
+                                (click)="TabClickMethod(5)" aria-controls="OccupancyInfo1"
+                                aria-selected="true">Recommended Services
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="bidhistory-tab" data-toggle="tab" href="#Securing" role="tab"
+                                (click)="TabClickMethod(6)" aria-controls="Securing" aria-selected="true">General
+                                Comments
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="bidhistory-tab" data-toggle="tab" href="#roof" role="tab"
+                                (click)="TabClickMethod(7)" aria-controls="roof" aria-selected="true">Order Completion
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="pt-0 tab-content" id="mypropertyContent">
+                        <div class="tab-pane fade show active" id="bidhistory" role="tabpanel"
+                            aria-labelledby="bidhistory-tab">
+                            <div class="row m-0">
+                                <div class="col-12">
+
+                                    <div style="box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;padding-bottom:0.5rem"
+                                        (click)=" FormButton1(true)">
+                                        <div>
+                                            <h4 class="page-title"
+                                                style="font-weight: bolder;background-color: hwb(203deg 69% 21%); height:2rem">
+                                                Property
+                                                Maintenance</h4>
+                                        </div>
+                                        <div
+                                            style="box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;width: 98%;margin: 1rem;">
+
+                                            <div class="d-flex">
+                                                <div class="w-50 mx-3" style="text-align: end;">
+
+                                                </div>
+
+                                                <div style="border:1px solid #7e7575"></div>
+                                                <div class="w-50">
+                                                    <div class="radio radio-info form-check-inline mx-3">
+                                                        <input type="radio" id="ProMnt_WasGrassoutCompleted" value="Yes"
+                                                          name="ProMnt_WasGrassoutCompleted" [(ngModel)]="_CG_Property_Maintenance_Model.ProMnt_WasGrassoutCompleted">
+                                                        <label for="ProMnt_WasGrassoutCompleted"> Yes </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="d-flex">
+                                                <div class="w-50 mx-3" style="text-align: end;">
+                                                    <label>Was a Grass out Completed?.</label>
+                                                     <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover1="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_Property_Maintenance','ProMnt_WasGrassoutCompleted')" (mouseleave)="HistoryPopover1.close()"></span>
+                                                </div>
+
+                                                <div style="border:1px solid #7e7575"></div>
+                                                <div class="w-50">
+                                                    <div class="radio radio-info form-check-inline mx-3">
+                                                        <input type="radio" id="ProMnt_WasGrassoutCompleted2" value="No"
+                                                        name="ProMnt_WasGrassoutCompleted" [(ngModel)]="_CG_Property_Maintenance_Model.ProMnt_WasGrassoutCompleted">
+                                                        <label for="ProMnt_WasGrassoutCompleted2"> No </label>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="d-flex">
+                                                <div class="w-50 mx-3" style="text-align: end;"></div>
+
+                                                <div style="border:1px solid #7e7575"></div>
+                                                <div class="w-50">
+                                                    <div class="radio radio-info form-check-inline mx-3">
+                                                        <input type="radio" id="ProMnt_WasGrassoutCompleted3"
+                                                            value="N/A Out of season" name="ProMnt_WasGrassoutCompleted" [(ngModel)]="_CG_Property_Maintenance_Model.ProMnt_WasGrassoutCompleted">
+                                                        <label for="ProMnt_WasGrassoutCompleted3"> N/A Out of season </label>
+                                                    </div>
+                                                    <!-- <span class="pervious-answer">{{this.PCR_History.CG_Property_Maintenance!=undefined ? this.PCR_History.CG_Property_Maintenance.ProMnt_WasGrassoutCompleted :""}}</span> -->
+                                                </div>
+                                            </div>
+                                            <div style="border: 1px solid #dbd1d1;"></div>
+                                            <div class="d-flex" style=" border: 1px solid #dbd1d1;" *ngIf="_CG_Property_Maintenance_Model.ProMnt_WasGrassoutCompleted=='Yes'">
+                                              <div class="w-50 mx-3" style="text-align: end;">
+                                                  <label>What was grass height prior to cutting?(inches)*</label>
+                                                  <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover2="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_Property_Maintenance','ProMnt_GrassHeightPriorToCutting')" (mouseleave)="HistoryPopover2.close()"></span>
+                                              </div>
+
+                                              <div style="border:1px solid #7e7575"></div>
+                                              <div class="w-50">
+                                                  <div class="mx-3">
+                                                      <input type="text" id="inlineRadio1Sold"
+                                                          style="height:1.5rem;width:28rem" [(ngModel)]="_CG_Property_Maintenance_Model.ProMnt_GrassHeightPriorToCutting">
+                                                  </div>
+                                                  <!-- <span class="pervious-answer">{{this.PCR_History.CG_Property_Maintenance!=undefined ? this.PCR_History.CG_Property_Maintenance.ProMnt_GrassHeightPriorToCutting :""}}</span> -->
+                                              </div>
+                                          </div>
+                                            <div class="d-flex" *ngIf="_CG_Property_Maintenance_Model.ProMnt_WasGrassoutCompleted=='No'">
+                                                <div class="w-50 mx-3" style="text-align: end;">
+                                                    <label>Unable to access property*</label>
+                                                    <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover3="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_Property_Maintenance','ProMnt_Unableproperty')" (mouseleave)="HistoryPopover3.close()"></span>
+                                                </div>
+
+                                                <div style="border:1px solid #7e7575"></div>
+                                                <div class="w-50">
+                                                    <div class="custom-control custom-checkbox mx-3">
+                                                        <input type="checkbox" class="custom-control-input"
+                                                            id="OccupancyDeterminedbyPets" [(ngModel)]="_CG_Property_Maintenance_Model.ProMnt_Unableproperty">
+                                                        <label class="custom-control-label"
+                                                            for="OccupancyDeterminedbyPets"></label>
+                                                        <!-- <span class="pervious-answer">{{this.PCR_History.CG_Property_Maintenance!=undefined ? this.PCR_History.CG_Property_Maintenance.ProMnt_Unableproperty :""}}</span> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- <div class="w-50 mx-3" style="text-align: end;"></div> -->
+                                            <div class="d-flex" style=" border: 1px solid #dbd1d1;" *ngIf="_CG_Property_Maintenance_Model.ProMnt_Unableproperty">
+                                                <div class="w-50 mx-3" style="text-align: end;">
+                                                    <label>Describe Why you were unable to access the property*</label>
+                                                    <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover4="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_Property_Maintenance','ProMnt_DescribeWhyproperty')" (mouseleave)="HistoryPopover4.close()"></span>
+                                                </div>
+
+                                                <div style="border:1px solid #7e7575"></div>
+                                                <div class="w-50">
+                                                    <div class="mx-3">
+                                                        <input type="text" id="inlineRadio1Sold"
+                                                            style="height:1.5rem;width:28rem" [(ngModel)]="_CG_Property_Maintenance_Model.ProMnt_DescribeWhyproperty">
+                                                    </div>
+                                                    <!-- <span class="pervious-answer">{{this.PCR_History.CG_Property_Maintenance!=undefined ? this.PCR_History.CG_Property_Maintenance.ProMnt_DescribeWhyproperty :""}}</span> -->
+                                                </div>
+                                            </div>
+
+                                            <div class="d-flex" *ngIf="_CG_Property_Maintenance_Model.ProMnt_WasGrassoutCompleted=='No'">
+                                                <div class="w-50 mx-3" style="text-align: end;">
+                                                    <label>Cannot locate property*</label>
+                                                    <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover5="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_Property_Maintenance','ProMnt_CannotlocateProperty')" (mouseleave)="HistoryPopover5.close()"></span>
+                                                </div>
+
+                                                <div style="border:1px solid #7e7575"></div>
+                                                <div class="w-50">
+                                                    <div class="custom-control custom-checkbox mx-3">
+                                                        <input type="checkbox" class="custom-control-input"
+                                                            id="OccupancyDeterminedbyPets1" [(ngModel)]="_CG_Property_Maintenance_Model.ProMnt_CannotlocateProperty">
+                                                        <label class="custom-control-label"
+                                                            for="OccupancyDeterminedbyPets1"></label>
+                                                        <!-- <span class="pervious-answer">{{this.PCR_History.CG_Property_Maintenance!=undefined ? this.PCR_History.CG_Property_Maintenance.ProMnt_CannotlocateProperty :""}}</span> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div style="border: 1px solid #dbd1d1;" *ngIf="_CG_Property_Maintenance_Model.ProMnt_WasGrassoutCompleted=='No'"></div>
+                                            <div class="d-flex" *ngIf="_CG_Property_Maintenance_Model.ProMnt_WasGrassoutCompleted=='No'">
+                                                <div class="w-50 mx-3" style="text-align: end;">
+                                                    <label>Grass did not need to be out below 2 inches*</label>
+                                                    <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover6="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_Property_Maintenance','ProMnt_Grass2inches')" (mouseleave)="HistoryPopover6.close()"></span>
+                                                </div>
+
+                                                <div style="border:1px solid #7e7575"></div>
+                                                <div class="w-50">
+                                                    <div class="custom-control custom-checkbox mx-3">
+                                                        <input type="checkbox" class="custom-control-input"
+                                                            id="OccupancyDeterminedbyPets2" [(ngModel)]="_CG_Property_Maintenance_Model.ProMnt_Grass2inches">
+                                                        <label class="custom-control-label"
+                                                            for="OccupancyDeterminedbyPets2"></label>
+                                                        <!-- <span class="pervious-answer">{{this.PCR_History.CG_Property_Maintenance!=undefined ? this.PCR_History.CG_Property_Maintenance.ProMnt_Grass2inches :""}}</span> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div style="border: 1px solid #dbd1d1;" *ngIf="_CG_Property_Maintenance_Model.ProMnt_WasGrassoutCompleted=='No'"></div>
+                                            <div class="d-flex" *ngIf="_CG_Property_Maintenance_Model.ProMnt_WasGrassoutCompleted=='No'">
+                                                <div class="w-50 mx-3" style="text-align: end;">
+                                                    <label>Property Occupied*</label>
+                                                    <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover7="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_Property_Maintenance','ProMnt_PropertyOccupied')" (mouseleave)="HistoryPopover7.close()"></span>
+                                                </div>
+
+                                                <div style="border:1px solid #7e7575"></div>
+                                                <div class="w-50">
+                                                    <div class="custom-control custom-checkbox mx-3">
+                                                        <input type="checkbox" class="custom-control-input"
+                                                            id="OccupancyDeterminedbyPets3" [(ngModel)]="_CG_Property_Maintenance_Model.ProMnt_PropertyOccupied">
+                                                        <label class="custom-control-label"
+                                                            for="OccupancyDeterminedbyPets3"></label>
+                                                        <!-- <span class="pervious-answer">{{this.PCR_History.CG_Property_Maintenance!=undefined ? this.PCR_History.CG_Property_Maintenance.ProMnt_PropertyOccupied :""}}</span> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="d-flex" style=" border: 1px solid #dbd1d1;" *ngIf="_CG_Property_Maintenance_Model.ProMnt_PropertyOccupied">
+                                                <div class="w-50 mx-3" style="text-align: end;">
+                                                    <label>If property is occupied please provide comments*</label>
+                                                    <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover9="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_Property_Maintenance','ProMnt_Ifpropertyprovidecomments')" (mouseleave)="HistoryPopover9.close()"></span>
+                                                </div>
+
+                                                <div style="border:1px solid #7e7575"></div>
+                                                <div class="w-50">
+                                                    <div class="mx-3">
+                                                        <input type="text" id="inlineRadio1Sold"
+                                                            style="height:1.5rem;width:28rem" [(ngModel)]="_CG_Property_Maintenance_Model.ProMnt_Ifpropertyprovidecomments">
+                                                    </div>
+                                                    <!-- <span class="pervious-answer">{{this.PCR_History.CG_Property_Maintenance!=undefined ? this.PCR_History.CG_Property_Maintenance.ProMnt_Ifpropertyprovidecomments :""}}</span> -->
+                                                </div>
+                                            </div>
+
+                                            <div style="border: 1px solid #dbd1d1;" *ngIf="_CG_Property_Maintenance_Model.ProMnt_WasGrassoutCompleted=='No'"></div>
+                                            <div class="d-flex" *ngIf="_CG_Property_Maintenance_Model.ProMnt_WasGrassoutCompleted=='No'">
+                                                <div class="w-50 mx-3" style="text-align: end;">
+                                                    <label>Other*</label>
+                                                    <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover10="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_Property_Maintenance','ProMnt_Other')" (mouseleave)="HistoryPopover10.close()"></span>
+                                                </div>
+
+                                                <div style="border:1px solid #7e7575"></div>
+                                                <div class="w-50">
+                                                    <div class="custom-control custom-checkbox mx-3">
+                                                        <input type="checkbox" class="custom-control-input"
+                                                            id="OccupancyDeterminedbyPets4" [(ngModel)]="_CG_Property_Maintenance_Model.ProMnt_Other">
+                                                        <label class="custom-control-label"
+                                                            for="OccupancyDeterminedbyPets4"></label>
+                                                        <!-- <span class="pervious-answer">{{this.PCR_History.CG_Property_Maintenance!=undefined ? this.PCR_History.CG_Property_Maintenance.ProMnt_Other :""}}</span> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="d-flex" style=" border: 1px solid #dbd1d1;" *ngIf="_CG_Property_Maintenance_Model.ProMnt_Other">
+                                                <div class="w-50 mx-3" style="text-align: end;">
+                                                    <label>If Other, please explain*</label>
+                                                    <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover11="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_Property_Maintenance','ProMnt_IfOtherexplain')" (mouseleave)="HistoryPopover11.close()"></span>
+                                                </div>
+
+                                                <div style="border:1px solid #7e7575"></div>
+                                                <div class="w-50">
+                                                    <div class="mx-3">
+                                                        <input type="text" id="inlineRadio1Sold"
+                                                            style="height:1.5rem;width:28rem" [(ngModel)]="_CG_Property_Maintenance_Model.ProMnt_IfOtherexplain">
+                                                    </div>
+                                                    <!-- <span class="pervious-answer">{{this.PCR_History.CG_Property_Maintenance!=undefined ? this.PCR_History.CG_Property_Maintenance.ProMnt_IfOtherexplain :""}}</span> -->
+                                                </div>
+                                            </div>
+
+
+                                            <div class="d-flex">
+                                                <div class="w-50 mx-3" style="text-align: end;">
+
+                                                </div>
+
+                                                <div style="border:1px solid #7e7575"></div>
+                                                <div class="w-50">
+                                                    <div class="radio radio-info form-check-inline mx-3">
+                                                        <input type="radio" id="ProMnt_Wassnowcompleted" value="Yes"
+                                                            name="ProMnt_Wassnowcompleted" [(ngModel)]="_CG_Property_Maintenance_Model.ProMnt_Wassnowcompleted">
+                                                        <label for="ProMnt_Wassnowcompleted"> Yes </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="d-flex">
+                                                <div class="w-50 mx-3" style="text-align: end;">
+                                                    <label>Was a snow removal completed?*</label>
+                                                    <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover12="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_Property_Maintenance','ProMnt_Wassnowcompleted')" (mouseleave)="HistoryPopover12.close()"></span>
+                                                </div>
+
+                                                <div style="border:1px solid #7e7575"></div>
+                                                <div class="w-50">
+                                                    <div class="radio radio-info form-check-inline mx-3">
+                                                        <input type="radio" id="ProMnt_Wassnowcompleted2" value="No" name="ProMnt_Wassnowcompleted" [(ngModel)]="_CG_Property_Maintenance_Model.ProMnt_Wassnowcompleted">
+                                                        <label for="ProMnt_Wassnowcompleted2"> No </label>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="d-flex">
+                                                <div class="w-50 mx-3" style="text-align: end;"></div>
+
+                                                <div style="border:1px solid #7e7575"></div>
+                                                <div class="w-50">
+                                                    <div class="radio radio-info form-check-inline mx-3">
+                                                        <input type="radio" id="ProMnt_Wassnowcompleted3"
+                                                            value="N/A Out of season" name="ProMnt_Wassnowcompleted" [(ngModel)]="_CG_Property_Maintenance_Model.ProMnt_Wassnowcompleted">
+                                                        <label for="ProMnt_Wassnowcompleted3"> N/A Out of season </label>
+                                                    </div>
+                                                    <!-- <span class="pervious-answer">{{this.PCR_History.CG_Property_Maintenance!=undefined ? this.PCR_History.CG_Property_Maintenance.ProMnt_Wassnowcompleted :""}}</span> -->
+                                                </div>
+                                            </div>
+                                            <div style="border:1px solid #7e7575" *ngIf="_CG_Property_Maintenance_Model.ProMnt_Wassnowcompleted=='Yes'"></div>
+                                            <div class="d-flex" *ngIf="_CG_Property_Maintenance_Model.ProMnt_Wassnowcompleted=='Yes'">
+                                                <div class="w-50 mx-3" style="text-align: end;">
+                                                    <label>Was a snow removaed form entryways, walkways and
+                                                        driveways?*</label>
+                                                    <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover13="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_Property_Maintenance','ProMnt_Wassnowdriveway')" (mouseleave)="HistoryPopover13.close()"></span>
+                                                </div>
+
+                                                <div style="border:1px solid #7e7575"></div>
+                                                <div class="w-50">
+                                                    <div class="radio radio-info form-check-inline mx-3 ">
+                                                        <input type="radio" id="ProMnt_Wassnowdriveway" value="Yes"
+                                                            name="ProMnt_Wassnowdriveway" [(ngModel)]="_CG_Property_Maintenance_Model.ProMnt_Wassnowdriveway">
+                                                        <label for="ProMnt_Wassnowdriveway">Yes</label>
+                                                    </div>
+                                                    <div class="radio radio-info form-check-inline ">
+                                                        <input type="radio" id="ProMnt_Wassnowdriveway2" value="No"
+                                                            name="ProMnt_Wassnowdriveway" [(ngModel)]="_CG_Property_Maintenance_Model.ProMnt_Wassnowdriveway">
+                                                        <label for="ProMnt_Wassnowdriveway2">No</label>
+                                                    </div>
+                                                    <!-- <span class="pervious-answer">{{this.PCR_History.CG_Property_Maintenance!=undefined ? this.PCR_History.CG_Property_Maintenance.ProMnt_Wassnowdriveway :""}}</span> -->
+                                                </div>
+                                            </div>
+                                            <div class="d-flex" style=" border: 1px solid #dbd1d1;" *ngIf="_CG_Property_Maintenance_Model.ProMnt_Wassnowdriveway=='No'">
+                                              <div class="w-50 mx-3" style="text-align: end;">
+                                                  <label>If No,Explain*</label>
+                                                  <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover14="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_Property_Maintenance','ProMnt_Wassnowdriveway_Explain')" (mouseleave)="HistoryPopover14.close()"></span>
+                                              </div>
+
+                                              <div style="border:1px solid #7e7575"></div>
+                                              <div class="w-50">
+                                                  <div class="mx-3">
+                                                      <input type="text" id="inlineRadio1Sold"
+                                                          style="height:1.5rem;width:28rem" [(ngModel)]="_CG_Property_Maintenance_Model.ProMnt_Wassnowdriveway_Explain">
+                                                  </div>
+                                                  <!-- <span class="pervious-answer">{{this.PCR_History.CG_Property_Maintenance!=undefined ? this.PCR_History.CG_Property_Maintenance.ProMnt_Wassnowdriveway_Explain :""}}</span> -->
+                                              </div>
+                                          </div>
+                                            <div style="border: 1px solid #dbd1d1;" *ngIf="_CG_Property_Maintenance_Model.ProMnt_Wassnowcompleted=='No'"></div>
+                                            <div class="d-flex" *ngIf="_CG_Property_Maintenance_Model.ProMnt_Wassnowcompleted=='No'">
+                                                <div class="w-50 mx-3" style="text-align: end;">
+                                                    <label>Unable to access property*</label>
+                                                    <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover15="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_Property_Maintenance','ProMnt_Unableaccessproperty')" (mouseleave)="HistoryPopover15.close()"></span>
+                                                </div>
+
+                                                <div style="border:1px solid #7e7575"></div>
+                                                <div class="w-50">
+                                                    <div class="custom-control custom-checkbox mx-3">
+                                                        <input type="checkbox" class="custom-control-input"
+                                                            id="OccupancyDeterminedbyPets5" [(ngModel)]="_CG_Property_Maintenance_Model.ProMnt_Unableaccessproperty">
+                                                        <label class="custom-control-label"
+                                                            for="OccupancyDeterminedbyPets5"></label>
+                                                        <!-- <span class="pervious-answer">{{this.PCR_History.CG_Property_Maintenance!=undefined ? this.PCR_History.CG_Property_Maintenance.ProMnt_Unableaccessproperty :""}}</span> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div style="border: 1px solid #dbd1d1;" *ngIf="_CG_Property_Maintenance_Model.ProMnt_Wassnowcompleted=='No'"></div>
+                                            <div class="d-flex" *ngIf="_CG_Property_Maintenance_Model.ProMnt_Wassnowcompleted=='No'">
+                                                <div class="w-50 mx-3" style="text-align: end;">
+                                                    <label>Cannot locate Property*</label>
+                                                    <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover16="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_Property_Maintenance','ProMnt_CannotlocateProperty2')" (mouseleave)="HistoryPopover16.close()"></span>
+                                                </div>
+
+                                                <div style="border:1px solid #7e7575"></div>
+                                                <div class="w-50">
+                                                    <div class="custom-control custom-checkbox mx-3">
+                                                        <input type="checkbox" class="custom-control-input"
+                                                            id="OccupancyDeterminedbyPets6" [(ngModel)]="_CG_Property_Maintenance_Model.ProMnt_CannotlocateProperty2">
+                                                        <label class="custom-control-label"
+                                                            for="OccupancyDeterminedbyPets6"></label>
+                                                        <!-- <span class="pervious-answer">{{this.PCR_History.CG_Property_Maintenance!=undefined ? this.PCR_History.CG_Property_Maintenance.ProMnt_CannotlocateProperty2 :""}}</span> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div style="border: 1px solid #dbd1d1;" *ngIf="_CG_Property_Maintenance_Model.ProMnt_Wassnowcompleted=='No'"></div>
+                                            <div class="d-flex" *ngIf="_CG_Property_Maintenance_Model.ProMnt_Wassnowcompleted=='No'">
+                                                <div class="w-50 mx-3" style="text-align: end;">
+                                                    <label>Snow removal needed, below 2 inches*</label>
+                                                    <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover17="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_Property_Maintenance','ProMnt_Snowneeded2inches')" (mouseleave)="HistoryPopover17.close()"></span>
+                                                </div>
+
+                                                <div style="border:1px solid #7e7575"></div>
+                                                <div class="w-50">
+                                                    <div class="custom-control custom-checkbox mx-3">
+                                                        <input type="checkbox" class="custom-control-input"
+                                                            id="OccupancyDeterminedbyPets7" [(ngModel)]="_CG_Property_Maintenance_Model.ProMnt_Snowneeded2inches">
+                                                        <label class="custom-control-label"
+                                                            for="OccupancyDeterminedbyPets7"></label>
+                                                        <!-- <span class="pervious-answer">{{this.PCR_History.CG_Property_Maintenance!=undefined ? this.PCR_History.CG_Property_Maintenance.ProMnt_Snowneeded2inches :""}}</span> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div style="border: 1px solid #dbd1d1;" *ngIf="_CG_Property_Maintenance_Model.ProMnt_Wassnowcompleted=='No'"></div>
+                                            <div class="d-flex" *ngIf="_CG_Property_Maintenance_Model.ProMnt_Wassnowcompleted=='No'">
+                                                <div class="w-50 mx-3" style="text-align: end;">
+                                                    <label>Property occupied*</label>
+                                                    <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover18="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_Property_Maintenance','ProMnt_PropertyOccupied2')" (mouseleave)="HistoryPopover18.close()"></span>
+                                                </div>
+
+                                                <div style="border:1px solid #7e7575"></div>
+                                                <div class="w-50">
+                                                    <div class="custom-control custom-checkbox mx-3">
+                                                        <input type="checkbox" class="custom-control-input"
+                                                            id="OccupancyDeterminedbyPets8" [(ngModel)]="_CG_Property_Maintenance_Model.ProMnt_PropertyOccupied2">
+                                                        <label class="custom-control-label"
+                                                            for="OccupancyDeterminedbyPets8"></label>
+                                                        <!-- <span class="pervious-answer">{{this.PCR_History.CG_Property_Maintenance!=undefined ? this.PCR_History.CG_Property_Maintenance.ProMnt_PropertyOccupied2 :""}}</span> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="d-flex" style=" border: 1px solid #dbd1d1;" *ngIf="_CG_Property_Maintenance_Model.ProMnt_PropertyOccupied2">
+                                                <div class="w-50 mx-3" style="text-align: end;">
+                                                    <label>If property is occupied, please provide comments*</label>
+                                                    <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover19="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_Property_Maintenance','ProMnt_Ifpropertyoccupiedcomments')" (mouseleave)="HistoryPopover19.close()"></span>
+                                                </div>
+
+                                                <div style="border:1px solid #7e7575"></div>
+                                                <div class="w-50">
+                                                    <div class="mx-3">
+                                                        <input type="text" id="inlineRadio1Sold"
+                                                            style="height:1.5rem;width:28rem" [(ngModel)]="_CG_Property_Maintenance_Model.ProMnt_Ifpropertyoccupiedcomments">
+                                                    </div>
+                                                    <!-- <span class="pervious-answer">{{this.PCR_History.CG_Property_Maintenance!=undefined ? this.PCR_History.CG_Property_Maintenance.ProMnt_Ifpropertyoccupiedcomments :""}}</span> -->
+                                                </div>
+                                            </div>
+
+                                            <div style="border: 1px solid #dbd1d1;" *ngIf="_CG_Property_Maintenance_Model.ProMnt_Wassnowcompleted=='No'"></div>
+                                            <div class="d-flex" *ngIf="_CG_Property_Maintenance_Model.ProMnt_Wassnowcompleted=='No'">
+                                                <div class="w-50 mx-3" style="text-align: end;">
+                                                    <label>Other*</label>
+                                                  <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover20="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_Property_Maintenance','ProMnt_Other2')" (mouseleave)="HistoryPopover20.close()"></span>
+                                                </div>
+
+                                                <div style="border:1px solid #7e7575"></div>
+                                                <div class="w-50">
+                                                    <div class="custom-control custom-checkbox mx-3">
+                                                        <input type="checkbox" class="custom-control-input"
+                                                            id="OccupancyDeterminedbyPets9" [(ngModel)]="_CG_Property_Maintenance_Model.ProMnt_Other2">
+                                                        <label class="custom-control-label"
+                                                            for="OccupancyDeterminedbyPets9"></label>
+                                                        <!-- <span class="pervious-answer">{{this.PCR_History.CG_Property_Maintenance!=undefined ? this.PCR_History.CG_Property_Maintenance.ProMnt_Other2 :""}}</span> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="d-flex" style=" border: 1px solid #dbd1d1;" *ngIf="_CG_Property_Maintenance_Model.ProMnt_Other2">
+                                                <div class="w-50 mx-3" style="text-align: end;">
+                                                    <label>If Other, please explain*</label>
+                                                    <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover21="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_Property_Maintenance','ProMnt_IfOtherpleaseexplain')" (mouseleave)="HistoryPopover21.close()"></span>
+                                                </div>
+
+                                                <div style="border:1px solid #7e7575"></div>
+                                                <div class="w-50">
+                                                    <div class="mx-3">
+                                                        <input type="text" id="inlineRadio1Sold"
+                                                            style="height:1.5rem;width:28rem" [(ngModel)]="_CG_Property_Maintenance_Model.ProMnt_IfOtherpleaseexplain">
+                                                    </div>
+                                                    <!-- <span class="pervious-answer">{{this.PCR_History.CG_Property_Maintenance!=undefined ? this.PCR_History.CG_Property_Maintenance.ProMnt_IfOtherpleaseexplain :""}}</span> -->
+                                                </div>
+                                            </div>
+
+
+
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="invoicehistory" role="tabpanel"
+                            aria-labelledby="invoicehistory-tab">
+                            <div class="row m-0">
+                                <div class="col-12" id="OccupancyInfo" role="tabpanel" aria-labelledby="OccupancyInfo">
+                                    <div style="box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;padding-bottom:0.5rem"
+                                        (click)=" ViolationSubmit(true)">
+
+                                        <div>
+                                            <h4 class="page-title"
+                                                style="font-weight: bolder;background-color: hwb(203deg 69% 21%);height:2rem">
+                                                General Property
+                                                Information </h4>
+                                        </div>
+                                        <div class="col-12">
+                                            <div
+                                                style="box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;width: 98%;margin: 1rem;">
+                                                <div style=" border: 1px solid #dbd1d1;width: 100%;"></div>
+
+                                                <div class="d-flex">
+                                                    <div class="w-50 mx-3" style="text-align: end;">
+                                                        <label>Is there visible damage?*</label>
+                                                        <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover22="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_General_Property_Info','GnProp_Isdamage')" (mouseleave)="HistoryPopover22.close()"></span>
+                                                    </div>
+
+                                                    <div style="border:1px solid #7e7575"></div>
+                                                    <div class="w-50">
+                                                        <div class="radio radio-info form-check-inline mx-3 ">
+                                                            <input type="radio" id="GnProp_Isdamage" value="Yes"
+                                                                name="GnProp_Isdamage" [(ngModel)]="_CG_General_Property_Info_Model.GnProp_Isdamage">
+                                                            <label for="GnProp_Isdamage">Yes</label>
+                                                        </div>
+                                                        <div class="radio radio-info form-check-inline ">
+                                                            <input type="radio" id="GnProp_Isdamage1" value="No"
+                                                                name="GnProp_Isdamage" [(ngModel)]="_CG_General_Property_Info_Model.GnProp_Isdamage">
+                                                            <label for="GnProp_Isdamage1">No</label>
+                                                        </div>
+                                                        <!-- <span class="pervious-answer">{{this.PCR_History.CG_General_Property_Info!=undefined ? this.PCR_History.CG_General_Property_Info.GnProp_Isdamage :""}}</span> -->
+                                                    </div>
+                                                </div>
+                                                <div style="border: 1px solid #dbd1d1;"></div>
+                                                <div *ngIf="_CG_General_Property_Info_Model.GnProp_Isdamage=='Yes'">
+                                                <div class="d-flex">
+                                                    <div class="w-50 mx-3" style="text-align: end;"></div>
+                                                    <div style="border:1px solid #7e7575"></div>
+                                                    <div class="w-50">
+                                                        <div class="custom-control custom-checkbox mx-3">
+                                                            <input type="checkbox" class="custom-control-input"
+                                                                id="GnProp_DamageTypeBrokenWindow" [(ngModel)]="_CG_General_Property_Info_Model.GnProp_DamageTypeBrokenWindow">
+                                                            <label class="custom-control-label"
+                                                                for="GnProp_DamageTypeBrokenWindow">Broken
+                                                                windows</label>
+
+                                                              <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover45="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_General_Property_Info','GnProp_DamageTypeBrokenWindow')" (mouseleave)="HistoryPopover45.close()"></span>
+                                                            <!-- <span class="pervious-answer">{{this.PCR_History.CG_General_Property_Info!=undefined ? this.PCR_History.CG_General_Property_Info.GnProp_DamageTypeBrokenWindow :""}}</span> -->
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex">
+                                                    <div class="w-50 mx-3" style="text-align: end;">
+
+                                                    </div>
+
+                                                    <div style="border:1px solid #7e7575"></div>
+                                                    <div class="w-50">
+                                                        <div class="custom-control custom-checkbox mx-3">
+                                                            <input type="checkbox" class="custom-control-input"
+                                                                id="GnProp_DamageTypeFire" [(ngModel)]="_CG_General_Property_Info_Model.GnProp_DamageTypeFire">
+                                                            <label class="custom-control-label"
+                                                                for="GnProp_DamageTypeFire">Fire
+                                                                Damage</label>
+                                                                    <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover46="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_General_Property_Info','GnProp_DamageTypeFire')" (mouseleave)="HistoryPopover46.close()"></span>
+                                                            <!-- <span class="pervious-answer">{{this.PCR_History.CG_General_Property_Info!=undefined ? this.PCR_History.CG_General_Property_Info.GnProp_DamageTypeFire :""}}</span> -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex">
+                                                    <div class="w-50 mx-3" style="text-align: end;">
+                                                    </div>
+                                                    <div style="border:1px solid #7e7575"></div>
+                                                    <div class="w-50">
+                                                        <div class="custom-control custom-checkbox mx-3">
+                                                            <input type="checkbox" class="custom-control-input"
+                                                                id="GnProp_DamageTypeGraffiti" [(ngModel)]="_CG_General_Property_Info_Model.GnProp_DamageTypeGraffiti">
+                                                            <label class="custom-control-label"
+                                                                for="GnProp_DamageTypeGraffiti">Graffiti -
+                                                                Exterior</label>
+                                                                          <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover47="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_General_Property_Info','GnProp_DamageTypeGraffiti')" (mouseleave)="HistoryPopover47.close()"></span>
+                                                            <!-- <span class="pervious-answer">{{this.PCR_History.CG_General_Property_Info!=undefined ? this.PCR_History.CG_General_Property_Info.GnProp_DamageTypeGraffiti :""}}</span> -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex">
+                                                    <div class="w-50 mx-3" style="text-align: end;"></div>
+                                                    <div style="border:1px solid #7e7575"></div>
+                                                    <div class="w-50">
+                                                        <div class="custom-control custom-checkbox mx-3">
+                                                            <input type="checkbox" class="custom-control-input"
+                                                                id="GnProp_DamageTypeGutters" [(ngModel)]="_CG_General_Property_Info_Model.GnProp_DamageTypeGutters">
+                                                            <label class="custom-control-label"
+                                                                for="GnProp_DamageTypeGutters">Gutters/
+                                                                Downspouts</label>
+                                                                                <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover48="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_General_Property_Info','GnProp_DamageTypeGutters')" (mouseleave)="HistoryPopover48.close()"></span>
+                                                            <!-- <span class="pervious-answer">{{this.PCR_History.CG_General_Property_Info!=undefined ? this.PCR_History.CG_General_Property_Info.GnProp_DamageTypeGutters :""}}</span> -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex">
+                                                    <div class="w-50 mx-3" style="text-align: end;">
+                                                        <label>Damage Type*</label>
+                                                      <!-- <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover23="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_General_Property_Info','GnProp_DamageTypeBrokenRoof')" (mouseleave)="HistoryPopover23.close()"></span> -->
+                                                    </div>
+                                                    <div style="border:1px solid #7e7575"></div>
+                                                    <div class="w-50">
+                                                        <div class="custom-control custom-checkbox mx-3">
+                                                            <input type="checkbox" class="custom-control-input"
+                                                                id="GnProp_DamageTypeBrokenRoof" [(ngModel)]="_CG_General_Property_Info_Model.GnProp_DamageTypeBrokenRoof">
+                                                            <label class="custom-control-label"
+                                                                for="GnProp_DamageTypeBrokenRoof">Roof Damage</label>
+                                            <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover52="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_General_Property_Info','GnProp_DamageTypeBrokenRoof')" (mouseleave)="HistoryPopover52.close()"></span>
+
+                                                            <!-- <span class="pervious-answer">{{this.PCR_History.CG_General_Property_Info!=undefined ? this.PCR_History.CG_General_Property_Info.GnProp_DamageTypeBrokenRoof :""}}</span> -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="d-flex">
+                                                    <div class="w-50 mx-3" style="text-align: end;">
+
+                                                    </div>
+                                                    <div style="border:1px solid #7e7575"></div>
+                                                    <div class="w-50">
+                                                        <div class="custom-control custom-checkbox mx-3">
+                                                            <input type="checkbox" class="custom-control-input"
+                                                                id="GnProp_DamageTypeSiding" [(ngModel)]="_CG_General_Property_Info_Model.GnProp_DamageTypeSiding">
+                                                            <label class="custom-control-label"
+                                                                for="GnProp_DamageTypeSiding">Siding/Facia</label>
+                                                                                      <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover49="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_General_Property_Info','GnProp_DamageTypeSiding')" (mouseleave)="HistoryPopover49.close()"></span>
+                                                            <!-- <span class="pervious-answer">{{this.PCR_History.CG_General_Property_Info!=undefined ? this.PCR_History.CG_General_Property_Info.GnProp_DamageTypeSiding :""}}</span> -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="d-flex">
+                                                    <div class="w-50 mx-3" style="text-align: end;"></div>
+                                                    <div style="border:1px solid #7e7575"></div>
+                                                    <div class="w-50">
+                                                        <div class="custom-control custom-checkbox mx-3">
+                                                            <input type="checkbox" class="custom-control-input"
+                                                                id="GnProp_DamageTypeStructural" [(ngModel)]="_CG_General_Property_Info_Model.GnProp_DamageTypeStructural">
+                                                            <label class="custom-control-label"
+                                                                for="GnProp_DamageTypeStructural">Structural/
+                                                                Foundation</label>
+                                                                                            <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover50="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_General_Property_Info','GnProp_DamageTypeStructural')" (mouseleave)="HistoryPopover50.close()"></span>
+                                                            <!-- <span class="pervious-answer">{{this.PCR_History.CG_General_Property_Info!=undefined ? this.PCR_History.CG_General_Property_Info.GnProp_DamageTypeStructural :""}}</span> -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="d-flex">
+                                                    <div class="w-50 mx-3" style="text-align: end;"></div>
+                                                    <div style="border:1px solid #7e7575"></div>
+                                                    <div class="w-50">
+                                                        <div class="custom-control custom-checkbox mx-3">
+                                                            <input type="checkbox" class="custom-control-input"
+                                                                id="GnProp_DamageTypeOther" [(ngModel)]="_CG_General_Property_Info_Model.GnProp_DamageTypeOther">
+                                                            <label class="custom-control-label"
+                                                                for="GnProp_DamageTypeOther">Other (explain)</label>
+                                                                                                  <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover51="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_General_Property_Info','GnProp_DamageTypeOther')" (mouseleave)="HistoryPopover51.close()"></span>
+                                                            <!-- <span class="pervious-answer">{{this.PCR_History.CG_General_Property_Info!=undefined ? this.PCR_History.CG_General_Property_Info.GnProp_DamageTypeOther :""}}</span> -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+                                                <div class="d-flex" style=" border: 1px solid #dbd1d1;" *ngIf="_CG_General_Property_Info_Model.GnProp_DamageTypeOther">
+                                                    <div class="w-50 mx-3" style="text-align: end;">
+                                                        <label>If Other, explain*</label>
+                                                        <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover24="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_General_Property_Info','GnProp_IfOtherexplain')" (mouseleave)="HistoryPopover24.close()"></span>
+                                                    </div>
+
+                                                    <div style="border:1px solid #7e7575"></div>
+                                                    <div class="w-50" style="padding:3px;">
+                                                        <div class="mx-3">
+                                                            <input type="text" id="GnProp_IfOtherexplain"
+                                                                style="height:1.5rem;width:28rem" [(ngModel)]="_CG_General_Property_Info_Model.GnProp_IfOtherexplain">
+                                                        </div>
+                                                        <!-- <span class="pervious-answer">{{this.PCR_History.CG_General_Property_Info!=undefined ? this.PCR_History.CG_General_Property_Info.GnProp_IfOtherexplain :""}}</span> -->
+                                                    </div>
+                                                </div>
+                                              </div>
+                                                <div class="d-flex">
+                                                    <div class="w-50 mx-3" style="text-align: end;">
+                                                        <label>Is there a code violation posted?*</label>
+                                                          <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover25="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_General_Property_Info','GnProp_Isthereposted')" (mouseleave)="HistoryPopover25.close()"></span>
+                                                    </div>
+
+                                                    <div style="border:1px solid #7e7575"></div>
+                                                    <div class="w-50">
+                                                        <div class="radio radio-info form-check-inline mx-3 ">
+                                                            <input type="radio" id="GnProp_Isthereposted1" value="Yes"
+                                                                name="GnProp_Isthereposted" [(ngModel)]="_CG_General_Property_Info_Model.GnProp_Isthereposted">
+                                                            <label for="GnProp_Isthereposted1">Yes</label>
+                                                        </div>
+                                                        <div class="radio radio-info form-check-inline ">
+                                                            <input type="radio" id="GnProp_Isthereposted2" value="No"
+                                                                name="GnProp_Isthereposted" [(ngModel)]="_CG_General_Property_Info_Model.GnProp_Isthereposted">
+                                                            <label for="GnProp_Isthereposted2">No</label>
+                                                        </div>
+                                                        <!-- <span class="pervious-answer">{{this.PCR_History.CG_General_Property_Info!=undefined ? this.PCR_History.CG_General_Property_Info.GnProp_Isthereposted :""}}</span> -->
+                                                    </div>
+                                                </div>
+                                                <div style="border: 1px solid #dbd1d1;"></div>
+                                                <div class="d-flex">
+                                                    <div class="w-50 mx-3" style="text-align: end;">
+                                                        <label>Is there a For Sale sign?*</label>
+                                                            <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover26="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_General_Property_Info','GnProp_IsthereSalesign')" (mouseleave)="HistoryPopover26.close()"></span>
+                                                    </div>
+
+                                                    <div style="border:1px solid #7e7575"></div>
+                                                    <div class="w-50">
+                                                        <div class="radio radio-info form-check-inline mx-3 ">
+                                                            <input type="radio" id="GnProp_IsthereSalesign" value="Yes"
+                                                                name="GnProp_IsthereSalesign" [(ngModel)]="_CG_General_Property_Info_Model.GnProp_IsthereSalesign">
+                                                            <label for="GnProp_IsthereSalesign">Yes</label>
+                                                        </div>
+                                                        <div class="radio radio-info form-check-inline ">
+                                                            <input type="radio" id="GnProp_IsthereSalesign1" value="No"
+                                                                name="GnProp_IsthereSalesign" [(ngModel)]="_CG_General_Property_Info_Model.GnProp_IsthereSalesign">
+                                                            <label for="GnProp_IsthereSalesign1">No</label>
+                                                        </div>
+                                                        <!-- <span class="pervious-answer">{{this.PCR_History.CG_General_Property_Info!=undefined ? this.PCR_History.CG_General_Property_Info.GnProp_IsthereSalesign :""}}</span> -->
+                                                    </div>
+                                                </div>
+                                                <div style="border: 1px solid #dbd1d1;"></div>
+                                                <div class="d-flex">
+                                                    <div class="w-50 mx-3" style="text-align: end;">
+                                                        <label>Is Cyprexx Emergency sign posted?*</label>
+                                                        <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover27="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_General_Property_Info','GnProp_IsCyprexxsignposted')" (mouseleave)="HistoryPopover27.close()"></span>
+                                                    </div>
+
+                                                    <div style="border:1px solid #7e7575"></div>
+                                                    <div class="w-50">
+                                                        <div class="radio radio-info form-check-inline mx-3 ">
+                                                            <input type="radio" id="GnProp_IsCyprexxsignposted" value="Yes"
+                                                                name="GnProp_IsCyprexxsignposted" [(ngModel)]="_CG_General_Property_Info_Model.GnProp_IsCyprexxsignposted">
+                                                            <label for="GnProp_IsCyprexxsignposted">Yes</label>
+                                                        </div>
+                                                        <div class="radio radio-info form-check-inline ">
+                                                            <input type="radio" id="GnProp_IsCyprexxsignposted1" value="No"
+                                                                name="GnProp_IsCyprexxsignposted" [(ngModel)]="_CG_General_Property_Info_Model.GnProp_IsCyprexxsignposted">
+                                                            <label for="GnProp_IsCyprexxsignposted1">No</label>
+                                                        </div>
+                                                        <!-- <span class="pervious-answer">{{this.PCR_History.CG_General_Property_Info!=undefined ? this.PCR_History.CG_General_Property_Info.GnProp_IsCyprexxsignposted :""}}</span> -->
+                                                    </div>
+                                                </div>
+                                                <div style="border: 1px solid #dbd1d1;"></div>
+                                                <div class="d-flex">
+                                                    <div class="w-50 mx-3" style="text-align: end;">
+                                                        <label>Was property secured upon arrival?*</label>
+                                                      <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover28="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_General_Property_Info','GnProp_Waspropertyuponarrival')" (mouseleave)="HistoryPopover28.close()"></span>
+                                                    </div>
+
+                                                    <div style="border:1px solid #7e7575"></div>
+                                                    <div class="w-50">
+                                                        <div class="radio radio-info form-check-inline mx-3 ">
+                                                            <input type="radio" id="GnProp_Waspropertyuponarrival" value="Yes"
+                                                                name="GnProp_Waspropertyuponarrival" [(ngModel)]="_CG_General_Property_Info_Model.GnProp_Waspropertyuponarrival">
+                                                            <label for="GnProp_Waspropertyuponarrival">Yes</label>
+                                                        </div>
+                                                        <div class="radio radio-info form-check-inline ">
+                                                            <input type="radio" id="GnProp_Waspropertyuponarrival1" value="No"
+                                                                name="GnProp_Waspropertyuponarrival" [(ngModel)]="_CG_General_Property_Info_Model.GnProp_Waspropertyuponarrival">
+                                                            <label for="GnProp_Waspropertyuponarrival1">No</label>
+                                                        </div>
+                                                        <!-- <span class="pervious-answer">{{this.PCR_History.CG_General_Property_Info!=undefined ? this.PCR_History.CG_General_Property_Info.GnProp_Waspropertyuponarrival :""}}</span> -->
+                                                    </div>
+                                                </div>
+
+                                                <div style="border: 1px solid #dbd1d1;" *ngIf="_CG_General_Property_Info_Model.GnProp_Waspropertyuponarrival=='No'"></div>
+                                                <div class="d-flex" *ngIf="_CG_General_Property_Info_Model.GnProp_Waspropertyuponarrival=='No'">
+                                                    <div class="w-50 mx-3" style="text-align: end;">
+                                                        <label>If No, did you secure and bid after the fact?*</label>
+                                                        <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover29="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_General_Property_Info','GnProp_Ifyouafterthefact')" (mouseleave)="HistoryPopover29.close()"></span>
+                                                    </div>
+
+                                                    <div style="border:1px solid #7e7575"></div>
+                                                    <div class="w-50">
+                                                        <div class="radio radio-info form-check-inline mx-3 ">
+                                                            <input type="radio" id="GnProp_Ifyouafterthefact1" value="Yes"
+                                                                name="GnProp_Ifyouafterthefact" [(ngModel)]="_CG_General_Property_Info_Model.GnProp_Ifyouafterthefact">
+                                                            <label for="GnProp_Ifyouafterthefact1">Yes</label>
+                                                        </div>
+                                                        <div class="radio radio-info form-check-inline ">
+                                                            <input type="radio" id="GnProp_Ifyouafterthefact2" value="No"
+                                                                name="GnProp_Ifyouafterthefact" [(ngModel)]="_CG_General_Property_Info_Model.GnProp_Ifyouafterthefact">
+                                                            <label for="GnProp_Ifyouafterthefact2">No</label>
+                                                        </div>
+                                                        <!-- <span class="pervious-answer">{{this.PCR_History.CG_General_Property_Info!=undefined ? this.PCR_History.CG_General_Property_Info.GnProp_Ifyouafterthefact :""}}</span> -->
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex" style=" border: 1px solid #dbd1d1;" *ngIf="_CG_General_Property_Info_Model.GnProp_Ifyouafterthefact=='No'">
+                                                    <div class="w-50 mx-3" style="text-align: end;">
+                                                        <label>If No, explain*</label>
+                                                          <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover30="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_General_Property_Info','GnProp_IfNoexplain')" (mouseleave)="HistoryPopover30.close()"></span>
+                                                    </div>
+
+                                                    <div style="border:1px solid #7e7575"></div>
+                                                    <div class="w-50" style="padding:3px;">
+                                                        <div class="mx-3">
+                                                            <input type="text" id="GnProp_IfNoexplain"
+                                                                style="height:1.5rem;width:28rem" [(ngModel)]="_CG_General_Property_Info_Model.GnProp_IfNoexplain">
+                                                        </div>
+                                                        <!-- <span class="pervious-answer">{{this.PCR_History.CG_General_Property_Info!=undefined ? this.PCR_History.CG_General_Property_Info.GnProp_IfNoexplain :""}}</span> -->
+                                                    </div>
+                                                </div>
+                                                <div style="border: 1px solid #dbd1d1;"></div>
+                                                <div class="d-flex">
+                                                    <div class="w-50 mx-3" style="text-align: end;">
+                                                        <label>Is a lockbox Present?*</label>
+                                                            <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover31="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_General_Property_Info','GnProp_IsalockboxPresent')" (mouseleave)="HistoryPopover31.close()"></span>
+                                                    </div>
+
+                                                    <div style="border:1px solid #7e7575"></div>
+                                                    <div class="w-50">
+                                                        <div class="radio radio-info form-check-inline mx-3 ">
+                                                            <input type="radio" id="GnProp_IsalockboxPresent1" value="Yes"
+                                                                name="GnProp_IsalockboxPresent" [(ngModel)]="_CG_General_Property_Info_Model.GnProp_IsalockboxPresent">
+                                                            <label for="GnProp_IsalockboxPresent1">Yes</label>
+                                                        </div>
+                                                        <div class="radio radio-info form-check-inline ">
+                                                            <input type="radio" id="GnProp_IsalockboxPresent2" value="No"
+                                                                name="GnProp_IsalockboxPresent" [(ngModel)]="_CG_General_Property_Info_Model.GnProp_IsalockboxPresent">
+                                                            <label for="GnProp_IsalockboxPresent2">No</label>
+                                                        </div>
+                                                        <!-- <span class="pervious-answer">{{this.PCR_History.CG_General_Property_Info!=undefined ? this.PCR_History.CG_General_Property_Info.GnProp_IsalockboxPresent :""}}</span> -->
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="PropertyType" role="tabpanel" aria-labelledby="PropertyType-tab">
+                            <div class="row m-0">
+                                <div class="col-12" id="OccupancyInfo" role="tabpanel" aria-labelledby="OccupancyInfo">
+                                    <div style="box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;padding-bottom:0.5rem"
+                                        (click)="SecuringSubmit(true)">
+                                        <div>
+                                            <h4 class="page-title"
+                                                style="font-weight: bolder;background-color: hwb(203deg 69% 21%);height:2rem">
+                                                Pool Information</h4>
+                                        </div>
+                                        <div class="col-12">
+                                            <div
+                                                style="box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;width: 98%;margin: 1rem;">
+                                                <div style=" border: 1px solid #dbd1d1;width: 100%;"></div>
+
+                                                <div class="d-flex">
+                                                    <div class="w-50 mx-3" style="text-align: end;">
+                                                        <label>Is a pool present?*</label>
+                                                              <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover32="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_Pool_Information','PoolInfo_Ispoolpresent')" (mouseleave)="HistoryPopover32.close()"></span>
+                                                    </div>
+
+                                                    <div style="border:1px solid #7e7575"></div>
+                                                    <div class="w-50">
+                                                        <div class="radio radio-info form-check-inline mx-3 ">
+                                                            <input type="radio" id="PoolInfo_Ispoolpresent1" value="Yes"
+                                                                name="PoolInfo_Ispoolpresent" [(ngModel)]="_CG_Pool_Information_Model.PoolInfo_Ispoolpresent">
+                                                            <label for="PoolInfo_Ispoolpresent1">Yes</label>
+                                                        </div>
+                                                        <div class="radio radio-info form-check-inline ">
+                                                            <input type="radio" id="PoolInfo_Ispoolpresent2" value="No"
+                                                                name="PoolInfo_Ispoolpresent" [(ngModel)]="_CG_Pool_Information_Model.PoolInfo_Ispoolpresent">
+                                                            <label for="PoolInfo_Ispoolpresent2">No</label>
+                                                        </div>
+                                                        <!-- <span class="pervious-answer">{{this.PCR_History.CG_Pool_Information!=undefined ? this.PCR_History.CG_Pool_Information.PoolInfo_Ispoolpresent :""}}</span> -->
+                                                    </div>
+                                                </div>
+
+                                                <div class="d-flex" *ngIf="_CG_Pool_Information_Model.PoolInfo_Ispoolpresent=='Yes'">
+                                                    <div class="w-50 mx-3" style="text-align: end;">
+                                                        <label>Is fence and pool gate locked and secured?*</label>
+                                                                <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover33="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_Pool_Information','PoolInfo_Isfencelockedsecured')" (mouseleave)="HistoryPopover33.close()"></span>
+
+                                                    </div>
+
+                                                    <div style="border:1px solid #7e7575"></div>
+                                                    <div class="w-50">
+                                                        <div class="radio radio-info form-check-inline mx-3 ">
+                                                            <input type="radio" id="PoolInfo_Isfencelockedsecured1" value="Yes"
+                                                                name="PoolInfo_Isfencelockedsecured" [(ngModel)]="_CG_Pool_Information_Model.PoolInfo_Isfencelockedsecured">
+                                                            <label for="PoolInfo_Isfencelockedsecured1">Yes</label>
+                                                        </div>
+                                                        <div class="radio radio-info form-check-inline ">
+                                                            <input type="radio" id="PoolInfo_Isfencelockedsecured2" value="No"
+                                                                name="PoolInfo_Isfencelockedsecured" [(ngModel)]="_CG_Pool_Information_Model.PoolInfo_Isfencelockedsecured">
+                                                            <label for="PoolInfo_Isfencelockedsecured2">No</label>
+                                                        </div>
+                                                        <!-- <span class="pervious-answer">{{this.PCR_History.CG_Pool_Information!=undefined ? this.PCR_History.CG_Pool_Information.PoolInfo_Isfencelockedsecured :""}}</span> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="Utilities" role="tabpanel" aria-labelledby="Utilities-tab">
+                            <div class="row m-0">
+                                <div class="col-12" id="OccupancyInfo" role="tabpanel" aria-labelledby="OccupancyInfo">
+                                    <div style="box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;padding-bottom:0.5rem"
+                                        (click)=" SubmitWinterization(true)">
+                                        <div>
+                                            <h4 class="page-title"
+                                                style="font-weight: bolder;background-color: hwb(203deg 69% 21%);height:2rem">
+                                                Utilities</h4>
+                                        </div>
+                                        <div class="col-12">
+                                            <div
+                                                style="box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;width: 98%;margin: 1rem;">
+                                                <div style=" border: 1px solid #dbd1d1;width: 100%;"></div>
+
+                                                <div class="d-flex">
+                                                    <div class="w-50 mx-3" style="text-align: end;">
+
+                                                    </div>
+
+                                                    <div style="border:1px solid #7e7575"></div>
+                                                    <div class="w-50">
+                                                        <div class="radio radio-info form-check-inline mx-3">
+                                                            <input type="radio" id="Utilities_Gason" value="Yes"
+                                                                name="Utilities_Gason" [(ngModel)]="_CG_Utilities_Model.Utilities_Gason">
+                                                            <label for="Utilities_Gason"> Yes </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="d-flex">
+                                                    <div class="w-50 mx-3" style="text-align: end;">
+                                                        <label>Gas on?.</label>
+                                                                  <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover34="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_Utilities','Utilities_Gason')" (mouseleave)="HistoryPopover34.close()"></span>
+                                                    </div>
+
+                                                    <div style="border:1px solid #7e7575"></div>
+                                                    <div class="w-50">
+                                                        <div class="radio radio-info form-check-inline mx-3">
+                                                            <input type="radio" id="Utilities_Gason1" value="No"
+                                                                name="Utilities_Gason" [(ngModel)]="_CG_Utilities_Model.Utilities_Gason">
+                                                            <label for="Utilities_Gason1"> No </label>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex">
+                                                    <div class="w-50 mx-3" style="text-align: end;"></div>
+
+                                                    <div style="border:1px solid #7e7575"></div>
+                                                    <div class="w-50">
+                                                        <div class="radio radio-info form-check-inline mx-3">
+                                                            <input type="radio" id="Utilities_Gason2"
+                                                                value="Unknown" name="Utilities_Gason" [(ngModel)]="_CG_Utilities_Model.Utilities_Gason">
+                                                            <label for="Utilities_Gason2"> Unknown </label>
+                                                        </div>
+                                                        <!-- <span class="pervious-answer">{{this.PCR_History.CG_Utilities!=undefined ? this.PCR_History.CG_Utilities.Utilities_Gason :""}}</span> -->
+                                                    </div>
+                                                </div>
+
+                                                <div class="d-flex" style=" border: 1px solid #dbd1d1;" *ngIf="_CG_Utilities_Model.Utilities_Gason=='Unknown'">
+                                                    <div class="w-50 mx-3" style="text-align: end;">
+                                                        <label>If Unknown , explain*</label>
+                                                                    <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover35="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_Utilities','Utilities_IfUnknownexplain')" (mouseleave)="HistoryPopover35.close()"></span>
+                                                    </div>
+
+                                                    <div style="border:1px solid #7e7575"></div>
+                                                    <div class="w-50" style="padding:3px;">
+                                                        <div class="mx-3">
+                                                            <input type="text" id="Utilities_IfUnknownexplain"
+                                                                style="height:1.5rem;width:28rem" [(ngModel)]="_CG_Utilities_Model.Utilities_IfUnknownexplain">
+                                                        </div>
+                                                        <!-- <span class="pervious-answer">{{this.PCR_History.CG_Utilities!=undefined ? this.PCR_History.CG_Utilities.Utilities_IfUnknownexplain :""}}</span> -->
+                                                    </div>
+                                                </div>
+
+                                                <div style="border: 1px solid #dbd1d1;"></div>
+
+
+                                                <div class="d-flex">
+                                                    <div class="w-50 mx-3" style="text-align: end;">
+
+                                                    </div>
+
+                                                    <div style="border:1px solid #7e7575"></div>
+                                                    <div class="w-50">
+                                                        <div class="radio radio-info form-check-inline mx-3">
+                                                            <input type="radio" id="Utilities_Wateron1" value="Yes"
+                                                                name="Utilities_Wateron" [(ngModel)]="_CG_Utilities_Model.Utilities_Wateron">
+                                                            <label for="Utilities_Wateron1"> Yes </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="d-flex">
+                                                    <div class="w-50 mx-3" style="text-align: end;">
+                                                        <label>Water on?.</label>
+                                                                      <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover36="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_Utilities','Utilities_Wateron')" (mouseleave)="HistoryPopover36.close()"></span>
+                                                    </div>
+
+                                                    <div style="border:1px solid #7e7575"></div>
+                                                    <div class="w-50">
+                                                        <div class="radio radio-info form-check-inline mx-3">
+                                                            <input type="radio" id="Utilities_Wateron2" value="No"
+                                                                name="Utilities_Wateron" [(ngModel)]="_CG_Utilities_Model.Utilities_Wateron">
+                                                            <label for="Utilities_Wateron2"> No </label>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex">
+                                                    <div class="w-50 mx-3" style="text-align: end;"></div>
+
+                                                    <div style="border:1px solid #7e7575"></div>
+                                                    <div class="w-50">
+                                                        <div class="radio radio-info form-check-inline mx-3">
+                                                            <input type="radio" id="Utilities_Wateron3"
+                                                                value="Unknown" name="Utilities_Wateron3" [(ngModel)]="_CG_Utilities_Model.Utilities_Wateron">
+                                                            <label for="Utilities_Wateron3"> Unknown </label>
+                                                        </div>
+                                                        <!-- <span class="pervious-answer">{{this.PCR_History.CG_Utilities!=undefined ? this.PCR_History.CG_Utilities.Utilities_Wateron :""}}</span> -->
+                                                    </div>
+                                                </div>
+
+                                                <div class="d-flex" style=" border: 1px solid #dbd1d1;" *ngIf="_CG_Utilities_Model.Utilities_Wateron=='Unknown'">
+                                                    <div class="w-50 mx-3" style="text-align: end;">
+                                                        <label>If Unknown , explain*</label>
+                                                      <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover37="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_Utilities','Utilities_IfUnknownexplain2')" (mouseleave)="HistoryPopover37.close()"></span>
+                                                    </div>
+
+                                                    <div style="border:1px solid #7e7575"></div>
+                                                    <div class="w-50" style="padding:3px;">
+                                                        <div class="mx-3">
+                                                            <input type="text" id="Utilities_IfUnknownexplain2"
+                                                                style="height:1.5rem;width:28rem" [(ngModel)]="_CG_Utilities_Model.Utilities_IfUnknownexplain2">
+                                                        </div>
+                                                        <!-- <span class="pervious-answer">{{this.PCR_History.CG_Utilities!=undefined ? this.PCR_History.CG_Utilities.Utilities_IfUnknownexplain2 :""}}</span> -->
+                                                    </div>
+                                                </div>
+
+                                                <div style="border: 1px solid #dbd1d1;"></div>
+
+                                                <div class="d-flex">
+                                                    <div class="w-50 mx-3" style="text-align: end;">
+
+                                                    </div>
+
+                                                    <div style="border:1px solid #7e7575"></div>
+                                                    <div class="w-50">
+                                                        <div class="radio radio-info form-check-inline mx-3">
+                                                            <input type="radio" id="Utilities_Electricon" value="Yes"
+                                                                name="Utilities_Electricon" [(ngModel)]="_CG_Utilities_Model.Utilities_Electricon">
+                                                            <label for="Utilities_Electricon"> Yes </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="d-flex">
+                                                    <div class="w-50 mx-3" style="text-align: end;">
+                                                        <label>Electric on?.</label>
+                                                        <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover38="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_Utilities','Utilities_Electricon')" (mouseleave)="HistoryPopover38.close()"></span>
+                                                    </div>
+
+                                                    <div style="border:1px solid #7e7575"></div>
+                                                    <div class="w-50">
+                                                        <div class="radio radio-info form-check-inline mx-3">
+                                                            <input type="radio" id="Utilities_Electricon" value="No"
+                                                                name="Utilities_Electricon" [(ngModel)]="_CG_Utilities_Model.Utilities_Electricon">
+                                                            <label for="Utilities_Electricon"> No </label>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex">
+                                                    <div class="w-50 mx-3" style="text-align: end;"></div>
+
+                                                    <div style="border:1px solid #7e7575"></div>
+                                                    <div class="w-50">
+                                                        <div class="radio radio-info form-check-inline mx-3">
+                                                            <input type="radio" id="Utilities_Electricon"
+                                                                value="Unknown" name="Utilities_Electricon" [(ngModel)]="_CG_Utilities_Model.Utilities_Electricon">
+                                                            <label for="Utilities_Electricon"> Unknown </label>
+                                                        </div>
+                                                        <!-- <span class="pervious-answer">{{this.PCR_History.CG_Utilities!=undefined ? this.PCR_History.CG_Utilities.Utilities_Electricon :""}}</span> -->
+                                                    </div>
+                                                </div>
+
+                                                <div class="d-flex" style=" border: 1px solid #dbd1d1;" *ngIf="_CG_Utilities_Model.Utilities_Electricon=='Unknown'">
+                                                    <div class="w-50 mx-3" style="text-align: end;">
+                                                        <label>If Unknown , explain*</label>
+                                                          <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover38="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_Utilities','Utilities_IfUnknownexplain3')" (mouseleave)="HistoryPopover38.close()"></span>
+                                                    </div>
+
+                                                    <div style="border:1px solid #7e7575"></div>
+                                                    <div class="w-50" style="padding:3px;">
+                                                        <div class="mx-3">
+                                                            <input type="text" id="Utilities_IfUnknownexplain3"
+                                                                style="height:1.5rem;width:28rem" [(ngModel)]="_CG_Utilities_Model.Utilities_IfUnknownexplain3">
+                                                        </div>
+                                                        <!-- <span class="pervious-answer">{{this.PCR_History.CG_Utilities!=undefined ? this.PCR_History.CG_Utilities.Utilities_IfUnknownexplain3 :""}}</span> -->
+                                                    </div>
+                                                </div>
+
+                                                <div style="border: 1px solid #dbd1d1;"></div>
+
+                                                <div class="d-flex">
+                                                    <div class="w-50 mx-3" style="text-align: end;">
+
+                                                    </div>
+
+                                                    <div style="border:1px solid #7e7575"></div>
+                                                    <div class="w-50">
+                                                        <div class="radio radio-info form-check-inline mx-3">
+                                                            <input type="radio" id="Utilities_Iswaterturnedoffcurb" value="Yes"
+                                                                name="Utilities_Iswaterturnedoffcurb" [(ngModel)]="_CG_Utilities_Model.Utilities_Iswaterturnedoffcurb">
+                                                            <label for="Utilities_Iswaterturnedoffcurb"> Yes </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="d-flex">
+                                                    <div class="w-50 mx-3" style="text-align: end;">
+                                                        <label>Is water turned off at curb?.</label>
+                                                      <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover38="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_Utilities','Utilities_IfUnknownexplain3')" (mouseleave)="HistoryPopover38.close()"></span>
+                                                    </div>
+
+                                                    <div style="border:1px solid #7e7575"></div>
+                                                    <div class="w-50">
+                                                        <div class="radio radio-info form-check-inline mx-3">
+                                                            <input type="radio" id="Utilities_Iswaterturnedoffcurb" value="No"
+                                                                name="Utilities_Iswaterturnedoffcurb" [(ngModel)]="_CG_Utilities_Model.Utilities_Iswaterturnedoffcurb">
+                                                            <label for="Utilities_Iswaterturnedoffcurb"> No </label>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex">
+                                                    <div class="w-50 mx-3" style="text-align: end;"></div>
+
+                                                    <div style="border:1px solid #7e7575"></div>
+                                                    <div class="w-50">
+                                                        <div class="radio radio-info form-check-inline mx-3">
+                                                            <input type="radio" id="Utilities_Iswaterturnedoffcurb"
+                                                                value="Unknown" name="Utilities_Iswaterturnedoffcurb" [(ngModel)]="_CG_Utilities_Model.Utilities_Iswaterturnedoffcurb">
+                                                            <label for="Utilities_Iswaterturnedoffcurb"> Unknown </label>
+                                                        </div>
+                                                        <!-- <span class="pervious-answer">{{this.PCR_History.CG_Utilities!=undefined ? this.PCR_History.CG_Utilities.Utilities_Iswaterturnedoffcurb :""}}</span> -->
+                                                    </div>
+                                                </div>
+                                                <div style="border: 1px solid #dbd1d1;" *ngIf="_CG_Utilities_Model.Utilities_Iswaterturnedoffcurb=='Unknown'"></div>
+                                                <div class="d-flex" *ngIf="_CG_Utilities_Model.Utilities_Iswaterturnedoffcurb=='Unknown'">
+                                                    <div class="w-50 mx-3" style="text-align: end;">
+                                                        <label>Is the curbside meter zip tied*</label>
+                                                        <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover39="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_Utilities','Utilities_Isthecurbsideziptied')" (mouseleave)="HistoryPopover39.close()"></span>
+                                                    </div>
+
+                                                    <div style="border:1px solid #7e7575"></div>
+                                                    <div class="w-50">
+                                                        <div class="radio radio-info form-check-inline mx-3 ">
+                                                            <input type="radio" id="Utilities_Isthecurbsideziptied" value="Yes"
+                                                                name="Utilities_Isthecurbsideziptied" [(ngModel)]="_CG_Utilities_Model.Utilities_Isthecurbsideziptied">
+                                                            <label for="Utilities_Isthecurbsideziptied">Yes</label>
+                                                        </div>
+                                                        <div class="radio radio-info form-check-inline ">
+                                                            <input type="radio" id="Utilities_Isthecurbsideziptied" value="No"
+                                                                name="Utilities_Isthecurbsideziptied" [(ngModel)]="_CG_Utilities_Model.Utilities_Isthecurbsideziptied">
+                                                            <label for="Utilities_Isthecurbsideziptied">No</label>
+                                                        </div>
+                                                        <!-- <span class="pervious-answer">{{this.PCR_History.CG_Utilities!=undefined ? this.PCR_History.CG_Utilities.Utilities_Isthecurbsideziptied :""}}</span> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="OccupancyInfo1" role="tabpanel" aria-labelledby="OccupancyInfo1-tab">
+                            <div class="row m-0">
+                                <div class="col-12">
+
+                                    <div style="box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;padding-bottom:0.5rem"
+                                        (click)="PcrRoofData(true)">
+                                        <div>
+                                            <h4 class="page-title"
+                                                style="font-weight: bolder;background-color: hwb(203deg 69% 21%);height:2rem">
+                                                Recommended Services</h4>
+                                        </div>
+                                        <div class="col-12">
+                                            <div
+                                                style="box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;width: 98%;margin: 1rem;">
+                                                <div style=" border: 1px solid #dbd1d1;width: 100%;"></div>
+
+                                                <div class="d-flex">
+                                                    <div class="w-50 mx-3" style="text-align: end;">
+                                                        <label>Do you recommented additional preservation
+                                                            services?*</label>
+                                                          <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover40="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_Recommended_Services','RecmdService_Doyouservices')" (mouseleave)="HistoryPopover40.close()"></span>
+                                                    </div>
+
+                                                    <div style="border:1px solid #7e7575"></div>
+                                                    <div class="w-50">
+                                                        <div class="radio radio-info form-check-inline mx-3 ">
+                                                            <input type="radio" id="RecmdService_Doyouservices" value="Yes"
+                                                                name="RecmdService_Doyouservices" [(ngModel)]="_CG_Recommended_Services_Model.RecmdService_Doyouservices">
+                                                            <label for="RecmdService_Doyouservices">Yes</label>
+                                                        </div>
+                                                        <div class="radio radio-info form-check-inline ">
+                                                            <input type="radio" id="RecmdService_Doyouservices" value="No"
+                                                                name="RecmdService_Doyouservices" [(ngModel)]="_CG_Recommended_Services_Model.RecmdService_Doyouservices">
+                                                            <label for="RecmdService_Doyouservices">No</label>
+                                                        </div>
+                                                        <!-- <span class="pervious-answer">{{this.PCR_History.CG_Recommended_Services!=undefined ? this.PCR_History.CG_Recommended_Services.RecmdService_Doyouservices :""}}</span> -->
+                                                    </div>
+                                                </div>
+
+                                                <div class="d-flex" style=" border: 1px solid #dbd1d1;" *ngIf="_CG_Recommended_Services_Model.RecmdService_Doyouservices=='Yes'">
+                                                    <div class="w-50 mx-3" style="text-align: end;">
+                                                        <label>If Yes , explain*</label>
+                                                            <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover41="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_Recommended_Services','RecmdService_IfYesexplain')" (mouseleave)="HistoryPopover41.close()"></span>
+                                                    </div>
+
+                                                    <div style="border:1px solid #7e7575"></div>
+                                                    <div class="w-50" style="padding:3px;">
+                                                        <div class="mx-3">
+                                                            <input type="text" id="RecmdService_IfYesexplain"
+                                                                style="height:1.5rem;width:28rem" [(ngModel)]="_CG_Recommended_Services_Model.RecmdService_IfYesexplain">
+                                                        </div>
+                                                        <!-- <span class="pervious-answer">{{this.PCR_History.CG_Recommended_Services!=undefined ? this.PCR_History.CG_Recommended_Services.RecmdService_IfYesexplain :""}}</span> -->
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                       </div>
+                        <div class="tab-pane fade" id="Securing" role="tabpanel" aria-labelledby="Securing-tab">
+                            <div class="row m-0">
+                                <div class="col-12" id="OccupancyInfo" role="tabpanel" aria-labelledby="OccupancyInfo">
+
+
+                                    <div style="box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;padding-bottom:0.5rem"
+                                        (click)="DebrisSubmit(true)">
+                                        <div>
+                                            <h4 class="page-title"
+                                                style="font-weight: bolder;background-color: hwb(203deg 69% 21%);height:2rem">
+                                                General Comments</h4>
+                                        </div>
+                                        <div class="col-12">
+                                            <div
+                                                style="box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;width: 98%;margin: 1rem;">
+                                                <div style=" border: 1px solid #dbd1d1;width: 100%;"></div>
+                                                <div class="d-flex" style=" border: 1px solid #dbd1d1;">
+                                                    <div class="w-50 mx-3" style="text-align: end;">
+                                                        <label>Comments*</label>
+                                                              <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover42="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_General_Comments','GnCmts_Comments')" (mouseleave)="HistoryPopover42.close()"></span>
+                                                    </div>
+
+                                                    <div style="border:1px solid #7e7575"></div>
+                                                    <div class="w-50" style="padding:3px;">
+                                                        <div class="mx-3">
+                                                            <input type="text" id="GnCmts_Comments"
+                                                                style="height:1.5rem;width:28rem" [(ngModel)]="_CG_General_Comments_Model.GnCmts_Comments">
+                                                        </div>
+                                                        <!-- <span class="pervious-answer">{{this.PCR_History.CG_General_Comments!=undefined ? this.PCR_History.CG_General_Comments.GnCmts_Comments :""}}</span> -->
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="roof" role="tabpanel" aria-labelledby="roof-tab">
+                            <div class="row m-0">
+                                <div class="col-12" id="OccupancyInfo" role="tabpanel" aria-labelledby="OccupancyInfo">
+                                    <div style="box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;padding-bottom:0.5rem"
+                                        (click)="PcrRoofData(true)">
+                                        <div>
+                                            <h4 class="page-title"
+                                                style="font-weight: bolder;background-color: hwb(203deg 69% 21%);height:2rem">
+                                                Order Completion</h4>
+                                        </div>
+                                        <div class="col-12">
+
+                                            <div class="d-flex" style=" border: 1px solid #dbd1d1;height: 3rem;">
+                                                <div class="w-50 mx-3" style="text-align: end;">
+                                                    <label>Completion Date?*</label>
+                                                            <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover43="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_Order_Completion','OrderComp_CompletionDate')" (mouseleave)="HistoryPopover43.close()"></span>
+                                                </div>
+
+                                                <div style="border:1px solid #7e7575"></div>
+                                                <div class="w-50">
+                                                    <div class="mx-3">
+                                                        <input type="date" id="OrderComp_CompletionDate"
+                                                            style="height:1.6rem;width:6rem" [(ngModel)]="_CG_Order_Completion_Model.OrderComp_CompletionDate">
+                                                    </div>
+                                                    <!-- <span class="pervious-answer">{{this.PCR_History.CG_Order_Completion!=undefined ? this.PCR_History.CG_Order_Completion.OrderComp_CompletionDate :""}}</span> -->
+                                                </div>
+                                            </div>
+
+                                            <div class="d-flex" style=" border: 1px solid #dbd1d1;">
+                                                <div class="w-50 mx-3" style="text-align: end;">
+                                                    <label>Vendor Signature *</label>
+                                                          <span class="fa fa-clock pcrHistoryIcon"
+                                                      [ngbPopover]="HistoryDetails" #HistoryPopover44="ngbPopover" placement="auto" [autoClose]="true"
+                                                      triggers="mouseenter" (mouseenter)="DisplayHistory('CG_Order_Completion','OrderComp_VendorSignature')" (mouseleave)="HistoryPopover44.close()"></span>
+                                                </div>
+
+                                                <div style="border:1px solid #7e7575"></div>
+                                                <div class="w-50" style="padding:3px;">
+                                                    <div class="mx-3">
+                                                        <input type="text" id="OrderComp_VendorSignature"
+                                                            style="height:1.5rem;width:28rem" [(ngModel)]="_CG_Order_Completion_Model.OrderComp_VendorSignature">
+                                                    </div>
+                                                    <!-- <span class="pervious-answer">{{this.PCR_History.CG_Order_Completion!=undefined ? this.PCR_History.CG_Order_Completion.OrderComp_VendorSignature :""}}</span> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-1 form-row" *ngIf="WorkorderId>0">
+                  <div class="float-right" (click)="SaveForm()">
+                    &nbsp;&nbsp;&nbsp;
+                 <button id="client_viewdetail_1" class="btn btn-primary" type="submit"
+                      [disabled]="isLoading">
+                      <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}"></i>
+                      {{button}}</button>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #HistoryDetails>
+  <app-ipl-form-history-hover [HistoryData]="PCR_HistoryList" [ColumnName]="PctHistoryConfigureObj.ColumnName" [KeyName]="PctHistoryConfigureObj.KeyName"></app-ipl-form-history-hover>
+</ng-template>

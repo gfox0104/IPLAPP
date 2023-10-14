@@ -1,0 +1,367 @@
+<div class="row">
+  <div class="col-12">
+    <div class="page-title-box">
+      <div class="page-title-right">
+        <ol class="breadcrumb m-0">
+
+        </ol>
+      </div>
+
+    </div>
+  </div>
+</div>
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="default" color="#fff" type="timer" [fullScreen]="true">
+  <p style="color: white">Loading...</p>
+</ngx-spinner>
+
+<div class="" [hidden]="loadgrid">
+  <div class="" [ngClass]="{ 'HelpCursor': isHelpActive }">
+    <div class="">
+      <div class="row">
+        <div class="col-lg-12">
+          <h4 class="page-title module-box-header mb-0"> WorkOrder Queue
+            <a class="pull-right" data-toggle="tooltip" (click)="SetHelpFlag()" data-placement="top"
+            title="Item Help" style="cursor: pointer; margin-right: 10px;">Need Help
+            <i class="fas fa-question"></i>&nbsp;&nbsp;
+          </a>
+          </h4>
+        </div>
+      </div>
+
+      <form  [formGroup]="formUsrCommonGroup" class="module-subheader p-1">
+        <div class="form-row">
+          <div class="form-group col-2">
+            <input type="button" class="btn btn-primary" (click)="ImportWorkdata()" value="Import"
+              [disabled]="isdisable">&nbsp;&nbsp;
+            <a [routerLink]="['/workorder/queueworkorder/importqueuedata']" class="btn btn-primary"><i
+                class="fas fa-arrow-alt-circle-left mr-1"></i> Back</a>
+          </div>
+          <div class="form-group col-7"></div>
+          <div class="form-group col-3">
+            <label [ngClass]="{ 'HelpCursor': isHelpActive }"
+            (click)="DispalyInfo($event,'Select No. Of Records')">Select No. Of Records</label>&nbsp;&nbsp;
+            <select class="form-control-sm" (change)="PageChange()" [ngModelOptions]="{standalone: true}"
+              [(ngModel)]="ImportWorkOrderQueueDetailsModelObj.NoofRows" style="width: 55%;"
+              [ngClass]="{ 'HelpCursor': isHelpActive }"
+            (click)="DispalyInfo($event,'Select No. Of Records')">
+
+              <option>20</option>
+              <option>30</option>
+              <option>50</option>
+            </select>
+          </div>
+        </div>
+
+      </form>
+
+      <div class="module-box p-2">
+        <div class="row m-0">
+          <div class="col-1">
+            <input type="checkbox" style="
+              width: 20px;
+              height: 20px;" (change)="checkRowAll()"
+              [ngClass]="{ 'HelpCursor': isHelpActive }"
+              (click)="DispalyInfo($event,'Select All')">
+          </div>
+          <div class="col-1">
+            <span style="
+          font-size: 15px;
+          font-weight: 500;
+          color: black;"  [ngClass]="{ 'HelpCursor': isHelpActive }"
+              (click)="DispalyInfo($event,'Select All')">Select All</span>
+          </div>
+          <div class="form-group col-2">
+            <label  [ngClass]="{ 'HelpCursor': isHelpActive }"
+            (click)="DispalyInfo($event,'Wo Number')">Wo Number</label>
+            <input type="text" class="form-control form-control-sm" placeholder="Enter Wo Number"
+              [(ngModel)]="ImportWorkOrderQueueDetailsModelObj.Imrt_Wo_Number"
+              [ngModelOptions]="{standalone: true}"
+              [ngClass]="{ 'HelpCursor': isHelpActive }"
+            (click)="DispalyInfo($event,'Wo Number')"[readonly]="isHelpActive">
+          </div>
+          <div *ngIf = "this.ImportWorkOrderQueueDetailsModelObj.Imrt_Import_From_ID == 1" class="form-group col-2" >
+            <label  [ngClass]="{ 'HelpCursor': isHelpActive }"
+            (click)="DispalyInfo($event,'Work Type')">Work Type</label>
+            <kendo-dropdownlist class="newClass form-control form-control-sm" [data]="dataWo"
+            [defaultItem]="defaultWTItem" [filterable]="true" [textField]="'WT_WorkType'" [valueField]="'WT_pkeyID'"
+            (valueChange)="selectWTHandler($event)" (filterChange)="workTypehandleFilter($event)" [(ngModel)]="ImportWorkOrderQueueDetailsModelObj.Imrt_Wo_WTID"
+              [valuePrimitive]="true" [ngModelOptions]="{standalone: true}" [ngClass]="{ 'HelpCursor': isHelpActive }"
+              (click)="DispalyInfo($event,'Work Type')">
+            </kendo-dropdownlist>
+
+
+          </div>
+          <div *ngIf = "this.ImportWorkOrderQueueDetailsModelObj.Imrt_Import_From_ID == 4" class="form-group col-2" >
+            <label  [ngClass]="{ 'HelpCursor': isHelpActive }"
+            (click)="DispalyInfo($event,'Work Type')">Work Type</label>
+            <kendo-dropdownlist class="newClass form-control form-control-sm" [data]="dataFBWo"
+            [defaultItem]="defaultFBWT" [filterable]="true" [textField]="'Import_Client_OrderTypeCodes_Description'" [valueField]="'Import_Client_OrderTypeCodes_Code'"
+            (filterChange)="FBworkTypehandleFilter($event)" [(ngModel)]="ImportWorkOrderQueueDetailsModelObj.Imrt_Wo_WTIDName"
+              [valuePrimitive]="true" [ngModelOptions]="{standalone: true}"
+              [ngClass]="{ 'HelpCursor': isHelpActive }"
+              (click)="DispalyInfo($event,'Work Type')">
+            </kendo-dropdownlist>
+
+
+          </div>
+
+          <div *ngIf = "this.ImportWorkOrderQueueDetailsModelObj.Imrt_Import_From_ID == 1" class="form-group col-2" >
+            <label [ngClass]="{ 'HelpCursor': isHelpActive }"
+            (click)="DispalyInfo($event,'Category')">Category</label>
+            <kendo-dropdownlist class="newClass form-control form-control-sm" [data]="dataCat"
+              [defaultItem]="defaultCatItem" [filterable]="true" [textField]="'Cat_Name'"
+              [valueField]="'Cat_ID'" (filterChange)="CategoryFilter($event)"
+              (valueChange)="selectCatHandler($event)"
+              [(ngModel)]="ImportWorkOrderQueueDetailsModelObj.Imrt_Wo_CatID" [valuePrimitive]="true"
+              [ngModelOptions]="{standalone: true}"
+              [ngClass]="{ 'HelpCursor': isHelpActive }"
+            (click)="DispalyInfo($event,'Category')">
+            </kendo-dropdownlist>
+          </div>
+
+
+          <div class="form-group col-4" style="align-self: flex-end;">
+            <button class="btn btn-primary btn-sm mr-2" (click)="FilterDetails()">Search
+            </button>
+            <button class="btn btn-primary btn-sm" (click)="Reset()">Reset</button>
+          </div>
+        </div>
+        <hr class="my-1">
+        <div class="pr-1" *ngIf="jsondatalabel != undefined && jsondatalabel.length > 0">
+          <div class=" my-3 " *ngFor="let item of jsondatalabel | paginate: config; let i=index">
+            <div class="row">
+              <div class="col-md-1 col-sm-1 col-1 m-0 row">
+                <div class="col-lg-1">
+                  <input type="checkbox" [(ngModel)]="item.chkflag" (change)="SelectedImportWo(item,i)"
+                    style="width: 20px; height: 20px;" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'Single')">
+                </div>
+              </div>
+              <!-- <hr *ngIf="i>0" class="my-1"> -->
+              <div class="col-11 module-box p-2" style="max-height: 40vh;overflow-y: auto;">
+
+                <!--  -->
+                <div class="row">
+                  <div class="col-md-4 col-sm-4 col-6">
+                    <div class="row my-1"><label class="col-4" style="text-align: end;">WorkOrder :</label><label class="col-6">
+                        {{item.Wo}}</label></div>
+                    <div class="row my-1"><label class="col-4" style="text-align: end;">Address :</label><label class="col-6">
+                        {{item.address}}</label></div>
+                    <div class="row my-1"><label class="col-4" style="text-align: end;">Locked :</label><label class="col-6">
+                        {{item.office_locked}}</label></div>
+                    <div class="row my-1"><label class="col-4" style="text-align: end;">Lklg :</label><label class="col-6"> {{item.lklg}}</label>
+                        </div>
+
+
+                  </div>
+                  <div class="col-lg-4 col-md-4 col-sm-4 col-6">
+                    <!-- <div class="row my-1"><label class="col-5">Category </label><label class="col-6">
+                        {{item.Category}}</label></div> -->
+                    <div class="row my-1"><label class="col-6" style="text-align: end;">Loan Number / Loan Type :</label><label class="col-6">
+                        {{item.loan_info}}</label></div>
+                    <div class="row my-1"><label class="col-6" style="text-align: end;">Due Date :</label><label class="col-6">
+                        {{item.due_date}}</label></div>
+                    <!-- <div class="row my-1"><label class="col-5">Complete Date </label><label class="col-6">
+                        {{item.complete_date}}</label></div> -->
+                    <div class="row my-1"><label class="col-6" style="text-align: end;">Lot Size :</label><label class="col-6">
+                        {{item.lot_size}}</label></div>
+                    <div class="row my-1"><label class="col-6" style="text-align: end;">Client Company :</label><label class="col-6">
+                        {{item.client_company}}</label></div>
+
+                    <!-- <div class="row my-1"><label class="col-5">BATF </label><label class="col-6"> {{item.BATF}}</label>
+                    </div> -->
+                    <!-- <div class="row my-1"><label class="col-5">Cancel Date </label><label class="col-6">
+                        {{item.cancel_date}}</label></div> -->
+                  </div>
+                  <div class="col-lg-4">
+                    <!-- <label class="col-6">User Name </label><label class="col-6"> {{item.username}}</label> -->
+                    <!-- <div class="row my-1"><label class="col-6"></label></div> -->
+                    <!-- <div class="row my-1"><label class="col-6"></label></div> -->
+                    <!-- <div class="row my-1"><label class="col-6">Estimated Completion Date </label><label class="col-6">
+                        {{item.estimated_complete_date}}</label></div> -->
+                    <!-- <div class="row my-1"><label class="col-6">Ready For Office </label><label class="col-6">
+                        {{item.ready_for_office_Contractor}}</label></div> -->
+                    <!-- <div class="row my-1"><label class="col-6">Follow Up Complete </label><label class="col-6">
+                        {{item.follow_up_complete}}</label></div> -->
+
+
+                        <div class="row my-1"><label class="col-4" style="text-align: end;">Client Due Date :</label><label class="col-6">
+                          {{item.client_Due_date}}</label></div>
+                        <div class="row my-1"><label class="col-4" style="text-align: end;">Start Date :</label><label class="col-6">
+                            {{item.start_date}}</label></div>
+                        <div class="row my-1"><label class="col-4" style="text-align: end;">Received Date : </label><label class="col-6">
+                              {{item.received_date | date}}</label></div>
+                      <!-- <div class="row my-1"><label class="col-5">Broker Info </label><label class="col-6">
+                          {{item.broker_info}}</label></div> -->
+                      <div class="row my-1"><label class="col-4" style="text-align: end;">Customer :</label><label class="col-6">
+                          {{item.broker_info}}</label></div>
+                      <div class="row my-1"  *ngIf = "item.Imrt_Import_From_ID != 3 && item.Imrt_Import_From_ID != 7"><label class="col-5" style="text-align: end;">PPW Number :</label><label class="col-6">
+                          {{item.ppw}}</label></div>
+                      <!-- <div class="row my-1"><label class="col-5">Missing Info </label><label class="col-6">
+                          {{item.missing_info}}</label></div> -->
+
+                    <div class="row my-1"><label class="col-6"></label></div>
+                    <div class="row my-1"><label class="col-6"></label></div>
+                    <div class="row my-1"><label class="col-6"></label></div>
+                    <div class="row my-1"><label class="col-6"></label></div>
+                  </div>
+                </div>
+                <div class="dropdown-divider mt-1 mb-2"></div>
+
+                <div class="row">
+                  <div class="col-lg-2">
+                    <label>Work Type :</label>
+                    <span  style="color: red">*</span>
+                  </div>
+                  <div class="col-lg-4 row m-0">
+                    <div class="col-6 pl-0 example-wrapper">
+                      <kendo-dropdownlist style="width: inherit;" [data]="dataWo" [filterable]="true"
+                        [textField]="'WT_WorkType'" [valueField]="'WT_pkeyID'"
+                        (filterChange)="workTypehandleFilter($event)" [(ngModel)]="item.WorkType_Id"
+                        [valuePrimitive]="true" [ngModelOptions]="{standalone: true}"
+                        >
+                      </kendo-dropdownlist>
+
+                        <div *ngIf="add" style="color: red;">this field is required</div>
+
+
+
+                    </div>
+                    <span class="col-4" (click)="Openmodel(addWorkTypeForm,i)"
+                      *ngIf="item.work_type">({{item.work_type}})</span>
+                    <span class="col-2" data-toggle="tooltip" title="Add Work-type"><i class="fa fa-plus"></i></span>
+
+                  </div>
+
+                  <div class="col-lg-2">
+                    <label>Coordinator :</label>
+                  </div>
+                  <div class="col-lg-4 row m-0">
+
+                    <div class=" col-6 pl-0 example-wrapper">
+                      <kendo-dropdownlist [data]="datac" [filterable]="true" [textField]="'User_FirstName'"
+                        [valueField]="'User_pkeyID'" (filterChange)="CordinatorhandleFilter($event)"
+                        [(ngModel)]="item.Coordinator_Id" [valuePrimitive]="true" [ngModelOptions]="{standalone: true}">
+                      </kendo-dropdownlist>
+                    </div>
+                    <span class="col-6" *ngIf="item.assigned_admin">({{item.assigned_admin}})</span>
+                  </div>
+
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col-lg-2">
+                    <label>Processor :</label>
+                  </div>
+                  <div class="col-lg-4">
+
+                    <div class="example-wrapper">
+                      <kendo-dropdownlist [data]="datap" [filterable]="true" [textField]="'User_FirstName'"
+                        [valueField]="'User_pkeyID'" (filterChange)="ProcessorhandleFilter($event)"
+                        [(ngModel)]="item.Processor_Id" [valuePrimitive]="true" [ngModelOptions]="{standalone: true}">
+                      </kendo-dropdownlist>
+                    </div>
+                  </div>
+                  <div class="col-lg-2">
+                    <label>Contractor :</label>
+                  </div>
+                  <div class="col-lg-4">
+
+                    <div class="example-wrapper col-6 pl-0">
+                      <kendo-dropdownlist [defaultItem]="contractorlst" [data]="data" [filterable]="true"
+                        [textField]="'User_FirstName'" [valueField]="'User_pkeyID'"
+                        (filterChange)="ContractorhandleFilter($event)" [(ngModel)]="item.Contractor_Id"
+                        [valuePrimitive]="true" [ngModelOptions]="{standalone: true}">
+                      </kendo-dropdownlist>
+                    </div>
+                    <div *ngIf="item.contractor" class="col-6">
+                      <label> ({{item.contractor}})</label>
+                    </div>
+                  </div>
+
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="font-weight-bold text-dark">Comments :</div>
+                    <label style="max-height: 15vh;
+              padding: 2%;
+              overflow-y: auto;
+              border: 1px solid lightgray;
+              border-radius: 10px;"> {{item.comments}}</label>
+                  </div>
+                </div>
+                <!-- <div class="dropdown-divider my-2"></div> -->
+                <h4>Instructions</h4>
+                <br>
+                <div class="row">
+
+
+                  <div class="row col-12  font-weight-bold text-center">
+                    <div class="col-7 row">
+                      <div class="col-5">
+                        <div>Description</div>
+                      </div>
+                      <div class="col-7 row">
+                        <div class="col">Quantity</div>
+                        <div class="col">Price</div>
+                        <div class="col">Total Price</div>
+                      </div>
+                    </div>
+                    <div class="col-5">
+                      <div>Additional Instructions</div>
+                    </div>
+                  </div>
+
+
+                  <div class="row text-center col-12 my-2" style="align-items: center;"
+                    *ngFor="let inst of item.WorkOrderItemDetail;">
+                    <div class="col-md-7 col-lg-7 col-sm-12 col-12 row">
+                      <div class="col-5" style="text-align: start;">{{inst.Description}}</div>
+                      <div class="col-7 row">
+                        <div class="col">{{inst.Qty}}</div>
+                        <div class="col">{{inst.Price}}</div>
+                        <div class="col">{{inst.Total}}</div>
+                      </div>
+                    </div>
+                    <div class="col-md-5 col-sm-12 col-12 col-lg-5" style="max-height: 15vh;
+                    text-align: start;
+                    padding: 2%;
+                    overflow-y: auto;
+                    border: 1px solid lightgray;
+                    border-radius: 10px;">{{inst.AdditionalInstructions}}</div>
+                  </div>
+
+                  <!-- </table> -->
+                </div>
+                <div class="dropdown-divider"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <pagination-controls *ngIf="jsondatalabel != undefined && jsondatalabel.length > 0"
+          (pageChange)="onPageChange($event)"></pagination-controls>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<ng-template #addWorkTypeForm let-modal>
+  <div class="modal-header">
+    <div>
+      <h4 class="page-title" style="font-weight: bolder; line-height: 1.5;">Add Work Type
+      </h4>
+    </div>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="module-box p-2">
+      <iplapp-form-card [formUsrCommonGroup]="formUsrCommonGroup" title="Work Type" [fields]="workTypeFields"
+        [isEditDisable]="isEditDisable" [modelObj]="addCategoryModelObj" [isSubmitted]="isSubmitted"
+        (submitForm)="onSubmit()" (back)="closeModal()"></iplapp-form-card>
+    </div>
+  </div>
+</ng-template>

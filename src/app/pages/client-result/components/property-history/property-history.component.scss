@@ -1,0 +1,68 @@
+
+.nav-tabs {
+  margin-right: 0px;
+}
+
+button {
+  font-size: 12px;
+}
+
+.k-grid .no-paddingg td {
+  display: block !important;
+  padding: 0 !important;
+}
+
+.whole-cell {
+  display: block;
+  padding: 0px 0px;
+}
+
+.k-grid {
+  font-size: 12px;
+  kendo-grid-filter-wrapper-cell {
+    flex-direction: column;
+    display: flex;
+    align-items: baseline;
+    kendo-grid-filter-cell-operators {
+      margin-left: 0px !important;
+      margin-top: 5px;
+    }
+  }
+
+  .k-button {
+    margin-left: 2px;
+    width: 22px !important;
+    height: 22px !important;
+  }
+
+  .k-textbox {
+    height: 25px !important;
+    font-size: 12px !important;
+  }
+
+  .k-select {
+    width: 20px !important;
+    height: 20px !important;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+}
+
+.s-header {
+  background-color: #9b9b9b; 
+  padding: 10px;
+}
+
+::-webkit-scrollbar {
+  width: 7px;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: rgb(56, 56, 56);
+}
+::-webkit-scrollbar-track {
+  border-radius: 5px;
+  background-color: rgb(219, 219, 219);
+}

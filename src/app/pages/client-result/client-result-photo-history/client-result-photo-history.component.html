@@ -1,0 +1,122 @@
+<kendo-tabstrip  (tabSelect)="onTabSelect($event)" style="margin-top: 20px;color:black">
+    <kendo-tabstrip-tab [title]="'Photo Analysis'" [selected]="true">
+        <ng-template kendoTabContent>
+            <div class="row m-0">
+                <div class="col-12 p-0">
+                    <div class="row m-0 mt-2">
+                      <div style="height: fit-content;" class="row m-0 col-md-5 col-lg-5 col-12 current pl-0">
+                        <h5 class="row m-0 col-12 header module-box-header" style="padding-left: 2% !important;">
+                          Current Photos ( <span>{{currentPhotos.length}}</span> )</h5>
+                        <div class="row col-12 m-0 photo-box module-box p-2 photo-collection">
+                          <div class="col-md-3 col-lg3 col-12" style="padding: 1%;" *ngFor="let photo of currentPhotos">
+                            <img [src]="photo.Client_Result_Photo_FilePath" class="img-fluid" alt="work-thumbnail"
+                              style="width: 100%; max-height: 100%; border-radius: 7px; box-shadow: 0 0 5px #b6babf;" (click)="openCurrentPhotoModal(photo)">
+                          </div>
+                        </div>
+                        <div >
+                        <iplapp-photo-view *ngIf="currentPhotoOpen" [index]="selectedCurrentImage" [photos]="currentPhotos"
+                          (closeModal)="closeCurrentPhotoModal($event)" [openImgLeft]="leftcnt"></iplapp-photo-view>
+                        </div>
+                      </div>
+                      <div class="col-2"></div>
+                      <div style="height: fit-content;" class="row col-md-5 col-lg-5 col-12 m-0 past pl-0">
+                        <div  class="row col-12 m-0 module-box-header">
+                          <h5 style="padding-left: 1% !important;"  class="p-0 col-5">Compared Photos ( <span>{{pastPhotos.length}}</span> )</h5>
+                          <select [(ngModel)]="OrderPastDTOObj.WorkOrder_ID" [ngModelOptions]="{standalone: true}"
+                            (change)="changeOrder($event)" class=" form-control form-control-sm col-7">
+                            <option *ngFor="let order of pastOrders; let i = index" [value]="order.WorkOrder_ID"
+                              [attr.selected]="i==0">
+                              {{order.WorkOrder_Data}}
+                            </option>
+                          </select>
+                        </div>
+                        <div class="module-box photo-box p-2 row col-12 m-0 photo-collection">
+                          <div class="col-md-3 col-lg-3 col-12" style="padding: 1%;" *ngFor="let photo of pastPhotos">
+                            <img [src]="photo.Client_Result_Photo_FilePath" class="img-fluid" alt="work-thumbnail"
+                              style="width: 100%; max-height: 90%; border-radius: 7px; box-shadow: 0 0 5px #b6babf;" (click)="openPastPhotoModal(photo)">
+                          </div>
+                        </div>
+                        <iplapp-photo-view *ngIf="pastPhotoOpen" [index]="selectedPastImage" [photos]="pastPhotos"
+                        (closeModal)="closePastPhotoModal($event)" [openImgLeft]="rightcnt"></iplapp-photo-view>
+                      </div>
+                    </div>
+                </div>
+              </div>
+        </ng-template>
+    </kendo-tabstrip-tab>
+    <kendo-tabstrip-tab [title]="'Photo History'">
+        <ng-template kendoTabContent>
+            <div class="row">
+                <div class="col-12">
+                    <div class="module-box" *ngIf="IPLList.length == 0">
+                        <div class="row">
+                            <div class="col-5"></div>
+                            <div class="col-2" style="text-align: center;">
+                                <h3>No data found...</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-2" *ngFor="let ipl of  IPLList; let i = index">
+                        <!-- <div  [hidden]='HeaderCoditional'> -->
+                        <!-- <div  class="row module-box-header m-0 pt-0"> -->
+                        <div (click)='hideGeneraltab(ipl.Client_Result_Photo_Wo_ID,i)' style="font-family:'system-ui'"
+                            class="h5 module-box-header m-0 col-12">
+                            #{{ipl.Client_Result_Photo_IPLNo}}
+                            <svg style="float: right;" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                viewBox="0 0 24 24">
+                                <path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z" />
+                            </svg>
+                        </div>
+                        <!-- </div> -->
+                        <div class="module-box" [hidden]='ipl.IsTabHidden'>
+                            <div class="col-lg-12">
+                                <div class="container" style="max-width: 100%">
+                                    <div class="row">
+                                        <div class="{{ divclass }}" style="padding-top: 5px">
+
+                                            <div *ngFor="let task of taskname"
+                                                style="margin-right: 0px; margin-left: 0px">
+                                                <iplapp-photohistorygallery [label]="task.Task_Photo_Label_Name"
+                                                    isTask="true" [ModelObj]="ModelObj" [photoObj]="ClientPhotoRefObj"
+                                                    [photos]="task.Items"
+                                                    (photoModal)="PhotoModel($event, contentPhoto)">
+                                                </iplapp-photohistorygallery>
+                                            </div>
+                                            <br />
+                                        </div>
+                                    </div>
+                                </div>
+                                <ng-template #contentPhoto let-modal>
+                                    <div class="modal-header" style="border-bottom: 1px solid #dee2e6">
+                                        <div class="container-fluid row">
+                                            <div class="col"></div>
+                                            <div class="col-md-7 d-flex" style="overflow-x: auto">
+                                            </div>
+                                            <div class="col">
+                                                <button type="button" (click)="modal.close('Save click')" class="close"
+                                                    style="float: right" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">×</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-body align-baseline">
+                                        <app-photo-gallery [imgCurrentIndex]="imgCurrentIndex" [photos]="popImages"
+                                            [isButtonShow]="isButtonShow">
+                                        </app-photo-gallery>
+                                    </div>
+                                </ng-template>
+
+                                <ngx-spinner name="loading" bdColor="rgba(0, 0, 0, 0.8)" size="default" color="#fff"
+                                    type="timer" [fullScreen]="true">
+                                    <p style="color: white">Loading...</p>
+                                </ngx-spinner>
+                            </div>
+                            <!-- </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </kendo-tabstrip-tab>
+</kendo-tabstrip>

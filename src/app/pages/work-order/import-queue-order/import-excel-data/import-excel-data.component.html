@@ -1,0 +1,61 @@
+<div class="container-fluid">
+  <!-- start page title -->
+  <div class="col-12">
+    <div class="page-title-box">
+      <h4 class="page-title">Excel Data</h4>
+    </div>
+  </div>
+  <div class="row mb-1">
+    <div class="col d-flex justify-content-md-end">
+      <button class="btn btn-primary btn-sm" (click)="saveImportedData()" [disabled]="isLoading">
+        <i class="fa mr-2"
+          [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading }"></i><span>{{button}}</span></button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <kendo-grid [data]="griddata" [pageSize]="15" [pageable]="true" [sortable]="true" [height]="500"
+        style="font-size: 12px;" [filterable]="true" [selectable]="true" [groupable]="false" [reorderable]="true">
+        <kendo-grid-column width="36" field="check" title="" [locked]="true">
+          <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+            <div style="padding-left: 4px;">
+              <input type="checkbox" (change)="checkRowAll()" />
+            </div>
+          </ng-template>
+          <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+            <div>
+              
+              <input type="checkbox" [(ngModel)]="dataItem.IsChecked" (change)="checkRow(rowIndex)" />
+            </div>
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column [width]="200" [locked]="false" *ngFor="let column of gridColumns" field="{{column.field}}"
+          [title]="column.field">
+          <ng-template kendoGridHeaderTemplate let-dataItem>
+            <div class="d-flex flex-column">
+              <select name="select[dataItem[column.field]]" class="form-control form-control-sm float-left mb-2"
+                (change)="onSelectChange($event, column.field)">
+                <option value='0'>select</option>
+                <option [ngValue]="kb.Wo_Column_Name" *ngFor="let kb of workorderdata">
+                  {{kb.Wo_Column_Name}}
+                </option>
+              </select>
+              <label>{{column.field}}</label>
+            </div>
+          </ng-template>
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <div class="customer-name">{{ dataItem[column.field] }}</div>
+          </ng-template>
+          
+        </kendo-grid-column>
+        <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+          <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+          <kendo-pager-numeric-buttons [buttonCount]="10"></kendo-pager-numeric-buttons>
+          <kendo-pager-next-buttons></kendo-pager-next-buttons>
+          <kendo-pager-info></kendo-pager-info>
+          <kendo-pager-page-sizes [pageSizes]="[25, 50, 100, 500, 1000]"></kendo-pager-page-sizes>
+        </ng-template>
+      </kendo-grid>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,56 @@
+.header {
+  padding-top: 6px;
+  height: 35px;
+  background-color: #bdbbb3;
+  width: 100%;
+  font-size: 14px;
+  color: black;
+  margin: 0px;
+}
+
+.photo-container {
+  position: relative;
+  max-height: 43vh;//25vh;
+  overflow-y: auto;
+}
+
+.action {
+  text-align: right; 
+  color: black;
+}
+
+.check {
+  text-align: left;
+  position: absolute;
+  margin-left: 115px;
+  overflow: auto;
+  z-index: auto;
+  width: 18px;
+  height: 17px;
+}
+
+a {
+  color: black;
+}
+
+li {
+  cursor: pointer;
+}
+
+
+.overlay{
+    height: 20%;
+    margin-left: -1%;
+    position: absolute;
+    bottom: 0;
+    background: rgb(0, 0, 0);
+    background: rgba(0, 0, 0, 0.5);
+    color: #f1f1f1;
+    width: 90%;
+    transition: .5s ease;
+    opacity: 0;
+    color: white;
+    font-size: 13px;
+    text-align: center;
+    padding:0 !important;
+}

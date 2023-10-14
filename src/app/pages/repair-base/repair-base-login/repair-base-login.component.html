@@ -1,0 +1,22 @@
+<div class="row justify-content-center" style="margin-top: 10%;">
+    <div class="module-box p-2 col-md-4 col-sm-5 col-6">
+        <h4 class="text-center"><i class="fa fa-lg fa-user"></i> Login</h4>
+        <div class="card-body">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()" autocomplete="off">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" formControlName="username" class="form-control" autocomplete="off" />
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" formControlName="password" class="form-control" autocomplete="off" />
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary" (click)="repairbaseLogin()">
+                        Login
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

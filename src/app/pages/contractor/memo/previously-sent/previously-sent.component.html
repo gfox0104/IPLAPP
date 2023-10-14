@@ -1,0 +1,37 @@
+
+
+      
+  <div class="row m-0 module-box" style="overflow-x: auto;">
+      <kendo-grid #gridUser [kendoGridBinding]="griddata" [pageSize]="5" [pageable]="true" [selectable]="true"
+            [groupable]="false" [reorderable]="true" [sortable]="true" [filterable]="false" [selectable]="true"
+            [groupable]="false" >
+        <kendo-grid-column field="Mass_Email_Schedule_Time" title="Sched Date"
+               [width]="100">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{dataItem.Mass_Email_Schedule_Time | date: 'MM/dd/yyyy'}}
+            </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="Mass_Email_Subject" title="Subject"
+            [width]="200"
+          filter="boolean">
+        </kendo-grid-column>
+        <kendo-grid-column field="Mass_Email_Message" title="Message"
+          [width]="200"
+          filter="boolean">
+        </kendo-grid-column>
+  
+        <kendo-grid-column field="filename" title="File"
+            width="100">
+        </kendo-grid-column>
+         
+        <kendo-grid-column  title="Download"
+           width="120">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <a [href]="dataItem.filepath" target="_blank" [download]="dataItem.filepath"><i
+              class="fa fa-download" aria-hidden="true"></i>
+            Download file</a>
+          </ng-template>
+        </kendo-grid-column>
+      </kendo-grid>
+  </div>
+    

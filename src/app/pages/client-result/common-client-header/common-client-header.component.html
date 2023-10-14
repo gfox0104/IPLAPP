@@ -1,0 +1,257 @@
+<style>
+  .custom {
+    display: flex;
+    overflow: initial;
+    flex: auto;
+    width: 100%;
+    overflow-x: auto;
+    /* margin-left: 11px;
+    margin-right: 10px; */
+    overflow-y: hidden;
+    margin-top: 5px;
+    /* justify-content: flex-end; */
+  }
+
+  .fixed-header {
+    position: fixed;
+    top: 50px;
+    background: white;
+    width: 100%;
+    z-index: 10;
+  }
+
+  .row_flex {
+    display: flex;
+  }
+
+  @media (max-width: 767px) {
+    .row_flex {
+      display: block;
+    }
+
+    .custom {
+      justify-content: flex-start !important;
+      padding-bottom: 1%;
+    }
+  }
+</style>
+<div class="fixed-header">
+<div class="row_flex row">
+  <div class=" d-flex col-lg-3 align-self-center">
+    <form [formGroup]="formUsrCommonGroup" *ngIf="statusName">
+      <select #s [(ngModel)]="CommonStatusDTOObj.Status_ID" [ngModelOptions]="{standalone: true}"
+        (ngModelChange)="onStateChange(CommonStatusDTOObj.Status_ID, $event, s)" class="form-control form-control-sm">
+        <option value='0'>change status</option>
+        <option [ngValue]="kb.Status_ID" *ngFor="let kb of Statuslst" statusColor [statusName]="kb.Status_Name">
+          {{kb.Status_Name}}
+        </option>
+      </select>
+    </form>
+    <label statusColor [statusName]="statusName" *ngIf="statusName" style="
+    height: auto;
+    border-radius: 7%;
+    padding-left: 1%;
+    padding-right: 1%;
+    padding-top: 1.5%;
+    margin-left: 5px;
+    background-color: rgb(189, 192, 237);
+    margin-top: 0.4%;
+    ">{{statusName}}</label>
+  </div>
+
+  <div class="custom col-lg-9" style="display: flex; justify-content: space-around; grid-template-columns:repeat(3, 1fr); column-gap: 20px; text-align: center; ">
+    <div >
+      <button id="client_viewdetail_1" class="btn btn-primary  mr-1" (click)='CopyWorkOrderData(1)' [disabled]='HeaderButton'
+      ><i class="far fa-copy">&nbsp;Copy</i></button>
+      <button id="client_viewdetail_1" class="btn btn-primary  mr-1" (click)='PrintWindow()'><i
+          class="fa fa-print">&nbsp;Print</i></button>
+      <button id="client_viewdetail_1" class="btn btn-primary  mr-1" (click)='EditWorkOrder()' [disabled]='HeaderButton'
+         [hidden]='tabhide'><i class="far fa-edit">&nbsp;Edit</i></button>
+      <button id="client_viewdetail_1" class="btn btn-primary  mr-1" (click)='WorkOrderDelete()' [disabled]='HeaderButton'
+         [hidden]='tabhide'><i class=" fas fa-trash">&nbsp;Delete</i></button>
+    </div>
+
+    <div>
+      <button id="client_viewdetail_2" class="btn btn-primary  mr-1" (click)="bid(bidcontent)" [disabled]='HeaderButton'
+      >Bid/Invoice</button>
+    <button id="client_viewdetail_2" class="btn btn-primary  mr-1"  [disabled]='HeaderButton' (click)="openTaskModel(content)"
+      >Add Task
+    </button>
+    <button id="client_viewdetail_2" class="btn btn-primary  mr-1" [disabled]='HeaderButton' (click)="openHistoryModel(propertyHistory)"
+     >Property History</button>
+    </div>
+
+    <div>
+      <button id="client_viewdetail_3" class="btn btn-primary mr-1" (click)='mapdetails()'><i
+        class=" fas fa-map-marker-alt">&nbsp;Map</i></button>
+    <button id="client_viewdetail_3" class="btn btn-primary mr-1" (click)='openMessageBox(messageBox)' ><i
+        class="fas fa-comment\">&nbsp;Message</i></button>
+    </div>
+
+  </div>
+</div>
+<br>
+
+<div class="row module-header m-0 align-items-center" style="border-radius: 0px;">
+  <div class="col-11">
+    <ul class="module-header m-0 nav nav-tabs" id="myTab" role="tablist">
+      <li style="font-size: 12px; font-weight: 500; margin-left: 16px; margin-top: 10px; margin-right: 18px;"><b>IPL #
+          {{BindDataModelObj.IPLNO}}</b></li>
+      <li class="nav-item" [hidden]='item.tabhide' *ngFor="let item of navLinks" style="display: flex;">
+
+        <a  style="display: flex;" *ngIf="!isHelpActive" class="nav-link" [id]="item.id" data-toggle="tab"  (click)="clickNavLink(item)"
+          routerLinkActive="active" [routerLink]="[item.routerLink,getEncryptedWorkorderValue()]" href="javascript:void(0)" role="tab"
+          aria-controls="item.aria" aria-selected="item.selected">{{item.title}}
+
+         <label *ngIf="item.title ==='Photos'" class="pl-0" >
+          ({{GetPhotosCount}})
+        </label>
+        <label *ngIf="item.title ==='Messages'" class="pl-0" >
+          ({{unreadCounts}})
+        </label>
+      </a>
+
+        <a *ngIf="isHelpActive" class="nav-link" [id]="item.id" [title]="item.tooltip" href="javascript:void(0)"
+          role="tab" style="cursor: help;">{{item.title}}</a>
+
+      </li>
+
+    </ul>
+  </div>
+  <div class="col-1">
+    <a class="pull-right" data-toggle="tooltip" (click)="SetHelpFlag()" data-placement="top" title="Item Help"
+    style="cursor: pointer; color:black;"><b>Need Help</b>
+    <i class="fas fa-question"></i>&nbsp;&nbsp;
+  </a>
+
+  </div>
+</div>
+<div class="module-subheader m-0 p-1 row mb-1" style="margin-bottom: -0.625rem !important;">
+  <div class="{{item.width}}" *ngFor="let item of clientCommonInfo; let i = index">
+
+
+
+    <b class="" style="color: black;" *ngIf="item.key === 'dueDate';else second">{{item.title}} :&nbsp;{{BindDataModelObj[item.key] | date:'MM/dd/yyyy'}}</b>
+
+    <ng-template  #second >
+      <div *ngIf="item.key === 'EstimatedDate';else default">
+      <!-- <b class="" style="color: black;" *ngIf="item.key === 'EstimatedDate';else default">{{item.title}} :&nbsp;{{BindDataModelObj[item.key] | date:'MM/dd/yyyy'}}</b> -->
+      <!-- <label for="Recurs_Limitlbl" class="col-form-label">{{item.title}}</label> -->
+      <div class="form-group">
+        <div class="input-group">
+         <b class="" style="color: black;" *ngIf="item.key === 'EstimatedDate';else default">{{item.title}} :&nbsp;{{BindDataModelObj[item.key] | date:'MM/dd/yyyy'}}</b>
+         &nbsp;&nbsp;
+         <input class="form-control form-control-sm" placeholder="yyyy-mm-dd"
+            [(ngModel)]="BindDataModelObj[item.key]" [ngModelOptions]="{standalone: true}"
+            ngbDatepicker #dt9="ngbDatepicker" firstDayOfWeek="7" style="display: none"(ngModelChange)="updateEstimateDate()">
+          <div class="input-group-append">
+            <button class="btn btn-outline-info btn-xs"
+              (click)="dt9.toggle()" type="button"><i class="fas fa-calendar-alt"></i></button>
+
+              &nbsp;&nbsp;
+
+              <img src="assets/images/pinned_notes.png" class="mr-2 cursor-pinter message"
+              (click)="OpenECDNotes(EcdNoteBox)" style="height: 28px;width: 28px;cursor: pointer;margin: -2px;">
+
+              <!-- <button class="btn btn-outline-warning btn-xs"
+                (click)='OpenECDNotes(EcdNoteBox)' type="button"><i class="fas fa-sticky-note"></i>
+              </button> -->
+            </div>
+        </div>
+      </div>
+    </div>
+    </ng-template>
+
+
+    <!-- <b class="" style="color: black;" *ngIf="item.key === 'dueDate'||item.key === 'EstimatedDate'; else default">
+      {{item.title}} :&nbsp;{{BindDataModelObj[item.key] | date:'MM/dd/yyyy'}}
+    </b> -->
+    <ng-template #default>
+      <b style="color: black;">
+        {{item.title}} :&nbsp;{{BindDataModelObj[item.key]}}
+      </b>
+    </ng-template>
+  </div>
+</div>
+</div>
+
+<ng-template #bidcontent let-modal>
+  <div class="modal-header">
+    Create Bid
+    <button type="button" (click)="modal.close('Save click')" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-bid-client-result [loading]='false' [tabIndex]="0"> </app-bid-client-result>
+    <hr />
+    <button (click)="modal.close('Save click')" class="btn btn-primary">
+      Close
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #content let-modal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h5 style="color: black;">Add Task </h5>
+    <button type="button" (click)="modal.close('Save click')" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="formUsrCommonGroup" (ngSubmit)="ActionFormButton()">
+       <!-- Add Task -->
+       <div class="row">
+        <div class="col-12">
+          <iplapp-task-table [workOrderId]="workorder" (clickSave)="actionAddTaskInstruction($event)"></iplapp-task-table>
+        </div>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<ng-template #propertyHistory let-modal>
+  <div class="modal-header">
+    {{title}}
+    <button type="button" (click)="modal.dismiss('Cross click')" class="close" aria-label="Close">
+      <span>×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-property-history [workOrderId]="workOrder_ID_encrypted"></app-property-history>
+  </div>
+</ng-template>
+
+<ng-template #messageBox let-modal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h5 style="color: black;">Send Message</h5>
+    <button type="button" (click)="modal.close('Save click')" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+       <!-- Message box popup -->
+       <div class="row">
+        <div class="col-12">
+          <app-ipl-app-message-box [IPLNumbers]="actionIPLNOs"></app-ipl-app-message-box>
+        </div>
+      </div>
+  </div>
+</ng-template>
+<ng-template #EcdNoteBox let-modal let-c="close" let-d="dismiss">
+  <div class="modal-header ecdnote-modal-header">
+    <h5 style="color: black;">Estimated Completion Date Notes</h5>
+    <button type="button" (click)="modal.close('Save click')" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">×</span>
+    </button>
+
+  </div>
+  <div class="modal-body ecdnote-modal-body">
+       <!-- Message box popup -->
+       <div class="row">
+        <div class="col-12">
+          <app-ipl-app-ecd-notes-box [workOrderId]="workorder"></app-ipl-app-ecd-notes-box>
+        </div>
+      </div>
+  </div>
+</ng-template>

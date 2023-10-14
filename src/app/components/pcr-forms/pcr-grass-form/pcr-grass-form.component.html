@@ -1,0 +1,689 @@
+<div class="container-fluid module-box">
+  <div class=" row ml-1 pt-1">
+    <div class="row col-12">
+      <div class="col-lg-6">
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label>Grass Cut Completed?
+
+              <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                [IsNoColumn]="true" [KeyName]="'Grass_GrassCutComp'"></app-ipl-form-history-label-hover>
+            </label>
+            <br>
+
+            <div class="radio radio-info form-check-inline">
+              <input type="radio" id="Grass_GrassCutComp1"
+                (change)="IsGrassCutCompleted(PCRGrassInfoModelObj.Grass_GrassCutComp)"
+                [(ngModel)]="PCRGrassInfoModelObj.Grass_GrassCutComp" [ngModelOptions]="{standalone: true}"
+                value="Yes - Completed" name="Grass_GrassCutComp">
+              <label for="Grass_GrassCutComp1"> Yes - Completed </label>
+            </div>
+            <div class="radio form-check-inline">
+              <input type="radio" id="Grass_GrassCutComp1"
+                (change)="IsGrassCutCompleted(PCRGrassInfoModelObj.Grass_GrassCutComp)"
+                [(ngModel)]="PCRGrassInfoModelObj.Grass_GrassCutComp" [ngModelOptions]="{standalone: true}"
+                value="No - Explain" name="Grass_GrassCutComp">
+              <label for="Grass_GrassCutComp2"> No - Explain</label>
+            </div>
+            <br>
+            <!-- <label class="pervious-answer">{{PCR_Hitsory.Grass_GrassCutComp}}</label> -->
+          </div>
+          <div class="col-md-6" [hidden]="LotSize">
+            <div class="form-group">
+              <label for="exampleInputPhone">Lot Size
+              <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                [IsNoColumn]="true" [KeyName]="'Grass_LotSize'"></app-ipl-form-history-label-hover>
+
+              </label>
+              <input type="email" class="form-control form-control-sm" id="exampleInputPhone"
+                [(ngModel)]="PCRGrassInfoModelObj.Grass_LotSize" [ngModelOptions]="{standalone: true}"
+                placeholder="Enter LotSize">
+                <br>
+                <!-- <label class="pervious-answer">{{PCR_Hitsory.Grass_LotSize}}</label> -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <label>Occupancy ?
+
+              <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                [IsNoColumn]="true" [KeyName]="'Grass_Occupancy'"></app-ipl-form-history-label-hover>
+        </label>
+        <br>
+
+        <div class="radio radio-info form-check-inline">
+          <input type="radio" id="Grass_Occupancy1" [(ngModel)]="PCRGrassInfoModelObj.Grass_Occupancy"
+            [ngModelOptions]="{standalone: true}" value="Vacant" name="Grass_Occupancy">
+          <label for="Grass_Occupancy1"> Vacant </label>
+        </div>
+        <div class="radio form-check-inline">
+          <input type="radio" id="Grass_Occupancy2" [(ngModel)]="PCRGrassInfoModelObj.Grass_Occupancy"
+            [ngModelOptions]="{standalone: true}" value="Partial Vacant" name="Grass_Occupancy">
+          <label for="Grass_Occupancy2"> Partial Vacant </label>
+        </div>
+        <div class="radio form-check-inline">
+          <input type="radio" id="Grass_Occupancy3" [(ngModel)]="PCRGrassInfoModelObj.Grass_Occupancy"
+            [ngModelOptions]="{standalone: true}" value="Occupied" name="Grass_Occupancy">
+          <label for="Grass_Occupancy3"> Occupied </label>
+        </div>
+        <br>
+        <!-- <label class="pervious-answer">{{PCR_Hitsory.Grass_Occupancy}}</label> -->
+      </div>
+    </div>
+    <div class="mt-1 row col-12">
+      <div class="dropdown-divider col-12"></div>
+      <div class="col-lg-6">
+        <label>Unable To Cut
+
+              <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                [IsNoColumn]="true" [KeyName]="'Grass_UnableToCut'"></app-ipl-form-history-label-hover>
+        </label>
+
+        <div class="form-row">
+          <div class="form-group col-md-6">
+
+            <div class="radio form-check-inline">
+              <input type="radio" id="Grass_UnableToCut1" value="Bidding - cannot cut per regs"
+                [(ngModel)]="PCRGrassInfoModelObj.Grass_UnableToCut"
+                (change)="IsUnableToCut(PCRGrassInfoModelObj.Grass_UnableToCut)"
+                [ngModelOptions]="{standalone: true}" name="popopopo">
+              <label for="Grass_UnableToCut1"> Bidding - cannot cut per regs
+              </label>
+            </div><br>
+            <div class="radio form-check-inline">
+              <input type="radio" id="Grass_UnableToCut2" value="Short - cut not needed"
+                [(ngModel)]="PCRGrassInfoModelObj.Grass_UnableToCut"
+                (change)="IsUnableToCut(PCRGrassInfoModelObj.Grass_UnableToCut)"
+                [ngModelOptions]="{standalone: true}" name="popopopo">
+              <label for="Grass_UnableToCut2"> Short - cut not needed </label>
+            </div><br>
+            <div class="radio form-check-inline">
+              <input type="radio" id="Grass_UnableToCut3" value="Dead Grass"
+                [(ngModel)]="PCRGrassInfoModelObj.Grass_UnableToCut"
+                (change)="IsUnableToCut(PCRGrassInfoModelObj.Grass_UnableToCut)"
+                [ngModelOptions]="{standalone: true}" name="popopopo">
+              <label for="Grass_UnableToCut3"> Dead Grass </label>
+            </div><br>
+            <div class="radio form-check-inline">
+              <input type="radio" id="Grass_UnableToCut4" value="No Grass"
+                [(ngModel)]="PCRGrassInfoModelObj.Grass_UnableToCut"
+                (change)="IsUnableToCut(PCRGrassInfoModelObj.Grass_UnableToCut)"
+                [ngModelOptions]="{standalone: true}" name="popopopo">
+              <label for="Grass_UnableToCut4"> No Grass </label>
+            </div><br>
+            <div class="radio form-check-inline">
+              <input type="radio" id="Grass_UnableToCut5" value="Other"
+                [(ngModel)]="PCRGrassInfoModelObj.Grass_UnableToCut"
+                (change)="IsUnableToCut(PCRGrassInfoModelObj.Grass_UnableToCut)"
+                [ngModelOptions]="{standalone: true}" name="popopopo">
+              <label for="Grass_UnableToCut5"> Other </label>
+            </div>
+
+          </div>
+          <div class="form-group col-md-6">
+
+            <div class="radio form-check-inline">
+              <input type="radio" id="Grass_UnableToCut6" value="Desert Landscaping"
+                [(ngModel)]="PCRGrassInfoModelObj.Grass_UnableToCut"
+                (change)="IsUnableToCut(PCRGrassInfoModelObj.Grass_UnableToCut)"
+                [ngModelOptions]="{standalone: true}" name="popopopo">
+              <label for="Grass_UnableToCut6"> Desert Landscaping </label>
+            </div><br>
+
+            <div class="radio form-check-inline">
+              <input type="radio" id="Grass_UnableToCut7" value="HOA Maintains"
+                [(ngModel)]="PCRGrassInfoModelObj.Grass_UnableToCut"
+                (change)="IsUnableToCut(PCRGrassInfoModelObj.Grass_UnableToCut)"
+                [ngModelOptions]="{standalone: true}" name="popopopo">
+              <label for="Grass_UnableToCut7"> HOA Maintains </label>
+            </div><br>
+            <div class="radio form-check-inline">
+              <input type="radio" id="Grass_UnableToCut8" value="For Sale"
+                [(ngModel)]="PCRGrassInfoModelObj.Grass_UnableToCut"
+                (change)="IsUnableToCut(PCRGrassInfoModelObj.Grass_UnableToCut)"
+                [ngModelOptions]="{standalone: true}" name="popopopo">
+              <label for="Grass_UnableToCut8"> For Sale </label>
+            </div><br>
+
+            <div class="radio form-check-inline">
+              <input type="radio" id="Grass_UnableToCut9" value="Property Occupied"
+                [(ngModel)]="PCRGrassInfoModelObj.Grass_UnableToCut"
+                (change)="IsUnableToCut(PCRGrassInfoModelObj.Grass_UnableToCut)"
+                [ngModelOptions]="{standalone: true}" name="popopopo">
+              <label for="Grass_UnableToCut9"> Property Occupied </label>
+            </div>
+
+          </div>
+        </div>
+        <br>
+        <!-- <label class="pervious-answer">{{PCR_Hitsory.Grass_UnableToCut}}</label> -->
+        <div class="form-row" [hidden]="OtherNote">
+          <div class="form-group col-md-12">
+            <label for="exampleInputPhone">Other Note
+
+              <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                [IsNoColumn]="true" [KeyName]="'Grass_OtherNote'"></app-ipl-form-history-label-hover>
+            </label>
+            <textarea class="form-control form-control-sm" id="exampleInputPhone"
+              [(ngModel)]="PCRGrassInfoModelObj.Grass_OtherNote" [ngModelOptions]="{standalone: true}"
+              placeholder="Enter Other Note"></textarea>
+
+          </div>
+          <br>
+          <!-- <label class="pervious-answer">{{PCR_Hitsory.Grass_OtherNote}}</label> -->
+
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <label>Property Secure ?<br>If no, describe where in notes
+              <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                [IsNoColumn]="true" [KeyName]="'Grass_PropertySecure'"></app-ipl-form-history-label-hover>
+        </label>
+        <br>
+
+        <div class="radio radio-info form-check-inline">
+          <input type="radio" id="Grass_PropertySecure1" [(ngModel)]="PCRGrassInfoModelObj.Grass_PropertySecure"
+            [ngModelOptions]="{standalone: true}" value="Yes" name="Grass_PropertySecure">
+          <label for="Grass_PropertySecure1"> Yes </label>
+        </div>
+        <div class="radio form-check-inline">
+          <input type="radio" id="Grass_PropertySecure2" [(ngModel)]="PCRGrassInfoModelObj.Grass_PropertySecure"
+            [ngModelOptions]="{standalone: true}" value="No" name="Grass_PropertySecure">
+          <label for="Grass_PropertySecure2"> No </label>
+        </div>
+        <br>
+        <!-- <label class="pervious-answer">{{PCR_Hitsory.Grass_PropertySecure}}</label> -->
+      </div>
+    </div>
+    <div class="mt-1 row col-12">
+      <div class="dropdown-divider col-12"></div>
+      <div class="col-lg-6">
+        <div class="form-group col-md-6">
+          <label for="dateCompleted">Enter Completion Date :
+              <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                [IsNoColumn]="true" [KeyName]="'Grass_dateCompleted'"></app-ipl-form-history-label-hover>
+          </label>
+          <div class="row input-group">
+            <label style="color: black;font-weight: 500;" class="col-12 form-control">{{
+              PCRGrassInfoModelObj.Grass_dateCompleted |
+              date:'MM/dd/yyyy' }}
+            </label>
+            <input class="col-12 form-control" placeholder="yyyy-mm-dd"
+              [(ngModel)]="PCRGrassInfoModelObj.Grass_dateCompleted" [ngModelOptions]="{standalone: true}"
+              id="dateCompleted" ngbDatepicker #dt4="ngbDatepicker" firstDayOfWeek="7"  style="display: none; color: black; ">
+            <div class="input-group-append">
+              <button class="btn btn-outline-info btn-xs" (click)="dt4.toggle()" type="button"> <i
+                  class="fas fa-calendar-alt"></i></button>
+            </div>
+          </div>
+          <br>
+          <!-- <label class="pervious-answer">{{PCR_Hitsory.Grass_dateCompleted}}</label> -->
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <label>Pool Present ?
+
+              <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                [IsNoColumn]="true" [KeyName]="'Grass_PoolPresent'"></app-ipl-form-history-label-hover>
+        </label>
+        <br>
+
+        <div class="radio radio-info form-check-inline">
+          <input type="radio" id="Grass_PoolPresent1" [(ngModel)]="PCRGrassInfoModelObj.Grass_PoolPresent"
+            [ngModelOptions]="{standalone: true}" value="Yes" name="Grass_PoolPresent">
+          <label for="Grass_PoolPresent1"> Yes </label>
+        </div>
+        <div class="radio form-check-inline">
+          <input type="radio" id="Grass_PoolPresent2" [(ngModel)]="PCRGrassInfoModelObj.Grass_PoolPresent"
+            [ngModelOptions]="{standalone: true}" value="No" name="Grass_PoolPresent">
+          <label for="Grass_PoolPresent2"> No </label>
+        </div> <br>
+        <!-- <label class="pervious-answer">{{PCR_Hitsory.Grass_PoolPresent}}</label> -->
+        <br>
+
+        <label>Pool Secure ?
+
+              <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                [IsNoColumn]="true" [KeyName]="'Grass_PoolSecure'"></app-ipl-form-history-label-hover>
+        </label>
+        <br>
+
+        <div class="radio radio-info form-check-inline">
+          <input type="radio" id="Grass_PoolSecure1" [(ngModel)]="PCRGrassInfoModelObj.Grass_PoolSecure"
+            [ngModelOptions]="{standalone: true}" value="Yes" name="Grass_PoolSecure">
+          <label for="Grass_PoolSecure1"> Yes </label>
+        </div>
+        <div class="radio form-check-inline">
+          <input type="radio" id="Grass_PoolSecure2" [(ngModel)]="PCRGrassInfoModelObj.Grass_PoolSecure"
+            [ngModelOptions]="{standalone: true}" value="No" name="Grass_PoolSecure">
+          <label for="Grass_PoolSecure2"> No </label>
+        </div>
+        <br>
+        <!-- <label class="pervious-answer">{{PCR_Hitsory.Grass_PoolSecure}}</label> -->
+      </div>
+    </div>
+    <div class="mt-1 row col-12">
+      <div class="dropdown-divider col-12"></div>
+      <div class="col-lg-6">
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label>For Sale ?
+              <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                [IsNoColumn]="true" [KeyName]="'Grass_ForSale'"></app-ipl-form-history-label-hover>
+            </label>
+            <br>
+
+            <div class="radio radio-info form-check-inline">
+              <input type="radio" id="Grass_ForSale1" (change)="IsForSale(PCRGrassInfoModelObj.Grass_ForSale)"
+                [(ngModel)]="PCRGrassInfoModelObj.Grass_ForSale" [ngModelOptions]="{standalone: true}"
+                value="Realtor" name="Grass_ForSale">
+              <label for="Grass_ForSale1"> Realtor </label>
+            </div>
+            <div class="radio form-check-inline">
+              <input type="radio" id="Grass_ForSale2" (change)="IsForSale(PCRGrassInfoModelObj.Grass_ForSale)"
+                [(ngModel)]="PCRGrassInfoModelObj.Grass_ForSale" [ngModelOptions]="{standalone: true}"
+                value="Owner" name="Grass_ForSale">
+              <label for="Grass_ForSale2"> Owner </label>
+            </div>
+            <div class="radio form-check-inline">
+              <input type="radio" id="Grass_ForSale3" (change)="IsForSale(PCRGrassInfoModelObj.Grass_ForSale)"
+                [(ngModel)]="PCRGrassInfoModelObj.Grass_ForSale" [ngModelOptions]="{standalone: true}"
+                value="No Sign" name="Grass_ForSale">
+              <label for="Grass_ForSale3"> No Sign </label>
+            </div>
+            <br>
+            <!-- <label class="pervious-answer">{{PCR_Hitsory.Grass_ForSale}}</label> -->
+          </div>
+          <div class="form-group col-md-4">
+            <label>For Rent ?
+
+              <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                [IsNoColumn]="true" [KeyName]="'Grass_ForRent'"></app-ipl-form-history-label-hover>
+            </label>
+            <br>
+
+            <div class="radio radio-info form-check-inline">
+              <input type="radio" id="Grass_ForRent1" [(ngModel)]="PCRGrassInfoModelObj.Grass_ForRent"
+                [ngModelOptions]="{standalone: true}" value="Yes" name="Grass_ForRent">
+              <label for="Grass_ForRent1"> Yes </label>
+            </div>
+            <div class="radio form-check-inline">
+              <input type="radio" id="Grass_ForRent2" [(ngModel)]="PCRGrassInfoModelObj.Grass_ForRent"
+                [ngModelOptions]="{standalone: true}" value="No" name="Grass_ForRent">
+              <label for="Grass_ForRent2"> No </label>
+            </div>
+            <br>
+            <!-- <label class="pervious-answer">{{PCR_Hitsory.Grass_ForRent}}</label> -->
+          </div>
+          <div class="col-md-4" [hidden]="RealtorInfo">
+            <div class="form-group">
+              <label for="Grass_RealtorPh1">Realtor Phone
+              <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                [IsNoColumn]="true" [KeyName]="'Grass_RealtorPh'"></app-ipl-form-history-label-hover>
+              </label>
+              <input type="email" class="form-control form-control-sm" id="Grass_RealtorPh1" numbersOnly
+                maxlength="10" [(ngModel)]="PCRGrassInfoModelObj.Grass_RealtorPh"
+                [ngModelOptions]="{standalone: true}" placeholder="Enter Phone No.">
+                <!-- <label class="pervious-answer">{{PCR_Hitsory.Grass_RealtorPh}}</label> -->
+              </div>
+
+            <div class="form-group">
+              <label for="Grass_RealtorName1">Realtor Name
+              <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                [IsNoColumn]="true" [KeyName]="'Grass_RealtorName'"></app-ipl-form-history-label-hover>
+              </label>
+              <input type="text" class="form-control form-control-sm" AlphabetOnly
+                [(ngModel)]="PCRGrassInfoModelObj.Grass_RealtorName" [ngModelOptions]="{standalone: true}"
+                id="Grass_RealtorName1" placeholder="Enter Name">
+                <!-- <label class="pervious-answer">{{PCR_Hitsory.Grass_RealtorName}}</label> -->
+              </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <label>Violation Posted ?
+              <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                [IsNoColumn]="true" [KeyName]="'Grass_ViolationPost'"></app-ipl-form-history-label-hover>
+        </label>
+        <br>
+
+        <div class="radio radio-info form-check-inline">
+          <input type="radio" id="Grass_ViolationPost1" [(ngModel)]="PCRGrassInfoModelObj.Grass_ViolationPost"
+            [ngModelOptions]="{standalone: true}" value="Yes" name="Grass_ViolationPost">
+          <label for="Grass_ViolationPost1"> Yes </label>
+        </div>
+        <div class="radio form-check-inline">
+          <input type="radio" id="Grass_ViolationPost2" [(ngModel)]="PCRGrassInfoModelObj.Grass_ViolationPost"
+            [ngModelOptions]="{standalone: true}" value="No" name="Grass_ViolationPost">
+          <label for="Grass_ViolationPost2"> No </label>
+        </div>
+        <br>
+        <!-- <label class="pervious-answer">{{PCR_Hitsory.Grass_ViolationPost}}</label> -->
+      </div>
+    </div>
+    <div class="mt-1 row col-12">
+      <div class="dropdown-divider col-12"></div>
+      <div class="col-lg-6">
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <h5>Exterior Damages</h5>
+            <label>New Damages Found
+              <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                [IsNoColumn]="true" [KeyName]="'Grass_ExtDamage'"></app-ipl-form-history-label-hover>
+            </label>
+            <br>
+            <div class="radio radio-info form-check-inline">
+              <input type="radio" id="Grass_ExtDamage1"
+                (change)="IsExteriorDamages(PCRGrassInfoModelObj.Grass_ExtDamage)"
+                [(ngModel)]="PCRGrassInfoModelObj.Grass_ExtDamage" [ngModelOptions]="{standalone: true}"
+                value="Yes" name="Grass_ExtDamage" (click)="AllSelectGrassData('Yes')">
+              <label for="Grass_ExtDamage1"> Yes </label>
+            </div>
+            <div class="radio form-check-inline">
+              <input type="radio" id="Grass_ExtDamage2"
+                (change)="IsExteriorDamages(PCRGrassInfoModelObj.Grass_ExtDamage)"
+                [(ngModel)]="PCRGrassInfoModelObj.Grass_ExtDamage" [ngModelOptions]="{standalone: true}"
+                value="No" name="Grass_ExtDamage"  (click)="AllSelectGrassData('No')">
+              <label for="Grass_ExtDamage2"> No </label>
+            </div>
+            <br>
+            <!-- <label class="pervious-answer">{{PCR_Hitsory.Grass_ExtDamage}}</label> -->
+          </div>
+          <div class="col-md-6" [hidden]="DamageNote">
+            <label for="exampleInputPhone">Explain all new damages
+              <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                [IsNoColumn]="true" [KeyName]="'Grass_ExtDamageNote'"></app-ipl-form-history-label-hover>
+            </label>
+            <textarea class="form-control form-control-sm" id="exampleInputPhone"
+              [(ngModel)]="PCRGrassInfoModelObj.Grass_ExtDamageNote" [ngModelOptions]="{standalone: true}"
+              placeholder="Enter Note"></textarea>
+              <!-- <label class="pervious-answer">{{PCR_Hitsory.Grass_ExtDamageNote}}</label> -->
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-2">
+            <label>Damages</label>
+          </div>
+          <div class="form-group col-md-2">
+            <input type="button" class="btn-danger" (click)="AllSelectGrassData('Yes')" value="Yes">
+          </div>
+          <div class="form-group col-md-2">
+            <input type="button" class="btn-info" (click)="AllSelectGrassData('No')" value="No">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-2">
+            <label>Fire
+              <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                [IsNoColumn]="true" [KeyName]="'Grass_FireDamage'"></app-ipl-form-history-label-hover>
+            </label>
+          </div>
+          <div class="form-group col-md-2">
+            <div class="radio radio-info form-check-inline">
+              <input type="radio" id="Grass_FireDamage1" [(ngModel)]="PCRGrassInfoModelObj.Grass_FireDamage"
+                [ngModelOptions]="{standalone: true}" value="Yes" name="Grass_FireDamage">
+              <label for="Grass_FireDamage1"> </label>
+            </div>
+          </div>
+          <div class="form-group col-md-2">
+            <div class="radio form-check-inline">
+              <input type="radio" id="Grass_FireDamage2" [(ngModel)]="PCRGrassInfoModelObj.Grass_FireDamage"
+                [ngModelOptions]="{standalone: true}" value="No" name="Grass_FireDamage">
+              <label for="Grass_FireDamage2"> </label>
+            </div>
+          </div>
+          <br>
+          <!-- <label class="pervious-answer">{{PCR_Hitsory.Grass_FireDamage}}</label> -->
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-2">
+            <label>Neglect
+              <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                [IsNoColumn]="true" [KeyName]="'Grass_NeglectDamage'"></app-ipl-form-history-label-hover>
+            </label>
+          </div>
+          <div class="form-group col-md-2">
+            <div class="radio radio-info form-check-inline">
+              <input type="radio" id="Grass_NeglectDamage1" [(ngModel)]="PCRGrassInfoModelObj.Grass_NeglectDamage"
+                [ngModelOptions]="{standalone: true}" value="Yes" name="Grass_NeglectDamage">
+              <label for="Grass_NeglectDamage1"> </label>
+            </div>
+          </div>
+          <div class="form-group col-md-2">
+            <div class="radio form-check-inline">
+              <input type="radio" id="Grass_NeglectDamage2" [(ngModel)]="PCRGrassInfoModelObj.Grass_NeglectDamage"
+                [ngModelOptions]="{standalone: true}" value="No" name="Grass_NeglectDamage">
+              <label for="Grass_NeglectDamage2"> </label>
+            </div>
+          </div>
+          <br>
+          <!-- <label class="pervious-answer">{{PCR_Hitsory.Grass_NeglectDamage}}</label> -->
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-2">
+            <label>Vandal
+              <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                [IsNoColumn]="true" [KeyName]="'Grass_VandalDamage'"></app-ipl-form-history-label-hover>
+            </label>
+          </div>
+          <div class="form-group col-md-2">
+            <div class="radio radio-info form-check-inline">
+              <input type="radio" id="Grass_VandalDamage1" [(ngModel)]="PCRGrassInfoModelObj.Grass_VandalDamage"
+                [ngModelOptions]="{standalone: true}" value="Yes" name="Grass_VandalDamage">
+              <label for="Grass_VandalDamage1"> </label>
+            </div>
+          </div>
+          <div class="form-group col-md-2">
+            <div class="radio form-check-inline">
+              <input type="radio" id="Grass_VandalDamage2" [(ngModel)]="PCRGrassInfoModelObj.Grass_VandalDamage"
+                [ngModelOptions]="{standalone: true}" value="No" name="Grass_VandalDamage">
+              <label for="Grass_VandalDamage2"> </label>
+            </div>
+          </div>
+          <br>
+          <!-- <label class="pervious-answer">{{PCR_Hitsory.Grass_VandalDamage}}</label> -->
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-2">
+            <label>Freeze
+              <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                [IsNoColumn]="true" [KeyName]="'Grass_FrezeDamage'"></app-ipl-form-history-label-hover>
+            </label>
+          </div>
+          <div class="form-group col-md-2">
+            <div class="radio radio-info form-check-inline">
+              <input type="radio" id="Grass_FrezeDamage1" [(ngModel)]="PCRGrassInfoModelObj.Grass_FrezeDamage"
+                [ngModelOptions]="{standalone: true}" value="Yes" name="Grass_FrezeDamage">
+              <label for="Grass_FrezeDamage1"> </label>
+            </div>
+          </div>
+          <div class="form-group col-md-2">
+            <div class="radio form-check-inline">
+              <input type="radio" id="Grass_FrezeDamage2" [(ngModel)]="PCRGrassInfoModelObj.Grass_FrezeDamage"
+                [ngModelOptions]="{standalone: true}" value="No" name="Grass_FrezeDamage">
+              <label for="Grass_FrezeDamage2"> </label>
+            </div>
+          </div>
+          <br>
+          <!-- <label class="pervious-answer">{{PCR_Hitsory.Grass_FrezeDamage}}</label> -->
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-2">
+            <label>Stom
+              <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                [IsNoColumn]="true" [KeyName]="'Grass_StormDamage'"></app-ipl-form-history-label-hover>
+            </label>
+          </div>
+          <div class="form-group col-md-2">
+            <div class="radio radio-info form-check-inline">
+              <input type="radio" id="Grass_StormDamage1" [(ngModel)]="PCRGrassInfoModelObj.Grass_StormDamage"
+                [ngModelOptions]="{standalone: true}" value="Yes" name="Grass_StormDamage">
+              <label for="Grass_StormDamage1"> </label>
+            </div>
+          </div>
+          <div class="form-group col-md-2">
+            <div class="radio form-check-inline">
+              <input type="radio" id="Grass_StormDamage2" [(ngModel)]="PCRGrassInfoModelObj.Grass_StormDamage"
+                [ngModelOptions]="{standalone: true}" value="No" name="Grass_StormDamage">
+              <label for="Grass_StormDamage2"> </label>
+            </div>
+          </div>
+          <br>
+          <!-- <label class="pervious-answer">{{PCR_Hitsory.Grass_StormDamage}}</label> -->
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-2">
+            <label>Flood
+              <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                [IsNoColumn]="true" [KeyName]="'Grass_FloodDamage'"></app-ipl-form-history-label-hover>
+            </label>
+          </div>
+          <div class="form-group col-md-2">
+            <div class="radio radio-info form-check-inline">
+              <input type="radio" id="Grass_FloodDamage1" [(ngModel)]="PCRGrassInfoModelObj.Grass_FloodDamage"
+                [ngModelOptions]="{standalone: true}" value="Yes" name="Grass_FloodDamage">
+              <label for="Grass_FloodDamage1"> </label>
+            </div>
+          </div>
+          <div class="form-group col-md-2">
+            <div class="radio form-check-inline">
+              <input type="radio" id="Grass_FloodDamage2" [(ngModel)]="PCRGrassInfoModelObj.Grass_FloodDamage"
+                [ngModelOptions]="{standalone: true}" value="No" name="Grass_FloodDamage">
+              <label for="Grass_FloodDamage2"> </label>
+            </div>
+          </div>
+          <br>
+          <!-- <label class="pervious-answer">{{PCR_Hitsory.Grass_FloodDamage}}</label> -->
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-2">
+            <label>Roof Leak
+              <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                [IsNoColumn]="true" [KeyName]="'Grass_RoofLeakDamage'"></app-ipl-form-history-label-hover>
+            </label>
+          </div>
+          <div class="form-group col-md-2">
+            <div class="radio radio-info form-check-inline">
+              <input type="radio" id="Grass_RoofLeakDamage1"
+                [(ngModel)]="PCRGrassInfoModelObj.Grass_RoofLeakDamage" [ngModelOptions]="{standalone: true}"
+                value="Yes" name="Grass_RoofLeakDamage">
+              <label for="Grass_RoofLeakDamage1"> </label>
+            </div>
+          </div>
+          <div class="form-group col-md-2">
+            <div class="radio form-check-inline">
+              <input type="radio" id="Grass_RoofLeakDamage2"
+                [(ngModel)]="PCRGrassInfoModelObj.Grass_RoofLeakDamage" [ngModelOptions]="{standalone: true}"
+                value="No" name="Grass_RoofLeakDamage">
+              <label for="Grass_RoofLeakDamage2"> </label>
+            </div>
+          </div>
+          <br>
+          <!-- <label class="pervious-answer">{{PCR_Hitsory.Grass_RoofLeakDamage}}</label> -->
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <label>No. of openings not boarded
+              <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                [IsNoColumn]="true" [KeyName]="'Grass_NotBoarded'"></app-ipl-form-history-label-hover>
+        </label>
+        <input type="text" class="form-control form-control-sm" id="Grass_NotBoarded1" numbersOnly
+          [(ngModel)]="PCRGrassInfoModelObj.Grass_NotBoarded" [ngModelOptions]="{standalone: true}">
+
+        <!-- <label class="pervious-answer">{{PCR_Hitsory.Grass_NotBoarded}}</label> -->
+        <br>
+        <label>No. of openings boarded
+              <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                [IsNoColumn]="true" [KeyName]="'Grass_Boarded'"></app-ipl-form-history-label-hover>
+        </label>
+        <input type="text" class="form-control form-control-sm" id="Grass_Boarded1" numbersOnly
+          [(ngModel)]="PCRGrassInfoModelObj.Grass_Boarded" [ngModelOptions]="{standalone: true}">
+          <!-- <label class="pervious-answer">{{PCR_Hitsory.Grass_Boarded}}</label> -->
+        <br>
+        <label>Exterior debris present ?
+              <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                [IsNoColumn]="true" [KeyName]="'Grass_ExtDebPresent'"></app-ipl-form-history-label-hover>
+        </label>
+        <br>
+
+        <div class="radio radio-info form-check-inline">
+          <input type="radio" id="Grass_ExtDebPresent1" [(ngModel)]="PCRGrassInfoModelObj.Grass_ExtDebPresent"
+            [ngModelOptions]="{standalone: true}" value="Yes" name="Grass_ExtDebPresent">
+          <label for="Grass_ExtDebPresent1"> Yes </label>
+        </div>
+        <div class="radio form-check-inline">
+          <input type="radio" id="Grass_ExtDebPresent2" [(ngModel)]="PCRGrassInfoModelObj.Grass_ExtDebPresent"
+            [ngModelOptions]="{standalone: true}" value="No" name="Grass_ExtDebPresent">
+          <label for="Grass_ExtDebPresent2"> No </label>
+        </div>
+        <br>
+        <!-- <label class="pervious-answer">{{PCR_Hitsory.Grass_ExtDebPresent}}</label> -->
+        <br>
+
+        <label>Upon arrival were trees touching house, fence lines or other structures ?
+              <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                [IsNoColumn]="true" [KeyName]="'Grass_TreeTouching'"></app-ipl-form-history-label-hover>
+        </label>
+        <br>
+
+        <div class="radio radio-info form-check-inline">
+          <input type="radio" id="Grass_TreeTouching1" [(ngModel)]="PCRGrassInfoModelObj.Grass_TreeTouching"
+            [ngModelOptions]="{standalone: true}" value="Yes" name="Grass_TreeTouching">
+          <label for="Grass_TreeTouching1"> Yes </label>
+        </div>
+        <div class="radio form-check-inline">
+          <input type="radio" id="Grass_TreeTouching2" [(ngModel)]="PCRGrassInfoModelObj.Grass_TreeTouching"
+            [ngModelOptions]="{standalone: true}" value="No" name="Grass_TreeTouching">
+          <label for="Grass_TreeTouching2"> No </label>
+        </div>
+        <br>
+        <!-- <label class="pervious-answer">{{PCR_Hitsory.Grass_TreeTouching}}</label> -->
+        <br>
+
+        <label>Upon arrival were shrubs/vines touching house, fence lines or other structures ?
+              <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                [IsNoColumn]="true" [KeyName]="'Grass_ShrubsTouching'"></app-ipl-form-history-label-hover>
+        </label>
+        <br>
+        <div class="radio radio-info form-check-inline">
+          <input type="radio" id="Grass_ShrubsTouching1" [(ngModel)]="PCRGrassInfoModelObj.Grass_ShrubsTouching"
+            [ngModelOptions]="{standalone: true}" value="Yes" name="Grass_ShrubsTouching">
+          <label for="Grass_ShrubsTouching1"> Yes </label>
+        </div>
+        <div class="radio form-check-inline">
+          <input type="radio" id="Grass_ShrubsTouching2" [(ngModel)]="PCRGrassInfoModelObj.Grass_ShrubsTouching"
+            [ngModelOptions]="{standalone: true}" value="No" name="Grass_ShrubsTouching">
+          <label for="Grass_ShrubsTouching2"> No </label>
+        </div>
+        <br>
+        <!-- <label class="pervious-answer">{{PCR_Hitsory.Grass_ShrubsTouching}}</label> -->
+        <br>
+        <br>
+        <label for="exampleInputPhone">Notes, Comments, Other. Please explain violations, demo notices.
+              <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                [IsNoColumn]="true" [KeyName]="'Grass_Comment'"></app-ipl-form-history-label-hover>
+        </label>
+        <textarea class="form-control form-control-sm" id="Grass_Comment1"
+          [(ngModel)]="PCRGrassInfoModelObj.Grass_Comment" [ngModelOptions]="{standalone: true}"
+          placeholder="Enter Comment"></textarea>
+
+        <!-- <label class="pervious-answer">{{PCR_Hitsory.Grass_Comment}}</label> -->
+
+      </div>
+    </div>
+    <div class="row col-12" *ngIf="WorkorderId>0">
+      <div class="col-lg-12">
+        <div class="form-row">
+          <button id="client_viewdetail_1" class="btn btn-primary" (click)="GrassSubmit()"
+            [disabled]="isLoadingGrass"><i class="fa"
+              [ngClass]="{'fa-spin fa-spinner': isLoadingGrass, 'fa-save': !isLoadingGrass}"></i>
+            {{buttonGrass}}</button>
+        </div>
+        <br>
+      </div>
+    </div>
+  </div>
+
+</div>

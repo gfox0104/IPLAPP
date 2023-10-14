@@ -1,0 +1,24 @@
+<div class="container-fluid mt-2" [ngClass]="{ 'HelpCursor': isHelpActive }">
+    <div class="">
+      <div class="">
+        <div class="row">
+          <div class="col-12">
+            <div class="page-title-box">
+            </div>
+            <!-- <hr> -->
+          </div>
+        </div>
+        <h4 class="module-box-header mb-0 " >Add Photo Header Templates</h4>
+        <div class="row">
+          <div class="col-12">
+            <div class="p-2 module-box">
+              <iplapp-form-card title="Photo Header Templates" [formUsrCommonGroup]="formUsrCommonGroup" [isEditDisable]="IsEditDisable"
+                [fields]="formFields" [modelObj]="AddPhotoHeaderTemplatesModelObj" [isSubmitted]="submitted" (submitForm)="formButton()"
+                (back)="clickBack()"(commondrd)="commondrd($event)"(dispalyInfoData)="DispalyInfo($event)"></iplapp-form-card>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,66 @@
+.order-table {
+  font-size: 12px;
+  width: 100%;
+  th,
+  td {
+    border: 1px solid black;
+    padding: 5px !important;
+  }
+  th {
+    font-weight: 500;
+  }
+  td {
+    font-weight: 400;
+  }
+}
+
+.card-box {
+  padding: 10px 0;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+.legend {
+  font-size: 10px;
+  color: grey;
+  padding: 0 10px;
+  span {
+    width: 10px;
+    height: 10px;
+  }
+}
+
+p {
+  margin-bottom: 0px;
+}
+.pb-24{
+  padding-bottom: 24px;
+}
+.pd-10{
+  padding: 10px 0;
+}
+.h-100{
+  height: 100%;
+  margin-bottom: 0px;
+}
+#doughnut-past-chart{
+  width: 100% !important;
+  height: auto !important;
+}
+#doughnut-future-chart{
+  width: 100% !important;
+  height: auto !important;
+}
+#stack-horizontal-bar{
+  width: 100% !important;
+  height: 200px !important;
+}
+.k-chart{
+  width: 100%;
+  height: 90%;
+}
+.invoice-pie{
+  height: 400px ;
+}

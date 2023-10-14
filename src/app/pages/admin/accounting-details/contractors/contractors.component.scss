@@ -1,0 +1,15 @@
+.griddiv {
+  button {
+    border: none;
+    background-color: transparent;
+  }
+}
+
+@media(max-width:900px){
+  .newDiv{
+    overflow-x: auto;
+  }
+  .griddiv{
+    width: 200%;
+  }
+}

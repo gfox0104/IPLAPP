@@ -1,0 +1,67 @@
+<div class="container-fluid support-tickets" mousekeyboard>
+    <div class="card">
+        <div class="card-header">
+            Create New Ticket
+        </div>
+        <div class="card-body">
+            <form [formGroup]="formUsrCommonGroup" (ngSubmit)="FormButton()">
+                <div class="row request-new">
+                    <div class="col-md-12 ticket-header">
+                        <div class="ticket_history" (click)="ticketHistory()">Submitted Tickets</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-sm-12">
+                        <label for="phone">Phone Number</label>
+                        <input type="text" id="phone" class="form-control" [(ngModel)]="SupportSettingModelObj.Sup_Tickets_Phone"
+                        formControlName="ST_Phone_Number"name="phonenumber" placeholder="Your phone number..">
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <label for="phone">Email.</label>
+                        <input type="email" id="ext" class="form-control" [(ngModel)]="SupportSettingModelObj.Sup_Tickets_Email"
+                        formControlName="ST_Ext" name="ext" placeholder="Email">
+                    </div>
+                </div>
+                <hr/>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label for="phone">Subject</label>
+                        <input type="text" id="subject" class="form-control" [(ngModel)]="SupportSettingModelObj.Sup_Tickets_Subject"
+                        formControlName="ST_Subject" name="subject" placeholder="Subject...">
+                    </div>
+                </div>
+                <hr/>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label for="phone">File Attachments</label>
+                        <input type="file" id="attach" multiple class="form-control" (change)="onFileChange($event)"
+                        formControlName="ST_Attach" name="attach" placeholder="Attach...">
+                      
+                    </div>
+                    </div>
+               
+                <hr/>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label for="phone">Message</label>
+                        <textarea id="message" class="form-control" [(ngModel)]="SupportSettingModelObj.Sup_Tickets_Message"
+                        formControlName="ST_Message" name="message" placeholder="Message..." style="height:200px">
+                        </textarea>
+                    </div>
+                </div>
+               
+                <hr/>
+                <div class="row send-btn">
+                    <div class="col-md-12">
+                        <button id="client_viewdetail_1" class="btn btn-primary" type="submit" 
+                            [disabled]="isLoading">
+                            <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}"></i>
+                            {{button}}
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+</div>

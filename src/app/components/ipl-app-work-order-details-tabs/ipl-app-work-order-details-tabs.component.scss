@@ -1,0 +1,16 @@
+.onSmall{
+  display:none;
+}
+@media(max-width:800px){
+  .onSmall{
+    display:block;
+  }
+  .onLarge{
+    display:none;
+  }
+}
+// sandip
+td.highlight {
+    background-color: #f7aeae !important;
+  }
+  /*Don't forget to add Font Awesome CSS : "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"*/

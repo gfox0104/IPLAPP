@@ -1,0 +1,210 @@
+<ng-template #content let-modal>
+  <div class="modal-header">
+    Message
+    <button type="button" class="close" (click)="modal.close('Save click')" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="text-center">
+      <span>{{MessageFlag}}</span>
+      <hr>
+      <button id="client_viewdetail_1" class="btn btn-primary" (click)="modal.close('Save click')">Continue</button>
+      <!-- <button type="button" class="btn btn-primary waves-effect waves-light"
+        (click)="modal.close('Save click')">Continue</button> -->
+    </div>
+  </div>
+</ng-template>
+<!-- Mohit last change -->
+<div class="comment-box row mr-0" style=" margin-top: -6px;">
+  <div class="col-12">
+
+      <!-- photos and meta data -->
+      <app-photosMeta-client-result></app-photosMeta-client-result>
+      <!-- End photos and meta data -->
+      <!--End view-->
+      <!--for dropdown-->
+
+      <!-- <div class="m-0 mt-3 row module-box">
+        <h4 (click)='showComment()' class="col-md-12 module-box-header m-0">
+          Comments
+          <svg style="float: right;" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z"/></svg>
+        </h4>
+        <div *ngIf='commentBox' class="p-1  col-md-12">
+          <div>
+            <kendo-editor id="myFrame" [(ngModel)]="SigleEditBoxModelObj.Inst_Ch_Text"></kendo-editor>
+          </div>
+          <div class="mt-1 row">
+            <div class="col-12 col-sm-12" style="margin-bottom: -3px;">
+              <button id="client_viewdetail_1" class="btn btn-primary" (click)='ClientResultInstruCSumbit(content,0)'
+                [disabled]="isLoading">
+                <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}"></i>
+                {{button}}</button>
+            </div>
+          </div>
+        </div>
+      </div> -->
+
+      <!-- Pradeep -->
+      <!-- <div class="m-0 mt-3 row module-box">
+      <h4 (click)='showComment()' class="col-md-12 module-box-header m-0">
+        Work Order Details
+        <svg style="float: right;" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z"/></svg>
+      </h4>
+      <div *ngIf='commentBox' class="p-1  col-md-12">
+        <app-ipl-app-work-order-details-tabs [workOrder_ID]="this.ModelObj.workOrder_ID" ></app-ipl-app-work-order-details-tabs>
+    </div>
+    </div> -->
+
+    <!-- Mahipatsinh 08-11-2022 -->
+    <app-ipl-app-work-order-details-tabs *ngIf="this.ModelObj!=undefined"  [workOrder_ID]="this.ModelObj.workOrder_ID" ></app-ipl-app-work-order-details-tabs>
+      <!-- Pradeep end -->
+      <div class="pt-3 tab-content" id="myTabContent">
+        <div class="module-box-header tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
+          <h4>Client Details</h4>
+        </div>
+        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="field-tab">
+        </div>
+        <div class="col-12 p-0 tab-pane fade show active" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+          <div class="m-0 row ">
+            <div class="col-12 p-0">
+              <div class=" m-0 row"  >
+                <div class=" col-12 tab-content" style="padding-top: 2.3rem !important; margin-left: 12px; padding-right: 13px;">
+                  <ul class="p-0 m-0 module-box-header nav nav-tabs"  id="myreco" role="tablist" >
+                    <li class="nav-item" style="margin-left: 2px;">
+                      <a class="nav-link active" id="doc-tab" data-toggle="tab" href="#doc" role="tab"
+                        aria-controls="Client" aria-selected="true">Add Documents</a>
+                    </li>
+                    <li class="nav-item" [hidden]="tabhide">
+                      <a class="nav-link" id="log-tab" data-toggle="tab" href="#log" role="tab" aria-controls="field"
+                        aria-selected="false">Access Log</a>
+                    </li>
+                    <li class="nav-item" [hidden]="tabhide">
+                      <a class="nav-link" id="impo-tab" data-toggle="tab" href="#impo" role="tab" aria-controls="field"
+                        aria-selected="false">Imported Files</a>
+                    </li>
+                  </ul>
+
+                    <div class="tab-pane fade show active" id="doc" role="tabpanel" aria-labelledby="doc-tab">
+                      <div class="module-box  table-responsive" style="margin-top: -.17%;">
+                        <table class="table">
+                          <thead>
+                            <tr style="margin-top: 0; text-align: center;">
+                              <th>File Name</th>
+                              <th> File Download</th>
+                              <th [hidden]="tabhide">Remove</th>
+                            </tr>
+                          </thead>
+                          <tr style="text-align: center;" *ngFor="let item of documentdetailslst">
+                            <td>{{item.Inst_Doc_File_Name}}</td>
+                            <td><a [href]="item.Inst_Doc_File_Path" target="_blank"
+                                [download]="item.Inst_Doc_File_Path"><i class="fa fa-download" aria-hidden="true"></i>
+                                Download file</a></td>
+                            <td [hidden]="tabhide" style="text-align: center;"><a href="javascript:void(0)"
+                                (click)="removeinstructionfile(item)"> <i class="fa fa-trash"
+                                  style="color: black;"></i></a></td>
+                          </tr>
+                        </table>
+                        <div  class="row mt-1 mb-1 ml-1" [hidden]="tabhide">
+                          <div class="col-12">
+                            <button id="client_viewdetail_1" class="btn btn-primary" style="border-radius: 8px;"
+                            (click)="OpenDocumentUpload(contentDocumentUpload)"><i class="fas fa-plus-circle"></i>
+                            Add</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+                      <!--  -->
+
+                    <div class=" module-box tab-pane fade mr-1 ml-1 module-box" id="log" role="tabpanel" aria-labelledby="log-tab" [hidden]="tabhide">
+                      <div class="form-row">
+                        <kendo-grid style="overflow: auto;" class="module-box" #gridBid [kendoGridBinding]="AccessLogData" [pageSize]="10" [pageable]="true"
+                          [sortable]="true" [filterable]="true" [selectable]="true" [groupable]="false">
+                          <kendo-grid-column *ngFor="let column of accessLog" [field]="column.key"
+                            [title]="column.title" [headerStyle]="{'vertical-align': 'baseline'}">
+                            <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.type === 'date'">
+                              <span>
+                                {{dataItem[column.key] | date: 'MM/dd/yyyy'}}
+                              </span>
+                            </ng-template>
+                          </kendo-grid-column>
+                          <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+                            <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+                            <kendo-pager-numeric-buttons [buttonCount]="10"></kendo-pager-numeric-buttons>
+                            <kendo-pager-next-buttons></kendo-pager-next-buttons>
+                            <kendo-pager-info></kendo-pager-info>
+                            <kendo-pager-page-sizes [pageSizes]="[10, 15, 30, 50, 100]"></kendo-pager-page-sizes>
+                          </ng-template>
+                        </kendo-grid>
+                      </div>
+                    </div>
+
+                    <div class="module-box tab-pane fade" id="impo" role="tabpanel" aria-labelledby="impo-tab" [hidden]="tabhide">
+                      <div class="mt-0 module-box table-responsive" style="overflow: auto; white-space: nowrap;">
+
+                        <table class=" table table-striped">
+                          <tr  style="text-align: center;background: #edeef0;">
+                            <th style="    border-left: 1px solid #fff;
+                            border-top: 1px solid white;">Import File Name</th>
+                            <th style="border-left: 1px solid #fff;
+                            border-right: 1px solid white;
+                            border-top: 1px solid white;"> File Download</th>
+
+                          </tr>
+                          <tr *ngFor="let item of ImportArr">
+                            <td style="text-align: center;">{{item.WIF_FileName}}</td>
+                            <td style="text-align: center;"><a [href]="item.WIF_FilePath" target="_blank" [download]="item.WIF_FilePath"><i
+                                  class="fa fa-download" aria-hidden="true"></i>
+                                Download file</a></td>
+                          </tr>
+                        </table>
+                      </div>
+                    </div>
+
+              </div>
+            </div>
+          </div>
+          </div>
+          <div class="tab-pane fade" id="invoice" role="tabpanel" aria-labelledby="invoice-tab">Invoice
+          </div>
+          <div class="tab-pane fade" id="photos" role="tabpanel" aria-labelledby="photos-tab">Photos
+          </div>
+          <div class="tab-pane fade" id="notes" role="tabpanel" aria-labelledby="notes-tab">Wo Notes
+          </div>
+          <div class="tab-pane fade" id="sync" role="tabpanel" aria-labelledby="sync-tab">Client Sync
+          </div>
+          <br>
+        </div>
+        <br>
+        <!-- end .responsive-table-plugin-->
+      </div>
+  </div> <!-- end col -->
+</div>
+
+<ng-template #contentDocumentUpload let-modal>
+  <div class="modal-header">
+    Upload Documents
+    <button type="button" class="close" (click)="modal.close('Save click')" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div>
+      <div class="row">
+        <div class="col-md-12">
+          <kendo-upload [saveUrl]="uploadSaveUrl" [removeUrl]="uploadRemoveUrl" [(ngModel)]="myFiles"
+            (error)="displayErrorDocument($event)" (success)="displaySuccessDocument($event)">
+          </kendo-upload>
+        </div>
+      </div>
+      <hr>
+      <button id="client_viewdetail_1" class="btn btn-primary" (click)="modal.close('Save click')">Close</button>
+    </div>
+  </div>
+</ng-template>
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="default" color="#fff" type="timer" [fullScreen]="true">
+  <p style="color: white">Loading...</p>
+</ngx-spinner>

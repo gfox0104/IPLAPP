@@ -1,0 +1,23 @@
+<div class="card">
+    <div class="module-box">
+   <h3 class="module-box-header m-0">Contractor Memo</h3><br>
+          <div class="row p-2">
+            <kendo-grid #gridContact [kendoGridBinding]="griddata" [pageSize]="15" [pageable]="true" [sortable]="true"
+              [filterable]="false" [selectable]="true" [groupable]="false" [reorderable]="true">
+              <kendo-grid-column *ngFor="let column of gridColumns" [field]="column.field" [title]="column.title" [width]="80">
+               
+              </kendo-grid-column>
+            
+              <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+                <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+                <kendo-pager-numeric-buttons [buttonCount]="10"></kendo-pager-numeric-buttons>
+                <kendo-pager-next-buttons></kendo-pager-next-buttons>
+                <kendo-pager-info></kendo-pager-info>
+                <kendo-pager-page-sizes [pageSizes]="[15, 30, 50, 100]"></kendo-pager-page-sizes>
+              </ng-template>
+            </kendo-grid>
+          </div>
+ 
+
+    </div>
+</div>

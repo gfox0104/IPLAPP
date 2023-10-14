@@ -1,0 +1,106 @@
+<div class="container-fluid mt-2" [ngClass]="{ 'HelpCursor': isHelpActive }">
+  <div class="">
+    <div class="">
+      <h3 class="module-box-header mb-0">Contractor accounts payable settings
+        <a class="pull-right mr-2" data-toggle="tooltip" (click)="SetHelpFlag()" data-placement="top"
+        title="Item Help" style="cursor: pointer;">Need Help
+        <i class="fas fa-question"></i>&nbsp;&nbsp;
+        </a>
+      </h3>
+      <div class="module-subheader p-1 pl-2">
+        <div class="m-0 row col-12">
+          <div>
+            <a *ngIf="IsEditDisable" (click)="EditForms()" id="client_viewdetail_1" class="btn btn-primary"> <i
+                class="far fa-edit mr-1"></i> Edit </a>
+            <button type="submit" *ngIf="!IsEditDisable" id="client_viewdetail_1" class="btn btn-primary "
+              [disabled]="isLoading">
+              <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}"></i>
+              {{button}}</button>
+            &nbsp;&nbsp;&nbsp;
+            <a [routerLink]="['/home/adminlinkpage']" id="client_viewdetail_1" class="btn btn-primary waves-effect waves-light">
+              Back</a>
+          </div>
+        </div>
+      </div>
+      <form class="row m-0 module-box p-1" [formGroup]="formUsrCommonGroup" (ngSubmit)="FormButton()">
+        <div class="pt-2 row col-12">
+          <div class="col-md-2 col-4">
+            <label  [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Invoice Payout Criteria')">Invoice Payout Criteria</label>
+          </div>
+          <div class="col-md-2 col-8">
+            <select   class="form-control form-control-sm" [ngModelOptions]="{standalone: true}" [disabled]="IsEditDisable"
+            (change)="PayOut_Method(ContractorAccountSettingModelObj.Inv_Payout_Criteria);"
+            [ngClass]="{ 'is-invalid': fx.payoutval.touched && fx.payoutval.errors }"
+            [(ngModel)]="ContractorAccountSettingModelObj.Inv_Payout_Criteria" (click)="DispalyInfo($event,'Invoice Payout Criteria')" [ngClass]="{ 'HelpCursor': isHelpActive }">
+            <option value='0'>select</option>
+            <option [ngValue]="kb.Id" *ngFor="let kb of InvoicePayOutlist">
+              {{kb.Name}}
+            </option>
+          </select>
+          <div *ngIf="payoutvalFlag" class="Mydropdown">this field is required</div>
+          </div>
+        </div>
+        <br>
+        <div class=" pt-2 row col-12">
+          <div class="col-md-2 col-4">
+            <label [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Invoice age Criteria')">Invoice age Criteria</label>
+          </div>
+          <div class="col-md-2 col-8">
+          <input type="number" class="form-control form-control-sm" [ngModelOptions]="{standalone: true}" [disabled]="IsEditDisable"
+          [(ngModel)]="ContractorAccountSettingModelObj.Inv_Age_Criteria" (click)="DispalyInfo($event,'Invoice age Criteria')"[readonly]="isHelpActive" [ngClass]="{ 'HelpCursor': isHelpActive }"/>
+          </div>
+        </div>
+        <br>
+        <div class="pt-2 row col-12">
+          <div class="col-md-2 col-4">
+            <label [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Sent Contractor Pay Report')">Send Contractor Pay Report</label>
+          </div>
+          <div class="col-md-2 col-8">
+            <select   class="form-control form-control-sm" [ngModelOptions]="{standalone: true}" [disabled]="IsEditDisable"
+            [(ngModel)]="ContractorAccountSettingModelObj.Sent_Contractor_Pay_Report"
+            (click)="DispalyInfo($event,'Sent Contractor Pay Report')" [ngClass]="{ 'HelpCursor': isHelpActive }"
+            >
+            <option value='0'>select</option>
+            <option [ngValue]="kb.Id" *ngFor="let kb of PayReport">
+              {{kb.Name}}
+            </option>
+          </select>
+          </div>
+        </div>
+        <br>
+        <div class="pt-2 row col-12">
+          <div class="col-md-2 col-4">
+            <label >CreatedBy</label>
+          </div>
+          <div class="col-md-2 col-8">
+            <label >{{ContractorAccountSettingModelObj.CreatetedBy}}</label>
+          </div>
+        </div>
+        <br>
+        <div class="pt-2 row col-12">
+          <div class="col-md-2 col-4">
+            <label >Upaded By</label>
+          </div>
+          <div class="col-md-2 col-8">
+            <label >{{ContractorAccountSettingModelObj.ModifiedBy}}</label>
+          </div>
+        </div>
+        <br>
+        <hr>
+        <div class="pt-2 m-0 row col-12">
+          <div>
+            <a *ngIf="IsEditDisable" (click)="EditForms()" id="client_viewdetail_1" class="btn btn-primary"> <i
+                class="far fa-edit mr-1"></i> Edit </a>
+            <button type="submit" *ngIf="!IsEditDisable" id="client_viewdetail_1" class="btn btn-primary "
+              [disabled]="isLoading">
+              <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}"></i>
+              {{button}}</button>
+            &nbsp;&nbsp;&nbsp;
+            <a [routerLink]="['/home/adminlinkpage']" id="client_viewdetail_1" class="btn btn-primary waves-effect waves-light">
+              Back</a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

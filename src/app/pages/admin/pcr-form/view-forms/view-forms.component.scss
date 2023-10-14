@@ -1,0 +1,36 @@
+table.custom td {    
+    border:1px solid #d7d7d7;
+    text-align: center;
+    vertical-align: middle;
+  }
+  .right {
+    text-align: right;
+    padding-right: 0.5em;
+  }
+  .left {
+    text-align: left !important;
+    padding-left: 0.5em;
+  }
+  table.custom th {    
+    text-align: center;
+  }
+
+  .custom-btn
+  {
+      padding: 0px 10px 0px 10px !important;      
+      height: 30px;
+  }
+  .h35
+  {
+    height: 36px !important;
+  }
+
+ .custom{
+   width: 100% !important;
+ } 
+ @media(max-width:900px){
+   .custom{
+   width: max-content !important;
+ }
+}
+

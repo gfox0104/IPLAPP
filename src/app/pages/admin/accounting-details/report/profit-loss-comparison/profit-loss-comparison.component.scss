@@ -1,0 +1,43 @@
+.dgrid-header .dgrid-row-table {
+  height: 30px;
+  border: none;
+  transform: translateZ(0);
+}
+.dgrid-header .dgrid-row-table {
+  transform: translateZ(0);
+  border-bottom: 0 none;
+  padding: 0 !important;
+  font-size: 100%;
+}
+.dgrid-header .dgrid-row-table {
+  border-collapse: collapse;
+  border: none;
+  table-layout: fixed;
+  empty-cells: show;
+  width: 100%;
+  height: 100%;
+}
+.dgrid-header .dgrid-row-table .dgrid-spacer-row {
+  border-bottom: none;
+}
+.dgrid-header .dgrid-row-table .dgrid-cell {
+  color: #000;
+  border-left: 1px dotted #c7c7c7;
+  font-weight: 700;
+  font-size: 11px;
+  transition: none !important;
+}
+.dgrid-header .dgrid-row-table .parentColumn {
+  border-bottom: 1px solid #6e6b6b;
+  text-align: center;
+}
+.dgrid-header .dgrid-row-table .dgrid-cell {
+  color: #000;
+  border-left: 1px dotted #c7c7c7;
+  font-weight: 700;
+  font-size: 14px;
+  transition: none !important;
+}
+.col-33 {
+  width: 33.33%;
+}

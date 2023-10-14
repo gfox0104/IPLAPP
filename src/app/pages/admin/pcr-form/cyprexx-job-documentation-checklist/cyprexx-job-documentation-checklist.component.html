@@ -1,0 +1,299 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="row m-0" style="width:81rem;">
+            <div class="col-12 bg-pattern">
+                <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="field-tab">
+                <ul class="module-subheader m-0 nav nav-tabs" id="myproperty" role="tablist">
+
+                    <li class="nav-item">
+                        <a class="nav-link active" id="bidhistory-tab" data-toggle="tab" href="#bidhistory"
+                            role="tab" (click)="TabClickMethod(1)" aria-controls="bidhistory"
+                            aria-selected="true">Job Information</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" id="bidhistory-tab" data-toggle="tab" href="#UploadPhotos" role="tab"
+                            (click)="TabClickMethod(2)" aria-controls="UploadPhotos" aria-selected="true">
+                            Upload Photos</a>
+                    </li>
+
+                </ul>
+                <div class="pt-0 tab-content" id="mypropertyContent">
+                    <div class="tab-pane fade show active" id="bidhistory" role="tabpanel"
+                    aria-labelledby="bidhistory-tab">
+<div class="row m-0">
+    <div class="col-12" >
+        <div style="box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;padding-bottom:0.5rem"
+        (click)=" FormButton1(true)" >
+            <div>
+                <h4 class="page-title">
+                    Job Information</h4>
+            </div>
+            <div class="col-12">
+                <div
+                    style="box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;width: 98%;margin: 1rem;">
+                    <div style=" border: 1px solid #dbd1d1;width: 100%;"></div>
+
+                    <div class="d-flex" style=" border: 1px solid #dbd1d1;">
+                        <div class="w-50 mx-3" style="text-align: end;padding: 0.5rem">
+                            <label> Equipment Used (List any specialty Equipment rented*</label>
+                            <span class="fa fa-clock pcrHistoryIcon"
+                            [ngbPopover]="HistoryDetails" #HistoryPopover1="ngbPopover" placement="auto" [autoClose]="true"
+                            triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_JD_Job_Info','PCR_JI_EquipmentUsed')" (mouseleave)="HistoryPopover1.close()"></span>
+                        </div>
+
+                        <div style="border:1px solid #7e7575"></div>
+                        <div class="w-50">
+                            <div class="mx-3" style="padding: 0.5rem">
+                                <input type="text" id="PCR_JI_EquipmentUsed" style="height:1.5rem;width:28rem"
+                                [(ngModel)]="_PCR_JD_Job_Info.PCR_JI_EquipmentUsed">
+                            </div>
+                            <!-- <span class="pervious-answer">{{this.PCR_History.PCR_JD_Job_Info!=undefined ? this.PCR_History.PCR_JD_Job_Info.PCR_JI_EquipmentUsed :""}}</span> -->
+                        </div>
+                    </div>
+                    <div class="d-flex" style=" border: 1px solid #dbd1d1;">
+                        <div class="w-50 mx-3" style="text-align: end;padding: 0.5rem">
+                            <label>Equipment Fees (Must attach all receipts as photos to service line with submission)*</label>
+                            <span class="fa fa-clock pcrHistoryIcon"
+                            [ngbPopover]="HistoryDetails" #HistoryPopover2="ngbPopover" placement="auto" [autoClose]="true"
+                            triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_JD_Job_Info','PCR_JI_EquipmentFees')" (mouseleave)="HistoryPopover2.close()"></span>
+                        </div>
+
+                        <div style="border:1px solid #7e7575"></div>
+                        <div class="w-50">
+                            <div class="mx-3" style="padding: 0.5rem">
+                                <input type="text" id="PCR_JI_EquipmentFees" style="height:1.5rem;width:28rem"
+                                [(ngModel)]="_PCR_JD_Job_Info.PCR_JI_EquipmentFees">
+                            </div>
+                            <!-- <span class="pervious-answer">{{this.PCR_History.PCR_JD_Job_Info!=undefined ? this.PCR_History.PCR_JD_Job_Info.PCR_JI_EquipmentFees :""}}</span> -->
+                        </div>
+                    </div>
+                    <div class="d-flex" style=" border: 1px solid #dbd1d1;">
+                        <div class="w-50 mx-3" style="text-align: end;padding: 0.5rem">
+                            <label>City or Area Dupm Name*</label>
+                            <span class="fa fa-clock pcrHistoryIcon"
+                            [ngbPopover]="HistoryDetails" #HistoryPopover3="ngbPopover" placement="auto" [autoClose]="true"
+                            triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_JD_Job_Info','PCR_JI_CityAreaDupmName')" (mouseleave)="HistoryPopover3.close()"></span>
+                        </div>
+
+                        <div style="border:1px solid #7e7575"></div>
+                        <div class="w-50">
+                            <div class="mx-3" style="padding: 0.5rem">
+                                <input type="text" id="PCR_JI_CityAreaDupmName" style="height:1.5rem;width:28rem"
+                                [(ngModel)]="_PCR_JD_Job_Info.PCR_JI_CityAreaDupmName">
+                            </div>
+                            <!-- <span class="pervious-answer">{{this.PCR_History.PCR_JD_Job_Info!=undefined ? this.PCR_History.PCR_JD_Job_Info.PCR_JI_CityAreaDupmName :""}}</span> -->
+                        </div>
+                    </div>
+                    <div class="d-flex" style=" border: 1px solid #dbd1d1;">
+                        <div class="w-50 mx-3" style="text-align: end;padding: 0.5rem">
+                            <label>City or Area Dupm Address*</label>
+                            <span class="fa fa-clock pcrHistoryIcon"
+                            [ngbPopover]="HistoryDetails" #HistoryPopover4="ngbPopover" placement="auto" [autoClose]="true"
+                            triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_JD_Job_Info','PCR_JI_CityAreaDupmAddress')" (mouseleave)="HistoryPopover4.close()"></span>
+                        </div>
+
+                        <div style="border:1px solid #7e7575"></div>
+                        <div class="w-50">
+                            <div class="mx-3" style="padding: 0.5rem">
+                                <input type="text" id="PCR_JI_CityAreaDupmAddress" style="height:1.5rem;width:28rem"
+                                [(ngModel)]="_PCR_JD_Job_Info.PCR_JI_CityAreaDupmAddress">
+                            </div>
+                            <!-- <span class="pervious-answer">{{this.PCR_History.PCR_JD_Job_Info!=undefined ? this.PCR_History.PCR_JD_Job_Info.PCR_JI_CityAreaDupmAddress :""}}</span> -->
+                        </div>
+                    </div>
+                    <div class="d-flex" style=" border: 1px solid #dbd1d1;">
+                        <div class="w-50 mx-3" style="text-align: end;padding: 0.5rem">
+                            <label>Distance to city or Area Dump*</label>
+                            <span class="fa fa-clock pcrHistoryIcon"
+                            [ngbPopover]="HistoryDetails" #HistoryPopover5="ngbPopover" placement="auto" [autoClose]="true"
+                            triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_JD_Job_Info','PCR_JI_DistanceToCityAreaDump')" (mouseleave)="HistoryPopover5.close()"></span>
+                        </div>
+
+                        <div style="border:1px solid #7e7575"></div>
+                        <div class="w-50">
+                            <div class="mx-3" style="padding: 0.5rem">
+                                <input type="text" id="PCR_JI_DistanceToCityAreaDump" style="height:1.5rem;width:28rem"
+                                [(ngModel)]="_PCR_JD_Job_Info.PCR_JI_DistanceToCityAreaDump">
+                            </div>
+                            <!-- <span class="pervious-answer">{{this.PCR_History.PCR_JD_Job_Info!=undefined ? this.PCR_History.PCR_JD_Job_Info.PCR_JI_DistanceToCityAreaDump :""}}</span> -->
+                        </div>
+                    </div>
+                    <div class="d-flex" style=" border: 1px solid #dbd1d1;">
+                        <div class="w-50 mx-3" style="text-align: end;padding: 0.5rem">
+                            <label>City or Area Dupm Expense Total (Must attach all receipts as photos to service line with submission*</label>
+                            <span class="fa fa-clock pcrHistoryIcon"
+                            [ngbPopover]="HistoryDetails" #HistoryPopover6="ngbPopover" placement="auto" [autoClose]="true"
+                            triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_JD_Job_Info','PCR_JI_DupmExpenseTotal')" (mouseleave)="HistoryPopover6.close()"></span>
+                        </div>
+
+                        <div style="border:1px solid #7e7575"></div>
+                        <div class="w-50">
+                            <div class="mx-3" style="padding: 0.5rem">
+                                <input type="text" id="PCR_JI_DupmExpenseTotal" style="height:1.5rem;width:28rem"
+                                [(ngModel)]="_PCR_JD_Job_Info.PCR_JI_DupmExpenseTotal">
+                            </div>
+                            <!-- <span class="pervious-answer">{{this.PCR_History.PCR_JD_Job_Info!=undefined ? this.PCR_History.PCR_JD_Job_Info.PCR_JI_DupmExpenseTotal :""}}</span> -->
+                        </div>
+                    </div>
+                    <div class="d-flex" style=" border: 1px solid #dbd1d1;">
+                        <div class="w-50 mx-3" style="text-align: end;padding: 0.5rem">
+                            <label>Total Number of Crew working at Property*</label>
+                            <span class="fa fa-clock pcrHistoryIcon"
+                            [ngbPopover]="HistoryDetails" #HistoryPopover7="ngbPopover" placement="auto" [autoClose]="true"
+                            triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_JD_Job_Info','PCR_JI_TotalNumberOfCrew')" (mouseleave)="HistoryPopover7.close()"></span>
+                        </div>
+
+                        <div style="border:1px solid #7e7575"></div>
+                        <div class="w-50">
+                            <div class="mx-3" style="padding: 0.5rem">
+                                <input type="text" id="PCR_JI_TotalNumberOfCrew" style="height:1.5rem;width:28rem"
+                                [(ngModel)]="_PCR_JD_Job_Info.PCR_JI_TotalNumberOfCrew">
+                            </div>
+                            <!-- <span class="pervious-answer">{{this.PCR_History.PCR_JD_Job_Info!=undefined ? this.PCR_History.PCR_JD_Job_Info.PCR_JI_TotalNumberOfCrew :""}}</span> -->
+                        </div>
+                    </div>
+                    <div class="d-flex" style=" border: 1px solid #dbd1d1;">
+                        <div class="w-50 mx-3" style="text-align: end;padding: 0.5rem">
+                            <label>Total Number of Man Hours to Complete Work*</label>
+                            <span class="fa fa-clock pcrHistoryIcon"
+                            [ngbPopover]="HistoryDetails" #HistoryPopover8="ngbPopover" placement="auto" [autoClose]="true"
+                            triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_JD_Job_Info','PCR_JI_TotalNumberOfManHoursToCompleteWork')" (mouseleave)="HistoryPopover8.close()"></span>
+                        </div>
+
+                        <div style="border:1px solid #7e7575"></div>
+                        <div class="w-50">
+                            <div class="mx-3" style="padding: 0.5rem">
+                                <input type="text" id="PCR_JI_TotalNumberOfManHoursToCompleteWork" style="height:1.5rem;width:28rem"
+                                [(ngModel)]="_PCR_JD_Job_Info.PCR_JI_TotalNumberOfManHoursToCompleteWork">
+                            </div>
+                            <!-- <span class="pervious-answer">{{this.PCR_History.PCR_JD_Job_Info!=undefined ? this.PCR_History.PCR_JD_Job_Info.PCR_JI_TotalNumberOfManHoursToCompleteWork :""}}</span> -->
+                        </div>
+                    </div>
+                    <div class="d-flex" style=" border: 1px solid #dbd1d1;">
+                        <div class="w-50 mx-3" style="text-align: end;padding: 0.5rem">
+                            <label>Trailer Sizes and Dimensions*</label>
+                            <span class="fa fa-clock pcrHistoryIcon"
+                            [ngbPopover]="HistoryDetails" #HistoryPopover9="ngbPopover" placement="auto" [autoClose]="true"
+                            triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_JD_Job_Info','PCR_JI_TrailerSizesAndDimensions')" (mouseleave)="HistoryPopover9.close()"></span>
+                        </div>
+
+                        <div style="border:1px solid #7e7575"></div>
+                        <div class="w-50">
+                            <div class="mx-3" style="padding: 0.5rem">
+                                <input type="text" id="PCR_JI_TrailerSizesAndDimensions" style="height:1.5rem;width:28rem"
+                                [(ngModel)]="_PCR_JD_Job_Info.PCR_JI_TrailerSizesAndDimensions">
+                            </div>
+                            <!-- <span class="pervious-answer">{{this.PCR_History.PCR_JD_Job_Info!=undefined ? this.PCR_History.PCR_JD_Job_Info.PCR_JI_TrailerSizesAndDimensions :""}}</span> -->
+                        </div>
+                    </div>
+                    <div class="d-flex" style=" border: 1px solid #dbd1d1;">
+                        <div class="w-50 mx-3" style="text-align: end;padding: 0.5rem">
+                            <label>Vendor Signature*</label>
+                            <span class="fa fa-clock pcrHistoryIcon"
+                            [ngbPopover]="HistoryDetails" #HistoryPopover10="ngbPopover" placement="auto" [autoClose]="true"
+                            triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_JD_Job_Info','PCR_JI_VendorSignature')" (mouseleave)="HistoryPopover10.close()"></span>
+                        </div>
+
+                        <div style="border:1px solid #7e7575"></div>
+                        <div class="w-50">
+                            <div class="mx-3" style="padding: 0.5rem">
+                                <input type="text" id="PCR_JI_VendorSignature" style="height:1.5rem;width:28rem"
+                                [(ngModel)]="_PCR_JD_Job_Info.PCR_JI_VendorSignature">
+                            </div>
+                            <!-- <span class="pervious-answer">{{this.PCR_History.PCR_JD_Job_Info!=undefined ? this.PCR_History.PCR_JD_Job_Info.PCR_JI_VendorSignature :""}}</span> -->
+                        </div>
+                    </div>
+                    <div class="d-flex" style=" border: 1px solid #dbd1d1;">
+                        <div class="w-50 mx-3" style="text-align: end;padding: 0.5rem">
+                            <label>Date Completed*</label>
+                            <span class="fa fa-clock pcrHistoryIcon"
+                            [ngbPopover]="HistoryDetails" #HistoryPopover11="ngbPopover" placement="auto" [autoClose]="true"
+                            triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_JD_Job_Info','PCR_JI_DateCompleted')" (mouseleave)="HistoryPopover11.close()"></span>
+                        </div>
+
+                        <div style="border:1px solid #7e7575"></div>
+                        <div class="w-50">
+                            <div class="mx-3" style="padding: 0.5rem">
+                                <input type="date" id="PCR_JI_DateCompleted" style="height:1.5rem;width:15rem"
+                                [(ngModel)]="_PCR_JD_Job_Info.PCR_JI_DateCompleted">
+                            </div>
+                            <!-- <span class="pervious-answer">{{this.PCR_History.PCR_JD_Job_Info!=undefined ? this.PCR_History.PCR_JD_Job_Info.PCR_JI_DateCompleted :""}}</span> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="tab-pane fade" id="UploadPhotos" role="tabpanel"
+                aria-labelledby="UploadPhotos-tab">
+<div class="row m-0">
+    <div class="col-12" id="OccupancyInfo" role="tabpanel" aria-labelledby="OccupancyInfo">
+        <div style="box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;padding-bottom:0.5rem"
+        (click)="UploadPhotos(true)">
+            <div>
+                <h4 class="page-title"
+                    style="font-weight: bolder;background-color: hwb(203deg 69% 21%);height:2rem;padding-left: 1rem;padding-top: 0.5rem;">
+                    Upload Photos</h4>
+            </div>
+
+            <div class="d-flex" style="justify-content:space-around;">
+                <div class="card" style="width: 20rem;">
+                    <div class="card-header">
+                        <h5>Before</h5>
+
+                        <button class="btn btn-primary">Actions</button>
+                        <p style="font-size:x-large;">0</p>
+                    </div>
+                    <div class="card-body">
+
+                    </div>
+                </div>
+
+                <div class="card" style="width: 20rem;">
+                    <div class="card-header">
+                        <h5>Action</h5>
+                        <button class="btn btn-primary">Actions</button>
+                        <p style="font-size:x-large;">0</p>
+                    </div>
+                    <div class="card-body" style="height: 16rem;">
+
+                    </div>
+                </div>
+                <div class="card" style="width: 20rem;">
+                    <div class="card-header">
+                        <h5>After</h5>
+                        <button class="btn btn-primary">Actions</button>
+                        <p style="font-size:x-large;">0</p>
+                    </div>
+                    <div class="card-body">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<div class="mt-1 form-row" *ngIf="WorkorderId>0">
+  <div class="float-right" (click)="SaveForm()">
+    &nbsp;&nbsp;&nbsp;
+ <button id="client_viewdetail_1" class="btn btn-primary" type="submit"
+      [disabled]="isLoading">
+      <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}"></i>
+      {{button}}</button>
+  </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<ng-template #HistoryDetails>
+    <app-ipl-form-history-hover [HistoryData]="PCR_HistoryList" [ColumnName]="PctHistoryConfigureObj.ColumnName" [KeyName]="PctHistoryConfigureObj.KeyName"></app-ipl-form-history-hover>
+  </ng-template>

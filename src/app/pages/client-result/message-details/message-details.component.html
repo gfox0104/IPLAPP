@@ -1,0 +1,144 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<div class="card">
+  <div class="card-body p-1">
+    <div class="card">
+      <div class="card-body p-0">
+        <h2>Chat Messages</h2>
+        <hr>
+        <div class="row thread-container">
+          <div class="contractor-thread btn" *ngIf="groupRoleID < 5"
+            [ngClass]="{ 'active': threadID == (workOrder + '_contractor') }" (click)="selectThread('contractor')">
+            Contractor
+          </div>
+          <div class="client-thread btn" *ngIf="groupRoleID == 1 || groupRoleID == 5"
+            [ngClass]="{ 'active': threadID == (workOrder + '_client') }" (click)="selectThread('client')">
+            Client
+          </div>
+          <div class="internal-thread btn" *ngIf="groupRoleID != 2 && groupRoleID < 5"
+            [ngClass]="{ 'active': threadID == (workOrder + '_internal') }" (click)="selectThread('internal')">
+            Internal
+          </div>
+        </div>
+        <hr>
+        <div class="row thread-container" *ngIf="headwodata">
+          <div class="col-4">
+            <div class="row">
+              <div class="col-3">
+                <label>Contractor</label>
+              </div>
+              <div class="col-9">
+                <span>{{headwodata.Cont_Name.split(',')[0] | slice:0:10}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="row">
+              <div class="col-3">
+                <label>Processor</label>
+              </div>
+              <div class="col-9">
+                <span> {{headwodata.Processor_Name.split(',')[0] | slice:0:10}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="row">
+              <div class="col-5">
+                <label>Co-Ordinator</label>
+              </div>
+              <div class="col-7">
+                <span>{{headwodata.Cordinator_Name.split(',')[0] | slice:0:10}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div class="row thread-container">
+          <div class="col">
+            <div id="frame" class="p-0">
+              <div class="content">
+                <div class="contact-profile">
+                  <!-- <img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="">
+              <p>Harvey Specter</p> -->
+                  <div class="social-media">
+                    <i class="fa fa-facebook" aria-hidden="true"></i>
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                    <i class="fa fa-instagram" aria-hidden="true"></i>
+                  </div>
+                </div>
+                <div
+                  [ngClass]="{'contractor-container':threadType == 'contractor', 'contractor-client':threadType == 'client', 'contractor-internal':threadType == 'internal'}"
+                  style="     height: auto;
+            min-height: calc(100% - 150px);
+            max-height: calc(100% - 150px);
+            overflow-y: scroll;
+            overflow-x: hidden;
+            width: 100%;
+            padding-bottom: 10px; ">
+                  <ng-container *ngIf="threadType != 'contractor'">
+                    <ng-container *ngIf="smessageList.length > 0">
+                      <ng-container *ngFor="let item of smessageList; trackBy: trackItem">
+                        <div class="row " *ngIf="threadID.includes(item.threadtype)" style="margin: 4px;">
+                          <div class="container d-flex" *ngIf="encuser != item.from">
+                            <div class="name-avatar">{{item.name.split(' ')[0].toUpperCase().slice(0,
+                              1)}}{{item.name.split(' ').length > 1 ? item.name.split(' ')[1].toUpperCase().slice(0, 1)
+                              :
+                              '-'}}</div>
+                            <div class="d-flex flex-column">
+                              <div class="text-left" style="color: #555555">{{item.name.split(' ')[0]}}
+                                {{convertTime(item.time)}}<br /></div>
+                              <p class="text-left my-1 sent">{{item.message}}</p>
+                            </div>
+                          </div>
+
+                          <div class="container d-flex flex-column mw-100" *ngIf="encuser == item.from">
+                            <div class="text-right" style="color: #555555">{{convertTime(item.time)}}<br /></div>
+                            <p class="text-right my-1 receive">{{item.message}}</p>
+                          </div>
+                        </div>
+                      </ng-container>
+                    </ng-container>
+                  </ng-container>
+                  <ng-container *ngIf="threadType == 'contractor'">
+                    <ng-container *ngIf="messageList.length > 0">
+                      <ng-container *ngFor="let item of messageList; trackBy: trackItem">
+                        <div class="row " *ngIf="item.threadid == threadID" style="margin: 4px;">
+                          <div class="container d-flex" *ngIf="encuser != item.from">
+                            <div class="name-avatar">{{item.name.split(' ')[0].toUpperCase().slice(0,
+                              1)}}{{item.name.split(' ').length > 1 ? item.name.split(' ')[1].toUpperCase().slice(0, 1)
+                              :
+                              '-'}}</div>
+                            <div class="d-flex flex-column">
+                              <div class="text-left" style="color: #555555">{{item.name}}
+                                {{convertTime(item.time)}}<br />
+                              </div>
+                              <p class="text-left my-1 receive">{{item.message}}</p>
+                            </div>
+                          </div>
+
+                          <div class="container d-flex flex-column" *ngIf="encuser == item.from">
+                            <div class="text-right" style="color: #555555">{{convertTime(item.time)}}<br /></div>
+                            <p class="text-right my-1 ">{{item.message}}</p>
+                          </div>
+                        </div>
+                      </ng-container>
+                    </ng-container>
+                  </ng-container>
+                  <br>
+                  <div class="message-input">
+                    <div class="wrap">
+                      <input type="text" placeholder="Write your message..."
+                        [(ngModel)]='MessageModelDataObj.Message_Text' name="msg" required>
+                      <button class="submit" (click)="SentMessage(MessageModelDataObj)"><i class="fa fa-paper-plane"
+                          aria-hidden="true"></i></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

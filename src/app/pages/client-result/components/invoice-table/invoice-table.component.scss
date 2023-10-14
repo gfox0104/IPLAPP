@@ -1,0 +1,37 @@
+.deactive {
+  color: gray;
+}
+
+.header{
+  background-color: #d6d6d6;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  padding-left: 1.5% !important;
+}
+td.highlight {
+  background-color: #f7aeae !important;
+}
+
+@media(max-width:780px){
+  .onSmall{
+    overflow-x: auto;
+    margin-bottom: -50px;
+    .workorder-details{
+      width: max-content;
+    }
+  }
+}
+
+
+
+td.highlight {
+  background-color: #f7aeae !important;
+}
+/*Don't forget to add Font Awesome CSS : "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"*/
+
+.InvoiceFooterSum{
+    text-align: center;
+    font-weight: bolder;
+    font-size: medium;
+}
+

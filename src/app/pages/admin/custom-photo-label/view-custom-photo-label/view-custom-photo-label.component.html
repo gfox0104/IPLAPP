@@ -1,0 +1,152 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div class="">
+        <iplapp-content-header title="Custom Photo Label" [buttons]="buttons" (clickButton)="checkButtonEvent($event,CustomPhotoModel)"></iplapp-content-header>
+        <div class="module-subheader p-1 pl-2">
+          <iplapp-filter-form [modelObj]="ViewCustomPhotoLabelModelObj" [formFilters]="CustomPhototFilters"
+          (filterCall)="filterCall()" (clearData)="clearData()" (saveFilterData)="saveFilterData()">
+          </iplapp-filter-form>
+        </div>
+        <div class="row m-0 module-box" style="overflow-x: auto;">
+          <kendo-grid #gridUser [kendoGridBinding]="griddata" [pageSize]="25" [pageable]="true" [sortable]="true"
+            [filterable]="false" [selectable]="true" [groupable]="false" [skip]="state.skip" [sort]="state.sort"
+            [filter]="state.filter" (dataStateChange)="dataStateChange($event)">
+            <kendo-grid-column field="PhotoLabel_Name" title="Custom Photo Label Name"
+               [width]="80">
+            </kendo-grid-column>
+            <!-- <kendo-grid-column field="" title="Auto Assignsand"
+               [width]="80">
+            </kendo-grid-column> -->
+            <kendo-grid-column field="PhotoLabel_CreatedBy" title="Created By"
+               [width]="80">
+            </kendo-grid-column>
+            <kendo-grid-column field="PhotoLabel_ModifiedBy" title="Last Modified By"
+               [width]="80">
+            </kendo-grid-column>
+            <kendo-grid-column field="PhotoLabel_IsAutoAssign" title="Auto Assign"
+            [width]="80">
+            <ng-template kendoGridCellTemplate let-dataItem let-i="rowIndex">
+              <b>{{dataItem.PhotoLabel_IsAutoAssign?"On":"Off"}}</b>
+            </ng-template>
+          </kendo-grid-column>
+            <kendo-grid-column field="PhotoLabel_IsActive" title="Active"
+               [width]="80"
+              filter="boolean">
+              <ng-template kendoGridCellTemplate let-dataItem let-i="rowIndex">
+                <div class="custom-control custom-switch">
+                  <input type="checkbox" (change)="checkChange($event, dataItem)"
+                      class="custom-control-input" id="switchisActive{{i}}"
+                      [checked]="dataItem.PhotoLabel_IsActive">
+                  <label class="custom-control-label"
+                      for="switchisActive{{i}}"></label>
+              </div>
+
+              </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column title="Action"
+               width="80">
+              <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                <!-- <a class="edit" data-toggle="tooltip" [routerLink]="dataItem.ViewUrl" class="k-grid-ignore-click" data-placement="top"
+                  title="View Record" style="cursor: pointer">
+                  <i class="fa fa-eye"></i>
+                </a> &nbsp;&nbsp; -->
+                  <a class="edit" data-toggle="tooltip" (click)="openPhotoLableModal(dataItem.PhotoLabel_pkeyID,CustomPhotoModel)" class="k-grid-ignore-click" data-placement="top"
+                  title="View Record" style="cursor: pointer">
+                  <i class="fa fa-eye"></i>
+                </a> &nbsp;&nbsp;
+                <a class="edit" data-toggle="tooltip" (click)="deleteDetails($event, dataItem)" data-placement="top"
+                  title="Delete Record" style="cursor: pointer">
+                  <i class="fa fa-trash"></i>
+                </a>
+              </ng-template>
+            </kendo-grid-column>
+            <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+              <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+              <kendo-pager-numeric-buttons [buttonCount]="10"></kendo-pager-numeric-buttons>
+              <kendo-pager-next-buttons></kendo-pager-next-buttons>
+              <kendo-pager-info></kendo-pager-info>
+              <kendo-pager-page-sizes [pageSizes]="[25, 50, 75, 100, 150, 200]"></kendo-pager-page-sizes>
+            </ng-template>
+          </kendo-grid>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #addphotoLableGroupForm let-modal style="max-width: 700px !important;">
+  <div class="modal-header">
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div style="box-shadow: 0 0 4px gray;">
+      <iplapp-form-card title="Custom Photo Label" [formUsrCommonGroup]="formUsrCommonGroup"
+              [isEditDisable]="isEditDisable" [fields]="formFields" [modelObj]="AddCustomLableModelObj"
+              [isSubmitted]="submitted" (submitForm)="formButton()" (back)="closeModal()"></iplapp-form-card>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #photoLableGroupForm let-modal>
+  <div class="modal-header">
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div style="box-shadow: 0 0 4px gray;">
+      <form (ngSubmit)="manageFormSubumit()">
+        <div class="form-row">
+          <div class="form-group col-md-12 text-center" style="color: black;background-color: #9b9b9b;">
+            <h5 style="color: black;">Manage Custom Photo Label Groups</h5>
+          </div>
+          <br>
+        </div>
+        <div class="form-group" *ngFor="let item of photoLabelGroupArray; index as i">
+          <label for="dateOfBirth">{{i +1}}) Add Custom Photo Label Groups</label>
+          <div class="input-group">
+            <input type="text" class="form-control form-control-sm" [(ngModel)]="item.Custom_PhotoLabel_Group_Name"
+              placeholder="Enter Group Name.." [ngModelOptions]="{standalone: true}">
+            <div class="input-group-append">
+              <a class="btn btn-primary btn-xs" style="color: white" (click)="removePOPdata(item,i)"><i
+                  class="fas fa-minus-circle"></i> Remove</a>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">&nbsp;</div>
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <button type="button" class="btn btn-primary btn-xs" (click)="addMoreRowpop()" style="float: right;"
+              title="click to custom photo label group"> <i class="fas fa-plus-circle"></i> Add More</button>
+          </div>
+        </div>
+        <div class="form-row"></div>
+        <div class="form-row"></div>
+        <div class="form-row">
+          <button id="client_viewdetail_1" class="btn btn-primary" type="submit"><i class="fas fa-save mr-1"></i>
+            Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="default" color="#fff" type="timer" [fullScreen]="true">
+  <p style="color: white">Loading...</p>
+</ngx-spinner>
+<ng-template #CustomPhotoModel let-modal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h5 style="color: black;">Custom Photos Label</h5>
+    <button type="button" (click)="modal.close('Save click')" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+       <div class="row">
+        <div class="col-12">
+              <app-ipl-app-add-custom-photo-label [PhotoLableId]="photoLableId" (update)="afterRecordUpdate()"></app-ipl-app-add-custom-photo-label>
+        </div>
+      </div>
+  </div>
+</ng-template>

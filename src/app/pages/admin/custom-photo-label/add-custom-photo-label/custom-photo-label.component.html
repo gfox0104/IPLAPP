@@ -1,0 +1,95 @@
+<div class="container-fluid mt-2" [ngClass]="{ 'HelpCursor': isHelpActive }">
+  <div class="">
+    <form [formGroup]="formUsrCommonGroup" (ngSubmit)="formButton()">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="form-group col-md-12  module-box-header mb-0">
+            <h5>Custom Photo Label
+              <a class="pull-right mr-2" data-toggle="tooltip" (click)="SetHelpFlag()" data-placement="top"
+              title="Item Help" style="cursor: pointer;">Need Help
+              <i class="fas fa-question"></i>&nbsp;&nbsp;
+              </a>
+            </h5>
+          </div>
+          <div class="form-row m-0 module-subheader p-1 pl-2">
+            <div class="float-right">
+              <button class="btn btn-primary mr-1" *ngIf="isEditDisable" (click)="editForms()">
+                <i class="far fa-edit mr-1"></i> Edit</button>
+              <button class="btn btn-primary mr-1" type="submit" *ngIf="!isEditDisable" [disabled]="isLoading">
+                <i class="fa mr-1" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}"></i>
+                {{ button}}
+              </button>
+              <button class="btn btn-primary" (click)="clickBack()">
+                <i class="fas fa-arrow-alt-circle-left mr-1"></i> Back</button>
+            </div>
+          </div>
+          <div class="module-box p-2">
+            <div class="form-row">
+            </div>
+            <div class="form-row" style="margin-top: 10px;">
+              <div class="form-group col-md-2">
+                <label class="col-form-label" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Custom Photo Label')">Custom Photo Label
+                  <span style="color: red">*</span>
+                </label>
+              </div>
+              <div class="form-group col-md-4">
+                <input type="text" class="form-control form-control-sm" (click)="DispalyInfo($event,'Custom Photo Label')"
+                  [readonly]="isHelpActive" [ngClass]="{ 'is-invalid': submitted && fx.CustomName.errors }"
+                  placeholder="Enter Custom Name" [(ngModel)]="AddCustomLableModelObj.PhotoLabel_Name"
+                  formControlName="CustomName" [ngClass]="{ 'HelpCursor': isHelpActive }">
+                <div *ngIf="submitted && fx.CustomName.errors" class="invalid-feedback">
+                  <div *ngIf="fx.CustomName.errors.required">this field is required</div>
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-2">
+                <label class="col-form-label" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                  (click)="DispalyInfo($event,'Active')">Active</label>
+              </div>
+              <div class="form-group col-md-8">                
+                <input type="checkbox" [(ngModel)]="AddCustomLableModelObj.PhotoLabel_IsActive"
+                  formControlName="IsActive" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Active')">
+
+                
+              </div>
+            </div>
+            <div class="form-row" *ngFor="let item of formArrayVal;">
+              <div class="form-group col-md-3" *ngFor="let dropdown of multiDropdowns">
+                <div *ngIf="isEditDisable">
+                  <label style="margin-top: 5px;" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,dropdown.label)">{{dropdown.label}}</label>
+                  <ng-multiselect-dropdown style="width: max-content" disabled="true" [placeholder]="'select'"
+                    [settings]="dropdown.settings" [(ngModel)]="item[dropdown.model]"
+                    [ngModelOptions]="{standalone: true}" [data]="dropdown.data" (onSelect)="onItemSelect($event)"
+                    (onDeSelect)="onItemDeSelect($event)" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,dropdown.label)">
+                  </ng-multiselect-dropdown>
+
+                </div>
+                <div *ngIf="!isEditDisable">
+                  <label style="margin-top: 5px;" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,dropdown.label)">{{dropdown.label}}</label>
+                  <ng-multiselect-dropdown style="width: max-content" [placeholder]="'select'"
+                    [settings]="dropdown.settings" [(ngModel)]="item[dropdown.model]"
+                    [ngModelOptions]="{standalone: true}" [data]="dropdown.data" (onSelect)="onItemSelect($event)"
+                    (onDeSelect)="onItemDeSelect($event)" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,dropdown.label)">
+                  </ng-multiselect-dropdown>
+
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="float-right">
+                <label for="InvestmentSihhhze" *ngIf="formUsrCommonGroup.invalid" style="color:red">*
+                  Field is Required
+                </label> <br>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>

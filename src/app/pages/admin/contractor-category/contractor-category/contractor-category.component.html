@@ -1,0 +1,185 @@
+<div class="container-fluid">
+
+  <div class="row">
+    <div class="">
+      <div class="">
+        <iplapp-content-header title="Contractor Categories" [buttons]="buttons"
+          (clickButton)="addcategory($event, addcategoryForm)"></iplapp-content-header>
+        <div class="module-subheader p-1 pl-2">
+
+          <iplapp-filter-form [modelObj]="ViewContractorCategoryModelObj" [formFilters]="filters"
+            (filterCall)="filterCall()" (clearData)="clearData()" (saveFilterData)="saveFilterData()">
+          </iplapp-filter-form>
+        </div>
+
+        <div class="row m-0 module-box">
+          <kendo-grid #gridUser [kendoGridBinding]="griddata" [pageSize]="25" [pageable]="true" [sortable]="true"
+            [filterable]="false" [selectable]="true" [groupable]="false" [skip]="state.skip" [sort]="state.sort"
+            [filter]="state.filter" (dataStateChange)="dataStateChange($event)">
+
+            <kendo-grid-column field="Con_Cat_Name" title="Contractor Category Name" [width]="200">
+            </kendo-grid-column>
+
+            <kendo-grid-column field="Con_Cat_CreatedBy" title="Created By" [width]="200">
+            </kendo-grid-column>
+
+            <kendo-grid-column field="Con_Cat_ModifiedBy" title="Last Modified By" [width]="200">
+            </kendo-grid-column>
+
+            <kendo-grid-column field="Con_Cat_IsActive" title="Active" [width]="80" filter="boolean">
+              <ng-template kendoGridCellTemplate let-dataItem let-i="rowIndex">
+                <div class="custom-control custom-switch">
+                  <input type="checkbox" (change)="checkChange($event, dataItem)" class="custom-control-input"
+                    id="switchisActive{{i}}" [checked]="dataItem.Con_Cat_IsActive">
+                  <label class="custom-control-label" for="switchisActive{{i}}"></label>
+                </div>
+                <!-- <input type="checkbox" [checked]="dataItem.Con_Cat_IsActive" disabled /> -->
+              </ng-template>
+            </kendo-grid-column>
+
+            <kendo-grid-column title="Action" width="80">
+              <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                <a class="edit" data-toggle="tooltip" (click)="showDetails(addcategoryForm, dataItem)"
+                  data-placement="top" title="View Record" style="cursor: pointer">
+                  <i class="fa fa-eye"></i>
+                </a> &nbsp;&nbsp;
+                <a class="edit" data-toggle="tooltip" (click)="deleteDetails($event, dataItem)" data-placement="top"
+                  title="Delete Record" style="cursor: pointer">
+                  <i class="fa fa-trash"></i>
+                </a>
+              </ng-template>
+            </kendo-grid-column>
+
+
+            <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+              <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+              <kendo-pager-numeric-buttons [buttonCount]="10"></kendo-pager-numeric-buttons>
+              <kendo-pager-next-buttons></kendo-pager-next-buttons>
+              <kendo-pager-info></kendo-pager-info>
+              <kendo-pager-page-sizes [pageSizes]="[25, 50, 75, 100, 150, 200]"></kendo-pager-page-sizes>
+            </ng-template>
+          </kendo-grid>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template class="module-box" #addcategoryForm let-modal>
+  <div class="modal-header">
+    <div>
+      <h4 class="">Contractor Category
+      </h4>
+    </div>
+
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" [ngClass]="{ 'HelpCursor': isHelpActive }">
+    <div style="box-shadow: 0 0 4px gray ;" class="p-2">
+      <form [formGroup]="formUsrCommonGroup" (ngSubmit)="formButton()">
+      <div class="form-row">
+        <div class="form-group col-md-12 text-center module-subheader">
+          <h5 style="color: black;">Add Contractor Category
+            <a class="pull-right" data-toggle="tooltip" (click)="SetHelpFlag()" data-placement="top" title="Item Help"
+            style="cursor: pointer;">Need Help
+            <i class="fas fa-question"></i>&nbsp;&nbsp;
+          </a> &nbsp;&nbsp;</h5>
+        </div>
+        <br>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          <label for="inputEmaildfsdfd4" class="col-form-label" [ngClass]="{ 'HelpCursor': isHelpActive }"
+            (click)="DispalyInfo($event,'Category Name')">
+            Category Name
+            <span style="color: red">*</span>
+          </label>
+        </div>
+        <div class="form-group col-md-8">
+          <input type="text" class="form-control"
+          [(ngModel)]="AddContractorCategoryModelObj.Con_Cat_Name"
+          [ngClass]="{ 'is-invalid': submitted && fx.Con_Cat_Name.errors }" (change)="contractorCategoryHandler($event)"
+            style="width:100%; height: 100%;" [ngClass]="{ 'HelpCursor': isHelpActive }" formControlName="Con_Cat_Name"
+             (click)="DispalyInfo($event,'Category Name')" [readonly]="isHelpActive" />
+            <div *ngIf="submitted && fx.Con_Cat_Name.errors" class="invalid-feedback">
+              <div *ngIf="fx.Con_Cat_Name.errors.required">this field is required</div>
+            </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          <label for="inputEmaildfsdfd4" class="col-form-label" [ngClass]="{ 'HelpCursor': isHelpActive }"
+            (click)="DispalyInfo($event,'Icon Color')">
+            Icon Color
+          </label>
+        </div>
+        <div class="col-md-8">
+          <input type="color" class="form-control" (change)="colorPicker($event)" [value]="AddContractorCategoryModelObj.Con_Cat_Back_Color"
+          [(ngModel)]="AddContractorCategoryModelObj.Con_Cat_Back_Color" formControlName="Con_Cat_Back_Color"
+            style="width:100%; height: 90%;" [ngClass]="{ 'HelpCursor': isHelpActive }"
+            (click)="DispalyInfo($event,'Category Name')" [readonly]="isHelpActive" />
+        </div>
+      </div>
+      <div [formGroup]="myFormGroup" class="form-row">
+        <div class="form-group col-md-2">
+          <label for="inputEmaildfsdfd4" class="col-form-label" [ngClass]="{ 'HelpCursor': isHelpActive }"
+            (click)="DispalyInfo($event,'Icon')">
+            Icon
+          </label>
+        </div>
+        <div class="form-group col-md-2  d-flex justify-content-center align-items-center">
+          <span class="input-group-addon"><i [ngClass]="Con_Cat_Icon.value" [ngStyle]="{'color': AddContractorCategoryModelObj.Con_Cat_Back_Color}"></i></span>
+        </div>
+        <div class="input-group col-md-8">
+          <input type="text" name="Con_Cat_Icon" class="form-control" formControlName="Con_Cat_Icon" [iconPicker]="Con_Cat_Icon.value"
+          [(ngModel)]="AddContractorCategoryModelObj.Con_Cat_Icon"
+            [ipPosition]="'bottom'" [ipWidth]="'250px'" [ipIconSize]="'16px'" [ipIconVerticalPadding]="'6px'"
+            [ipIconHorizontalPadding]="'10px'" [ipKeepSearchFilter]="'false'" [ipPlaceHolder]="'Choose an icon'"
+            (iconPickerSelect)="onIconPickerSelect($event)"
+            [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Icon')" [readonly]="isHelpActive" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          <label for="inputEmaildfsdfd4" class="col-form-label" [ngClass]="{ 'HelpCursor': isHelpActive }"
+            (click)="DispalyInfo($event,'Active')">
+            Active
+            <span style="color: red">*</span>
+          </label>
+        </div>
+        <div class="form-group col-md-8 d-flex align-items-center">
+          <input type="checkbox" class="form-control" [(ngModel)]="AddContractorCategoryModelObj.Con_Cat_IsActive"
+            formControlName="Con_Cat_IsActive"
+           style="width: 25px; height: 25px;"
+            [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Active')" />
+
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="float-right">
+          <button class="btn btn-primary mr-1" *ngIf="isUpdateDisable" type="submit">
+            <i class="far fa-update mr-1"></i> Update</button>
+          <button class="btn btn-primary mr-1" *ngIf="!isUpdateDisable" type="submit">
+            <i class="far fa-save mr-1"></i> Save</button>
+
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="float-right">
+          <label for="InvestmentSihhhze" *ngIf="formUsrCommonGroup.invalid" style="color:red">*
+            Field is Required
+          </label> <br>
+        </div>
+      </div>
+      </form>
+    </div>
+  </div>
+
+</ng-template>
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="default" color="#fff" type="timer" [fullScreen]="true">
+  <p style="color: white">Loading...</p>
+</ngx-spinner>

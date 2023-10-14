@@ -1,0 +1,71 @@
+<div class="row m-0 module-box-header">
+  <div class="col-7">
+    <strong>{{label}}
+      <span *ngIf="photos && !isTask"> ({{photos.length}})</span>
+    </strong>
+  </div>
+  <div class="col-5 action">
+    <span class="mr-1">
+      <a  href="javascript:void(0)"
+        (click)="expanded = !expanded">
+        <i class="fa fa-eye mr-1"></i>View
+      </a>
+    </span>    
+  </div>
+</div>
+
+<ng-container *ngIf="!isTask">
+  <div class="row m-0 photo-container module-box" [hidden]="!expanded">
+    <div class="col-lg-2 col-md-3 col-xs-6 " *ngFor="let item of photos; let i=index">
+      <div class="jab p-2">
+        <div class="overlay">
+          <ul>            
+            <li class="mdl">
+              <span (click)="PhotoModel(photos, item, i)">Zoom</span>
+            </li>
+          </ul>
+        </div>
+        <div class="nopad text-center">
+          <label class="image-checkbox">
+            <img [src]="item.Client_Result_Photo_FilePath" (load)="checkloading()" class="img-fluid"
+              alt="work-thumbnail" style="width: 85%; max-height: 20vh;box-shadow: 0 0 4px gray; border-radius: 10px; ">
+            <div [hidden]="!item.chkflag">
+              <!-- <input type="checkbox" [(ngModel)]="item.chkflag" (change)="chkimgAllPhotos(item,i)" class="check" /> -->
+            </div>
+          </label>
+        </div>
+      </div>
+    </div>
+    <ngx-spinner *ngIf="!(photos && photos.length <= (numLoading * 2))" bdColor="rgba(51, 51, 51, 0.8)" size="default"
+      type="ball-spin-clockwise"></ngx-spinner>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="isTask">
+  <div class="mb-3" *ngFor="let button of photos;">
+    <div class="module-subheader p-1">
+      {{button.Task_Photo_Button_Name}} ( {{button.Items.length}} )
+    </div>
+    <div class="row m-0 module-box" style="max-height: 40vh;overflow-y: auto;" [hidden]="!expanded">
+      <div class="col-lg-2 col-md-3 col-xs-6 " *ngFor="let photo of button.Items; let i=index">
+        <div class="jab p-2">
+          <div class="overlay">
+            <ul>              
+              <li class="mdl">
+                <span (click)="PhotoModel(button.Items, photo, i)">Zoom</span>
+              </li>
+            </ul>
+          </div>
+          <div class="nopad text-center">
+            <label class="image-checkbox">
+              <img [src]="photo.Client_Result_Photo_FilePath" style="max-height: 20vh;width: 80%;box-shadow: 0 0 4px gray; border-radius: 10px;" class="img-fluid" alt="work-thumbnail">
+              <div [hidden]="!photo.chkflag">
+                <!-- <input type="checkbox" [(ngModel)]="photo.chkflag" class="check" /> -->
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>

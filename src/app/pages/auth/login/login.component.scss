@@ -1,0 +1,66 @@
+.img-responsive {
+  height: 89px;
+  width: 308px;
+  float: right;
+  float: left;
+  border-radius: 5%;
+}
+
+.footer {
+  bottom: 0;
+  padding: 19px 15px 20px;
+  position: absolute;
+  right: 0;
+  color: #98a6ad;
+}
+
+.footer-alt {
+  left: 0!important;
+  text-align: center;
+  background-color: transparent;
+  border: none;
+}
+
+label {
+  display: inline-block;
+  margin-bottom: 4px;
+  font-weight: 500;
+  color: #000;
+}
+
+input {
+  box-shadow: 0 1px 4px 0 rgba(0,0,0,.1);
+}
+
+button {
+  color: #fff;
+  background-color: #3f729b;
+  border-color: #3f729b;
+}
+
+.invalid-feedback {
+  background-color: #f7aeae;
+  float: left;
+  text-align: center;
+  padding: 10px 0;
+}
+
+.forgot-password {
+  color:blue;
+  cursor: pointer
+}
+.test-index{
+  margin: 1px;
+  position: absolute;
+  z-index: 9999;
+  right: 4px;
+  margin-top: 7px;
+}
+
+.change-password-index{
+  margin: 1px;
+  position: absolute;
+  z-index: 9999;
+  right: 10px;
+  margin-top: -25px;
+}

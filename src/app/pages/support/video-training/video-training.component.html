@@ -1,0 +1,24 @@
+<div class="container">
+    <div class="row">
+
+  <div class="col-3" *ngFor ="let element of Vediolist; let i = index ">
+
+<div class="img-block" (click)="openVideo(element)">
+    <img src="https://img.youtube.com/vi/{{adminUrlArray[i]}}/maxresdefault.jpg" onerror="this.src='./assets/images/default-gallery-image.jpg', this.alt='Image Not Found'" >
+    <div class="video-icon">
+        <img src="assets/images/Play-icon.png">
+    </div>
+</div>
+
+   <div>{{element.Training_Vedio_Name}}</div> <br>       
+        </div>
+    </div>
+</div>
+<div id="video-overlay" class="video-overlay">
+    <a class="video-overlay-close"id="training" (click)="closemode()">&times;</a>
+     
+    <iframe [src]='videolin' width="640" height="360" frameborder="0" webkitallowfullscreen
+        mozallowfullscreen allowfullscreen>
+    </iframe>
+</div>
+

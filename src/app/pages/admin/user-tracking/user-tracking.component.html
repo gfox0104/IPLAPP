@@ -1,0 +1,148 @@
+<ng-template #content let-modal>
+  <div class="modal-header">
+    Message
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true" (click)="modal.close('Save click')">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <div class="text-center">
+      <!-- <i class="fe-check-circle"></i> -->
+      <span>{{MessageFlag}}</span>
+      <hr>
+      <button id="client_viewdetail_1" class="btn btn-primary" (click)="modal.close('Save click')">Ok</button>
+
+    </div>
+  </div>
+</ng-template>
+<div class="container-fluid mt-2" [ngClass]="{ 'HelpCursor': isHelpActive }">
+  <div class="">
+    <h3 class="module-box-header mb-0">Track Details
+      <a class="pull-right mr-2" data-toggle="tooltip" (click)="SetHelpFlag()" data-placement="top"
+        title="Item Help" style="cursor: pointer;">Need Help
+        <i class="fas fa-question"></i>&nbsp;&nbsp;
+      </a>
+    </h3>
+    <div class=" module-box p-2">
+
+      <!-- <form> -->
+
+      <div class="row m-0 text-center align-items-baseline">
+        <div class="col-md-2 col-lg-2 col-4 onSmall">
+          <label [ngClass]="{ 'HelpCursor': isHelpActive }"(click)="DispalyInfo($event,'From')">From <span style="color: red;">*</span></label>
+        </div>
+        <div class="col-md-2 col-lg-2 col-6 onSmall">
+          <div class="input-group">
+            <!-- | date:'MM/dd/yyyy' -->
+            <label class="form-control form-control-sm" [ngClass]="{ 'HelpCursor': isHelpActive }"(click)="DispalyInfo($event,'From')">{{TrackModelObj.fromDate | date:'MM/dd/yyyy' }}
+              <span *ngIf="!TrackModelObj.fromDate">Enter Date</span> </label>
+            <input class="form-control form-control-sm" placeholder="yyyy-mm-dd" [(ngModel)]="TrackModelObj.fromDate"
+              [ngModelOptions]="{standalone: true}" ngbDatepicker #dtr11="ngbDatepicker" firstDayOfWeek="7" style="display: none" required >
+            <div class="input-group-append">
+              <button class="btn btn-outline-info btn-xs" (click)="dtr11.toggle()" type="button"[ngClass]="{ 'HelpCursor': isHelpActive }" [disabled]="isHelpActive"><i
+                  class="fas fa-calendar-alt"></i></button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2 col-lg-2 col-4 onSmall">
+          <label [ngClass]="{ 'HelpCursor': isHelpActive }"(click)="DispalyInfo($event,'To')"> To <span style="color: red;">*</span></label>
+        </div>
+        <div class="col-md-2 col-lg-2 col-6 onSmall">
+          <div class="input-group">
+            <label class="form-control form-control-sm"  [ngClass]="{ 'HelpCursor': isHelpActive }"(click)="DispalyInfo($event,'To')">{{TrackModelObj.toDate | date:'MM/dd/yyyy'}}
+              <span *ngIf="!TrackModelObj.toDate">Enter Date</span> </label>
+            <input class="form-control form-control-sm" placeholder="yyyy-mm-dd" [(ngModel)]="TrackModelObj.toDate "
+              [ngModelOptions]="{standalone: true}" ngbDatepicker #dtr12="ngbDatepicker" firstDayOfWeek="7" style="display: none" >
+            <div class="input-group-append">
+              <button class="btn btn-outline-info btn-xs" (click)="dtr12.toggle()" type="button"[ngClass]="{ 'HelpCursor': isHelpActive }" [disabled]="isHelpActive"><i
+                  class="fas fa-calendar-alt"></i></button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2 col-lg-2 col-4 onSmall">
+          <label  [ngClass]="{ 'HelpCursor': isHelpActive }"(click)="DispalyInfo($event,'User')"> User <span style="color: red;">*</span></label>
+        </div>
+        <div class="col-md-2 col-lg-2 col-6 onSmall">
+
+          <kendo-dropdownlist  class="form-control form-control-sm"
+          [data]="userfilterlst"
+          [filterable]="true"
+          [textField]="'User_FirstName'"
+          [valueField]="'User_pkeyID'"
+          (filterChange)="UserFilter($event)"
+          [(ngModel)]="TrackModelObj.User_Track_UserID"
+          [valuePrimitive]="true"
+          [ngModelOptions]="{standalone: true}"
+          (selectionChange) = "GroupByChangeEvent(TrackModelObj.User_Track_UserID)"
+          [ngClass]="{ 'HelpCursor': isHelpActive }"(click)="DispalyInfo($event,'User')"
+          >
+      </kendo-dropdownlist>
+
+        </div>
+      </div>
+      <br>
+      <div class="row m-0 ml-1 justify-content-center">
+
+
+        <button type="submit" class="btn btn-primary" (click)="FormButton()">Submit <i
+         *ngIf="spin" class="fas fa-spinner fa-spin"></i></button>&nbsp;&nbsp;
+        <button class="btn btn-primary" (click)="ClearData()">Cancel</button>
+        <p *ngIf="Errormsg" style="color: red;">Please select manatory field(*)</p>
+      </div>
+      <!-- </form> -->
+      <hr>
+      <div class="col-12 text-center row m-0  mt-2">
+        <span class="font-size col-md-3 col-sm-3 col-lg-3 col-4">Total Hour : {{totalHour}} </span>   <span class="font-size col-md-3 col-sm-3 col-lg-3 col-4">Working Hour :
+          {{workingHour}}</span>  <span class="font-size col-md-3 col-sm-3 col-lg-3 col-4"> Idle Hour : {{idalHour}} </span>
+        <select class="form-control-sm sselect" (change)="PageChange()" [(ngModel)]="TrackModelObj.NoofRows"
+          >
+          <option>20</option>
+          <option>30</option>
+          <option>50</option>
+        </select>
+      </div>
+      <div class="col m-0 mt-3" *ngIf="trackingData != null && trackingData.length > 0">
+        <div class="row m-0 p-1" style="margin-left: 1px; box-shadow: 0 0 4px gray;">
+          <div class="col-lg-3 thumb"
+            *ngFor="let item of trackingData| paginate: config; let i=index">
+            <div class="jab">
+              <div class="overlay">
+                <ul>
+                  <li class="mdl"><a href="javascript:void(0)" style="color:white"
+                      (click)="openImage(i)">Zoom </a>|
+                    <a href="javascript:void(0)" style="color:white"
+                      (click)="deleteImage(item.User_Track_PkeyId,i)">Delete </a></li>
+                </ul>
+              </div>
+              <div class="nopad text-center">
+                <label class="image-checkbox">
+                  <img [src]="item.User_Track_File_Path" class="img-fluid" alt="work-thumbnail" style="height: 200px;">
+                  <div [hidden]="!item.chkflag">
+                    <input type="checkbox" style="    text-align: left;
+                    position: absolute;
+                    margin-left: 115px;
+                    overflow: auto;
+                    z-index: auto;
+                    width: 18px;
+                    height: 17px;" />
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <br>
+        <pagination-controls  (pageChange)="onPageChange($event)" *ngIf="trackingData.length > 0"></pagination-controls>
+
+
+
+      </div>
+      <div *ngIf="trackingData == null || trackingData.length == 0">
+        <p class="font-size mt-3" style="text-align: center !important;">No data available</p>
+      </div>
+    </div>
+  </div>
+
+</div>

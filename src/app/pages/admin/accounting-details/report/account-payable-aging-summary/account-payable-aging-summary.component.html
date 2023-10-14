@@ -1,0 +1,176 @@
+<form>
+  <div class="form-row p-2">
+    <div class="col-md-3">
+      <div class="form-group">
+        <div class="input-group">
+          <label class="form-control form-control-sm">{{ Filter.StartDate |
+            date:'MM/dd/yyyy'}}
+            <span *ngIf="!Filter.StartDate"></span>
+          </label>
+          <input class="form-control form-control-sm" placeholder="yyyy-mm-dd"
+            [(ngModel)]="Filter.StartDate" [ngModelOptions]="{standalone: true}"
+            ngbDatepicker #dt9="ngbDatepicker" firstDayOfWeek="7" style="display: none">
+          <div class="input-group-append">
+            <button class="btn btn-outline-info btn-xs"
+              (click)="dt9.toggle()" type="button"><i class="fas fa-calendar-alt"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <div class="input-group">
+          <label class="form-control form-control-sm">{{ Filter.EndDate |
+            date:'MM/dd/yyyy'}}
+            <span *ngIf="!Filter.EndDate"></span>
+          </label>
+          <input class="form-control form-control-sm" placeholder="yyyy-mm-dd"
+            [(ngModel)]="Filter.EndDate" [ngModelOptions]="{standalone: true}"
+            ngbDatepicker #dt1="ngbDatepicker" firstDayOfWeek="7" style="display: none">
+          <div class="input-group-append">
+            <button class="btn btn-outline-info btn-xs"
+              (click)="dt1.toggle()" type="button"><i class="fas fa-calendar-alt"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="getAccountPayable()"
+      >
+        Run Report
+      </button>
+      <button
+        type="button"
+        (click)="getAccountPayablePDF()"
+        class="btn btn-primary ml-2"
+      >
+        <i
+          class="fa"
+          [ngClass]="{
+            'fa-spin fa-spinner': IsPDFGenerate,
+            'fa-print': !IsPDFGenerate
+          }"
+        ></i>
+      </button>
+      <!-- <button
+        type="button"
+        (click)="RemoveFilter()"
+        class="btn btn-primary ml-2"
+      >
+        Remove Filter
+      </button> -->
+    </div>
+  </div>
+</form>
+
+<div class="report">
+  <div class="reportToolBar">
+    <div class="rightDiv">
+      <div class="pencilIcon hi hi-email"></div>
+      <div class="pencilIcon hi hi-print"></div>
+      <div class="pencilIcon hi hi-export">
+        <span class="downArrow"></span>
+      </div>
+      <div class="gearIcon hi hi-settings-o"></div>
+    </div>
+  </div>
+  <div class="reportArea">
+    <div class="reportHeader focusable-text">
+      <div class="text-center">
+        <div class="companyNameRow">
+          <div class="companyName">
+            <h4>Account Payable Ageing Summary</h4>
+          </div>
+        </div>
+        <div class="dateRangeRow">
+          As of {{ CurrentDate | date: "mediumDate" }}
+        </div>
+      </div>
+    </div>
+    <div data-dojo-attach-point="gridBase" *ngIf="!IsLoadAccountPayable">
+      <div
+        class="dgrid dgrid-grid ui-widget dgrid-03 reportsGrid universal-grid reportsGridCompact"
+        id="dgrid_2"
+        role="grid"
+        style="position: relative"
+      >
+        <div
+          class="dgrid-header dgrid-header-row ui-widget-header"
+          role="row"
+          style="width: 100%"
+        >
+          <table
+            class="dgrid-row-table"
+            role="presentation"
+            id="dgrid_2-header"
+          >
+            <tr>
+              <th style="width: 63%"></th>
+              <th class="text-right"><h5>Current</h5></th>
+              <th class="text-right"><h5>Total</h5></th>
+            </tr>
+          </table>
+        </div>
+        <div
+          class="dgrid-scroller"
+          tabindex="-1"
+          style="margin-top: 38px; margin-bottom: 0px"
+        >
+          <div class="dgrid-content ui-widget-content">
+            <div class="dgrid-preload" style="height: 0px"></div>
+            <div
+              role="row"
+              class="dgrid-row dgrid-row-even ui-state-default"
+              id="dgrid_2-row-1"
+            >
+              <table
+                *ngIf="AccountPayable != null"
+                class="dgrid-row-table"
+                role="presentation"
+              >
+                <tr
+                  style="border-bottom: 0.2px solid #6b6c72"
+                  *ngFor="let item of AccountPayable.AccountPayableReceivable"
+                >
+                  <td style="width: 70%">{{ item.AccountName }}</td>
+                  <td class="text-right">{{ item.Amount | currency }}</td>
+                  <td class="text-right">{{ item.Amount | currency }}</td>
+                </tr>
+              </table>
+            </div>
+
+            <div
+              role="row"
+              class="dgrid-row ui-state-default dgrid-row-even"
+              id="dgrid_2-row-3"
+            >
+              <table class="dgrid-row-table text-bold" role="presentation">
+                <tr>
+                  <td style="width: 70%">TOTAL</td>
+                  <td *ngIf="AccountPayable != null" class="text-right">
+                    {{ AccountPayable.Total | currency }}
+                  </td>
+                  <td *ngIf="AccountPayable != null" class="text-right">
+                    {{ AccountPayable.Total | currency }}
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="dgrid-preload" style="display: none"></div>
+          </div>
+        </div>
+        <div
+          class="dgrid-header dgrid-header-scroll dgrid-scrollbar-width ui-widget-header"
+          style="height: 38px"
+        ></div>
+        <div class="dgrid-footer dgrid-footer-hidden"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div *ngIf="IsLoadAccountPayable" class="loader m-auto"></div>
+    </div>
+  </div>
+</div>

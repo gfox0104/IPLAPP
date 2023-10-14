@@ -1,0 +1,134 @@
+<ng-template #content let-modal>
+  <div class="modal-header">
+    Message
+    <button type="button" (click)="modal.close('Save click')" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="text-center">
+
+      <span>{{MessageFlag}}</span>
+      <hr>
+      <button type="button" class="btn btn-primary waves-effect waves-light"
+        (click)="modal.close('Save click')">Close..</button>
+    </div>
+  </div>
+</ng-template>
+<div class="container-fluid " style="margin-top: 1%;">
+    <!-- start page title -->
+    <div class="col-12">
+      <div class="module-box-header">
+        <h4 class="">Email Templates
+        <a class="pull-right" data-toggle="tooltip" (click)="SetHelpFlag()" data-placement="top"
+              title="Item Help" style="cursor: pointer;">Need Help
+              <i class="fas fa-question"></i>&nbsp;&nbsp;
+            </a>
+          </h4>
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="row m-0">
+        <!-- <div class="col-md-6 col-lg-6 col-12 mb-2 module-box p-3"> -->
+    <div class="col-md-8 col-lg-8 col-12 mb-2 module-box p-3">
+    <div class="">
+      <div class="">
+        <form [formGroup]="formUsrCommonGroup" (ngSubmit)="FormButton(content)">
+          <div class="row" >
+            <div class="col-2 offset-10"style="text-align: left; color: white;"*ngIf = "EmailTemplateModelObj.Email_Temp_HTML">
+              <a class="btn btn-primary" (click)='preview()'>Preview</a>
+            </div>
+
+          </div>
+        <div class="row">
+            <div class="row">
+                <div class="col-3">
+                    <label [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'Email Template')">Select Email Template</label>
+                </div>
+
+                <div class="col-7">
+                      <select class="form-control form-control-sm"formControlName="drdval"
+                      [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'Email Template')"
+                       [(ngModel)] = "valflag" (change) = "changeTemplate(valflag)">
+                        <option value='0'>select</option>
+                        <option *ngFor="let currentData of EmailList" [value]="currentData.Eml_PkeyId">
+                            {{currentData.Eml_Name}}
+                        </option>
+                    </select>
+
+                </div>
+
+                <div class="col-3 mt-2">
+                  <label [ngClass]="{ 'HelpCursor': isHelpActive }"
+                  (click)="DispalyInfo($event,'Subject')">Subject</label>
+                </div>
+                <div class="col-7 mt-2">
+                  <input type="text"  [ngClass]="{ 'HelpCursor': isHelpActive }"
+                  (click)="DispalyInfo($event,'Subject')" [readonly]="isHelpActive"
+                    class="form-control" formControlName="EmailTempSubject"[(ngModel)] = "EmailTemplateModelObj.Email_Temp_Subject" placeholder="Enter Subject"
+                    [ngClass]="{ 'is-invalid': isSubmitted && fx.EmailTempSubject.errors }">
+                    <div *ngIf="isSubmitted && fx.EmailTempSubject.errors" class="invalid-feedback">
+                      <div *ngIf="fx.EmailTempSubject.errors.required">this field is required</div>
+                      <div *ngIf="fx.EmailTempSubject.errors.email">Subject must be a valid </div>
+                    </div>
+                </div>
+
+                <div class="col-3 mt-2">
+                  <label [ngClass]="{ 'HelpCursor': isHelpActive }"
+                  (click)="DispalyInfo($event,'Body')">Body</label>
+                </div>
+                <div class="col-12">
+                  <editor
+                  [init]="
+                  {
+                    base_url: '/tinymce',
+                    suffix: '.min' ,
+                    branding: false,
+                    plugins: [ 'image', 'code', 'table', 'link', 'media', 'codesample','preview','paste','fullscreen','fullpage','emoticons','advtable','imagetools']
+
+                  }"
+                  formControlName="EmailTempHTML"
+                  [(ngModel)] = "EmailTemplateModelObj.Email_Temp_HTML"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }"
+                  (click)="DispalyInfo($event,'Subject')"></editor>
+
+                  <!-- <kendo-editor style="height: 284px;" formControlName="EmailTempHTML" [(ngModel)] = "EmailTemplateModelObj.Email_Temp_HTML"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }"
+                  (click)="DispalyInfo($event,'Subject')" [readonly]="isHelpActive" ></kendo-editor> -->
+                </div>
+             <div class="col-3">
+
+              </div>
+
+              <div class="col-7 mt-2">
+                <button style="width: 100px;" class="btn btn-block">
+                  Save
+                </button>
+              </div>
+
+              </div>
+        </div>
+      </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-1"></div>
+    <div style="color: black; font-size: 18px;" class="col-md-3 col-lg-3 col-12 mb-2 module-box p-3">
+    <!-- <div style="color: black; font-size: 18px;" class="col-md-5 col-lg-5 col-12 mb-2 module-box p-3"> -->
+      <div class="">
+        <div class="">
+          <h3>The following variables can be used:</h3><br>
+          <div class="row"*ngFor="let item of emailmeta">
+
+              <span class="hash">{{item.Wo_Column_Name}}</span>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div>

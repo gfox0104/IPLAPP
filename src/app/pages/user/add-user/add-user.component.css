@@ -1,0 +1,43 @@
+.card-box{
+    margin-bottom: 0 !important;
+}
+
+.ngselect > div:last-child {
+    overflow: hidden !important;
+}
+
+.buttons{
+    display: flex;
+     justify-content: flex-end;
+}
+
+.divbox{
+    width: 100% !important;
+    height: 100% !important;
+}
+
+@media(max-width:900px){
+    .buttons{
+        display: block !important;
+        margin-top: 2% !important;
+    }
+    .divbox{
+        margin-top: 3%  !important;
+        margin-bottom: 3%  !important;
+        width: 104% !important;
+        height: 100% !important;
+    }
+
+    .divbox > .module-box{
+        height: auto !important;
+        margin-left: -4%  !important;
+    }
+    .test-index{
+        margin: 1px;
+        position: absolute;
+        z-index: 2;
+        right: 4px;
+        margin-top: 7px;
+      }
+}
+

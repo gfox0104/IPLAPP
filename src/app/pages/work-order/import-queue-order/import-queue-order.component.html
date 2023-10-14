@@ -1,0 +1,73 @@
+<div class="container-fluid" style="margin-top: 2%;  padding-left: 0px; padding-right: 0px;" [ngClass]="{ 'HelpCursor': isHelpActive }">
+  <!-- start page title -->
+  <div class="col-12 p-0">
+    <div class="page-title-box">
+      <div class="page-title-right">
+        <ol class="breadcrumb m-0">
+
+        </ol>
+      </div>
+      <h4 class="module-box-header mb-0">Get WorkOrder
+        <a class="pull-right" data-toggle="tooltip" (click)="SetHelpFlag()" data-placement="top"
+        title="Item Help" style="cursor: pointer; margin-right: 10px;">Need Help
+        <i class="fas fa-question"></i>&nbsp;&nbsp;
+      </a>
+      </h4>
+    </div>
+  </div>
+
+  <div class="">
+    <div class="">
+      <div class="row m-0 module-box p-2">
+        <div class="col-lg-2">
+          <div class="mb-2">
+            <label [ngClass]="{ 'HelpCursor': isHelpActive }"
+            (click)="DispalyInfo($event,'Client')">Client</label>
+            <div class="example-wrapper">
+              <kendo-dropdownlist class="form-control form-control-sm"
+                  [data]="drpComList"
+                  [defaultItem]="defaultComItem"
+                  [filterable]="true"
+                  [textField]="'Client_Company_Name'"
+                  [valueField]="'Client_pkeyID'"
+                  (filterChange)="companyFilter($event)"
+                  [(ngModel)]="ClientId"
+                  [valuePrimitive]="true"
+                  [ngModelOptions]="{standalone: true}"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }"
+            (click)="DispalyInfo($event,'Client')">
+              </kendo-dropdownlist>
+            </div>
+            <div *ngIf="isClientSelected" class="Mydropdown">this field is required</div>
+
+          </div>
+          <div class="mb-2">
+            <label [ngClass]="{ 'HelpCursor': isHelpActive }"
+            (click)="DispalyInfo($event,'File Type')">File Type</label>
+            <select class="form-control form-control-sm" (change)="onSelectChange($event)"
+            [ngClass]="{ 'HelpCursor': isHelpActive }"
+            (click)="DispalyInfo($event,'File Type')">
+              <option value='0'>select</option>
+              <option [ngValue]="item.type" *ngFor="let item of fileTypeList">
+                {{item.type}}
+              </option>
+            </select>
+            <div *ngIf="isFileTypeSelected" class="Mydropdown">this field is required</div>
+          </div>
+          <div class="mb-2">
+            <input type="file" (change)="onFileChange($event)" multiple="false" class="mb-2" [accept]="fileFormat"
+            [ngClass]="{ 'HelpCursor': isHelpActive }"
+            (click)="DispalyInfo($event,'Select File')"/>
+            <div *ngIf="isFileSelected" class="Mydropdown">this field is required</div>
+
+          </div>
+          <div>
+            <button class="btn btn-block" (click)="ExcelDataFile()">
+              Process import
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

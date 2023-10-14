@@ -1,0 +1,80 @@
+.dgrid-header {
+  color: #000;
+  background-color: #fff;
+  border-bottom: 1px solid #6e6b6b;
+  border-top: 1px solid #6e6b6b;
+  border-radius: 0;
+  margin-top: 5px;
+  box-shadow: 0 0 0 5px #fff;
+}
+.dgrid-row-table {
+  height: 30px;
+  border: none;
+  transform: translateZ(0);
+}
+.dgrid-header .dgrid-row-table .dgrid-cell {
+  color: #000;
+  border-left: 1px dotted #c7c7c7;
+  font-weight: 700;
+  font-size: 11px;
+  transition: none !important;
+  text-align: center;
+}
+.dgrid-cell {
+  min-height: 27px !important;
+  padding-top: 4px !important;
+  padding-bottom: 4px;
+}
+table {
+  color: #6b6c72;
+}
+table tr th {
+  border-bottom: 1px solid black;
+}
+.tr-border-bottom {
+  border-bottom: 1px solid black;
+}
+
+.tr-border-top {
+  border-top: 1px solid black;
+}
+
+.table_style {
+  width: 100%;
+  max-width: 100% !important;
+  overflow-y: auto;
+  position: relative;
+}
+
+.dashboardAccounting {
+  width: 100%;
+}
+.table_style th,
+.table_style td {
+  //  min-width: 85px !important;
+  width: auto !important;
+  padding: 8px !important;
+}
+.table_style th {
+  white-space: nowrap;
+}
+.table_style tr {
+  width: 100%;
+  overflow-y: auto;
+}
+
+.table_style th:first-child,
+.table_style td:first-child {
+  min-width: 193px !important;
+  max-width: 200px !important;
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background-color: #fff;
+  border-left: 0 !important;
+}
+
+.table_style table {
+  width: 100%;
+  max-width: 100%;
+}

@@ -1,0 +1,86 @@
+
+
+<div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div class="">
+          <iplapp-content-header title="Allowables" [buttons]="buttons" ></iplapp-content-header>
+          <div class="module-subheader p-1 pl-2">
+          <iplapp-filter-form [modelObj]="AllowablesDetailsObj" [formFilters]="filters"
+          (filterCall)="filterCall()" (clearData)="clearData()" (saveFilterData)="saveFilterData()">
+          </iplapp-filter-form>
+          </div>
+          <div class="row m-0 module-box" style="overflow-x: auto;">
+            <kendo-grid #gridUser [kendoGridBinding]="griddata" [pageSize]="25" [pageable]="true" [sortable]="true"
+              [filterable]="false" [selectable]="true" [groupable]="false"
+              [skip]="state.skip" [sort]="state.sort" [filter]="state.filter" (dataStateChange)="dataStateChange($event)"
+              >
+  
+              <kendo-grid-column field="Allowable_Name" title="Allowables" [width]="200">
+              </kendo-grid-column>
+              <kendo-grid-column field="Allowable_StartDate" title="Start Date" [width]="200">
+                <ng-template kendoGridCellTemplate let-dataItem >
+                  
+                      {{dataItem.Allowable_StartDate | date: 'MM/dd/yyyy'}}
+                   
+                  </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="Allowable_EndDate" title="End Date" [width]="200">
+                <ng-template kendoGridCellTemplate let-dataItem >
+                  
+                    {{dataItem.Allowable_EndDate | date: 'MM/dd/yyyy'}}
+                 
+                </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="User_FirstName" title="Entered By" [width]="200">
+            </kendo-grid-column>
+
+            <kendo-grid-column field="Allowable_CreatedBy" title="Created By" [width]="200">
+            </kendo-grid-column>
+
+            <kendo-grid-column field="Allowable_ModifiedBy" title="Last Modified By" [width]="200">
+            </kendo-grid-column>
+  
+              <kendo-grid-column field="Allowable_IsActive" title="Active" [width]="80"
+                filter="boolean">
+                <ng-template kendoGridCellTemplate let-dataItem let-i="rowIndex">
+                  <div class="custom-control custom-switch">
+                    <input type="checkbox" (change)="checkChange($event, dataItem)"
+                        class="custom-control-input" id="switchisActive{{i}}"
+                        [checked]="dataItem.Allowable_IsActive">
+                    <label class="custom-control-label"
+                        for="switchisActive{{i}}"></label>
+                </div>
+                
+                </ng-template>
+              </kendo-grid-column>
+  
+              <kendo-grid-column title="Action" width="80">
+                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                  <a class="edit" data-toggle="tooltip" [routerLink]="dataItem.ViewUrl" data-placement="top"
+                    title="View Record" style="cursor: pointer">
+                    <i class="fa fa-eye"></i>
+                  </a> &nbsp;&nbsp;
+                  <a class="edit" data-toggle="tooltip" (click)="deleteDetails($event, dataItem)" data-placement="top"
+                    title="Delete Record" style="cursor: pointer">
+                    <i class="fa fa-trash"></i>
+                  </a>
+                </ng-template>
+              </kendo-grid-column>
+  
+              <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+                <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+                <kendo-pager-numeric-buttons [buttonCount]="10"></kendo-pager-numeric-buttons>
+                <kendo-pager-next-buttons></kendo-pager-next-buttons>
+                <kendo-pager-info></kendo-pager-info>
+                <kendo-pager-page-sizes [pageSizes]="[25, 50, 75, 100, 150, 200]"></kendo-pager-page-sizes>
+              </ng-template>
+            </kendo-grid>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="default" color="#fff" type="timer" [fullScreen]="true">
+    <p style="color: white">Loading...</p>
+  </ngx-spinner>

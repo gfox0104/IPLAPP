@@ -1,0 +1,409 @@
+
+<div class="container-fluid mt-2" [ngClass]="{ 'HelpCursor': isHelpActive }" s>
+    <div class="" style="    margin-right: -15px;">
+      <div class="" style="    margin-right: 20px;">
+        <h3 class="module-box-header mb-0" style="margin-right: -4px;">Advanced Reports
+          <a class="pull-right" data-toggle="tooltip" (click)="SetHelpFlag()" data-placement="top"
+                title="Item Help" style="cursor: pointer;">Need Help
+                <i class="fas fa-question"></i>&nbsp;&nbsp;
+              </a>
+        </h3>
+          <form class="module-subheader p-1 pl-2" [formGroup]="formUsrCommonGroup" (ngSubmit)="FormButton()" style=" margin-left: -12px; margin-right: -8px;">
+          <div class="row">
+            <div class="col-lg-12">
+                <div class="form-row">
+                  <div class="form-group col-md-12 row">
+                    <div class="col-md-8 row">
+                      <h5 class="col-md-2" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Report Type')"> Report Type </h5>
+                      <div [ngClass]="isRowVisible?'col-md-4':'col-md-6'" class="col-md-4">
+                        <select class="form-control form-control-sm col-md-12" [(ngModel)]="AdvanceReportModelObj.ReportTypeId"
+                          [ngModelOptions]="{standalone: true}" (change)="ChangeReportType(AdvanceReportModelObj.ReportTypeId)"
+                          [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Report Type')">
+                          <option value='0'>Select</option>
+                          <option [ngValue]="kb.ReportType_PkeyId" *ngFor="let kb of ReportTypeList">
+                            {{kb.ReportType_Name}}
+                          </option>
+                      </select>
+                      <div *ngIf="AdvanceReportModelObj.ReportTypeId == 0 && isRTInvalid" class="Mydropdown" style="margin-top: 0.5rem;">This field is required.</div>
+                      </div>
+                      <div [hidden]='isTableVisible' class="form-group row col-md-6 pl-2">
+                          <h5 class="col-md-6" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Filter')"> Select Save Filter </h5>
+                          <div class="col-md-6" style="margin-left: -71px;">
+                            <select class="form-control form-control-sm col-md-12" [(ngModel)]="AdvanceReportModelObj.WoFilterId"
+                            [ngModelOptions]="{standalone: true}" (change)="GetChildFilter(AdvanceReportModelObj.WoFilterId)"
+                            [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Filter')">
+                            <option value='0'>Select</option>
+                            <option [ngValue]="kb.Report_WO_Filter_PkeyId" *ngFor="let kb of WOFilterList">
+                              {{kb.Report_WO_Filter_Name}}
+                            </option>
+                        </select>
+                        <div *ngIf="AdvanceReportModelObj.ReportTypeId == 1 && AdvanceReportModelObj.WoFilterId == 0 && isWOFilterInvalid" class="Mydropdown" style="margin-top: 0.5rem;">This field is required.</div>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4 col-lg-4 col-12 btngrp" style="display: block;">
+                      <div class="row justify-content-end">
+                        <button  class="btn btn-primary" type="submit" [disabled]="isLoading">
+                            <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}"></i>
+                            {{button}}
+                        </button>&nbsp;&nbsp;
+                        <button class="btn btn-primary" type="button" (click)="CancelClick()">Cancel</button>&nbsp;&nbsp;
+                        <button class="btn btn-primary" type="button" (click)="CancelClick()">Reset</button>&nbsp;&nbsp;
+                        <button class="btn btn-primary" (click)="exportToExcel(grid)"[disabled]="disableexcel"><i class="fa fa-file-excel-o" aria-hidden="true"></i></button>&nbsp;&nbsp;
+                        <button class="btn btn-primary" (click)="exportToPDF()"[disabled]="disableexcel"><i class="fa fa-print"></i></button>
+                      </div>
+                  </div>
+                  </div>
+                </div>
+                <div class="form-row" [hidden]='isRowVisible'>
+                    <div class="form-group col-md-2"  [hidden]='isWTHidden'>
+                        <label [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Group by')"> Group by </label><span style="color:red">*</span>
+                        <div class="example-wrapper">
+                          <kendo-dropdownlist class="form-control form-control-sm"
+                            [data]="drpWTList"
+                            [defaultItem]="defaultWTItem"
+                            [filterable]="true"
+                            [textField]="'WT_WorkType'"
+                            [valueField]="'WT_pkeyID'"
+                            (filterChange)="WTFilter($event)"
+                            [(ngModel)]="AdvanceReportModelObj.GroupById"
+                            [valuePrimitive]="true"
+                            [ngModelOptions]="{standalone: true}" style="width: 100%;"
+                            [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Group by')">
+                          </kendo-dropdownlist>
+                        </div>
+                        <div *ngIf="(AdvanceReportModelObj.ReportTypeId == 2 || AdvanceReportModelObj.ReportTypeId == 3) && AdvanceReportModelObj.GroupById == 0 && isGroupByInvalid" class="Mydropdown" style="margin-top: 0.5rem;">This field is required.</div>
+                      </div>
+                      <div class="form-group col-md-2" [hidden]='isStateHidden'>
+                        <label [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Group by')"> Group by </label><span style="color:red">*</span>
+                        <div class="example-wrapper">
+                          <kendo-dropdownlist
+                              [data]="drpStateList"
+                              [defaultItem]="defaultStateItem"
+                              [filterable]="true"
+                              [textField]="'IPL_StateName'"
+                              [valueField]="'IPL_StateID'"
+                              (filterChange)="statehandleFilter($event)"
+                              [(ngModel)]="AdvanceReportModelObj.GroupById"
+                              [valuePrimitive]="true"
+                              [ngModelOptions]="{standalone: true}" style="width: 100%;"
+                              [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Group by')">
+                          </kendo-dropdownlist>
+                        </div>
+                        <div *ngIf="(AdvanceReportModelObj.ReportTypeId == 2 || AdvanceReportModelObj.ReportTypeId == 3) && AdvanceReportModelObj.GroupById == 0 && isGroupByInvalid" class="Mydropdown" style="margin-top: 0.5rem;">This field is required.</div>
+
+                      </div>
+                    <div class="form-group col-md-2">
+                              <label [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Status')"> Status </label>
+                              <select class="form-control form-control-sm" [(ngModel)]="AdvanceReportModelObj.StatusId"
+                              [ngModelOptions]="{standalone: true}"
+                              [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Status')">
+                              <option value='0'>Select</option>
+                              <option [ngValue]="kb.Status_ID" *ngFor="let kb of Statuslst">
+                                {{kb.Status_Name}}
+                            </option>
+                          </select>
+                    </div>
+                    <div class="form-group col-md-2">
+                      <label [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'From')"> From </label><span style="color:red">*</span>
+                      <div class="form-group">
+                        <div class="input-group">
+                          <label [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'From')"
+                            class="form-control form-control-sm">{{AdvanceReportModelObj.InvoiceDateFrom}}
+                            <span *ngIf="!AdvanceReportModelObj.InvoiceDateFrom">Enter Date</span> </label>
+                          <input class="form-control form-control-sm" placeholder="yyyy-mm-dd"
+                            [(ngModel)]="AdvanceReportModelObj.InvoiceDateFrom" [ngModelOptions]="{standalone: true}"
+                            ngbDatepicker #dtr1="ngbDatepicker" firstDayOfWeek="7" style="display: none">
+                          <div class="input-group-append">
+                            <button class="btn btn-outline-info btn-xs" [disabled]="isHelpActive" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                              (click)="dtr1.toggle()" type="button"><i class="fas fa-calendar-alt"></i></button>
+                          </div>
+                        </div>
+                      </div>
+                      <div *ngIf="(AdvanceReportModelObj.ReportTypeId == 2 || AdvanceReportModelObj.ReportTypeId == 3) && AdvanceReportModelObj.InvoiceDateFrom === '' && isFromdateInvalid" class="Mydropdown" style="margin-top: 0.5rem;">This field is required.</div>
+                    </div>
+                    <div class="form-group col-md-2">
+                      <label [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'To')"> To </label><span style="color:red">*</span>
+                      <div class="form-group">
+                        <div class="input-group">
+                          <label [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'To')"
+                            class="form-control form-control-sm">{{AdvanceReportModelObj.InvoiceDateTo }}
+                            <span *ngIf="!AdvanceReportModelObj.InvoiceDateTo">Enter Date</span> </label>
+                          <input class="form-control form-control-sm" placeholder="yyyy-mm-dd"
+                            [(ngModel)]="AdvanceReportModelObj.InvoiceDateTo" [ngModelOptions]="{standalone: true}"
+                            ngbDatepicker #dtr2="ngbDatepicker" firstDayOfWeek="7" style="display: none">
+                          <div class="input-group-append">
+                            <button class="btn btn-outline-info btn-xs"  [disabled]="isHelpActive" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                              (click)="dtr2.toggle()" type="button"><i class="fas fa-calendar-alt"></i></button>
+                          </div>
+                        </div>
+                      </div>
+                      <div *ngIf="(AdvanceReportModelObj.ReportTypeId == 2 || AdvanceReportModelObj.ReportTypeId == 3) && AdvanceReportModelObj.InvoiceDateTo === '' && isTodateInvalid" class="Mydropdown" style="margin-top: 0.5rem;">This field is required.</div>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Client')"> Client </label>
+                        <div class="example-wrapper">
+                            <kendo-dropdownlist class="form-control form-control-sm"
+                                [data]="drpClientList"
+                                [defaultItem]="defaultComItem"
+                                [filterable]="true"
+                                [textField]="'Client_Company_Name'"
+                                [valueField]="'Client_pkeyID'"
+                                (filterChange)="ClientFilter($event)"
+                                [(ngModel)]="AdvanceReportModelObj.ClientId"
+                                [valuePrimitive]="true"
+                                [ngModelOptions]="{standalone: true}"
+                                [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Client')">
+                            </kendo-dropdownlist>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Customer')">Customer</label>
+                        <div class="example-wrapper">
+                          <kendo-dropdownlist class="form-control form-control-sm"
+                              [data]="drpCustomerList"
+                              [defaultItem]="defaultCustomerItem"
+                              [filterable]="true"
+                              [textField]="'Cust_Num_Number'"
+                              [valueField]="'Cust_Num_pkeyId'"
+                              (filterChange)="CustomerFilter($event)"
+                              [(ngModel)]="AdvanceReportModelObj.CustomerId"
+                              [valuePrimitive]="true"
+                              [ngModelOptions]="{standalone: true}"
+                              [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Customer')">
+                          </kendo-dropdownlist>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row" [hidden]='isRowVisible'>
+                    <div class="form-group col-md-2">
+                        <label [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Contractor')">Contractor</label>
+                        <div class="example-wrapper">
+                          <kendo-dropdownlist class="form-control form-control-sm"
+                              [data]="drpConList"
+                              [defaultItem]="defaultConItem"
+                              [filterable]="true"
+                              [textField]="'User_FirstName'"
+                              [valueField]="'User_pkeyID'"
+                              (filterChange)="contractorFilter($event)"
+                              [(ngModel)]="AdvanceReportModelObj.ContractorId"
+                              [valuePrimitive]="true"
+                              [ngModelOptions]="{standalone: true}"
+                              [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Contractor')">
+                          </kendo-dropdownlist>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Coordinator')">Coordinator</label>
+                        <div class="example-wrapper">
+                          <kendo-dropdownlist class="form-control form-control-sm"
+                              [data]="drpCoordinatorList"
+                              [defaultItem]="defaultConItem"
+                              [filterable]="true"
+                              [textField]="'User_FirstName'"
+                              [valueField]="'User_pkeyID'"
+                              (filterChange)="coordinatorFilter($event)"
+                              [(ngModel)]="AdvanceReportModelObj.CordinatorId"
+                              [valuePrimitive]="true"
+                              [ngModelOptions]="{standalone: true}"
+                              [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Coordinator')">
+                          </kendo-dropdownlist>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Processor')">Processor</label>
+                        <div class="example-wrapper">
+                          <kendo-dropdownlist class="form-control form-control-sm"
+                            [data]="drpProcessorList"
+                            [defaultItem]="defaultConItem"
+                            [filterable]="true"
+                            [textField]="'User_FirstName'"
+                            [valueField]="'User_pkeyID'"
+                            (filterChange)="processorFilter($event)"
+                            [(ngModel)]="AdvanceReportModelObj.ProcessorId"
+                            [valuePrimitive]="true"
+                            [ngModelOptions]="{standalone: true}"
+                            [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Processor')">
+                          </kendo-dropdownlist>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+          </div>
+
+        <div [hidden]='isTableVisible' class="form-row m-0 mt-2" >
+          <div (click)="showBox()" class="form-group col-md-12 text-center module-box-header mb-0 p-0 pr-1" >
+            <h5 style="color: black;" >Work Order Filter
+              <svg  style="float: right;" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z"/></svg>
+            </h5>
+          </div>
+        </div>
+        <div *ngIf="hideBox" class="col-lg-8  module-box" [hidden]='isTableVisible' style="max-width: 100%;" >
+            <div class="form-row" >
+              <table class="table ">
+                <tr>
+                  <th [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Data Type')">Data Type </th>
+                  <th [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Operator Feild')">Operator Feild </th>
+                  <th [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Value')">Value </th>
+                  <th style="text-align: center;">Remove</th>
+                </tr>
+                <tr *ngFor="let item of WoFilterArrayVal; index as indx">
+                  <td style="width: 300px;" [ngClass]="{'highlight' : item.Report_WO_Filter_Ch_FeildId == 0 && isWOFilterErr}">
+                    <select class="form-control form-control-sm" [(ngModel)]="item.Report_WO_Filter_Ch_FeildId" [disabled]="isEditDisable"
+                        [ngModelOptions]="{standalone: true}" (change)="ChangeDataType(item.Report_WO_Filter_Ch_FeildId,indx)"
+                        [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Data Type')">
+                        <option value='0'>Select</option>
+                        <option [ngValue]="kb.Wo_Column_PkeyId" *ngFor="let kb of WOFeildsList">
+                          {{kb.Wo_Column_Name}}
+                      </option>
+                    </select>
+                  </td>
+                  <td style="width: 300px;" [ngClass]="{'highlight' : item.Report_WO_Filter_Ch_FeildOperator == 0 && isWOFilterErr}">
+                    <select class="form-control form-control-sm" [(ngModel)]="item.Report_WO_Filter_Ch_FeildOperator" [disabled]="isEditDisable"
+                    [ngModelOptions]="{standalone: true}"
+                    [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Operator Feild')">
+                    <option value='0'>Select</option>
+                    <option [ngValue]="kb.optId" *ngFor="let kb of WOFeildOptList">
+                      {{kb.optText}}
+                    </option>
+                    </select>
+                  </td>
+                  <td style="width: 300px;" *ngIf = "!item.isDateFeild" [ngClass]="{'highlight' : (item.Report_WO_Filter_Ch_FeildValue == null ||  item.Report_WO_Filter_Ch_FeildValue === '')  && isWOFilterErr}">
+                    <input type="text" min="0" [(ngModel)]="item.Report_WO_Filter_Ch_FeildValue" [disabled]="isEditDisable"
+                      [ngModelOptions]="{standalone: true}" class="form-control form-control-sm" id="gfghfghgf" [readonly]="isHelpActive"
+                      placeholder="Enter value" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Value')">
+                  </td>
+                  <td style="width: 300px;" *ngIf = "item.isDateFeild" [ngClass]="{'highlight' : item.Report_WO_Filter_Ch_FeildDateValue == null && isWOFilterErr}">
+                      <div class="input-group">
+                        <label [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Value')"
+                          class="form-control form-control-sm">{{item.Report_WO_Filter_Ch_FeildDateValue | date:'MM/dd/yyyy' }}
+                          <span *ngIf="!item.Report_WO_Filter_Ch_FeildDateValue">Enter Date</span> </label>
+                        <input class="form-control form-control-sm" placeholder="yyyy-mm-dd" [disabled]="isEditDisable"
+                          [(ngModel)]="item.Report_WO_Filter_Ch_FeildDateValue" [ngModelOptions]="{standalone: true}"
+                          ngbDatepicker #dtr1="ngbDatepicker" firstDayOfWeek="7" style="display: none">
+                        <div class="input-group-append">
+                          <button class="btn btn-outline-info btn-xs"  [disabled] = "isHelpActive"
+                            (click)="dtr1.toggle()" type="button"><i class="fas fa-calendar-alt"></i></button>
+                        </div>
+                      </div>
+                  </td>
+                  <td style="text-align: center;width: 100px;">
+                    <span *ngIf="isEditDisable"><a href="javascript:void(0)" style="pointer-events: none;"> <i
+                      class="fa fa-trash"></i></a></span>
+                    <span *ngIf="!isEditDisable"><a href="javascript:void(0)" (click)="RemoveRow(item,indx)"> <i
+                      class="fa fa-trash"></i></a></span>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-4">
+                  <input type="text" min="0" [(ngModel)]="WOFilterModelObj.Report_WO_Filter_Name"  [disabled]="isEditDisable"
+                          [ngModelOptions]="{standalone: true}" class="form-control form-control-sm" id="wofilter" [readonly]="isHelpActive"
+                          placeholder="Enter Filter name" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Filter Name')">
+                  <div *ngIf="(WOFilterModelObj.Report_WO_Filter_Name == null ||  WOFilterModelObj.Report_WO_Filter_Name === '') && isWOFilterName" class="Mydropdown" style="margin-top: 0.5rem;">This field is required.</div>
+              </div>
+              <div class="form-group justify-content-between col-md-6">
+                <button  class="btn btn-primary waves-effect btn-xs waves-light form-control-sm" type="button" *ngIf="!isEditDisable"  [disabled]="isFLLoading" (click)="SaveFilterButton()">
+                  <i class="fa" [ngClass]="{'fa-spin fa-spinner': isFLLoading, 'fa-save': !isFLLoading}"></i>
+                  {{filterbutton}}
+                </button>
+
+                <button  class="btn btn-primary waves-effect btn-xs waves-light form-control-sm" *ngIf="isEditDisable" (click)="EditForms()">
+                  <i class="far fa-edit mr-1"></i> Edit
+                </button>&nbsp;&nbsp;
+
+                <button  class="btn btn-primary waves-effect btn-xs waves-light form-control-sm" type="button"
+                (click)="RunDetails()"><i class="fa fa-save"></i> Run</button>&nbsp;&nbsp;
+                <button [disabled]="isdeleteDisable" class="btn btn-primary waves-effect btn-xs waves-light form-control-sm" type="button" (click)="RemoveFilter(AdvanceReportModelObj.WoFilterId)"><i class="fa fa-trash"></i> Delete</button>&nbsp;&nbsp;
+                <button type="button" class="btn btn-outline-primary waves-effect btn-xs waves-light form-control-sm"
+                  title="click to add more" (click)="AddMoreRow()"> <i class="fas fa-plus-circle"></i> Add More</button>
+              </div>
+            </div>
+          </div>
+    </form>
+    <div class="row m-0" style="overflow-x: auto;" [hidden]='isFLVisible'>
+      <div class="smallbox">
+      <kendo-grid #grid="kendoGrid" class="module-box smallbox" #gridUser1 [kendoGridBinding]="groupByGriddata"  [pageSize]="100" [pageable]="true" [sortable]="true"
+        [filterable]="false" [selectable]="true" [groupable]="false" [filterable]="true">
+        <kendo-grid-column title="Action" width="100" [locked]="false">
+
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <a class="edit" [routerLink]="getReportDetailsUrl(dataItem)" target="_blank" class="k-grid-ignore-click"
+              title="view Records">
+              <i class="fa fa-eye"></i> &nbsp; &nbsp; View
+            </a>
+          </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column *ngFor="let column of filterReportColumns" [field]="column.field" [title]="column.title"
+           [width]="column.width">
+
+          <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'Status_Name'">
+            <span class="whole-cell" [ngStyle]="{'background-color': statusColor(dataItem.status)}" >
+              {{ dataItem.Status_Name }}
+            </span>
+          </ng-template>
+          <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'dueDate'">
+            {{dataItem.dueDate | date: 'MM/dd/yyyy'}}
+        </ng-template>
+
+        </kendo-grid-column>
+
+        <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+          <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+          <kendo-pager-numeric-buttons [buttonCount]="10"></kendo-pager-numeric-buttons>
+          <kendo-pager-next-buttons></kendo-pager-next-buttons>
+          <kendo-pager-info></kendo-pager-info>
+          <kendo-pager-page-sizes [pageSizes]="[100, 200, 300, 500]"></kendo-pager-page-sizes>
+        </ng-template>
+        <kendo-grid-excel fileName="AdvanceReport.xlsx"></kendo-grid-excel>
+
+      </kendo-grid>
+    </div>
+    </div>
+    <div class="row m-0 module-box p-1"  [hidden]='isGRVisible'>
+      <div class="col-md-12"><h5 class="pull-right">Total : {{AdvanceReportModelObj.Total}} &nbsp;&nbsp;Average : {{AdvanceReportModelObj.Average}}</h5></div>
+      <div class="row m-0" style="overflow-x: auto;">
+        <div class="smallbox">
+      <kendo-grid #grid="kendoGrid" class="module-box smallbox" #gridUser1 [kendoGridBinding]="groupByGriddata"  [pageSize]="100" [pageable]="true" [sortable]="true"
+        [filterable]="false" [selectable]="true" [groupable]="false" [filterable]="true">
+        <kendo-grid-column *ngFor="let column of groupByGridColumns" [field]="column.field" [title]="column.title"
+           [width]="column.width">
+          <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'Client_InvoiceDate'">
+            {{dataItem.Client_InvoiceDate | date: 'MM/dd/yyyy'}}
+        </ng-template>
+        <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'Status_Name'">
+          <span class="whole-cell" [ngStyle]="{'background-color': statusColor(dataItem.status)}" >
+            {{ dataItem.Status_Name }}
+          </span>
+        </ng-template>
+
+         <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'Client_InvoiceTotal'">
+          <span >
+            {{currencySymbol}}{{ dataItem.Client_InvoiceTotal.toFixed(2) }}
+          </span>
+        </ng-template>
+        </kendo-grid-column>
+        <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+          <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+          <kendo-pager-numeric-buttons [buttonCount]="10"></kendo-pager-numeric-buttons>
+          <kendo-pager-next-buttons></kendo-pager-next-buttons>
+          <kendo-pager-info></kendo-pager-info>
+          <kendo-pager-page-sizes [pageSizes]="[100, 200, 300, 500]"></kendo-pager-page-sizes>
+        </ng-template>
+        <kendo-grid-excel fileName="AdvanceReport.xlsx"></kendo-grid-excel>
+
+      </kendo-grid>
+    </div>
+    </div>
+      <div class="col-md-12"><h5 class="pull-right">Total : {{AdvanceReportModelObj.Total}} &nbsp;&nbsp;Average : {{AdvanceReportModelObj.Average}}</h5></div>
+    </div>
+    <br>
+      </div>
+    </div>
+    <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="default" color="#fff" type="timer" [fullScreen]="true">
+      <p style="color: white">Loading...</p>
+    </ngx-spinner>
+  </div>

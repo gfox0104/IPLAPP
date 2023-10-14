@@ -1,0 +1,204 @@
+<div class="sidebar-links pt-2 px-1" id="Menubar">
+  <!-- <ng-template style="width: 250px" #popContent let-greeting="greetings">
+    <ng-container><h5>erfga</h5> </ng-container>
+  </ng-template>
+
+  <ng-template #popTitle let-language="language"> Receive Amount</ng-template>
+  <button
+    type="button"
+    class="btn"
+    [ngbPopover]="popContent"
+    [popoverTitle]="popTitle"
+    placement="bottom"
+    triggers="manual"
+    #p11="ngbPopover"
+    (click)="toggleWithGreeting(p1)"
+  >
+    Payments Made
+  </button>-->
+  <button
+    class="btn btn-secondry"
+    type="button"
+    (click)="NewModelshow(NewModel)"
+  >
+    <i class="fa fa-plus mr-1"></i> New
+  </button>
+  <ul class="pt-3">
+    
+    <li
+      [ngClass]="{ active: ActiveLink === 1 }"
+      routerLink="/accounting/accountingdetails/dashboard"
+      class="col-md-12 col-sm-12 col-4 fa fa-bar-chart"
+    >
+      Dashboard
+    </li>
+    
+    <li
+      [ngClass]="{ active: ActiveLink === 2 }"
+      routerLink="/accounting/accountingdetails/coa"
+      class="fa fa-sitemap col-md-12 col-sm-12 col-4"
+    >
+      Coa
+    </li>
+    <li
+      [ngClass]="{ active: ActiveLink === 3 }"
+      routerLink="/accounting/accountingdetails/journal"
+      class="fa fa-building col-md-12 col-sm-12 col-4"
+    >
+      journal
+    </li>
+    <li
+      [ngClass]="{ active: ActiveLink === 4 }"
+      routerLink="/accounting/accountingdetails/ledger"
+      class="fa fa-calculator col-md-12 col-sm-12 col-4"
+    >
+      Ledger
+    </li>
+    <li
+      [ngClass]="{ active: ActiveLink === 5 }"
+      routerLink="/accounting/accountingdetails/report"
+      class="fa fa-bookmark col-md-12 col-sm-12 col-4"
+    >
+      Reports
+    </li>
+    
+    <li
+      [ngClass]="{ active: ActiveLink === 7 }"
+      routerLink="/accounting/accountingdetails/vendors"
+      class="fa fa-address-book col-md-12 col-sm-12 col-4"
+    >
+      Vendors
+    </li>
+    
+    <li
+      class="dropdown-submenu fa fa-user-circle col-md-12 col-sm-12 col-4"
+      [ngClass]="[
+        ActiveLink === 8 ? 'active' : '',
+        ActiveLink === 11 ? 'active' : '',
+        ActiveLink === 10 ? 'active' : ''
+      ]"
+      routerLink="/accounting/accountingdetails/client"
+    >
+      Customer
+      <!-- <a class="dropdown-item dropdown-toggle" href="javascript:void"></a> -->
+      <ul class="dropdown-menu">
+        <li
+          style="width: 100%"
+          [ngClass]="{ active: ActiveLink === 8 }"
+          routerLink="/accounting/accountingdetails/client"
+          class="fa fa-user-circle"
+        >
+          Customer
+        </li>
+        <li
+          style="width: 100%"
+          [ngClass]="{ active: ActiveLink === 10 }"
+          routerLink="/accounting/accountingdetails/invoice"
+          class="fa fa-history"
+        >
+          Invoice
+        </li>
+        <li
+          style="width: 100%"
+          [ngClass]="{ active: ActiveLink === 11 }"
+          routerLink="/accounting/accountingdetails/task"
+          class="fa fa-tasks"
+        >
+          Services
+        </li>
+      </ul>
+    </li>
+    <li
+      [ngClass]="{ active: ActiveLink === 12 }"
+      routerLink="/accounting/accountingdetails/bill"
+      class="fa fa-money col-md-12 col-sm-12 col-4"
+    >
+      Bill
+      <!-- -->
+    </li>
+  </ul>
+</div>
+
+<ng-template #NewModel let-modal>
+  <!-- <div class="modal-arrow"></div> -->
+  <div class="modal-body m-2">
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <div class="row">
+      
+      <div class="col-md-4">
+        
+        <h4>Customer</h4>
+        <ul class="nav flex-column">
+          <li class="mt-2 mb-1">
+            <a
+              class="btn btn-link"
+              (click)="close()"
+              routerLink="/accounting/accountingdetails/client"
+              >Customer</a
+            >
+          </li>
+          <li class="mt-2 mb-1">
+            <a
+              class="btn btn-link"
+              (click)="close()"
+              routerLink="/accounting/accountingdetails/invoice"
+              >Invoice</a
+            >
+          </li>
+          <li class="mt-2 mb-1">
+            <a
+              class="btn btn-link"
+              (click)="close()"
+              routerLink="/accounting/accountingdetails/task"
+              >Services</a
+            >
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-4">
+        <h4>Vendors</h4>
+        <ul class="nav flex-column">
+          <li class="mt-2 mb-1">
+            <a
+              class="btn btn-link"
+              (click)="close()"
+              routerLink="/accounting/accountingdetails/vendors"
+              >Vendor</a
+            >
+          </li>
+          <li class="mt-2 mb-1">
+            <a
+              class="btn btn-link"
+              (click)="close()"
+              routerLink="/accounting/accountingdetails/bill"
+              >Bill</a
+            >
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-4">
+        <h4>Other</h4>
+        <ul class="nav flex-column">
+          <li class="mt-2 mb-1">
+            <a
+              class="btn btn-link"
+              (click)="close()"
+              routerLink="/accounting/accountingdetails/journal"
+              >Journal</a
+            >
+          </li>
+          <li class="mt-2 mb-1">
+            <a
+              class="btn btn-link"
+              (click)="close()"
+              routerLink="/accounting/accountingdetails/ledger"
+              >Ledger</a
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</ng-template>

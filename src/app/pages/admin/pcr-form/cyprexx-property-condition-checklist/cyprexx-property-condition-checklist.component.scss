@@ -1,0 +1,19 @@
+.page-title{
+    font-weight: bolder;
+    background-color: hwb(203deg 69% 21%);
+    height:2rem;
+    padding-left:1rem;
+    padding-top: 0.5rem;
+}
+.card-header{
+    display: flex;
+    height: 4rem;
+    align-items: baseline;
+    justify-content: space-between;
+    background-color: #f8f8f8;
+}
+.pervious-answer {
+  color: green;
+  margin: 5px 0px 5px 15px;
+  font-weight: 900;
+}

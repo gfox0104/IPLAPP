@@ -1,0 +1,475 @@
+<div class="row dashboardAccounting">
+  <div class="col-md-2 sidebar">
+    <app-account-sidebar [ActiveLink]="11"></app-account-sidebar>
+  </div>
+  <div class="col-md-10 mainDashboard">
+    <div class="">
+      <div class="row m-0">
+        <div class="col-12">
+          <div class="">
+            <ul
+              class="nav nav-tabs">
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  routerLinkActive="active"
+                  routerLink="/accounting/accountingdetails/client"
+                  >Customer
+                </a>
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  routerLinkActive="active"
+                  routerLink="/accounting/accountingdetails/invoice"
+                  >Invoice</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  routerLinkActive="active"
+                  routerLink="/accounting/accountingdetails/task"
+                  >Services</a
+                >
+              </li>
+            </ul>
+            <div>
+              <!-- clientresult -->
+              <br />
+              <div class="row m-0 journalheader">
+                <div class="col-md-8">
+                  <h3 class="page-title">
+                    Services
+                  </h3>
+                </div>
+                <div class="col-md-4 align-self-center">
+                  <button
+                    class="btn btn-primary"
+                    style="margin-right: 5px"
+                    (click)="addNewTask(TaskFORM)"
+                  >
+                    <i class="fas fa-plus-circle"></i> Add
+                  </button>
+                </div>
+              </div>
+              <hr />
+              <div class="row m-0 px-2 journalgrid">
+                <kendo-grid
+                  class="module-box"
+                  #gridUser
+                  [kendoGridBinding]="TaskList"
+                  [pageSize]="15"
+                  [loading]="IsLoad"
+                  [pageable]="true"
+                  [sortable]="true"
+                  [filterable]="true"
+                  [selectable]="true"
+                  [groupable]="false"
+                  [skip]="state.skip"
+                  [sort]="state.sort"
+                  [filter]="state.filter"
+                  (dataStateChange)="dataStateChange($event)"
+                >
+                  <kendo-grid-column
+                    field="Task_Name"
+                    title="Name"
+                    
+                  >
+                  </kendo-grid-column>
+                  <kendo-grid-column
+                    field="Task_TypeName"
+                    title="Type"
+                    
+                  >
+                  </kendo-grid-column>
+                  <kendo-grid-column
+                    field="Task_Photo_Label_Name"
+                    title="Photo Name"
+                    
+                  >
+                  </kendo-grid-column>
+
+                  <kendo-grid-column
+                  field="Task_CreatedBy"
+                  title="CreatedBy"
+                  
+                >
+                </kendo-grid-column>
+
+                <kendo-grid-column
+                field="Task_ModifiedBy"
+                title="LastModifiedBy"
+                
+              >
+              </kendo-grid-column>
+
+                  <kendo-grid-column
+                    title="Active"
+                    
+                  >
+                    <ng-template
+                      kendoGridCellTemplate
+                      let-dataItem
+                      let-i="rowIndex"
+                    >
+                      <div class="custom-control custom-switch">
+                        <input
+                          type="checkbox"
+                          (change)="checkChangeTask(dataItem)"
+                          class="custom-control-input"
+                          id="switchisActive{{ i }}"
+                          [checked]="dataItem.Task_IsActive"
+                        />
+                        <label
+                          class="custom-control-label"
+                          for="switchisActive{{ i }}"
+                        ></label>
+                      </div>
+                    </ng-template>
+                  </kendo-grid-column>
+
+                  <kendo-grid-column
+                    title="Action"
+                    
+                  >
+                    <ng-template
+                      kendoGridCellTemplate
+                      let-dataItem
+                      let-rowIndex="rowIndex"
+                    >
+                      <button
+                        [disabled]="false"
+                        (click)="
+                          editDetails(dataItem.Acc_Task_pkeyId, TaskFORM)
+                        "
+                      >
+                        <i class="fa fa-pencil-square-o"></i></button
+                      >&nbsp;
+                      <button (click)="deleteDetails(dataItem.Acc_Task_pkeyId)">
+                        <i class="fa fa-trash"></i></button
+                      >&nbsp;
+                    </ng-template>
+                  </kendo-grid-column>
+                  <ng-template
+                    kendoPagerTemplate
+                    let-totalPages="totalPages"
+                    let-currentPage="currentPage"
+                  >
+                    <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+                    <kendo-pager-numeric-buttons
+                      [buttonCount]="10"
+                    ></kendo-pager-numeric-buttons>
+                    <kendo-pager-next-buttons></kendo-pager-next-buttons>
+                    <kendo-pager-info></kendo-pager-info>
+                    <kendo-pager-page-sizes
+                      [pageSizes]="[15, 30, 50, 100]"
+                    ></kendo-pager-page-sizes>
+                  </ng-template>
+                </kendo-grid>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #TaskFORM let-modal>
+  <div class="modal-header">
+    <button type="button" class="close" aria-label="Close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" [ngClass]="{ 'HelpCursor': isHelpActive }">
+    <div
+      class="module-box p-2">
+      <form
+        [formGroup]="formUsrCommonGroup"
+        (ngSubmit)="FormButtonPOPUp(taskEditForm)"
+        #taskEditForm="ngForm"
+      >
+        <div class="form-row">
+          <div
+            class="form-group col-md-12 text-center module-subheader">
+            <h5>Services
+              <a class="pull-right" data-toggle="tooltip" (click)="SetHelpFlag()" data-placement="top"
+              title="Item Help" style="cursor: pointer;">Need Help
+              <i class="fas fa-question"></i>&nbsp; &nbsp;
+            </a>
+            </h5>
+          </div>
+          <br />
+        </div>
+        <div class="row p-2">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label [ngClass]="{ 'HelpCursor': isHelpActive }"(click)="DispalyInfo($event,'Name')"> Name <i class="text-danger"> *</i></label>
+              <div class="input-group">
+                <input
+                  id="Task_Name"
+                  type="text"
+                  [(ngModel)]="Task.Task_Name"
+                  name="Task_Name"
+                  formControlName="Task_Name"
+                  (keyup)="RemovewhiteSpace($event, 'Task_Name')"
+                  class="form-control form-control-sm"
+                  [ngClass]="{
+                    'is-invalid': taskEditForm.submitted && fx.Task_Name.errors
+                  }"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }"
+                  (click)="DispalyInfo($event,'Name')"
+                  [readonly]="isHelpActive"
+                />
+                <div
+                  *ngIf="taskEditForm.submitted && fx.Task_Name.errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="fx.Task_Name.errors.required">
+                    this field is required
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label  [ngClass]="{ 'HelpCursor': isHelpActive }"
+              (click)="DispalyInfo($event,'Group')"
+             >Group</label>
+              <div class="input-group">
+                <select
+                  class="form-control form-control-sm"
+                  [(ngModel)]="Task.Task_Group"
+                  name="Task_Group"
+                  id="Task_Group"
+                  [ngModelOptions]="{ standalone: true }"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }"
+              (click)="DispalyInfo($event,'Group')"
+                >
+                  <option [value]="0">Select</option>
+                  <option
+                    [value]="group.Task_Group_pkeyID"
+                    *ngFor="let group of TaskGroupList"
+                  >
+                    {{ group.Task_Group_Name }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label [ngClass]="{ 'HelpCursor': isHelpActive }"
+              (click)="DispalyInfo($event,'Default Contractor Unit Price')">
+                Default Contractor Unit Price
+                <i class="text-danger"> *</i></label
+              >
+              <div class="input-group">
+                <input
+                  id="Task_Contractor_UnitPrice"
+                  type="text"
+                  [(ngModel)]="Task.Task_Contractor_UnitPrice"
+                  name="Task_Contractor_UnitPrice"
+                  (keypress)="validate($event)"
+                  formControlName="Task_Contractor_UnitPrice"
+                  class="form-control form-control-sm"
+                  [ngClass]="{
+                    'is-invalid':
+                      taskEditForm.submitted &&
+                      fx.Task_Contractor_UnitPrice.errors
+                  }"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }"
+                  (click)="DispalyInfo($event,'Default Contractor Unit Price')"
+                  [readonly]="isHelpActive"
+                />
+                <div
+                  *ngIf="
+                    taskEditForm.submitted &&
+                    fx.Task_Contractor_UnitPrice.errors
+                  "
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="fx.Task_Contractor_UnitPrice.errors.required">
+                    this field is required
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label  [ngClass]="{ 'HelpCursor': isHelpActive }"
+              (click)="DispalyInfo($event,'Photo Label Name')"
+             > Photo Label Name</label>
+              <div class="input-group">
+                <input
+                  id="Task_Name"
+                  type="text"
+                  disabled
+                  [(ngModel)]="Task.Task_Name"
+                  name="Task_Name"
+                  formControlName="Task_Name"
+                  class="form-control form-control-sm"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }"
+              (click)="DispalyInfo($event,'Photo Label Name')"
+              [readonly]="isHelpActive"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label  [ngClass]="{ 'HelpCursor': isHelpActive }"
+              (click)="DispalyInfo($event,'Type')"> Type <i class="text-danger"> *</i></label>
+              <div class="input-group">
+                <select
+                  class="form-control form-control-sm"
+                  [(ngModel)]="Task.Task_Type"
+                  name="Task_Type"
+                  id="Task_Type"
+                  [ngModelOptions]="{ standalone: true }"
+                  [ngClass]="{
+                    'is-invalid': taskEditForm.submitted && Task.Task_Type == 0
+                  }"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }"
+                  (click)="DispalyInfo($event,'Type')"
+                >
+                  <option [value]="0">Select</option>
+                  <option [value]="type.Id" *ngFor="let type of Task_Type_List">
+                    {{ type.Name }}
+                  </option>
+                </select>
+                <div
+                  *ngIf="taskEditForm.submitted && Task.Task_Type == 0"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="Task.Task_Type == 0">this field is required</div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label  [ngClass]="{ 'HelpCursor': isHelpActive }"
+              (click)="DispalyInfo($event,'Unit Of Measure')">Unit Of Measure</label>
+              <div class="input-group">
+                <select
+                  class="form-control form-control-sm"
+                  [(ngModel)]="Task.Task_UOM"
+                  name="Task_UOM"
+                  id="Task_UOM"
+                  [ngModelOptions]="{ standalone: true }"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }"
+              (click)="DispalyInfo($event,'Unit Of Measure')"
+                >
+                  <option [value]="0">Select</option>
+                  <option
+                    [value]="uom.UOM_pkeyId"
+                    *ngFor="let uom of TaskUOMList"
+                  >
+                    {{ uom.UOM_Name }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label [ngClass]="{ 'HelpCursor': isHelpActive }"
+              (click)="DispalyInfo($event,'Default Client Unit Price')">
+                Default Client Unit Price
+                <i class="text-danger"> *</i></label
+              >
+              <div class="input-group">
+                <input
+                  id="Task_Client_UnitPrice"
+                  type="text"
+                  [(ngModel)]="Task.Task_Client_UnitPrice"
+                  name="Task_Client_UnitPrice"
+                  formControlName="Task_Client_UnitPrice"
+                  (keypress)="validate($event)"
+                  class="form-control form-control-sm"
+                  [ngClass]="{
+                    'is-invalid':
+                      taskEditForm.submitted && fx.Task_Client_UnitPrice.errors
+                  }"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }"
+              (click)="DispalyInfo($event,'Default Client Unit Price')"
+              [readonly]="isHelpActive"
+                />
+                <div
+                  *ngIf="
+                    taskEditForm.submitted && fx.Task_Client_UnitPrice.errors
+                  "
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="fx.Task_Client_UnitPrice.errors.required">
+                    this field is required
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row pt-3">
+              <div class="col-md-6">
+                <div class="custom-control custom-checkbox">
+                  <input
+                    type="checkbox"
+                    id="Task_AutoInvoiceComplete"
+                    [(ngModel)]="Task.Task_AutoInvoiceComplete"
+                    [ngModelOptions]="{ standalone: true }"
+                    class="custom-control-input"
+                    [ngClass]="{ 'HelpCursor': isHelpActive }"
+              (click)="DispalyInfo($event,'Auto Invoice Complete')"
+            
+                  /><label
+                    for="Task_AutoInvoiceComplete"
+                    class="custom-control-label"
+                    [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'Auto Invoice Complete')"
+                    >Auto Invoice Complete
+                  </label>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="custom-control custom-checkbox">
+                  <input
+                    type="checkbox"
+                    id="Task_IsActive"
+                    [(ngModel)]="Task.Task_IsActive"
+                    [ngModelOptions]="{ standalone: true }"
+                    class="custom-control-input"
+                    [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'Active')"
+                  /><label for="Task_IsActive" class="custom-control-label"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }"
+                  (click)="DispalyInfo($event,'Active')"
+                    >Active
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <hr />
+          <div class="col-md-12 text-right">
+            <button
+              class="btn btn-success btn-lg mr-2"
+              (click)="close()"
+              type="button"
+            >
+              Cancel
+            </button>
+
+            <button
+              type="submit"
+              class="btn btn-primary waves-effect waves-light"
+            >
+              <i
+                class="fa"
+                [ngClass]="{
+                  'fa-spin fa-spinner': isLoading,
+                  'fa-save': !isLoading
+                }"
+              ></i>
+              {{ button }}
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,26 @@
+.save-mail{
+    margin-left: 10px;
+}
+.k-dialog-title{
+    background-color: #000 !important;
+}
+.k-content{
+    display: none;
+}
+.k-clear-selected{
+    display: none;
+}
+
+.smallModal{
+    width: 600px;
+}
+
+@media(max-width:900px){
+    .smallModal{
+        width: 400px;
+        height: 500px;
+    }
+    .smallModal2{
+        width: 450px;
+    }
+}

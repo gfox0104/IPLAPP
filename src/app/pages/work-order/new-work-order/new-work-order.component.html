@@ -1,0 +1,564 @@
+<style>
+  .meeting {
+    background-color: #00a1e8;
+  }
+
+  .meeting:after {
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    width: 3px;
+    height: 3px;
+    margin-left: -1.5px;
+    content: "";
+    border-radius: 50%;
+    background-color: #00a1e8;
+  }
+
+  .k-calendar.k-calendar-range.k-calendar-infinite{
+    border: none;
+  }
+
+
+  .k-state-selected .meeting {
+    color: #fff;
+  }
+
+  .k-state-selected .meeting:after {
+    background-color: #fff;
+  }
+
+  .dueMeeting {
+    background-color: #ff7d7d;
+  }
+
+  .dueMeeting:after {
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    width: 3px;
+    height: 3px;
+    margin-left: -1.5px;
+    content: "";
+    border-radius: 50%;
+    background-color: #ff7d7d;
+  }
+
+  .k-state-selected .dueMeeting {
+    color: #fff;
+  }
+
+  .k-state-selected .dueMeeting:after {
+    background-color: #fff;
+  }
+
+  .commonMeeting {
+    background-color: #bbc4d2;
+  }
+
+  .commonMeeting:after {
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    width: 3px;
+    height: 3px;
+    margin-left: -1.5px;
+    content: "";
+    border-radius: 50%;
+    background-color: #bbc4d2;
+  }
+
+  .k-state-selected .commonMeeting {
+    color: #fff;
+  }
+
+  .k-state-selected .commonMeeting:after {
+    background-color: #fff;
+  }
+
+</style>
+<div class="container-fluid" [ngClass]="{ 'HelpCursor': isHelpActive }" >
+  <div class="row" style="margin-top: -43px;">
+    <app-breadcrumb></app-breadcrumb>
+
+    <div class="col-12">
+      <div class="">
+        <div class="card-body" style="    margin-right: -15px;">
+          <form [formGroup]="formUsrCommonGroup" (ngSubmit)="FormButton()">
+            <!--Start button-->
+            <div class="">
+              <div class="form-row">
+                <div class="form-group col-md-12 p-0 text-center module-box-header mb-0">
+                  <h5 style="font-weight: bolder;">New Work Order
+                    <a class="pull-right" data-toggle="tooltip" (click)="SetHelpFlag()" data-placement="top"
+        title="Item Help" style="cursor: pointer; margin-right: 0px;">Need Help
+        <i class="fas fa-question"></i>&nbsp;&nbsp;
+      </a>
+                  </h5>
+                </div>
+              </div>
+              <div class="form-row module-subheader p-1 pl-2">
+                <div class="col-md-12">
+                  <div class="form-row">
+                    <div class="float-right">
+                      <button id="client_viewdetail_1" class="btn btn-primary mr-1" *ngIf="IsEditDisable"
+                        [routerLink]="['/workorder/createworkorder/new']" (click)="EditForms()" [disabled]="IsEditEnable">
+                        <i class="far fa-edit mr-1"></i> Edit
+                      </button>
+                      <button id="client_viewdetail_1" class="btn btn-primary mr-1" type="submit" *ngIf="!IsEditDisable"
+                        [disabled]="isLoading">
+                        <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}"></i>
+                        {{button}}
+                      </button>
+                      <button id="client_viewdetail_1" *ngIf="!WorkOrderModelObj.workOrder_ID"
+                        class="btn btn-primary mr-1" [routerLink]="['/workorder']">
+                        <i class="fas fa-arrow-alt-circle-left mr-1"></i> Back
+                      </button>
+                      <button id="client_viewdetail_1" *ngIf="WorkOrderModelObj.workOrder_ID"
+                        class="btn btn-primary mr-1" (click)="Back(WorkOrderModelObj.workOrder_ID)"
+                        [disabled]="AfterCopy">
+                        <i class="fas fa-arrow-alt-circle-left mr-1"></i> Back
+                      </button>
+                      <button id="client_viewdetail_1" class="btn btn-primary" (click)='Reset()' *ngIf='!isnew'>Add New
+                        Work Order</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row module-box" >
+                <div class="col-lg-4 smallBox col-md-4 col-12" *ngFor="let form of formFields; let i=index">
+                  <div class="p-2">
+                    <div *ngFor="let item of form; let j=index">
+                      <ng-template [ngIf]="item.fields.length === 1" [ngIfElse]="multiFields">
+                        <div class="form-row" *ngFor="let field of item.fields; let k=index">
+                          <div class="form-group col-md-4">
+                            <label class="col-form-label" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                            (click)="DispalyInfo($event,field.label)">{{field.label}}
+                              <span *ngIf="field.required" style="color: red">*</span>
+                            </label>
+                          </div>
+                          <div class="form-group col-md-8" *ngIf="field.type === 'input'">
+                            <input type="text" class="form-control form-control-sm" [id]="field.id"
+                              [ngClass]="{ 'is-invalid': submitted && fx[field.formControlName].errors }"
+                              [readonly]="field.readonly" [placeholder]="field.placeholder" [disabled]="field.disabled"
+                              [(ngModel)]="WorkOrderModelObj[field.model]" [formControlName]="field.formControlName"
+                              ng-pattern="field.pattern" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                              (click)="DispalyInfo($event,field.label)">
+                            <div *ngIf="submitted && fx[field.formControlName].errors" class="invalid-feedback">
+                              <div *ngIf="fx[field.formControlName].errors.required">this field is required</div>
+                            </div>
+                          </div>
+                          <div class="form-group col-md-8" *ngIf="field.type === 'select'">
+
+
+                            <kendo-dropdownlist class="form-control form-control-sm" [data]="field.data"
+                              [filterable]="true" [textField]="field.option" [valueField]="field.value"
+                              [formControlName]="field.formControlName" [id]="field.id"
+                              [(ngModel)]="WorkOrderModelObj[field.model]" [valuePrimitive]="true"
+                              (selectionChange)="onSelectChange(i, j, k)"
+                              (valueChange)="onValueChange(i, j, k)"
+                              (filterChange)="NweWorkOrderFilter($event,field.formControlName)"
+                              [ngClass]="{ 'HelpCursor': isHelpActive }"
+                              (click)="DispalyInfo($event,field.label)">
+                            </kendo-dropdownlist>
+                            <div *ngIf="field.flag" class="Mydropdown">this field is required</div>
+                          </div>
+                          <div class="form-group col-md-8" *ngIf="field.type === 'textarea'">
+                            <textarea type="text" class="form-control form-control-sm" [id]="field.id"
+                              [rows]="field.rows" [placeholder]="field.placeholder"
+                              [formControlName]="field.formControlName" [(ngModel)]="WorkOrderModelObj[field.model]"
+                              [ngClass]="{ 'is-invalid': submitted && fx[field.formControlName].errors }"
+                              [ngClass]="{ 'HelpCursor': isHelpActive }"
+                              (click)="DispalyInfo($event,field.label)"></textarea>
+                            <div *ngIf="submitted && fx[field.formControlName].errors" class="invalid-feedback">
+                              <div *ngIf="fx[field.formControlName].errors.required">this field is required</div>
+                            </div>
+                          </div>
+                        </div>
+                      </ng-template>
+                      <ng-template #multiFields>
+                        <div class="form-row">
+                          <div class="form-group"
+                            [ngClass]="{'col-md-4': item.fields.length === 3, 'col-md-6': item.fields.length === 2}"
+                            *ngFor="let field of item.fields; let k=index">
+                            <div class="custom-control" [ngClass]="field.fieldStyle" *ngIf="field.type === 'checkbox'">
+                              <input type="checkbox" class="custom-control-input" [id]="field.id"
+                                [(ngModel)]="WorkOrderModelObj[field.model]" [formControlName]="field.formControlName">
+                              <label class="custom-control-label" [for]="field.id" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                              (click)="DispalyInfo($event,field.label)">{{field.label}}</label>
+                            </div>
+                            <label class="col-form-label" *ngIf="field.type !== 'checkbox'" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                            (click)="DispalyInfo($event,field.label)">{{field.label}}
+                              <span *ngIf="field.required" style="color: red">*</span>
+                            </label>
+                            <div *ngIf="field.type === 'input'">
+                              <input *ngIf="field.numbersOnly && field.formControlName == 'ZipVal'" numbersOnly
+                                type="text" class="form-control form-control-sm" id="field.id" maxlength="6"
+                                [formControlName]="field.formControlName" [placeholder]="field.placeholder"
+                                [disabled]="field.disabled" [(ngModel)]="WorkOrderModelObj[field.model]" (change)="BindZipAddress($event,field.formControlName)"
+                                ng-pattern="field.pattern"
+                                [ngClass]="{ 'is-invalid': submitted && fx[field.formControlName].errors }"
+                                [ngClass]="{ 'HelpCursor': isHelpActive }"
+                              (click)="DispalyInfo($event,field.label)"[readonly]="isHelpActive">
+                              <input *ngIf="field.numbersOnly && field.formControlName != 'ZipVal'" numbersOnly
+                                type="text" class="form-control form-control-sm" id="field.id"
+                                [formControlName]="field.formControlName" [placeholder]="field.placeholder"
+                                [disabled]="field.disabled" [(ngModel)]="WorkOrderModelObj[field.model]"
+                                ng-pattern="field.pattern"
+                                [ngClass]="{ 'is-invalid': submitted && fx[field.formControlName].errors }"
+                                [ngClass]="{ 'HelpCursor': isHelpActive }"
+                                (click)="DispalyInfo($event,field.label)"[readonly]="isHelpActive">
+                              <input *ngIf="field.AlphabetOnly" AlphabetOnly type="text"
+                                class="form-control form-control-sm" id="field.id"
+                                [formControlName]="field.formControlName" [placeholder]="field.placeholder"
+                                [disabled]="field.disabled" [(ngModel)]="WorkOrderModelObj[field.model]"
+                                ng-pattern="field.pattern"
+                                [ngClass]="{ 'is-invalid': submitted && fx[field.formControlName].errors }"
+                                [ngClass]="{ 'HelpCursor': isHelpActive }"
+                                (click)="DispalyInfo($event,field.label)"[readonly]="isHelpActive">
+                              <input *ngIf="!field.numbersOnly && !field.AlphabetOnly" type="text"
+                                class="form-control form-control-sm" id="field.id"
+                                [formControlName]="field.formControlName" [placeholder]="field.placeholder"
+                                [disabled]="field.disabled" [(ngModel)]="WorkOrderModelObj[field.model]"
+                                ng-pattern="field.pattern"
+                                [ngClass]="{ 'is-invalid': submitted && fx[field.formControlName].errors }"
+                                [ngClass]="{ 'HelpCursor': isHelpActive }"
+                                (click)="DispalyInfo($event,field.label)"[readonly]="isHelpActive">
+                              <div *ngIf="submitted && fx[field.formControlName].errors" class="invalid-feedback">
+                                <div *ngIf="fx[field.formControlName].errors.required">this field is required</div>
+                                <div *ngIf="fx[field.formControlName].errors.email">Email must be a valid email address
+                                </div>
+                              </div>
+                            </div>
+                            <div *ngIf="field.type === 'select'">
+
+                              <kendo-dropdownlist class="form-control form-control-sm" [data]="field.data"
+                                [filterable]="true" [textField]="field.option" [valueField]="field.value"
+                                [formControlName]="field.formControlName" [id]="field.id"
+                                [(ngModel)]="WorkOrderModelObj[field.model]" [valuePrimitive]="true"
+                                (selectionChange)="onSelectChange(i, j, k)"
+                                (valueChange)="onValueChange(i, j, k)"
+                                (filterChange)="NweWorkOrderFilter($event,field.formControlName)"
+                                [ngClass]="{ 'HelpCursor': isHelpActive }"
+                                (click)="DispalyInfo($event,field.label)">
+                              </kendo-dropdownlist>
+                              <div *ngIf="field.flag" class="Mydropdown" style="margin-top: 0.5rem;">this field is
+                                required</div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </ng-template>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-4 smallBox col-md-4 col-12">
+                  <div class=" p-2">
+                    <div class="form-row">
+                      <div class="form-group col-md-4">
+                        <label for="hgjtrrrt" class="col-form-label"  [ngClass]="{ 'HelpCursor': isHelpActive }"
+                        (click)="DispalyInfo($event,'Comments')">Comments</label>
+                      </div>
+
+                    </div>
+                    <div class="form-row">
+
+                      <div class="form-group col-md-12">
+                        <kendo-editor *ngIf="FormDisabledCustom" [disabled]="FormDisabledCustom" [value]="Cmtvalue"
+                          style="height: 165px;" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                          (click)="DispalyInfo($event,'Comments')"></kendo-editor>
+
+                        <kendo-editor *ngIf="!FormDisabledCustom" [(ngModel)]="WorkOrderModelObj.Comments"
+                          style="height: 165px;" [ngModelOptions]="{standalone: true}"
+                          [ngClass]="{ 'HelpCursor': isHelpActive }"
+                        (click)="DispalyInfo($event,'Comments')"></kendo-editor>
+                      </div>
+
+
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group col-md-6">
+                        <label for="inputCityrfDate" class="col-form-label" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                        (click)="DispalyInfo($event,'Created Date')">Created Date</label>
+                        <div class="form-group">
+                          <div class="input-group">
+                            <label class="form-control form-control-sm" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                            (click)="DispalyInfo($event,'Created Date')">{{WorkOrderModelObj.DateCreated |
+                              date:'MM/dd/yyyy' }}
+                              <span *ngIf="!WorkOrderModelObj.DateCreated">Enter Date</span> </label>
+                            <input class="form-control form-control-sm" placeholder="yyyy-mm-dd"
+                              [(ngModel)]="WorkOrderModelObj.DateCreated" [ngModelOptions]="{standalone: true}"
+                              ngbDatepicker #dt1="ngbDatepicker"  firstDayOfWeek="7" style="display: none"
+                              >
+                            <div class="input-group-append">
+                              <button class="btn btn-outline-info btn-xs" [disabled]="FormDisabledCustom"
+                                (click)="dt1.toggle()" [ngClass]="{ 'HelpCursor': isHelpActive }" [disabled]="isHelpActive" type="button"><i class="fas fa-calendar-alt"></i></button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label for="inputZipee" class="col-form-label" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                        (click)="DispalyInfo($event,'Start Date')">Start Date</label>
+                        <div class="form-group">
+                          <div class="input-group">
+                            <label class="form-control form-control-sm" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                            (click)="DispalyInfo($event,'Start Date')">{{ WorkOrderModelObj.startDate |
+                              date:'MM/dd/yyyy' }}
+                              <span *ngIf="!WorkOrderModelObj.startDate">Enter Date</span> </label>
+                            <input class="form-control form-control-sm" placeholder="yyyy-mm-dd"
+                              [(ngModel)]="WorkOrderModelObj.startDate" [ngModelOptions]="{standalone: true}"
+                              ngbDatepicker #dt2="ngbDatepicker" firstDayOfWeek="7" style="display: none">
+                            <div class="input-group-append">
+                              <button class="btn btn-outline-info btn-xs" [disabled]="FormDisabledCustom"
+                                (click)="dt2.toggle()" type="button" [ngClass]="{ 'HelpCursor': isHelpActive }" [disabled]="isHelpActive"><i class="fas fa-calendar-alt"></i></button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group col-md-6">
+                        <label for="inputCityrfDate" class="col-form-label"[ngClass]="{ 'HelpCursor': isHelpActive }"
+                        (click)="DispalyInfo($event,'Due Date')">Due Date <span
+                            style="color: red">*</span></label>
+                        <div class="form-group">
+                          <div class="input-group">
+                            <label class="form-control form-control-sm" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                            (click)="DispalyInfo($event,'Due Date')">{{ WorkOrderModelObj.dueDate |
+                              date:'MM/dd/yyyy'}}
+                              <span *ngIf="!WorkOrderModelObj.dueDate">Enter Date</span>
+                            </label>
+                            <input class="form-control form-control-sm" placeholder="yyyy-mm-dd"
+                              [(ngModel)]="WorkOrderModelObj.dueDate" [ngModelOptions]="{standalone: true}"
+                              ngbDatepicker #dt3="ngbDatepicker" firstDayOfWeek="7" style="display: none" required
+                              firstDayOfWeek="7"
+                              [ngClass]="{ 'is-invalid': submitted && !WorkOrderModelObj.dueDate }" (ngModelChange)="CalculateReceivedDate()">
+                            <div class="input-group-append">
+                              <button class="btn btn-outline-info btn-xs" [disabled]="FormDisabledCustom"
+                                (click)="dt3.toggle()" type="button" [ngClass]="{ 'HelpCursor': isHelpActive }" [disabled]="isHelpActive"><i class="fas fa-calendar-alt"></i></button>
+                            </div>
+                            <div *ngIf="submitted && !WorkOrderModelObj.dueDate" class="invalid-feedback">
+                              <div *ngIf="!WorkOrderModelObj.dueDate">this field is required</div>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label for="inputZipeee" class="col-form-label" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                        (click)="DispalyInfo($event,'Client Due Date')">Client Due Date</label>
+                        <div class="form-group">
+                          <div class="input-group">
+                            <label class="form-control form-control-sm"[ngClass]="{ 'HelpCursor': isHelpActive }"
+                            (click)="DispalyInfo($event,'Client Due Date')">{{ WorkOrderModelObj.clientDueDate |
+                              date:'MM/dd/yyyy' }}
+                              <span *ngIf="!WorkOrderModelObj.clientDueDate">Enter Date</span> </label>
+                            <input class="form-control form-control-sm" placeholder="yyyy-mm-dd"
+                              [(ngModel)]="WorkOrderModelObj.clientDueDate" [ngModelOptions]="{standalone: true}"
+                              ngbDatepicker #dt4="ngbDatepicker" firstDayOfWeek="7" style="display: none">
+                            <div class="input-group-append">
+                              <button class="btn btn-outline-info btn-xs" [disabled]="FormDisabledCustom"
+                                (click)="dt4.toggle()" type="button" [ngClass]="{ 'HelpCursor': isHelpActive }" [disabled]="isHelpActive"><i class="fas fa-calendar-alt"></i></button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group col-md-6">
+                        <label for="inputReceiveDate" class="col-form-label"[ngClass]="{ 'HelpCursor': isHelpActive }"
+                        (click)="DispalyInfo($event,'Received Date')">Received Date</label>
+                        <div class="form-group">
+
+                          <div class="input-group">
+                            <label class="form-control form-control-sm" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                            (click)="DispalyInfo($event,'Received Date')">{{ WorkOrderModelObj.Received_Date |
+                              date:'MM/dd/yyyy'}}
+                              <span *ngIf="!WorkOrderModelObj.Received_Date">Enter Date</span>
+                            </label>
+                            <input class="form-control form-control-sm" placeholder="yyyy-mm-dd"
+                              [(ngModel)]="WorkOrderModelObj.Received_Date" [ngModelOptions]="{standalone: true}"
+                              ngbDatepicker #dt5="ngbDatepicker" firstDayOfWeek="7" style="display: none"
+                              (ngModelChange)="CalculateReceivedDate()">
+                            <div class="input-group-append">
+                              <button class="btn btn-outline-info btn-xs" [disabled]="FormDisabledCustom"
+                                (click)="dt5.toggle()" type="button"[ngClass]="{ 'HelpCursor': isHelpActive }" [disabled]="isHelpActive"><i class="fas fa-calendar-alt"></i></button>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label for="inputESTDate" class="col-form-label"[ngClass]="{ 'HelpCursor': isHelpActive }"
+                        (click)="DispalyInfo($event,'EST Date')">Est Date</label>
+                        <div class="form-group">
+
+                          <div class="input-group">
+                            <label class="form-control form-control-sm" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                            (click)="DispalyInfo($event,'EST Date')">{{ WorkOrderModelObj.EstimatedDate |
+                              date:'MM/dd/yyyy'}}
+                              <span *ngIf="!WorkOrderModelObj.EstimatedDate">Enter Date</span>
+                            </label>
+                            <input class="form-control form-control-sm" placeholder="yyyy-mm-dd"
+                              [(ngModel)]="WorkOrderModelObj.EstimatedDate" [ngModelOptions]="{standalone: true}"
+                              ngbDatepicker #dt6="ngbDatepicker" firstDayOfWeek="7" style="display: none"
+                              (ngModelChange)="CalculateReceivedDate()">
+                            <div class="input-group-append">
+                              <button class="btn btn-outline-info btn-xs" [disabled]="FormDisabledCustom"
+                                (click)="dt6.toggle()" type="button"[ngClass]="{ 'HelpCursor': isHelpActive }" [disabled]="isHelpActive"><i class="fas fa-calendar-alt"></i></button>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group col-md-6">
+                        <label for="Recurringlbl1" class="col-form-label" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                        (click)="DispalyInfo($event,'Recurring')">&nbsp;</label>
+                        <div class="custom-control custom-switch" >
+                          <input type="checkbox" class="custom-control-input" id="Recurringlbl" [disabled]="FormDisabledCustom"
+                            [(ngModel)]="WorkOrderModelObj.Recurring"
+                            (change)="IsRecurring(WorkOrderModelObj.Recurring)" [ngModelOptions]="{standalone: true}"
+                            [ngClass]="{ 'HelpCursor': isHelpActive }"
+                        (click)="DispalyInfo($event,'Recurring')">
+                          <label class="custom-control-label" for="Recurringlbl" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                          (click)="DispalyInfo($event,'Recurring')">Recurring</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-row" [hidden]="IsRecHide">
+                      <div class="form-group col-md-3">
+                        <label for="Recurs_Daylbl" class="col-form-label"[ngClass]="{ 'HelpCursor': isHelpActive }"
+                        (click)="DispalyInfo($event,'Recurs every')">Recurs every</label>
+                        <div class="form-group">
+                          <input type="text" numbersonly class="form-control form-control-sm" id="Recurs_Daylbl"
+                            [(ngModel)]="WorkOrderModelObj.Recurs_Day" [ngModelOptions]="{standalone: true}"
+                            placeholder="Enter Days" (change)="CalculateReceivedDate()" [disabled]="FormDisabledCustom"
+                            [ngClass]="{ 'HelpCursor': isHelpActive }"
+                        (click)="DispalyInfo($event,'Recurs every')">
+                        </div>
+
+                      </div>
+                      <div class="form-group col-md-2">
+                        <label for="Recurs_Daylbl" class="col-form-label"[ngClass]="{ 'HelpCursor': isHelpActive }"
+                        (click)="DispalyInfo($event,'Select')">&nbsp;</label>
+                        <div class="form-group">
+
+                          <select class="form-control form-control-sm" [(ngModel)]="WorkOrderModelObj.Recurs_Period"
+                            [ngModelOptions]="{standalone: true}" (change)="CalculateReceivedDate()" [disabled]="FormDisabledCustom"
+                            [ngClass]="{ 'HelpCursor': isHelpActive }"
+                        (click)="DispalyInfo($event,'Select')">
+                            <option [ngValue]="kb.Id" *ngFor="let kb of Recurs_PeriodList">
+                              {{kb.Name}}
+                            </option>
+                          </select>
+                        </div>
+
+                      </div>
+                      <div class="form-group col-md-2">
+                        <label for="Recurs_Limitlbl" class="col-form-label" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                        (click)="DispalyInfo($event,'Limit to')">Limit to</label>
+                        <div class="form-group">
+                          <input type="text" numbersonly class="form-control form-control-sm" id="Recurs_Limitlbl"
+                            [(ngModel)]="WorkOrderModelObj.Recurs_Limit" [ngModelOptions]="{standalone: true}"
+                            placeholder="Enter Limit" (change)="CalculateReceivedDate()" [disabled]="FormDisabledCustom"
+                            [ngClass]="{ 'HelpCursor': isHelpActive }"
+                        (click)="DispalyInfo($event,'Limit to')">
+                        </div>
+                      </div>
+                      <div class="form-group col-md-5">
+                        <label for="Recurs_Limitlbl" class="col-form-label" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                        (click)="DispalyInfo($event,'CutOff Date')">Cut Off Date</label>
+                        <div class="form-group">
+                          <div class="input-group">
+                            <label class="form-control form-control-sm" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                            (click)="DispalyInfo($event,'CutOff Date')">{{ WorkOrderModelObj.Recurs_CutOffDate |
+                              date:'MM/dd/yyyy'}}
+                              <span *ngIf="!WorkOrderModelObj.Recurs_CutOffDate"></span>
+                            </label>
+                            <input class="form-control form-control-sm" placeholder="yyyy-mm-dd"
+                              [(ngModel)]="WorkOrderModelObj.Recurs_CutOffDate" [ngModelOptions]="{standalone: true}"
+                              ngbDatepicker #dt7="ngbDatepicker" firstDayOfWeek="7" style="display: none" (ngModelChange)="CalculateReceivedDate()">
+                            <div class="input-group-append">
+                              <button class="btn btn-outline-info btn-xs" [disabled]="FormDisabledCustom"
+                                (click)="dt7.toggle()" type="button" [ngClass]="{ 'HelpCursor': isHelpActive }" [disabled]="isHelpActive"><i class="fas fa-calendar-alt"></i></button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+                    <div class="form-row">
+                      <div class="form-group col-md-6"></div>
+                      <div class="form-group col-md-6"></div>
+                    </div>
+
+
+                  </div>
+                </div>
+                <div [hidden]="IsRecHide" class="form-row m-1 w-100 justify-content-end">
+                  <div class="module-box">
+                    <kendo-multiviewcalendar [views]="3">
+                      <ng-template kendoCalendarMonthCellTemplate let-date>
+                          <span [ngClass]="isMeeting(date)">{{date.getDate()}}</span>
+
+                      </ng-template>
+                      <ng-template kendoCalendarHeaderTitleTemplate let-title>
+                          {{title}}
+                      </ng-template>
+                    </kendo-multiviewcalendar>
+                  </div>
+                </div>
+
+                <div class="col-md-12 my-2">
+                  <div class="form-row justify-content-end">
+                    <div class="float-right">
+                      <button id="client_viewdetail_1" class="btn btn-primary mr-1" *ngIf="IsEditDisable"
+                        [routerLink]="['/workorder/createworkorder/new']" (click)="EditForms()" [disabled]="IsEditEnable">
+                        <i class="far fa-edit mr-1"></i> Edit
+                      </button>
+                      <button id="client_viewdetail_1" class="btn btn-primary mr-1" type="submit" *ngIf="!IsEditDisable"
+                        [disabled]="isLoading">
+                        <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}"></i>
+                        {{button}}
+                      </button>
+                      <button id="client_viewdetail_1" *ngIf="!WorkOrderModelObj.workOrder_ID"
+                        class="btn btn-primary mr-1" [routerLink]="['/workorder']">
+                        <i class="fas fa-arrow-alt-circle-left mr-1"></i> Back
+                      </button>
+                      <button id="client_viewdetail_1" *ngIf="WorkOrderModelObj.workOrder_ID"
+                        class="btn btn-primary mr-1" (click)="Back(WorkOrderModelObj.workOrder_ID)"
+                        [disabled]="AfterCopy">
+                        <i class="fas fa-arrow-alt-circle-left mr-1"></i> Back
+                      </button>
+                      <button id="client_viewdetail_1" class="btn btn-primary" (click)='Reset()' *ngIf='!isnew'>Add New
+                        Work Order</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="col-md-12">
+                  <div class="form-row">
+                    <div class="float-right">
+                      <label for="InvestmentSihhhze" *ngIf="formUsrCommonGroup.invalid || !WorkOrderModelObj.dueDate"
+                        style="color:red">*
+                        Field is Required
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- end contianer -->
+  </div>
+</div>

@@ -1,0 +1,169 @@
+<div class="row">
+  <app-breadcrumb></app-breadcrumb>
+</div>
+
+<div class="" [ngClass]="{ 'HelpCursor': isHelpActive }">
+  <div class="">
+    <div class="">
+        <h4 class="page-title module-box-header mb-0"> Auto Import Orders
+          <a class="pull-right" data-toggle="tooltip" (click)="SetHelpFlag()" data-placement="top"
+          title="Item Help" style="cursor: pointer; margin-right: 8px;">Need Help
+          <i class="fas fa-question"></i>&nbsp;&nbsp;
+        </a>
+        </h4>
+        <div class="module-subheader p-1">
+          <button id="client_viewdetail_1" class="btn btn-primary mr-2" (click)="redirectAdd()">
+            <i class="fas fa-plus-circle mr-1"></i> Create Auto Import
+          </button>
+          <button id="client_viewdetail_1" class="btn btn-primary" (click)="redirectview()">
+            <i class="fas fa-eye mr-1"></i> View Auto Import
+          </button>
+          <div class="form-row mt-3">
+            <div class="form-group col-2">
+              <label [ngClass]="{ 'HelpCursor': isHelpActive }"
+              (click)="DispalyInfo($event,'Import From')">Import From</label>
+              <kendo-dropdownlist class="newClass form-control form-control-sm"
+            [data]="ImportFromListdata"
+            [defaultItem]="defaultimportItem"
+            [filterable]="true"
+            [textField]="'Import_Form_Name'"
+            [valueField]="'Import_Form_PkeyId'"
+            (filterChange)="ImportListFilter($event)"
+            [(ngModel)]="ImportWorkOrderQueueDetailsModelObj.WI_ImportFrom"
+            [valuePrimitive]="true"
+            [ngModelOptions]="{standalone: true}"
+            [ngClass]="{ 'HelpCursor': isHelpActive }"
+              (click)="DispalyInfo($event,'Import From')"
+              (valueChange)="selectChangeHandler($event)"
+          >
+        </kendo-dropdownlist>
+            </div>
+            <div class="form-group col-2">
+              <label [ngClass]="{ 'HelpCursor': isHelpActive }"
+              (click)="DispalyInfo($event,'Client')">Client</label>
+              <kendo-dropdownlist class="newClass form-control form-control-sm"
+            [data]="ClientListdata"
+            [defaultItem]="defaultItem"
+            [filterable]="true"
+            [textField]="'Client_Company_Name'"
+            [valueField]="'Client_pkeyID'"
+            (filterChange)="ClientListFilter($event)"
+            [(ngModel)]="ImportWorkOrderQueueDetailsModelObj.ClentId"
+            [valuePrimitive]="true"
+            [ngModelOptions]="{standalone: true}"
+            [ngClass]="{ 'HelpCursor': isHelpActive }"
+              (click)="DispalyInfo($event,'Client')"
+          >
+        </kendo-dropdownlist>
+            </div>
+
+
+            <div class="form-group col-2">
+              <label [ngClass]="{ 'HelpCursor': isHelpActive }"
+              (click)="DispalyInfo($event,'Client')">Import Name</label>
+              <kendo-dropdownlist class="newClass form-control form-control-sm"
+            [data]="ImportNameListdata"
+            [defaultItem]="defaultItemdetail"
+            [filterable]="true"
+            [textField]="'WI_FriendlyName'"
+            [valueField]="'WI_FriendlyName'"
+            (filterChange)="ImportdataListFilter($event)"
+            [(ngModel)]="ImportWorkOrderQueueDetailsModelObj.WI_FriendlyName"
+            [valuePrimitive]="true"
+            [ngModelOptions]="{standalone: true}"
+            [ngClass]="{ 'HelpCursor': isHelpActive }"
+              (click)="DispalyInfo($event,'Client')"
+              (valueChange)="selectChangename($event)"
+          >
+        </kendo-dropdownlist>
+            </div>
+
+
+
+            <div class="form-group col-4" style="align-self: flex-end;">
+              <button class="btn btn-primary btn-sm mr-2"  (click)="FilterDetails()">Search
+              </button>
+              <button class="btn btn-primary btn-sm"  (click)="Reset()">Reset</button>
+            </div>
+        </div>
+        </div>
+
+      <div class="row m-0 module-box p-2">
+        <div class="col-lg-12">
+
+
+
+          <kendo-grid class="module-box p-1"
+          [kendoGridBinding]="griddata"
+          [pageSize]="25"
+          [pageable]="true"
+           [sortable]="true"
+           [skip]="skip"
+
+           [selectable]="true"
+           [groupable]="false"
+           [reorderable]="true"
+
+           (dataStateChange)="dataStateChange($event)"
+           (pageChange)="pageChange($event)">
+
+          <kendo-grid-column field="Client_Company_Name" title="Client" ></kendo-grid-column>
+          <kendo-grid-column field="WI_FriendlyName" title="Import Name" ></kendo-grid-column>
+          <kendo-grid-column field="Imrt_State_Filter" title="State Filter" ></kendo-grid-column>
+          <kendo-grid-column field="Imrt_Last_Run" title="Previous Check" >
+            <ng-template kendoGridCellTemplate let-dataItem>
+                {{dataItem.Imrt_Last_Run | date: 'MM/dd/yyyy h:mm:ss a'}}
+            </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column field="Imrt_Next_Run" title="Next Check Est." >
+            <ng-template kendoGridCellTemplate let-dataItem>
+                {{dataItem.Imrt_Next_Run | date: 'MM/dd/yyyy h:mm:ss a'}}
+            </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column field="Imrt_Wo_Count" title="Work Order Count" ></kendo-grid-column>
+          <kendo-grid-column field="Imrt_Status_Msg" title="Status" ></kendo-grid-column>
+          <kendo-grid-column field="Imrt_Status_Msg" title="Active"  >
+            <ng-template kendoGridCellTemplate let-dataItem>
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" [(ngModel)]="dataItem.Imrt_Active" [ngModelOptions]="{standalone: true}"
+                  class="custom-control-input" id="mnbv" disabled>
+                <label class="custom-control-label" for="mnbv"></label>
+              </div>
+          </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column [width]='450' title="Action" >
+            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+              <div class="d-flex justify-content-around mt-1 mb-1">
+                <button id="client_viewdetail_1" class="btn btn-primary " [disabled]="dataItem.Imrt_NewOrderCheck"
+                  (click)="CkeckNowData(dataItem,rowIndex)"><i *ngIf="dataItem.Imrt_NewOrderCheck"
+                  class="fa fa-spinner fa-spin" style="margin-right: 5px;"></i>New Order Check</button>
+                <button id="client_viewdetail_1" class="btn btn-primary " (click)="showDetails($event, dataItem)"
+                  [disabled]="dataItem.Imrt_Wo_Count == '0'">Import New Orders
+                </button>
+                <button id="client_viewdetail_1" class="btn btn-primary " (click)="DeleteQueued(dataItem)">
+                  Clear Order Queue
+                </button>
+              </div>
+            </ng-template>
+          </kendo-grid-column>
+          <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+            <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+            <kendo-pager-numeric-buttons [buttonCount]="10"></kendo-pager-numeric-buttons>
+            <kendo-pager-next-buttons></kendo-pager-next-buttons>
+            <kendo-pager-info></kendo-pager-info>
+            <kendo-pager-page-sizes [pageSizes]="[25, 50, 100, 500, 1000]"></kendo-pager-page-sizes>
+          </ng-template>
+          </kendo-grid>
+
+
+
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="default" color="#fff" type="timer" [fullScreen]="true">
+  <p style="color: white">Loading...</p>
+</ngx-spinner>

@@ -1,0 +1,742 @@
+<div>
+  <ul class=" module-subheader nav nav-tabs mr-0 w-100" id="myinv" role="tablist">
+    <li class="nav-item" *ngFor="let tab of tabs" (click)="onClickTab(tab)">
+      <a class="nav-link" [hidden]='tab.tabhidep' [ngClass]="{'active': tab.active}" [id]="tab.id" data-toggle="tab"
+        [href]="'#' + tab.link" role="tab" aria-controls="link" aria-selected="true">{{tab.title}}</a>
+    </li>
+  </ul>
+  <div class="tab-content pt-0" id="myinvContent" >
+    <div class="module-box tab-pane fade p-1" [ngClass]="{'show': tabs[0].active, 'active': tabs[0].active}" id="home2" role="tabpanel"
+      aria-labelledby="home1-tab">
+      <div class="row">
+        <div class="col-12">
+          <div class="responsive-table-plugin">
+            <div style="overflow-x:auto;" class="table-rep-plugin">
+              <div class="table-responsive"  data-pattern="priority-columns">
+              <!-- <div class="table-responsive" style="width: max-content;" data-pattern="priority-columns"> -->
+                <table class="result-table table col-11.5 mt-1 mb-1">
+                  <thead>
+                    <tr class="text-center">
+                      <th colspan="3"></th>
+                      <th colspan="2" style="background-color:#edeef0;" [hidden]='processorh'>
+                        Contractor</th>
+                      <th colspan="2" style="background-color: #bbb7b8;" [hidden]='OfficeResulth'>
+                        Client</th>
+                      <th colspan="3"></th>
+                    </tr>
+                    <tr class="text-center">
+                      <th >
+                        Task</th>
+                      <th>
+                        Qty</th>
+                      <th>
+                        UOM</th>
+                      <th style="background-color: #edeef0;" [hidden]='processorh'>
+                        Price</th>
+                      <th style="background-color: #edeef0;" [hidden]='processorh'>
+                        Total</th>
+                      <th style="background-color: #bbb7b8;" [hidden]='OfficeResulth'>
+                        Price</th>
+                      <th style="background-color: #bbb7b8;" [hidden]='OfficeResulth'>
+                        Total</th>
+                      <th>Comments</th>
+                      <th >
+                        Action</th>
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="TaskList!=null">
+                    <tr class="p-1" *ngFor="let item of ClientResultBidArray; let i = index"
+                      task-item
+                      [workOrder]="workorder"
+                      type="Bid"
+                      [item]="UpdateItemAndReturn(item,'Bid')"
+                      [indx]="i"
+                      [errorSubmit]="isOfficeResultBid"
+                      [taskList]="TaskList"
+                      [UOMList]="UOMList"
+                      [PresetText]="item.TaskPresetDTO"
+                      [BidInvoiceItemViewTaskModelObj]="BidInvoiceItemViewTaskModelObj"
+                      (removeBidTask)="RemoveClientResultBid(i, item)"
+                      [processorh]="processorh"
+                      [OfficeResulth]="OfficeResulth">
+                    </tr>
+                  </tbody>
+                  <tbody *ngIf="TaskList==null">
+                    <tr>Task Not Found</tr>
+                  </tbody>
+                  <tfoot>
+
+                    <tr>
+                    <td style="width: 12%;"><input type="text" [disabled]="true"  [value]="'Count '+rowCount_Bid" class="form-control form-control-sm textbox-as-label"></td>
+                      <td style="width: 5%;"></td>
+                      <td style="width: 6%;"><input type="text" [disabled]="true"  value="Total" class="form-control form-control-sm textbox-as-label"></td>
+                      <td style="width:8%;"></td>
+
+                      <td style="width:8%;">
+                        <div class="inputWithIcon inputIconBg">
+                          <input type="text" [disabled]="true" [(ngModel)]="contractorTotalPriceSum_Bid" [value]="getBidFooterSum()" class="form-control form-control-sm textbox-as-label" style="padding-left:0px !important;">
+
+                          <i class="fa fa-dollar-sign" aria-hidden="true" style="background-color:white;color: #7a7575;"></i>
+                        </div>
+                      </td>
+                      <td style="width:8%;"></td>
+                      <td style="width:8%;">
+                        <div class="inputWithIcon inputIconBg">
+
+                          <input type="text" [disabled]="true" [(ngModel)]="clientTotalPriceSum_Bid" [value]="getBidFooterSum()" class="form-control form-control-sm textbox-as-label" style="padding-left:0px !important;">
+
+                          <i class="fa fa-dollar-sign" aria-hidden="true" style="background-color:white;color: #7a7575;"></i>
+                        </div>
+                      </td>
+
+                      <!-- <td style="width: 7%;"><input type="text" [disabled]="true" [(ngModel)]="contractorPriceSum_Bid" [value]="getBidFooterSum()" class="form-control form-control-sm textbox-as-label"></td>
+                      <td style="width: 7%;"><input type="text" [disabled]="true" [(ngModel)]="contractorTotalPriceSum_Bid" [value]="getBidFooterSum()" class="form-control form-control-sm textbox-as-label"></td>
+                      <td style="width: 7%;"><input type="text" [disabled]="true" [(ngModel)]="clientPriceSum_Bid" [value]="getBidFooterSum()" class="form-control form-control-sm textbox-as-label"></td>
+                      <td style="width: 7%;"><input type="text" [disabled]="true" [(ngModel)]="clientTotalPriceSum_Bid" [value]="getBidFooterSum()" class="form-control form-control-sm textbox-as-label"></td> -->
+                      <td style="width: 40%;"></td>
+                      <td></td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-1 ml-0 ">
+        <div class="col-12 ml-2" >
+          <button id="client_viewdetail_1" class="btn btn-primary" (click)='AddMoreRowClientResultBid()'><i
+              class="fas fa-plus-circle mr-1"></i>Add</button>
+          <button id="client_viewdetail_1" class="btn btn-primary" (click)='ClientResultBidSumbit()'
+            [disabled]="isLoading" style="margin-left: 12px;"><i class="fa"
+              [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}"></i>
+            {{button}}</button>
+            <button id="client_viewdetail_1" class="btn btn-primary  mr-1 ml-2" [disabled]="bidPrint_Disable" (click)='PrintBasedOnType(printTypes.Bid)'><i
+              class="fa fa-print">&nbsp;Print</i></button>
+        </div>
+      </div>
+    </div>
+    <div class="module-box tab-pane fade ml-1" [ngClass]="{'show': tabs[1].active, 'active': tabs[1].active}" id="inscinvoice"
+      role="tabpanel" aria-labelledby="inscinvoice-tab" >
+      <div class="row">
+        <div class="col-12">
+          <div class="responsive-table-plugin">
+            <div style="overflow-x:auto;" class="table-rep-plugin">
+               <div class="table-responsive"  data-pattern="priority-columns">
+              <!-- <div class="table-responsive" style="width: max-content;" data-pattern="priority-columns"> -->
+                <table class="table col-12 result-table mt-1 mb-1">
+                  <thead class="text-center">
+                    <tr>
+                      <th colspan="3"></th>
+                      <th colspan="2" style="text-align: center;background-color:#edeef0;" [hidden]='processorh'>
+                        Contractor</th>
+                      <th colspan="2" style="text-align: center;background-color: #bbb7b8;" [hidden]='OfficeResulth'>
+                        Client</th>
+                      <th colspan="3"></th>
+                    </tr>
+                    <tr>
+                      <th>
+                        Task</th>
+                      <th >
+                        Qty</th>
+                      <th >
+                        UOM</th>
+                      <th style="background-color: #edeef0;" [hidden]='processorh'>
+                        Price</th>
+                      <th style="background-color: #edeef0;" [hidden]='processorh'>
+                        Total</th>
+                      <th style="background-color: #bbb7b8;" [hidden]='OfficeResulth'>
+                        Price</th>
+                      <th style="background-color: #bbb7b8;" [hidden]='OfficeResulth'>
+                        Total</th>
+                      <th>Comments</th>
+                      <th >
+                        Action</th>
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="TaskList!=null">
+                    <tr *ngFor="let item of ClientResultCreateCompletionArray; let i = index"
+                      task-item
+                      [workOrder]="workorder"
+                      type="Inv"
+                      [item]="UpdateItemAndReturn(item,'Inv')"
+                      [indx]="i"
+                      [errorSubmit]="isOfficeResultCompletion"
+                      [taskList]="TaskList"
+                      [UOMList]="UOMList"
+                      [PresetText]="PresetText"
+                      [BidInvoiceItemViewTaskModelObj]="BidInvoiceItemViewTaskModelObj"
+                      (removeBidTask)="clientResultInvocieRemove(i, item)"
+                      [processorh]="processorh"
+                      [OfficeResulth]="OfficeResulth">
+                    </tr>
+                  </tbody> <tbody *ngIf="TaskList==null">
+                    <tr>Task Not Found</tr>
+                  </tbody>
+                  <tfoot>
+
+
+                    <tr>
+                      <td style="width: 12%;"><input type="text" [disabled]="true"  [value]="'Count '+rowCount_Complention" class="form-control form-control-sm textbox-as-label"></td>
+                      <td style="width: 5%;"></td>
+                      <td style="width: 6%;"><input type="text" [disabled]="true"  value="Total" class="form-control form-control-sm textbox-as-label"></td>
+
+                      <td style="width:8%;">
+
+                      </td>
+                        <td style="width:8%;">
+                          <div class="inputWithIcon inputIconBg">
+                            <input type="text" [disabled]="true" [(ngModel)]="contractorTotalPriceSum_Complention" [value]="getComplentionFooterSum()" class="form-control form-control-sm textbox-as-label">
+                          <!-- <input type="text"
+                          [disabled]="true" [disabled]="true" class="form-control form-control-sm"> -->
+                            <i class="fa fa-dollar-sign" aria-hidden="true" style="background-color:white;color: #7a7575;"></i>
+                          </div>
+                        </td>
+
+                        <td style="width:8%;">
+
+                        </td>
+                        <td style="width:8%;">
+                          <div class="inputWithIcon inputIconBg">
+                            <input type="text" [disabled]="true" [(ngModel)]="clientTotalPriceSum_Complention" [value]="getComplentionFooterSum()" class="form-control form-control-sm textbox-as-label">
+                          <!-- <input type="text"
+                          [disabled]="true" [disabled]="true" class="form-control form-control-sm"> -->
+                            <i class="fa fa-dollar-sign" aria-hidden="true" style="background-color:white;color: #7a7575;"></i>
+                          </div>
+                        </td>
+                        <td style="width:8%;">
+
+                        </td>
+                        <!-- <td style="width: 7%;"><input type="text" [disabled]="true" [(ngModel)]="contractorPriceSum_Complention" [value]="getComplentionFooterSum()" class="form-control form-control-sm textbox-as-label"></td> -->
+                      <!-- <td style="width: 7%;"><input type="text" [disabled]="true" [(ngModel)]="contractorTotalPriceSum_Complention" [value]="getComplentionFooterSum()" class="form-control form-control-sm textbox-as-label"></td>
+                      <td style="width: 7%;"><input type="text" [disabled]="true" [(ngModel)]="clientPriceSum_Complention" [value]="getComplentionFooterSum()" class="form-control form-control-sm textbox-as-label"></td>
+                      <td style="width: 7%;"><input type="text" [disabled]="true" [(ngModel)]="clientTotalPriceSum_Complention" [value]="getComplentionFooterSum()" class="form-control form-control-sm textbox-as-label"></td> -->
+                      <td style="width: 40%;"></td>
+                      <td></td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="row my-1">
+            <div class="col-12 ml-4">
+              <button id="client_viewdetail_1" class="btn btn-primary" (click)='AddMoreClinetResultInvoice()'><i
+                  class="fas fa-plus-circle"></i> Add</button>
+              &nbsp;
+              <button id="client_viewdetail_1" class="btn btn-primary" (click)='ClientResultInvoiceSumbit()'
+                [disabled]="isLoading"><i class="fa"
+                  [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}"></i>
+                {{button}}</button>
+                <button id="client_viewdetail_1" class="btn btn-primary  mr-1 ml-2" [disabled]="complentionPrint_Disable" (click)='PrintBasedOnType(printTypes.Completion)'><i
+                  class="fa fa-print">&nbsp;Print</i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="module-box tab-pane fade" [ngClass]="{'show': tabs[2].active, 'active': tabs[2].active}" id="insdamage"
+      role="tabpanel" aria-labelledby="insdamage-tab">
+      <div class="row">
+        <div class="col-12">
+          <div class="responsive-table-plugin">
+            <div style="overflow-x: auto;" class="table-rep-plugin">
+              <div class="table-responsive" style="width: max-content;" data-pattern="priority-columns">
+                <table id="tech-companies-1" class="table result-table mt-1">
+                  <thead>
+                    <tr class="text-center">
+                      <th style=" width: 15%">Type</th>
+                      <th style="width: 8%;">Int/Ext</th>
+                      <th style="width: 15%;">Location</th>
+                      <th style="width: 5%;">Qty</th>
+                      <th style="width: 10%;">Estimate</th>
+                      <th colspan="2" >
+                        Description</th>
+                      <th >Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let damage of ClientResultDamageArray;index as indx">
+                      <td [ngClass]="{'highlight' : damage.Task_Damage_Type == 0  && isOfficeResultDamage}"
+                      >
+                        <div class="example-wrapper" *ngIf="damage.Task_Damage_ID != -99" style="max-width: 300px;min-width: 300px;">
+
+                          <kendo-dropdownlist class="form-control form-control-sm"
+                          [data]="damageTypeList"
+                          [defaultItem]="defaultTypeItem"
+                          [filterable]="true"
+                          [textField]="'Damage_Type'"
+                          [valueField]="'Damage_pkeyID'"
+                          (filterChange)="DamageTypeFilter($event)"
+                          [(ngModel)]="damage.Task_Damage_ID"
+                          [valuePrimitive]="true"
+                          [ngModelOptions]="{standalone: true}"
+
+                          (valueChange)="DamageTypeChange(damage.Task_Damage_ID,indx)"
+                        >
+                          </kendo-dropdownlist>
+                          <!--  (valueChange)="ClientResult_DamageType(DAMAGE)"-->
+                        </div>
+
+                        <div *ngIf="damage.Task_Damage_ID == -99">
+                          <input type="text" [(ngModel)]="damage.Task_Damage_Other_Name" class="form-control">
+                          <a (click)='backdropdown(damage)'><i class="fas fa-arrow-alt-circle-left"></i></a>
+                        </div>
+                      </td>
+
+
+                      <td>
+                        <select class="form-control form-control-sm" [(ngModel)]="damage.Task_Damage_Int"
+                          [ngModelOptions]="{standalone: true}">
+                          <option value='0'>select</option>
+                          <option [ngValue]="kb.Id" *ngFor="let kb of IntExtList">
+                            {{kb.Name}}
+                          </option>
+                        </select>
+                      </td>
+                      <td>
+                        <input type="text" [(ngModel)]="damage.Task_Damage_Location"
+                          [ngModelOptions]="{standalone: true}" class="form-control form-control-sm">
+                      </td>
+                      <td>
+                        <input type="text" [(ngModel)]="damage.Task_Damage_Qty" numbersOnly
+                          [ngModelOptions]="{standalone: true}" class="form-control form-control-sm">
+                      </td>
+                      <td>
+                        <div class="inputWithIcon inputIconBg">
+                          <input type="text" [(ngModel)]="damage.Task_Damage_Estimate"
+                          [ngModelOptions]="{standalone: true}" class="form-control form-control-sm" (keypress)="validate($event)">
+                            <i class="fa fa-dollar-sign" aria-hidden="true"></i>
+                          </div>
+                        <!-- <input type="text" [(ngModel)]="DAMAGE.Task_Damage_Estimate"
+                          [ngModelOptions]="{standalone: true}" class="form-control form-control-sm" numbersOnly> -->
+                      </td>
+
+
+
+                      <td style="width: 40%;">
+                        <div class="row pl-1">
+                          <div class="col-md-11 col-8">
+                            <textarea [(ngModel)]="damage.Task_Damage_Disc" [ngModelOptions]="{standalone: true}" style="width: 93%;"
+                              class="ttblecomment form-control form-control-sm">
+                            </textarea>
+                            <!-- <textarea class="form-control form-control-sm"
+                             style="width: 93%;" ></textarea> -->
+
+
+                            <select *ngIf="damage.Task_Damage_PreTextHide"  style="width: 90%;margin-top: 5px;" size="3"
+                              class="form-control form-control-sm" [(ngModel)]="damage.Task_Damage_PresetTemp"
+                              [ngModelOptions]="{standalone: true}" (change)="clientrsultBid_PresetSET(damage)">
+                              <option [ngValue]="kb.Damage_Preset_Text" *ngFor="let kb of damage.PresetText">
+                                {{kb.Damage_Preset_Text}}
+                              </option>
+                            </select>
+                            <div  >
+                              <input type="checkbox" [(ngModel)]="damage.Task_Damage_PreTextHide" (click)="toggleShow(damage,indx)"
+                                [ngModelOptions]="{standalone: true}" class="m-1" id="violationx{{indx}}">
+                              <label class="my-1" for="violationx{{indx}}">
+                                <span *ngIf="damage.Task_Damage_PreTextHide">Hide Preset</span>
+                                <span *ngIf="!damage.Task_Damage_PreTextHide">Show Preset</span>
+
+                              </label>
+                            </div>
+
+                          </div>
+                        </div>
+                      </td>
+                      <!-- <td colspan="2">
+                        <textarea class="form-control form-control-sm" [(ngModel)]="DAMAGE.Task_Damage_Disc"
+                          [ngModelOptions]="{standalone: true}"></textarea>
+                      </td> -->
+                      <td style="width:20px; text-align: center;"><span><a style="cursor: pointer"
+                            (click)='RemoveClientResultDamage(indx,damage)'> <i class="fa fa-trash"></i></a></span>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <td style="width: 12%;"><input type="text" [disabled]="true"  [value]="'Count'+rowCount_Estimation" class="form-control form-control-sm textbox-as-label"></td>
+                      <td></td>
+                      <td></td>
+                      <td><input type="text" [disabled]="true"  value="Total" class="form-control form-control-sm textbox-as-label"></td>
+                      <td style="width:7%;">
+
+                        <div class="inputWithIcon inputIconBg">
+                          <input type="text" [disabled]="true" [(ngModel)]="estimatonSum_Estimation" [value]="getEstimationFooterSum()" class="form-control form-control-sm textbox-as-label">
+                          <i class="fa fa-dollar-sign" aria-hidden="true" style="background-color:white;color: #7a7575;margin-left: 7px"></i>
+                        </div>
+                      </td>
+                      <!-- <td><input type="text" [disabled]="true" [(ngModel)]="estimatonSum_Estimation" [value]="getEstimationFooterSum()" class="form-control form-control-sm textbox-as-label"></td> -->
+                      <td></td>
+                      <td></td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="row mb-1">
+            <div class="col-12 ml-4">
+              <button id="client_viewdetail_1" class="btn btn-primary" (click)='AddClientResultDamage()'> <i
+                  class="fas fa-plus-circle"></i> Add</button>
+              &nbsp;
+              <button id="client_viewdetail_1" class="btn btn-primary" (click)='ClientResultDamageSumbit()'
+                [disabled]="isLoading"><i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}"></i>
+                {{button}}</button>
+                <button id="client_viewdetail_1" class="btn btn-primary  mr-1 ml-2" [disabled]="damagePrint_Disable" (click)='PrintBasedOnType(printTypes.Damage)'><i
+                  class="fa fa-print">&nbsp;Print</i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="module-box tab-pane fade" [ngClass]="{'show': tabs[3].active, 'active': tabs[3].active}" id="Appliance"
+      role="tabpanel" aria-labelledby="Appliance-tab">
+      <div class="row ml-2" style="display: flex;">
+        <div class="col-12">
+          <div class="responsive-table-plugin">
+            <div style="overflow-x:auto;" class="table-rep-plugin">
+              <div class="table-responsive w-100  p-1" style="width: max-conte  nt;" data-pattern="priority-columns">
+
+                <div id="tech-companies-1" class="row m-0 w-100">
+                  <div class="col-12">
+                    <div class="row m-0">
+                      <div class="col-md-3 col-sm-3 col-3"></div>
+                      <div class="mb-2 col-md-6 col-sm-6 col-9" style="display: flex;justify-content: space-around;">
+                        <input type="button" class="btn-success"
+                        (click)="AllSelectData('1')" value="Yes">
+                        <input type="button" class="btn-secondary"
+                        (click)="AllSelectData('2')" value="No">
+                        <input type="button" class="btn-info"  (click)="AllSelectData('3')"
+                        value="Missing">
+                        <input type="button" class="btn-danger"
+                        (click)="AllSelectData('4')" value="Damage">
+                      </div>
+                      <div class="col-md-3 col-sm-3 col-6"></div>
+                    </div>
+                    <div class="row m-0 p-1" *ngFor="let appliancedetail of ApllianceName;let i = index;">
+                      <div class="col-md-3 col-sm-3 col-3"><input type="text" [hidden]="true" class="form-control"
+                          [(ngModel)]="appliancedetail.App_pkeyId"><b style="word-break: break-word;">{{appliancedetail.App_Apliance_Name}}</b></div>
+                      <div class="col-md-6 col-sm-6 col-9 row m-0" style="display: flex;justify-content: space-around;">
+                        <div class="radio radio-info form-check-inline" >
+                          <input type="radio" id="redioYes"
+                            (ngModelChange)="appliancedata(appliancedetail.str_Appl_Status_Id)" id="Prefered-{{i}}"
+                            [(ngModel)]="appliancedetail.str_Appl_Status_Id" [ngModelOptions]="{standalone: true}"
+                            value="Yes" name="radioInline-{{i}}">
+                          <label for="redioYes"> Yes </label>
+                        </div>
+                        <div class="radio radio-info form-check-inline" >
+                          <input type="radio" id="redioNo"
+                            (ngModelChange)="appliancedata(appliancedetail.str_Appl_Status_Id)" id="Prefered-{{i}}"
+                            [(ngModel)]="appliancedetail.str_Appl_Status_Id" [ngModelOptions]="{standalone: true}"
+                            value="No" name="radioInline-{{i}}">
+                          <label for="redioNo"> No </label>
+                        </div>
+                        <div class="radio radio-info form-check-inline" >
+                          <input type="radio" id="rediomiss"
+                            (ngModelChange)="appliancedata(appliancedetail.str_Appl_Status_Id)" id="Prefered-{{i}}"
+                            [(ngModel)]="appliancedetail.str_Appl_Status_Id" [ngModelOptions]="{standalone: true}"
+                            value="Missing" name="radioInline-{{i}}">
+                          <label for="rediomiss"> Missing </label>
+                        </div>
+                        <div class="radio radio-info form-check-inline" >
+                          <input type="radio" id="rediodamage"
+                            (ngModelChange)="appliancedata(appliancedetail.str_Appl_Status_Id)" id="Prefered-{{i}}"
+                            [(ngModel)]="appliancedetail.str_Appl_Status_Id" [ngModelOptions]="{standalone: true}"
+                            value="Damage" name="radioInline-{{i}}">
+                          <label for="rediodamage"> Damage </label>
+                        </div>
+                      </div>
+                      <div class="col-md-3 col-sm-3 col-9 offset-3 offset-md-0 offset-sm-0"><textarea class="form-control form-control-sm" [(ngModel)]="appliancedetail.Appl_Comment"
+                          ></textarea> </div>
+                      </div>
+                  </div>
+                </div>
+                <button id="client_viewdetail_1" class="mb-1 btn btn-primary"
+                  (click)='AddApplianceData(ApllianceName)' [disabled]="isLoading"><i class="fa"
+                    [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}">
+                  </i>
+                  {{button}}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="module-box tab-pane fade" [ngClass]="{'show': tabs[4].active, 'active': tabs[4].active}" id="OfficeDocument"
+      role="tabpanel" aria-labelledby="OfficeDocument-tab">
+      <div class="table-responsive" style="overflow: auto; white-space: nowrap;">
+        <table class="mt-1 table result-table">
+          <tr class="text-center">
+            <th >File Name</th>
+            <th > File Download</th>
+            <th>Remove</th>
+          </tr>
+          <tr class="text-center" *ngFor="let item of documentdetailslst">
+            <td>{{item.Wo_Office_Doc_File_Name}}</td>
+            <td><a [href]="item.Wo_Office_Doc_File_Path" target="_blank" [download]="item.Wo_Office_Doc_File_Path" (click)="DownloadDocumentLog()"><i
+                  class="fa fa-download" aria-hidden="true"></i>
+                Download file</a></td>
+            <td style="text-align: center;"><a href="javascript:void(0)" (click)="DeleteWorkOrderOfficeDocument(item)">
+                <i class="fa fa-trash" style="color: black;"></i></a></td>
+          </tr>
+        </table>
+      </div>
+      <div class="row">
+        <div class="mb-1 ml-2 col-3">
+          <button id="client_viewdetail_1" class="btn btn-primary"
+            (click)="OpenDocumentUpload(contentDocumentUpload)"><i class="fas fa-plus-circle"></i>
+            Add</button>
+        </div>
+      </div>
+    </div>
+    <div class="tab-pane fade" [ngClass]="{'show': tabs[5].active, 'active': tabs[5].active}" id="repair"
+      role="tabpanel" aria-labelledby="repair-tab">
+    </div>
+    <div class="module-box tab-pane fade p-1" [ngClass]="{'show': tabs[6].active, 'active': tabs[6].active}" id="insviolation" role="tabpanel"
+      aria-labelledby="insviolation-tab">
+      <div class="row">
+        <div class="col-12">
+          <div class="responsive-table-plugin">
+          <div style="overflow-x:visible;" class="table-rep-plugin">
+          <div class="table-responsive" style="overflow-x:visible;" data-pattern="priority-columns">
+          <table class="result-table table col-11.5 mt-1 mb-1">
+            <thead>
+              <tr class="text-center">
+                <th>Name</th>
+                <th>Violation Date</th>
+                <th>Violation Deadline</th>
+                <th>Violation Id#</th>
+                <th>Date Discovered</th>
+                <th>Fine Amount</th>
+                <th>Contact</th>
+                <th>Comments</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody *ngIf="TaskList!=null">
+              <tr class="p-1" *ngFor="let item of ViolationArray; let i = index">
+                <td>
+                  <input type="text" placeholder="Violation Name" [(ngModel)]="item.Task_Violation_Name" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm">
+                </td>
+                <td width="10%">
+                  <div class="form-group">
+                    <div class="input-group">
+                      <label class="form-control form-control-sm" placeholder="Enter Violation Date">{{ item.Task_Violation_Date |
+                        date:'MM/dd/yyyy'}}
+                        <span *ngIf="!item.Task_Violation_Date">Date</span>
+                      </label>
+                      <input class="form-control form-control-sm" placeholder="yyyy-mm-dd"
+                        [(ngModel)]="item.Task_Violation_Date" [ngModelOptions]="{standalone: true}"
+                        ngbDatepicker #dt1="ngbDatepicker" firstDayOfWeek="7" style="display: none" container="table">
+                      <div class="input-group-append">
+                        <button class="btn btn-outline-info btn-xs"
+                          (click)="dt1.toggle()" type="button"><i class="fas fa-calendar-alt"></i></button>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td width="10%">
+                  <div class="form-group">
+                    <div class="input-group">
+                      <label class="form-control form-control-sm">{{ item.Task_Violation_Deadline |
+                        date:'MM/dd/yyyy'}}
+                        <span *ngIf="!item.Task_Violation_Deadline">Date</span>
+                      </label>
+                      <input class="form-control form-control-sm" placeholder="yyyy-mm-dd"
+                        [(ngModel)]="item.Task_Violation_Deadline" [ngModelOptions]="{standalone: true}"
+                        ngbDatepicker #dt2="ngbDatepicker" firstDayOfWeek="7" style="display: none" container="table">
+                      <div class="input-group-append">
+                        <button class="btn btn-outline-info btn-xs"
+                          (click)="dt2.toggle()" type="button"><i class="fas fa-calendar-alt"></i></button>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td >
+                  <input type="text" [(ngModel)]="item.Task_Violation_Id" placeholder="Violation Id" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm">
+                </td>
+                <td width="10%">
+                  <div class="form-group">
+                    <div class="input-group">
+                      <label class="form-control form-control-sm">{{ item.Task_Violation_Date_Discovered |
+                        date:'MM/dd/yyyy'}}
+                        <span *ngIf="!item.Task_Violation_Date_Discovered">Date</span>
+                      </label>
+                      <input class="form-control form-control-sm" placeholder="yyyy-mm-dd"
+                        [(ngModel)]="item.Task_Violation_Date_Discovered" [ngModelOptions]="{standalone: true}"
+                        ngbDatepicker #dt3="ngbDatepicker" firstDayOfWeek="7" style="display: none" container="table">
+                      <div class="input-group-append">
+                        <button class="btn btn-outline-info btn-xs"
+                          (click)="dt3.toggle()" type="button"><i class="fas fa-calendar-alt"></i></button>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td width="10%">
+                  <div class="inputWithIcon inputIconBg">
+                    <input type="text" [(ngModel)]="item.Task_Violation_Fine_Amount" placeholder="Fine Amount" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm" numbersOnly>
+                      <i class="fa fa-dollar-sign" aria-hidden="true"></i>
+                    </div>
+
+                </td>
+                <td >
+                  <input type="text" [(ngModel)]="item.Task_Violation_Contact" placeholder="Contact" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm">
+                </td>
+                <td width="20%" >
+                  <textarea [(ngModel)]="item.Task_Violation_Comment" [ngModelOptions]="{standalone: true}"
+                  class="ttblecomment form-control form-control-sm" style="width:93%" placeholder="Comment ...">
+                </textarea>
+                </td>
+                <td >
+                  <span>
+                    <a style="cursor: pointer;" (click)="RemoveClientResultViolation(i,item)">
+                      <span><i class="fa fa-trash"></i></span>
+                    </a>
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="TaskList==null">
+              <tr>Task Not Found</tr>
+            </tbody>
+            <tfoot>
+
+            </tfoot>
+          </table>
+        </div>
+        </div>
+        </div>
+        </div>
+      </div>
+      <div class="row mt-1 ">
+        <div class="col-12 ml-3">
+          <button id="client_viewdetail_1" class="btn btn-primary" (click)='AddMoreRowClientResultViolation()'><i
+              class="fas fa-plus-circle mr-1"></i>Add</button>
+          <button id="client_viewdetail_1" class="btn btn-primary" (click)='ViolationSumbit()'
+            [disabled]="isLoading" style="margin-left: 12px;"><i class="fa"
+              [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}"></i>
+            {{button}}</button>
+            <button id="client_viewdetail_1" class="btn btn-primary  mr-1 ml-2" [disabled]="violationPrint_Disable" (click)='PrintBasedOnType(printTypes.Violation)'><i
+              class="fa fa-print">&nbsp;Print </i></button>
+        </div>
+      </div>
+    </div>
+    <div class="module-box tab-pane fade" [ngClass]="{'show': tabs[7].active, 'active': tabs[7].active}" id="inshazard" role="tabpanel"
+      aria-labelledby="inshazard-tab">
+      <div class="row">
+        <div class="col-12">
+          <div class="responsive-table-plugin">
+          <div style="overflow-x:visible;" class="table-rep-plugin">
+          <div class="table-responsive" style="width: max-content;overflow-x:visible;" data-pattern="priority-columns">
+          <table class="result-table table col-11.5 mt-1 mb-1">
+            <thead>
+              <tr class="text-center">
+                <th>Name</th>
+                <th colspan="2">Description</th>
+                <th>Date Discovered</th>
+                <th colspan="2">Comments</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody *ngIf="TaskList!=null">
+              <tr class="p-1" *ngFor="let item of HazardArray; let i = index">
+                <td width="30%">
+                  <input type="text" placeholder="Hazard Name" [(ngModel)]="item.Task_Hazard_Name" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm" style="width:10rem">
+                </td>
+                <td  colspan="2">
+                  <textarea [(ngModel)]="item.Task_Hazard_Description" [ngModelOptions]="{standalone: true}"
+                  class="ttblecomment form-control form-control-sm" style="width:26rem" placeholder="Description ...">
+                </textarea>
+                </td>
+
+                <td width="30%">
+                  <div class="form-group">
+                    <div class="input-group" style="width:10rem">
+                      <label class="form-control form-control-sm">{{ item.Task_Hazard_Date_Discovered |
+                        date:'MM/dd/yyyy'}}
+                        <span *ngIf="!item.Task_Hazard_Date_Discovered">Date</span>
+                      </label>
+                      <input class="form-control form-control-sm" placeholder="yyyy-mm-dd"
+                        [(ngModel)]="item.Task_Hazard_Date_Discovered" [ngModelOptions]="{standalone: true}"
+                        ngbDatepicker #dt3="ngbDatepicker" firstDayOfWeek="7" style="display: none" container="table">
+                      <div class="input-group-append">
+                        <button class="btn btn-outline-info btn-xs"
+                          (click)="dt3.toggle()" type="button"><i class="fas fa-calendar-alt"></i></button>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td  colspan="2">
+                  <textarea [(ngModel)]="item.Task_Hazard_Comment" [ngModelOptions]="{standalone: true}"
+                  class="ttblecomment form-control form-control-sm" style="width:26rem" placeholder="Comment ...">
+                </textarea>
+                </td>
+                <td>
+                  <span>
+                    <a style="cursor: pointer;" (click)="RemoveClientResultHazard(i,item)">
+                      <span><i class="fa fa-trash"></i></span>
+                    </a>
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="TaskList==null">
+              <tr>Task Not Found</tr>
+            </tbody>
+            <tfoot>
+
+            </tfoot>
+          </table>
+        </div>
+        </div>
+        </div>
+        </div>
+      </div>
+      <div class="row mt-1 ">
+        <div class="col-12 ml-3">
+          <button id="client_viewdetail_1" class="btn btn-primary" (click)='AddMoreRowClientResultHazard()'><i
+              class="fas fa-plus-circle mr-1"></i>Add</button>
+          <button id="client_viewdetail_1" class="btn btn-primary" (click)='HazardSumbit()'
+            [disabled]="isLoading" style="margin-left: 12px;"><i class="fa"
+              [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}"></i>
+            {{button}}</button>
+            <button id="client_viewdetail_1" class="btn btn-primary  mr-1 ml-2" [disabled]="hazardPrint_Disable" (click)='PrintBasedOnType(printTypes.Hazard)'><i
+              class="fa fa-print">&nbsp;Print</i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #contentDocumentUpload let-modal>
+  <div class="modal-header">
+    Upload Documents
+    <button type="button" class="close" (click)="modal.close('Save click')" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div>
+      <div class="row">
+        <div class="col-md-12">
+          <kendo-upload [saveUrl]="uploadSaveUrl" [removeUrl]="uploadRemoveUrl" [(ngModel)]="myFiles"
+            (success)=displaySuccessDocument($event);>
+          </kendo-upload>
+        </div>
+      </div>
+      <hr>
+      <button id="client_viewdetail_1" class="btn btn-primary" (click)="modal.close('Save click')">Close</button>
+    </div>
+  </div>
+</ng-template>
+    <ngx-spinner
+      bdColor="rgba(0, 0, 0, 0.8)"
+      size="default"
+      color="#fff"
+      type="timer"
+      [fullScreen]="true"
+    >
+      <p style="color: white">Loading...</p>
+    </ngx-spinner>

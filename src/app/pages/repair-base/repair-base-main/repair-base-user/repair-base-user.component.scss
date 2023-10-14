@@ -1,0 +1,25 @@
+.repair-user-info{
+    margin-top: 20px;
+    .row { 
+        margin: 20px 0px;
+    }
+    .card{
+        font-size: 16px;
+        .card-header{
+            padding-bottom:.5% !important;
+            padding-top: .7% !important;
+            padding-left: 1.5% !important;
+            margin-top: -1% !important;
+            background: #b6babf !important;
+            color: black !important;
+            border-radius: 10px;
+        }
+    }
+    
+}
+
+@media(max-width:900px){
+    .margin{
+        margin-top: 5% !important;
+    }
+}

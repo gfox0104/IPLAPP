@@ -1,0 +1,27 @@
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-12">
+          <div class="page-title-box">
+            <div class="page-title-right">
+              <ol class="breadcrumb m-0">
+              </ol>
+            </div>
+            <h4 class="page-title"
+              style="font-weight: bolder; line-height: 1.5; background-color: #9b9b9b; padding-left: 12px;">Add UOM</h4>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="card-box bg-pattern border border-dark" style="background-color: #f7f7f7;">
+            <iplapp-form-card title="UOM" [formUsrCommonGroup]="formUsrCommonGroup" [isEditDisable]="IsEditDisable"
+              [fields]="formFields" [modelObj]="AddUOMModelobj" [isSubmitted]="submitted" (submitForm)="formButton()"
+              (back)="clickBack()"></iplapp-form-card>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

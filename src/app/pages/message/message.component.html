@@ -1,0 +1,785 @@
+<div class="container-fluid">
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-inner slimscroll">
+      <section class="main">
+        <div class="search mt-1 ml-1 mr-1">
+          <input type="text" placeholder="Search..." [(value)]="searchText" (keyup)="searchWorkOrderMain($event)" />
+        </div>
+      </section>
+      <hr />
+      <span class="menu-title">Work Orders</span>
+      <div class="search-results sidebar-menu" infinite-scroll [infiniteScrollDistance]="2"
+        [infiniteScrollThrottle]="50" (scrolled)="onScrollDown()" [scrollWindow]="false">
+        <ul>
+          <ng-container *ngFor="let workorderdata of workorderdata; let i = index">
+            <message-channel [item]="workorderdata" [selectedWorkOrder]="selectedWorkOrder" [username]="username"
+              (messageEvent)="loadMessageData(workorderdata, $event)" [MasterUnreadCounts]="MasterUnreadCounts"
+              (MasterCountSum)="MasterCountSum()">
+            </message-channel>
+          </ng-container>
+        </ul>
+      </div>
+
+
+    </div>
+
+  </div>
+  <!-- Page Wrapper -->
+  <div class="page-wrapper">
+    <!-- Chat Main Row -->
+    <div class="chat-main-row" *ngIf="this.start_conversation; else welcomMsg">
+      <!-- Chat Main Wrapper -->
+      <div class="chat-main-wrapper">
+        <!-- Chats View -->
+        <div id="messages-id-new" class="col-lg-9 message-view task-view">
+          <div class="chat-window">
+            <message-view-header *ngIf="ModelObj"
+              [orderDetail]="ModelObj"
+              [groupRoleID]="groupRoleID"
+              [messageSearch]="messageSearch"
+              (clickThread)="selectThread($event)"
+              [IsSearchBoxDisplay]="true"
+              (changeSearch)="onChangeSearch($event)"
+              [User_ImagePath]="User_ImagePath"
+              [userFullName]="userFullName"
+            >
+            </message-view-header>
+            <div class="chat-contents">
+              <div class="chat-content-wrap">
+                <div #scrollMe class="chat-wrap-inner">
+                  <div class="chat-box">
+                    <div class="chats">
+                      <ng-container *ngIf="messageList.length > 0">
+                        <ng-container *ngFor="
+                            let item of messageList | messageSearchPipe: messageSearch;
+                            trackBy: trackItem">
+                          <div *ngIf="threadID.includes(item.threadtype)">
+                            <message-content
+                              [item]="item"
+                              [username]="username"
+                              [IsDisplayShareButton]="true"
+                              (shareMessage)="shareMessage($event)"
+                              (deleteMessage)="deleteMessage($event)">
+                            </message-content>
+                          </div>
+                        </ng-container>
+                      </ng-container>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="chat-footer">
+              <form [formGroup]="formUsrCommonGroup">
+              <div class="message-bar">
+                <div class="message-inner">
+                  <a class="link attach-icon" href="#" data-toggle="modal" data-target="#drag_files"><img
+                      src="assets/img/attachment.png" alt="" /></a>
+                  <div class="message-area">
+                    <div class="input-group">
+                        <textarea type="text" class="form-control" placeholder="Type message..."
+                        [(ngModel)]="MessageModelDataObj.Message_Text" name="msg" 
+                        [ngClass]="{ 'is-invalid': submitted && fx.message.errors }" formControlName="message"
+                        (keydown)="triggerFunction($event)">
+                      </textarea>
+                       <span class="input-group-append" >
+                        <button class="btn btn-custom" type="button"   (click)="SentMessage(MessageModelDataObj)">
+                          <i class="fa fa-send"></i>
+                        </button>
+                      </span>
+                      <!-- <div *ngIf="show1" class="invalid-feedback">
+                        <div class="text-danger">this field is required</div>
+                      </div> -->
+                      <!-- <div *ngIf="submitted && fx.message.errors.required" class="invalid-feedback">
+                        <div >this field is required</div>
+                      </div> -->
+
+                      <div *ngIf="show1" class="invalid-feedback">
+                        <div >this field is required</div>
+                      </div>
+                     
+                    </div>
+                    <!-- <div *ngIf="submitted && fx.message.errors"  class="text-danger">
+                      <div *ngIf="fx.message.errors.required" >this field is required</div>
+                    </div> -->
+                  </div>
+                </div>
+
+                </div>
+                <!-- <div class="form-row">
+                  <div class="float-right">
+                    <label for="InvestmentSihhhze" *ngIf="formUsrCommonGroup.invalid" style="color:red">*
+                      Field is Required
+                    </label> <br>
+                  </div>
+                </div> -->
+              </form>
+            </div>
+          </div>
+        </div>
+        <!-- /Chats View -->
+
+        <!-- Chat Right Sidebar -->
+
+        <div class="col-lg-3 message-view chat-profile-view chat-sidebar" id="task_window">
+          <app-message-right-side-bar
+          [threadType]="threadType"
+          [chatWithName]="chatWithName"
+          [WorkOrderIPLNo]="WorkOrderIPLNo"
+          [Address]="Address"
+          [ModelObj]="ModelObj"
+          [WorkType]="WorkType"
+          [WorkOrderNumber]="WorkOrderNumber"
+          [Client]="Client"
+          [fileList]="fileList"
+          [linkList]="linkList"
+          [showAddMemberButton]="true"
+          (AddMember)="onAddmemberclick(ContractorForm)"
+          >
+        </app-message-right-side-bar>
+        </div>
+
+        <!-- /Chat Right Sidebar -->
+      </div>
+      <!-- /Chat Main Wrapper -->
+    </div>
+    <ng-template #welcomMsg>
+      <div class="chat-main-row">
+        <div class="chat-main-wrapper">
+          <h5 style="margin-top: 40vh;
+          text-align: center;
+          font-family: 'Roboto';">Please select work order to start Conversations</h5>
+        </div>
+      </div>
+    </ng-template>
+
+    <!-- /Chat Main Row -->
+
+    <!-- Drogfiles Modal -->
+    <div id="drag_files" class="modal custom-modal fade" role="dialog">
+      <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 style="font-family: 'ROBOTO';" class="modal-title">Select File</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="js-upload-form">
+              <input #fileInput type="file" class="form-control" id="image" title="Select File..." />
+            </form>
+            <div class="submit-section">
+              <button (click)="processFile(fileInput)" class="btn  waves-effect waves-light" [disabled]="isLoading">
+                <i class="fa" [ngClass]="{
+                    'fa-spin fa-spinner': isLoading,
+                    'fa-save': !isLoading
+                  }"></i>
+                {{ button }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /Drogfiles Modal -->
+
+    <!-- Add Chat Share Message Modal -->
+    <div id="add_chat_share_message" class="modal custom-modal fade" role="dialog">
+      <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Forward Message</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <hr>
+          <div class="input-group m-b-30">
+            <input placeholder="Search" class="form-control search-input" type="text" [(value)]="searchText"
+              (keyup)="searchWorkOrderForShare($event)" />
+            <span class="input-group-append">
+              <!-- <button class="btn btn-primary" >Search</button> -->
+            </span>
+          </div>
+          <div class="modal-body forward-message" infinite-scroll [infiniteScrollDistance]="2"
+            [infiniteScrollThrottle]="50" (scrolled)="onScrollShareMessageModal()" [scrollWindow]="false">
+            <div>
+              <h3>Suggested</h3>
+              <ng-container *ngFor="let workorderdata of workordersharemsg; let i = index">
+                <ul class="chat-user-list">
+                  <li>
+                    <div class="media">
+                      <span class="avatar align-self-center">
+                        <img src="assets/img/user.jpg" alt="" />
+                      </span>
+                      <div class="media-body align-self-center text-nowrap">
+                        <div class="user-name">IPL# {{workorderdata.IPLNO}}</div>
+                      </div>
+                      <div class="text-nowrap align-self-center">
+                        <button (click)="ShareMessage(workorderdata)"
+                          class="online-date btn-custom share-fribidi_log2vis" [disabled]="isLoading">
+                          <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading,'fa-share': !isLoading}"></i>
+                          {{ shareButton }}
+                        </button>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </ng-container>
+            </div>
+          </div>
+          <div class="submit-section p-1">
+            <button class="btn submit-btn">Done</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /Add Chat User Modal -->
+
+    <!-- Add Group Modal -->
+    <div id="add_group" class="modal custom-modal fade" role="dialog">
+      <div style="height: 50vh;" class="modal-dialog modal-dialog-centered modal-md" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Create a group</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <input class="form-control" placeholder="Team or project name" type="text" />
+              </div>
+              <div class="form-group">
+                <input class="form-control" placeholder="Members (enter names or email addresses)" type="text" />
+              </div>
+              <div class="form-group">
+                <textarea class="form-control animated" placeholder="Team Description (optional)"></textarea>
+              </div>
+
+              <div>
+                <ul class="chat-user-list">
+                  <li>
+                    <a href="#">
+                      <div class="media">
+                        <div class="media-body align-self-center text-nowrap">
+                          <div class="user-name">
+                            Public team (any co-worker can join)
+                          </div>
+                        </div>
+                        <div class="text-nowrap align-self-center">
+                          <label class="switch"><input type="checkbox" /><span class="slider round"></span></label>
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <div class="media">
+                        <div class="media-body align-self-center text-nowrap">
+                          <div class="user-name">
+                            Members (except guests) may add other members
+                          </div>
+                        </div>
+                        <div class="text-nowrap align-self-center">
+                          <label class="switch"><input type="checkbox" /><span class="slider round"></span></label>
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <div class="media">
+                        <div class="media-body align-self-center text-nowrap">
+                          <div class="user-name">Members may post messages</div>
+                        </div>
+                        <div class="text-nowrap align-self-center">
+                          <label class="switch"><input type="checkbox" /><span class="slider round"></span></label>
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <div class="media">
+                        <div class="media-body align-self-center text-nowrap">
+                          <div class="user-name">Members may @team mention</div>
+                        </div>
+                        <div class="text-nowrap align-self-center">
+                          <label class="switch"><input type="checkbox" /><span class="slider round"></span></label>
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <div class="media">
+                        <div class="media-body align-self-center text-nowrap">
+                          <div class="user-name">
+                            Members may add integrations
+                          </div>
+                        </div>
+                        <div class="text-nowrap align-self-center">
+                          <label class="switch"><input type="checkbox" /><span class="slider round"></span></label>
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <div class="media">
+                        <div class="media-body align-self-center text-nowrap">
+                          <div class="user-name">Members may pin posts</div>
+                        </div>
+                        <div class="text-nowrap align-self-center">
+                          <label class="switch"><input type="checkbox" /><span class="slider round"></span></label>
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <div class="submit-section">
+                <p class="text-center">
+                  You are an admin for this team.
+                  <a href="">Learn about team administration</a>
+                </p>
+
+                <button class="btn  submit-btn">Create Group</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /Add Group Modal -->
+
+    <!-- Add Chat User Modal -->
+    <div id="add_chat_user" class="modal custom-modal fade" role="dialog">
+      <div style="height: 50vh;" class="modal-dialog modal-dialog-centered modal-md" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Direct Chat</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="input-group m-b-30">
+              <input placeholder="Search to start a chat" class="form-control search-input" type="text" />
+              <span class="input-group-append">
+                <button class="btn ">Search</button>
+              </span>
+            </div>
+            <div>
+              <h5>Recent Conversations</h5>
+              <ul class="chat-user-list">
+                <li>
+                  <a href="#">
+                    <div class="media">
+                      <span class="avatar align-self-center">
+                        <img src="assets/img/avatar-16.jpg" alt="" />
+                      </span>
+                      <div class="media-body align-self-center text-nowrap">
+                        <div class="user-name">Jeffery Lalor</div>
+                        <span class="designation">Team Leader</span>
+                      </div>
+                      <div class="text-nowrap align-self-center">
+                        <div class="online-date">1 day ago</div>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <div class="media">
+                      <span class="avatar align-self-center">
+                        <img src="assets/img/avatar-13.jpg" alt="" />
+                      </span>
+                      <div class="media-body align-self-center text-nowrap">
+                        <div class="user-name">Bernardo Galaviz</div>
+                        <span class="designation">Web Developer</span>
+                      </div>
+                      <div class="align-self-center text-nowrap">
+                        <div class="online-date">3 days ago</div>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <div class="media">
+                      <span class="avatar align-self-center">
+                        <img src="assets/img/avatar-02.jpg" alt="" />
+                      </span>
+                      <div class="media-body text-nowrap align-self-center">
+                        <div class="user-name">John Doe</div>
+                        <span class="designation">Web Designer</span>
+                      </div>
+                      <div class="align-self-center text-nowrap">
+                        <div class="online-date">7 months ago</div>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div class="submit-section">
+              <button class="btn  submit-btn">Submit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /Add Chat User Modal -->
+    <!-- Add Chat add member Modal -->
+    <div id="add_chat_add_member" class="modal custom-modal fade" role="dialog">
+      <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Add Members</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="input-group m-b-30">
+              <input placeholder="Search to start a chat" class="form-control search-input" type="text" />
+              <span class="input-group-append">
+                <button class="btn">Search</button>
+              </span>
+            </div>
+            <div>
+              <h5>Recent Conversations</h5>
+              <ul class="chat-user-list">
+                <li>
+                  <a href="#">
+                    <div class="media">
+                      <span class="avatar align-self-center">
+                        <img src="assets/img/avatar-16.jpg" alt="" />
+                      </span>
+                      <div class="media-body align-self-center text-nowrap">
+                        <div class="user-name">Jeffery Lalor</div>
+                        <span class="designation">Team Leader</span>
+                      </div>
+                      <div class="text-nowrap align-self-center">
+                        <div class="online-date">1 day ago</div>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <div class="media">
+                      <span class="avatar align-self-center">
+                        <img src="assets/img/avatar-13.jpg" alt="" />
+                      </span>
+                      <div class="media-body align-self-center text-nowrap">
+                        <div class="user-name">Bernardo Galaviz</div>
+                        <span class="designation">Web Developer</span>
+                      </div>
+                      <div class="align-self-center text-nowrap">
+                        <div class="online-date">3 days ago</div>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <div class="media">
+                      <span class="avatar align-self-center">
+                        <img src="assets/img/avatar-02.jpg" alt="" />
+                      </span>
+                      <div class="media-body text-nowrap align-self-center">
+                        <div class="user-name">John Doe</div>
+                        <span class="designation">Web Designer</span>
+                      </div>
+                      <div class="align-self-center text-nowrap">
+                        <div class="online-date">7 months ago</div>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /Add Chat User Modal -->
+
+    <!-- Add Chat profile Modal -->
+    <div id="add_chat_profile" class="modal custom-modal fade" role="dialog">
+      <div style="height: 50vh;" class="modal-dialog modal-dialog-centered modal-md" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Members Profile</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+
+            <div>
+              <ul class="chat-user-list">
+                <li>
+                  <a href="#">
+                    <div class="media">
+                      <span class="avatar01 align-self-center">
+                        <img src="assets/img/avatar-21.jpg" alt="" />
+                      </span>
+                      <div class="media-body align-self-center text-nowrap">
+                        <div class="avatar-name-new user-name">Micheal</div>
+                        <span class="avatar-name-new-span designation">Micheal@abcd.com</span>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+                <!--<h5>Recent Conversations</h5>-->
+                <li>
+                  <a href="#">
+                    <div class="media">
+                      <div class="media-body align-self-center text-nowrap">
+                        <div class="user-name">Company</div>
+                      </div>
+                      <div class="align-self-center text-nowrap">
+                        <div class="online-date">
+                          Connect Infosoft Tech Private Limited
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <div class="media">
+                      <div class="media-body align-self-center text-nowrap">
+                        <div class="user-name">Title</div>
+                      </div>
+                      <div class="align-self-center text-nowrap">
+                        <div class="online-date"></div>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <div class="media">
+                      <div class="media-body align-self-center text-nowrap">
+                        <div class="user-name">Employee Since</div>
+                      </div>
+                      <div class="align-self-center text-nowrap">
+                        <div class="online-date"></div>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <div class="media">
+                      <div class="media-body text-nowrap align-self-center">
+                        <div class="user-name">Homepage</div>
+                      </div>
+                      <div class="align-self-center text-nowrap">
+                        <div class="online-date"></div>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <div class="media">
+                      <div class="media-body text-nowrap align-self-center">
+                        <div class="user-name">Gender</div>
+                      </div>
+                      <div class="align-self-center text-nowrap">
+                        <div class="online-date"></div>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <div class="media">
+                      <div class="media-body text-nowrap align-self-center">
+                        <div class="user-name">Birthday</div>
+                      </div>
+                      <div class="align-self-center text-nowrap">
+                        <div class="online-date"></div>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <div class="media">
+                      <div class="media-body text-nowrap align-self-center">
+                        <div class="user-name">Location</div>
+                      </div>
+                      <div class="align-self-center text-nowrap">
+                        <div class="online-date"></div>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <div class="media">
+                      <div class="media-body text-nowrap align-self-center">
+                        <div class="user-name">Teams</div>
+                      </div>
+                      <div class="align-self-center text-nowrap">
+                        <div class="online-date">
+                          Team Connect Infosoft Tech Private Limited, Auction
+                          Project
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+       <!-- added by unnati start -->
+<ng-template #ContractorForm let-modal>
+  <div class="modal-header">
+    <div>
+      <h4>Add Users</h4>
+    </div>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container">
+      <div>
+        <div class="form-row">
+          <div class="form-group col-md-12 text-center" style="color: black;background-color: #9b9b9b;">
+            <h5 style="color:black;">Add Users </h5>
+          </div>
+        </div>
+        <br>
+        <form>
+
+          <table style="text-align: center;" style="border:1px">
+            <thead>
+              <tr>
+                <th>User FirstName</th>
+                <th>&nbsp;&nbsp;</th>
+                <th>User LastName</th>
+              </tr>
+            </thead>
+
+          </table>
+          <br>
+          <hr>
+          <label><strong>Users</strong></label>
+          <kendo-grid #gridUser [kendoGridBinding]="griddata" [pageSize]="10" [pageable]="true" [sortable]="true"
+                [filterable]="true" [selectable]="true" [groupable]="false" [skip]="state.skip" [sort]="state.sort"
+                [filter]="state.filter" (dataStateChange)="dataStateChange($event)">
+
+                <kendo-grid-column field="User_FirstName" title="User FirstName" [width]="200">
+                </kendo-grid-column>
+                <kendo-grid-column field="User_LastName" title="User LastName" [width]="200" >
+                </kendo-grid-column>
+
+                <kendo-grid-column field="User_LoginName" title="User LoginName" [width]="200" >
+                </kendo-grid-column>
+                <kendo-grid-column field="User_IsActive" title="Action"
+              [width]="80"
+              filter="boolean">
+              <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+                <div style="padding-left: 4px;">
+                  <input type="checkbox" (change)="checkRowAll()" />
+                </div>
+              </ng-template>
+              <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                <div style="text-align: center;">
+                  <input type="checkbox"  [checked]="dataItem.MWU_IsRead" [(ngModel)]="dataItem.MWU_IsRead"
+                    [ngModelOptions]="{standalone: true}"
+                    (change)="checkzipRow(dataItem.MWU_IsRead, dataItem,rowIndex)" />
+                </div>
+              </ng-template>
+            </kendo-grid-column>
+
+
+                <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+                  <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+                  <kendo-pager-numeric-buttons [buttonCount]="10"></kendo-pager-numeric-buttons>
+                  <kendo-pager-next-buttons></kendo-pager-next-buttons>
+                  <kendo-pager-info></kendo-pager-info>
+                  <kendo-pager-page-sizes [pageSizes]="[15, 30, 50, 100]"></kendo-pager-page-sizes>
+                </ng-template>
+              </kendo-grid>
+          <br>
+          <hr>
+
+           <br>
+           <div class="row">
+            <div class="col-md-2">
+              <input type="submit" class="btn btn-secondary" (click)='SubmitConMap()' value="Submit">&nbsp;&nbsp;
+              <button class="btn btn-secondary" (click)='closeModal()'>Close</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<!-- end -->
+
+    <!-- /Add Chat User Modal -->
+
+    <!-- Share Files Modal -->
+    <div id="share_files" class="modal custom-modal fade" role="dialog">
+      <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Share File</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="files-share-list">
+              <div class="files-cont">
+                <div class="file-type">
+                  <span class="files-icon"><i class="fa fa-file-pdf-o"></i></span>
+                </div>
+                <div class="files-info">
+                  <span class="file-name text-ellipsis">AHA Selfcare Mobile Application Test-Cases.xls</span>
+                  <span class="file-author"><a href="#">Bernardo Galaviz</a></span>
+                  <span class="file-date">May 31st at 6:53 PM</span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Share With</label>
+              <input class="form-control" type="text" />
+            </div>
+            <div class="submit-section">
+              <button class="btn  submit-btn">Share</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /Share Files Modal -->
+  </div>
+
+  <!-- /Page Wrapper -->
+  <!-- </div> -->
+  <!-- /Main Wrapper -->
+  <style>
+    body {
+      padding-bottom: 60px;
+      overflow: hidden !important;
+    }
+  </style>
+</div>

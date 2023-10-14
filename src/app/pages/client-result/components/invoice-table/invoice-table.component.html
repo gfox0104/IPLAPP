@@ -1,0 +1,649 @@
+<h5 class="col-12 mb-0 header p-1">{{title}}</h5>
+<div class="onSmall module-box tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+  <div class="row workorder-details">
+    <div class="row col-12 invoicePaymentDetails" >
+      <ng-template [ngIf]="isContractor" [ngIfElse]="clientPaymentSection">
+        <div class="col-3">
+          <label class=" text-center col-form-label">Total:  ${{getTotal().toFixed(2)}}</label>
+        </div>
+        <div class="col-3">
+          <label class=" text-center col-form-label">Status: {{ Invoice_ContractorDTOObj.Inv_Con_Status ? "Paid":"Unpaid" }}</label>
+        </div>
+        <div class="col-3 form-inline" >
+          <label class="col-6 text-center col-form-label">Invoice#:</label>
+          <input style=" font-weight: 500;color: #000;" type="text" [(ngModel)]="Invoice_ContractorDTOObj.Inv_Con_Invoce_Num"
+              (keypress)="validate($event)" class="form-control form-control-sm col-6"
+              readonly>
+        </div>
+        <div class="col-3 form-inline">
+          <label class="col-6 text-center col-form-label">Invoice Date:</label>
+          <div class="col-6">
+
+          <div class="form-group" style="width: 9rem">
+            <div style="width: 85%;" class="row input-group">
+              <label style="color: black;font-weight: 500;" class="col-12 form-control form-control-sm">{{
+                Invoice_ContractorDTOObj.Inv_Con_Inv_Date | date:'MM/dd/yyyy' }}
+              </label>
+              <input class="col-12 form-control form-control-sm" placeholder="yyyy-mm-dd" readonly
+                [(ngModel)]="Invoice_ContractorDTOObj.Inv_Con_Inv_Date"
+                [ngModelOptions]="{standalone: true}" ngbDatepicker #dt4="ngbDatepicker" firstDayOfWeek="7"
+                style="display: none; color: black; ">
+              <div class="input-group-append">
+                <button class="btn btn-outline-info btn-xs" (click)="dt4.toggle()" type="button"
+                  [disabled]="invdate"> <i class="fas fa-calendar-alt"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </ng-template>
+       <ng-template #clientPaymentSection>
+          <div class="col-3">
+            <label class=" text-center col-form-label">Total:  ${{getTotal().toFixed(2)}}</label>
+          </div>
+          <div class="col-3">
+            <label class=" text-center col-form-label">Status: {{ Invoice_ClientDTOObj.Inv_Client_Status ?"Paid":"Unpaid" }}</label>
+          </div>
+          <div class="col-3 form-inline">
+            <label class="col-6 text-center col-form-label">Invoice#:</label>
+            <input style=" font-weight: 500;color: #000;" type="text" [(ngModel)]="Invoice_ClientDTOObj.Inv_Client_Invoice_Number"
+                (keypress)="validate($event)" class="form-control form-control-sm col-6"
+                readonly>
+          </div>
+          <div class="col-3 form-inline">
+            <label class="col-6 text-center col-form-label">Invoice Date:</label>
+            <div class="col-6">
+
+            <div class="form-group" style="width: 9rem">
+              <div style="width: 85%;" class="row input-group">
+                <label style="color: black;font-weight: 500;" class="col-12 form-control form-control-sm">{{
+                  Invoice_ClientDTOObj.Inv_Client_Inv_Date | date:'MM/dd/yyyy' }}
+                </label>
+                <input class="col-12 form-control form-control-sm" placeholder="yyyy-mm-dd" readonly
+                  [(ngModel)]="Invoice_ClientDTOObj.Inv_Client_Inv_Date"
+                  [ngModelOptions]="{standalone: true}" ngbDatepicker #dt4="ngbDatepicker" firstDayOfWeek="7"
+                  style="display: none; color: black; ">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-info btn-xs" (click)="dt4.toggle()" type="button"
+                    [disabled]="invdate"> <i class="fas fa-calendar-alt"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+      </ng-template>
+    </div>
+
+    <table class="table">
+      <tr style="text-align: center;">
+        <th><label class="col-form-label">Item</label></th>
+        <th><label class="col-form-label">Qty</label></th>
+        <th><label class="col-form-label">Price</label></th>
+        <th><label class="col-form-label">Total</label></th>
+        <th><label class="col-form-label">Adj Price</label></th>
+        <th><label class="col-form-label">Discount%</label></th>
+        <th><label class="col-form-label">Total</label></th>
+        <th>
+          <label class="col-form-label">Comments</label>
+        </th>
+        <th style="width: 85px;">Flat Fee</th>
+        <th></th>
+      </tr>
+      <ng-template [ngIf]="isContractor" [ngIfElse]="client">
+        <tr *ngFor="let item of invoiceArray; index as inx" >
+          <td style="width: 15%" [ngClass]="{'highlight' : item[keys.taskId] == 0 && isContractInValid}">
+            <div class="example-wrapper" *ngIf="item[keys.taskId] != -99">
+              <kendo-dropdownlist class="form-control form-control-sm" [data]="drptaskList" [disabled]="Invoice_ContractorDTOObj.Inv_Con_Inv_Approve"
+                [defaultItem]="defaultTaskItem" [filterable]="true" [textField]="'Task_Name'"
+                [valueField]="'Task_pkeyID'" (filterChange)="taskFilter($event)" [(ngModel)]="item[keys.taskId]"
+                [valuePrimitive]="true" [ngModelOptions]="{standalone: true}" (valueChange)="onChange(item,inx)"
+                style="width: 15rem;">
+              </kendo-dropdownlist>
+            </div>
+            <div *ngIf="item[keys.taskId] == -99">
+              <input type="text" [(ngModel)]="item[keys.Other_Task_Name]" class="form-control" >
+              <a (click)='backdropdown(item)'><i class="fas fa-arrow-alt-circle-left"></i></a>
+            </div>
+            <!-- <select class="form-control form-control-sm" (change)="onChange(item)" [(ngModel)]="item[keys.taskId]"
+              [ngModelOptions]="{standalone: true}"
+              [ngClass]="{'is-invalid': fx.Taskval.touched && fx.Taskval.errors }">
+              <option value='0'>select</option>
+              <option [ngValue]="kb.Task_pkeyID" *ngFor="let kb of TaskList">
+                {{kb.Task_Name}}
+              </option>
+            </select>
+            <div *ngIf="InvoiceValFlag" class="Mydropdown">this field is required
+            </div> -->
+          </td>
+         <td style="width: 4%;" [ngClass]="{'highlight' : item[keys.qty] == '0' && isContractInValid}"
+         >
+            <input type="text" (keypress)="validate($event)" (blur)="onQtyChange()" [(ngModel)]="item[keys.qty]"
+              class="form-control form-control-sm" [disabled]="Invoice_ContractorDTOObj.Inv_Con_Inv_Approve">
+          </td>
+          <td style="width:6.5%;">
+            <div class="inputWithIcon inputIconBg">
+            <input type="text"  (keypress)="validate($event)" (blur)="onPriceChange()" [(ngModel)]="item[keys.price]"
+            [disabled]="UpdateItemAndReturn(item,'contractor')" class="form-control form-control-sm"
+            [disabled]="Invoice_ContractorDTOObj.Inv_Con_Inv_Approve">
+
+
+              <i class="fa fa-dollar-sign" aria-hidden="true"></i>
+            </div>
+            <div *ngIf="item.Inv_Con_Price_Disable" class="Mydropdown">
+              Price can not be changed.
+            </div>
+          </td>
+
+          <td style="width:6.5%;">
+            <div class="inputWithIcon inputIconBg">
+            <input type="text"  (keypress)="validate($event)" readonly [(ngModel)]="item[keys.total]"
+            [disabled]="true" class="form-control form-control-sm" [disabled]="Invoice_ContractorDTOObj.Inv_Con_Inv_Approve">
+              <i class="fa fa-dollar-sign" aria-hidden="true"></i>
+            </div>
+          </td>
+
+          <td style="width:6.5%;">
+            <div class="inputWithIcon inputIconBg">
+            <input type="text"    (blur)="onAdjPriceChange()"  [(ngModel)]="item[keys.adjPrice]"
+             class="form-control form-control-sm" [disabled]="Invoice_ContractorDTOObj.Inv_Con_Inv_Approve">
+
+              <i class="fa fa-dollar-sign" aria-hidden="true"></i>
+            </div>
+          </td>
+            <!-- <div *ngIf="item.Inv_Con_Price_Disable" class="Mydropdown">
+              Price can not be changed.
+            </div> -->
+          
+
+          <td style="width:5%;">
+            <div class="inputWithIcon inputIconBg">
+              <input type="number" min=0 max=100 step="0.01" [disabled]="item[keys.flatFee]" (keypress)="validate($event)" (blur)="onDiscountChange()"
+              [(ngModel)]="item[keys.discount]" class="form-control form-control-sm"
+              [disabled]="Invoice_ContractorDTOObj.Inv_Con_Inv_Approve">
+            </div>
+          </td>
+          <td style="width:7%;">
+            <div class="inputWithIcon inputIconBg">
+            <input type="text"  (keypress)="validate($event)" readonly [(ngModel)]="item[keys.adjTotal]"
+            [disabled]="true" class="form-control form-control-sm" [disabled]="Invoice_ContractorDTOObj.Inv_Con_Inv_Approve">
+              <i class="fa fa-dollar-sign" aria-hidden="true"></i>
+            </div>
+          </td>
+          <td style="width: 30%">
+            <textarea  placeholder="Enter Comments" class="form-control form-control-sm"
+              [(ngModel)]="item[keys.comment]" [disabled]="Invoice_ContractorDTOObj.Inv_Con_Inv_Approve"></textarea>
+          </td>
+          <td>
+            <div class="pl-3 custom-control custom-checkbox">
+              <input type="checkbox" (change)="onFlatChange()" [(ngModel)]="item[keys.flatFee]"
+                class="custom-control-input" id="damageINVr{{inx + keys.flatFee}}"
+                [disabled]="Invoice_ContractorDTOObj.Inv_Con_Inv_Approve">
+              <label class="custom-control-label" for="damageINVr{{inx + keys.flatFee}}">Flat Fee</label>
+            </div>
+          </td>
+          <td >
+            <span>
+              <a style="cursor: pointer" (click)="onRemoveItem(inx, item)" [class.disabled]="Invoice_ContractorDTOObj.Inv_Con_Inv_Approve">
+                <i class="fa fa-trash"></i>
+              </a>
+            </span>
+            <span [class.disabled]="Invoice_ContractorDTOObj.Inv_Con_Inv_Approve"><a style="cursor: pointer; margin-left: 10px;" (click)="onCopyItem(item)">
+                <i class="fa fa-copy" [ngClass]="{'deactive': item[keys.taskId] === 0}"></i></a>
+            </span>
+          </td>
+        </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="InvoiceFooterSum"><label>{{this.ContractorFooterSum.ContractorTotal.toFixed(2)}}</label></td>
+            <td class="InvoiceFooterSum"><label>{{this.ContractorFooterSum.ContractorAdjTotal.toFixed(2)}}</label></td>
+            <!-- <td class="InvoiceFooterSum"><label>{{this.ContractorFooterSum.ContractorDiscountTotal.toFixed(2)}}</label></td> -->
+            <td class="InvoiceFooterSum"><label></label></td>
+            <td class="InvoiceFooterSum"><label>{{this.ContractorFooterSum.ContractorSubTotal.toFixed(2)}}</label></td>
+            <td></td>
+            <td></td>
+          </tr>
+        <tr>
+          <td colspan="10">
+            <hr>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4">
+            <table style="margin-bottom: 10px;">
+              <tr>
+                <td style="width: 30%;">
+                  <label class="col-form-label">Reference #</label>
+                </td>
+                <td colspan="2">
+                  <!-- <div class="col-sm-6"> -->
+                  <input type="text" [(ngModel)]="Invoice_ContractorDTOObj.Inv_Con_Ref_ID" placeholder="Enter Ref. #"
+                    class="form-control form-control-sm">
+                  <!-- </div> -->
+                </td>
+
+              </tr>
+              <tr>
+                <td style="width: 30%;">
+                  <div class="custom-control custom-checkbox" *ngIf="IsApproveDisplay">
+                    <input type="checkbox" [(ngModel)]="Invoice_ContractorDTOObj.Inv_Con_Inv_Followup"
+                      class="custom-control-input" id="customCheck11c"
+                      (change)="InvoiceData(Invoice_ContractorDTOObj.Inv_Con_Inv_Followup)">
+                    <label class="custom-control-label" for="customCheck11c">Invoice On Hold</label>
+                  </div>
+                </td>
+                <!-- <td style="width: 20%;" *ngIf="Invoice_ContractorDTOObj.Inv_Con_Inv_Followup"> -->
+                  <!-- <div class="custom-control custom-checkbox" *ngIf="Invoice_ContractorDTOObj.Inv_Con_Inv_Followup">
+                    <input type="checkbox" [(ngModel)]="Invoice_ContractorDTOObj.Inv_Con_Followup_Com"
+                      class="custom-control-input" id="customChefesfsfeck11c">
+                    <label class="custom-control-label" for="customChefesfsfeck11c">Followup Complete</label>
+                  </div> -->
+                  <!-- <label>Date</label> -->
+                <!-- </td> -->
+                <td colspan="2" *ngIf="Invoice_ContractorDTOObj.Inv_Con_Inv_Followup">
+                  <!-- <div class="col-sm-6"> -->
+                  <div class="form-group">
+                    <div class="input-group">
+                      <label class="form-control form-control-sm">{{ Invoice_ContractorDTOObj.Inv_Con_Inv_Hold_Date | date:'MM/dd/yyyy' }}
+                      </label>
+                      <input class="form-control form-control-sm" placeholder="yyyy-mm-dd"
+                        [(ngModel)]="Invoice_ContractorDTOObj.Inv_Con_Inv_Hold_Date"
+                        [ngModelOptions]="{standalone: true}" ngbDatepicker #dt5="ngbDatepicker" firstDayOfWeek="7" style="display: none">
+                      <div class="input-group-append">
+                        <button class="btn btn-outline-info btn-xs" (click)="dt5.toggle()" type="button"> <i
+                            class="fas fa-calendar-alt"></i></button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="input-group">
+                      <textarea placeholder="Reason..." [(ngModel)]="Invoice_ContractorDTOObj.Inv_Con_Short_Note"
+                      placeholder="Enter Notes"  class="form-control form-control-sm"></textarea>
+                    </div>
+                  </div>
+                  <!-- </div> -->
+                </td>
+                <!-- <td>
+                  <textarea style="height: 32px;" *ngIf="Invoice_ContractorDTOObj.Inv_Con_Inv_Followup"
+                    [(ngModel)]="Invoice_ContractorDTOObj.Inv_Con_Inv_Comment" placeholder="Enter Followup Notes"
+                    class="form-control form-control-sm"></textarea>
+                </td> -->
+              </tr>
+              <tr>
+                <td style="width: 30%;">
+                  <div class="custom-control custom-checkbox" *ngIf="IsApproveDisplay">
+                    <input type="checkbox" [(ngModel)]="Invoice_ContractorDTOObj.Inv_Con_Inv_Approve"
+                      class="custom-control-input" id="customCheck156c"
+                      (change)="ApproveData(Invoice_ContractorDTOObj.Inv_Con_Inv_Approve)">
+                    <label class="custom-control-label" for="customCheck156c">Approve</label>
+                  </div>
+                </td>
+                <!-- <td style="width: 20%;" *ngIf="Invoice_ContractorDTOObj.Inv_Con_Inv_Approve">
+                  <label>Date</label>
+                </td> -->
+                <td colspan="2" *ngIf="Invoice_ContractorDTOObj.Inv_Con_Inv_Approve">
+                  <!-- <div class="col-sm-6"> -->
+                  <div class="form-group">
+                    <div class="input-group">
+                      <label class="form-control form-control-sm">{{ Invoice_ContractorDTOObj.Inv_Con_Inv_Approve_Date | date:'MM/dd/yyyy'}}
+                      </label>
+                      <input class="form-control form-control-sm" placeholder="yyyy-mm-dd"
+                        [(ngModel)]="Invoice_ContractorDTOObj.Inv_Con_Inv_Approve_Date"
+                        [ngModelOptions]="{standalone: true}" ngbDatepicker #dt13="ngbDatepicker" firstDayOfWeek="7" style="display: none">
+                      <div class="input-group-append">
+                        <button class="btn btn-outline-info btn-xs" (click)="dt13.toggle()" type="button"> <i
+                            class="fas fa-calendar-alt"></i></button>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- </div> -->
+                </td>
+              </tr>
+            </table>
+          </td>
+          <td colspan="3">
+            <table>
+              <tr>
+                <td  colspan="3">
+                  <table >
+                    <tr >
+                      <td style="width: 10rem;text-align: end;vertical-align: bottom;">
+                        <label style="padding: 4%;" >Contractor Total:</label>
+                      </td>
+                      <td style="width:36%;">
+                        <div class="inputWithIcon inputIconBg">
+                        <input type="text"  [(ngModel)]="invConsubTotal" style="color: black;" readonly
+                        [disabled]="true" class="form-control form-control-sm">
+                          <i class="fa fa-dollar-sign" aria-hidden="true"></i>
+                        </div>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+                <!-- <td> <small>Contractor Total:</small></td>
+                <td><input type="text" [(ngModel)]="Invoice_ContractorDTOObj.Inv_Con_Sub_Total" style="color: black;"
+                    readonly class="form-control form-control-sm"></td> -->
+              </tr>
+            </table>
+          </td>
+          <td colspan="3">
+            <table style="width: 77%;">
+              <tr>
+                <textarea  row=10 style="width: 96%; height: 20%;" [(ngModel)]="Invoice_ContractorDTOObj.Inv_Con_Inv_Comment"
+                  placeholder="Enter Notes" class="form-control form-control-sm"></textarea>
+              </tr>
+              <tr>
+                <table style="width: 96% !important;" class="table">
+                  <tr>
+                    <td style="width: 22%;">
+                      <label class="col-form-label">Invoice Date:</label>
+                    </td>
+                    <td style="width: 22%;" >
+                      <div class="form-group" style="width: 9rem">
+                        <div style="width: 85%;" class="row input-group">
+                          <label style="color: black;font-weight: 500;" class="col-12 form-control form-control-sm">{{
+                            Invoice_ContractorDTOObj.Inv_Con_Inv_Date | date:'MM/dd/yyyy' }}
+                          </label>
+                          <input class="col-12 form-control form-control-sm" placeholder="yyyy-mm-dd" readonly
+                            [(ngModel)]="Invoice_ContractorDTOObj.Inv_Con_Inv_Date"
+                            [ngModelOptions]="{standalone: true}" ngbDatepicker #dt4="ngbDatepicker" firstDayOfWeek="7"
+                            style="display: none; color: black; ">
+                          <div class="input-group-append">
+                            <button class="btn btn-outline-info btn-xs" (click)="dt4.toggle()" type="button"
+                              [disabled]="invdate"> <i class="fas fa-calendar-alt"></i></button>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <label class=" text-center col-form-label">Invoice#:</label>
+                    </td>
+                    <td style="width:23%">
+                      <input style="font-weight: 500;color: #000;" type="text" [(ngModel)]="Invoice_ContractorDTOObj.Inv_Con_Invoce_Num"
+                         (keypress)="validate($event)" class="form-control form-control-sm"
+                        readonly>
+                    </td>
+                  </tr>
+                </table>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template #client>
+        <tr *ngFor="let item of invoiceArray; index as inx">
+          <td style="width: 15%" [ngClass]="{'highlight' : item[keys.taskId] == 0 && isClientInValid} ">
+            <div class="example-wrapper" *ngIf="item[keys.taskId] != -99">
+              <kendo-dropdownlist class="form-control form-control-sm" [data]="drptaskList"
+                [defaultItem]="defaultTaskItem" [filterable]="true" [textField]="'Task_Name'"
+                [valueField]="'Task_pkeyID'" (filterChange)="taskFilter($event)" [(ngModel)]="item[keys.taskId]"
+                [valuePrimitive]="true" [ngModelOptions]="{standalone: true}" (valueChange)="onChange(item,inx)"
+                style="width: 15rem;">
+              </kendo-dropdownlist>
+
+            </div>
+            <div *ngIf="item[keys.taskId] == -99">
+              <input type="text" [(ngModel)]="item[keys.Other_Task_Name]" class="form-control">
+              <a (click)='backdropdown(item)'><i class="fas fa-arrow-alt-circle-left"></i></a>
+            </div>
+
+            <!-- <select class="form-control form-control-sm" (change)="onChange(item)" [(ngModel)]="item[keys.taskId]"
+              [ngModelOptions]="{standalone: true}"
+              [ngClass]="{'is-invalid': fx.Taskval.touched && fx.Taskval.errors }">
+              <option value='0'>select</option>
+              <option [ngValue]="kb.Task_pkeyID" *ngFor="let kb of TaskList">
+                {{kb.Task_Name}}
+              </option>
+            </select> -->
+            <div *ngIf="InvoiceValFlag" class="Mydropdown">this field is required
+            </div>
+          </td>
+          <td style="width: 5%;" [ngClass]="{'highlight' : item[keys.qty] == '0' && isClientInValid}">
+            <input type="text" (keypress)="validate($event)" (blur)="onQtyChange()" [(ngModel)]="item[keys.qty]"
+              class="form-control form-control-sm">
+          </td>
+
+          <td style="width:7%;">
+            <div class="inputWithIcon inputIconBg">
+            <input type="text" (keypress)="validate($event)" (blur)="onPriceChange()" [(ngModel)]="item[keys.price]"
+            [disabled]="UpdateItemAndReturn(item,'client')" class="form-control form-control-sm">
+
+              <i class="fa fa-dollar-sign" aria-hidden="true"></i>
+            </div>
+            <div *ngIf="item.Inv_Client_Price_Disable" class="Mydropdown">
+              Price can not be changed.
+            </div>
+          </td>
+
+
+          <td style="width:7%;">
+            <div class="inputWithIcon inputIconBg">
+            <input type="text" (keypress)="validate($event)" readonly [(ngModel)]="item[keys.total]"
+            [disabled]="true" class="form-control form-control-sm">
+              <i class="fa fa-dollar-sign" aria-hidden="true"></i>
+            </div>
+          </td>
+
+          <td style="width:7%;">
+            <div class="inputWithIcon inputIconBg">
+            <input type="text"  (blur)="onAdjPriceChange()"  [(ngModel)]="item[keys.adjPrice]"
+            class="form-control form-control-sm">
+
+              <i class="fa fa-dollar-sign" aria-hidden="true"></i>
+            </div>
+            <!-- <div *ngIf="item.Inv_Client_Price_Disable" class="Mydropdown">
+              Price can not be changed.
+            </div> -->
+          </td>
+
+
+          <!-- <td style="width: 7%;">
+            <input type="text" (keypress)="validate($event)" (blur)="onAdjPriceChange()"
+              [(ngModel)]="item[keys.adjPrice]" class="form-control form-control-sm">
+          </td> -->
+          <td style="width: 5%;">
+            <input type="number" min=0 max=100 step="0.01" [disabled]="item[keys.flatFee]" (keypress)="validate($event)" (blur)="onDiscountChange()"
+              [(ngModel)]="item[keys.discount]" class="form-control form-control-sm">
+          </td>
+
+          <td style="width:7%;">
+            <div class="inputWithIcon inputIconBg">
+            <input type="text" (keypress)="validate($event)"  readonly [(ngModel)]="item[keys.adjTotal]"
+            [disabled]="true" class="form-control form-control-sm">
+              <i class="fa fa-dollar-sign" aria-hidden="true"></i>
+            </div>
+          </td>
+
+          <td style="width: 30%">
+            <textarea  placeholder="Enter Comments" class="form-control form-control-sm"
+              [(ngModel)]="item[keys.comment]"></textarea>
+          </td>
+          <td >
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" (change)="onFlatChange()" [(ngModel)]="item[keys.flatFee]"
+                class="custom-control-input" id="damageINVr{{inx + keys.flatFee}}">
+              <label class="custom-control-label" for="damageINVr{{inx + keys.flatFee}}">Flat Fee</label>
+            </div>
+          </td>
+          <td >
+            <span><a style="cursor: pointer" (click)="onRemoveItem(inx, item)">
+                <i class="fa fa-trash"></i></a>
+            </span>
+            <span><a style="cursor: pointer; margin-left: 10px;" (click)="onCopyItem(item)">
+                <i class="fa fa-copy" [ngClass]="{'deactive': item[keys.taskId] === 0}"></i></a>
+            </span>
+          </td>
+        </tr>
+         <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="InvoiceFooterSum"><label>{{this.ClientFooterSum.ClientTotal.toFixed(2)}}</label></td>
+            <td class="InvoiceFooterSum"><label>{{this.ClientFooterSum.ClientAdjTotal.toFixed(2)}}</label></td>
+            <!-- <td class="InvoiceFooterSum"><label>{{this.ClientFooterSum.ClientDiscountTotal.toFixed(2)}}</label></td> -->
+            <td class="InvoiceFooterSum"><label></label></td>
+            <td class="InvoiceFooterSum"><label>{{this.ClientFooterSum.ClientSubTotal.toFixed(2)}}</label></td>
+            <td></td>
+            <td></td>
+          </tr>
+        <tr>
+          <td colspan="10">
+            <hr>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <table class="table">
+              <!-- <tr>
+                <td>
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" [(ngModel)]="Invoice_ClientDTOObj.Inv_Client_Inv_Complete"
+                      class="custom-control-input" id="customdfsdCheck11c">
+                    <label class="custom-control-label" for="customdfsdCheck11c">Invoice complete</label>
+                  </div>
+                </td>
+                <td>
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" [(ngModel)]="Invoice_ClientDTOObj.Inv_Client_Credit_Memo"
+                      class="custom-control-input" id="gdfgdfgdfgdfj">
+                    <label class="custom-control-label" for="gdfgdfgdfgdfj"> Credit Memo</label>
+                  </div>
+                </td>
+              </tr> -->
+              <tr>
+                <td>
+                  <label class="col-form-label">Sent to Client</label>
+                  <!-- <input type="text"  class="form-control form-control-sm"> -->
+                  <div class="form-group" style="width: 9rem">
+                    <div class="input-group">
+                      <label class="form-control form-control-sm">{{ Invoice_ClientDTOObj.Inv_Client_Sent_Client |
+                        date:'MM/dd/yyyy' }}
+                      </label>
+                      <input class="form-control form-control-sm" placeholder="yyyy-mm-dd"
+                        [(ngModel)]="Invoice_ClientDTOObj.Inv_Client_Sent_Client" [ngModelOptions]="{standalone: true}"
+                        ngbDatepicker #dt2="ngbDatepicker" firstDayOfWeek="7" style="display: none">
+                      <div class="input-group-append">
+                        <button class="btn btn-outline-info btn-xs" (click)="dt2.toggle()" type="button"><i
+                            class="fas fa-calendar-alt"></i></button>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td style="width: 50%;">
+                  <label class="col-form-label">Complete Date</label>
+                  <div class="form-group" style="width: 9rem">
+                    <div class="input-group">
+                      <label class="form-control form-control-sm">{{ Invoice_ClientDTOObj.Inv_Client_Comp_Date |
+                        date:'MM/dd/yyyy' }}
+                      </label>
+                      <input class="form-control form-control-sm" placeholder="yyyy-mm-dd"
+                        [(ngModel)]="Invoice_ClientDTOObj.Inv_Client_Comp_Date" [ngModelOptions]="{standalone: true}"
+                        ngbDatepicker #dt3="ngbDatepicker" firstDayOfWeek="7" style="display: none">
+                      <div class="input-group-append">
+                        <button class="btn btn-outline-info btn-xs" (click)="dt3.toggle()" type="button"><i
+                            class="fas fa-calendar-alt"></i></button>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" [(ngModel)]="Invoice_ClientDTOObj.Inv_Client_IsNoCharge"
+                      class="custom-control-input" id="customCheckNoCharge"
+                      (change)="CheckNoCharge(Invoice_ClientDTOObj.Inv_Client_IsNoCharge)">
+                    <label class="custom-control-label" for="customCheckNoCharge">No Charge</label>
+                  </div>
+                </td>
+                <td>
+                  <div class="form-group" style="width: 9rem"  *ngIf="Invoice_ClientDTOObj.Inv_Client_IsNoCharge">
+                    <label class="col-form-label">No Charge Date</label>
+                    <div class="input-group">
+                      <label class="form-control form-control-sm">{{ Invoice_ClientDTOObj.Inv_Client_NoChargeDate | date:'MM/dd/yyyy' }}
+                      </label>
+                      <input class="form-control form-control-sm" placeholder="yyyy-mm-dd"
+                        [(ngModel)]="Invoice_ClientDTOObj.Inv_Client_NoChargeDate"
+                        [ngModelOptions]="{standalone: true}" ngbDatepicker #dtnochrg="ngbDatepicker" firstDayOfWeek="7" style="display: none">
+                      <div class="input-group-append">
+                        <button class="btn btn-outline-info btn-xs" (click)="dtnochrg.toggle()" type="button"> <i
+                            class="fas fa-calendar-alt"></i></button>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </td>
+          <td colspan="5">
+            <table class="w-100">
+              <tr>
+                <td style="width: 10rem;text-align: end;vertical-align: bottom;"> <label>Client Total:</label></td>
+                <td style="width:25%;">
+                  <div class="inputWithIcon inputIconBg">
+                  <input  style="color: #000;" type="text" [(ngModel)]="Invoice_ClientDTOObj.Inv_Client_Sub_Total"
+                  numbersOnly readonly
+                  [disabled]="true" class="form-control form-control-sm">
+                    <i class="fa fa-dollar-sign" aria-hidden="true"></i>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </td>
+          <td colspan="3">
+            <table style="width: 81%;" class="table">
+              <tr>
+                <td colspan="9">
+                  <textarea style="width: 86%;" row="7" [(ngModel)]="Invoice_ClientDTOObj.Inv_Client_Internal_Note"
+                    class="form-control form-control-sm" placeholder="Enter Notes"></textarea>
+                </td>
+              </tr>
+              <tr>
+                <td style="width: 22%;">
+                  <label class="col-form-label">Invoice Date:</label>
+                </td>
+                <td style="width: 22%;">
+                  <div class="form-group" style="width: 9rem">
+                    <div class="input-group">
+                      <label
+                      style="font-weight: 500;color: #000;"
+                        class="form-control form-control-sm">{{ Invoice_ClientDTOObj.Inv_Client_Inv_Date | date:'MM/dd/yyyy'  }}
+                      </label>
+                      <input class="form-control form-control-sm" placeholder="yyyy-mm-dd" readonly
+                        [(ngModel)]="Invoice_ClientDTOObj.Inv_Client_Inv_Date" [ngModelOptions]="{standalone: true}"
+                        ngbDatepicker #drt4="ngbDatepicker" firstDayOfWeek="7" style="display: none">
+                      <div class="input-group-append">
+                        <button class="btn btn-outline-info btn-xs" (click)="drt4.toggle()" type="button"
+                          [disabled]="invdate"><i class="fas fa-calendar-alt"></i></button>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td style="
+                text-align: center;">
+                  <label class="col-form-label">Invoice#:</label>
+                </td>
+                <td>
+                  <input type="text" style="width: 108px; font-weight: 500;color: #000;" [(ngModel)]="Invoice_ClientDTOObj.Inv_Client_Invoice_Number"
+                  numbersOnly class="form-control form-control-sm text-center" readonly>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <!-- <tr>
+          <td colspan="2">
+            <label class="col-form-label">Internal Invoice Notes</label>
+          </td>
+          <td colspan="8">
+
+            <textarea row="7" [(ngModel)]="Invoice_ClientDTOObj.Inv_Client_Internal_Note"
+              class="form-control form-control-sm"></textarea>
+          </td>
+        </tr> -->
+      </ng-template>
+    </table>
+  </div>
+</div>

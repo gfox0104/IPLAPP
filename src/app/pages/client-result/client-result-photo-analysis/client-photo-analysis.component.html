@@ -1,0 +1,39 @@
+<div class="row m-0">
+  <div class="col-12 p-0">
+      <div class="row m-0 mt-2">
+        <div style="height: fit-content;" class="row m-0 col-md-5 col-lg-5 col-12 current pl-0">
+          <h5 class="row m-0 col-12 header module-box-header" style="padding-left: 2% !important;">
+            Current Photos ( <span>{{currentPhotos.length}}</span> )</h5>
+          <div class="row col-12 m-0 photo-box module-box p-2 photo-collection">
+            <div class="col-md-3 col-lg3 col-12" style="padding: 1%;" *ngFor="let photo of currentPhotos">
+              <img [src]="photo.Client_Result_Photo_FilePath" class="img-fluid" alt="work-thumbnail"
+                style="width: 100%; max-height: 100%; border-radius: 7px; box-shadow: 0 0 5px #b6babf;" (click)="openCurrentPhotoModal(photo)">
+            </div>
+          </div>
+          <iplapp-photo-view *ngIf="currentPhotoOpen" [index]="selectedCurrentImage" [photos]="currentPhotos"
+            (closeModal)="closeCurrentPhotoModal($event)"></iplapp-photo-view>
+        </div>
+        <div class="col-2"></div>
+        <div style="height: fit-content;" class="row col-md-5 col-lg-5 col-12 m-0 past pl-0">
+          <div  class="row col-12 m-0 module-box-header">
+            <h5 style="padding-left: 1% !important;"  class="p-0 col-5">Compared Photos ( <span>{{pastPhotos.length}}</span> )</h5>
+            <select [(ngModel)]="OrderPastDTOObj.WorkOrder_ID" [ngModelOptions]="{standalone: true}"
+              (change)="changeOrder($event)" class=" form-control form-control-sm col-7">
+              <option *ngFor="let order of pastOrders; let i = index" [value]="order.WorkOrder_ID"
+                [attr.selected]="i==0">
+                {{order.WorkOrder_Data}}
+              </option>
+            </select>
+          </div>
+          <div class="module-box photo-box p-2 row col-12 m-0 photo-collection">
+            <div class="col-md-3 col-lg-3 col-12" style="padding: 1%;" *ngFor="let photo of pastPhotos">
+              <img [src]="photo.Client_Result_Photo_FilePath" class="img-fluid" alt="work-thumbnail"
+                style="width: 100%; max-height: 90%; border-radius: 7px; box-shadow: 0 0 5px #b6babf;" (click)="openPastPhotoModal(photo)">
+            </div>
+          </div>
+          <iplapp-photo-view *ngIf="pastPhotoOpen" [index]="selectedPastImage" [photos]="pastPhotos"
+          (closeModal)="closePastPhotoModal($event)"></iplapp-photo-view>
+        </div>
+      </div>
+  </div>
+</div>

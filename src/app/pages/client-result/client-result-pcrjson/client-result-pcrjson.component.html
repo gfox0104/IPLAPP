@@ -1,0 +1,178 @@
+<ng-template #content let-modal>
+    <div class="modal-header">
+      Message
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="text-center">
+  
+        <span>{{MessageFlag}}</span>
+        <hr>
+        <button type="button" class="btn btn-primary waves-effect waves-light"
+          (click)="modal.close('Save click')">Continue...</button>
+      </div>
+    </div>
+  </ng-template>
+
+  <div class="row">
+    <div class="col-12">
+        <div class="conatainer">
+            <div class="module-box-header p-1 m-auto row">
+                <div class="col-lg-2">
+                  <a (click) = "back()"> <i class="fas fa-arrow-circle-left fa-lg" ></i></a>
+                </div>
+            </div>
+            <div class="module-box">
+            <div class="row m-auto">
+              <div class="col-lg-3" >
+                <div class="row">
+                  <h4>Property Info</h4>
+                </div>
+                
+                <div class="row">
+                  <div *ngFor="let item of PCR_FiveBrotherModelObj.PCR_FiveBro_Propertyinfo | keyvalue">
+                   <span style="font-weight: bold;">{{item.key}}</span> : <span> <span *ngIf="item.value != '[object Object]'">{{item.value}}</span>   <ul  *ngFor="let itemx of item.value | keyvalue"> <li > <span style="font-weight: bold;">{{itemx.key}}</span> : <span>{{itemx.value}}</span> </li> </ul>   </span>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="col-lg-3" >
+                <div class="row">
+                  <h4>Violations</h4>
+                </div>
+                
+                <div class="row">
+                  <div *ngFor="let item of PCR_FiveBrotherModelObj.PCR_FiveBro_Violations  | keyvalue">
+                    <span style="font-weight: bold;">{{item.key}}</span> : <span> <span *ngIf="item.value != '[object Object]'">{{item.value}}</span>   <ul  *ngFor="let itemx of item.value | keyvalue"> <li > <span style="font-weight: bold;">{{itemx.key}}</span> : <span>{{itemx.value}}</span> </li> </ul>   </span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3" >
+                  <div class="row">
+                    <h4>Securing</h4>
+                  </div>
+                  
+                  <div class="row">
+                    <div *ngFor="let item of PCR_FiveBrotherModelObj.PCR_FiveBro_Securing  | keyvalue">
+                      <span style="font-weight: bold;">{{item.key}}</span> : <span> <span *ngIf="item.value != '[object Object]'">{{item.value}}</span>   <ul  *ngFor="let itemx of item.value | keyvalue"> <li > <span style="font-weight: bold;">{{itemx.key}}</span> : <span>{{itemx.value}}</span> </li> </ul>   </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-3" >
+                    <div class="row">
+                      <h4>Winterization</h4>
+                    </div>
+                    
+                    <div class="row">
+                      <div *ngFor="let item of PCR_FiveBrotherModelObj.PCR_FiveBro_Winterization  | keyvalue">
+                        <span style="font-weight: bold;">{{item.key}}</span> : <span> <span *ngIf="item.value != '[object Object]'">{{item.value}}</span>   <ul  *ngFor="let itemx of item.value | keyvalue"> <li > <span style="font-weight: bold;">{{itemx.key}}</span> : <span>{{itemx.value}}</span> </li> </ul>   </span>
+                      </div>
+                    </div>
+                  </div>
+                    
+            </div>
+            <div class="dropdown-divider"></div>  
+            <div class="row m-auto">
+              <div class="col-lg-3" >
+                <div class="row">
+                  <h4>Yard</h4>
+                </div>
+                <div class="row">
+                  <div *ngFor="let item of PCR_FiveBrotherModelObj.PCR_FiveBro_Yard | keyvalue">
+                   <span style="font-weight: bold;">{{item.key}}</span> : <span> <span *ngIf="item.value != '[object Object]'">{{item.value}}</span>   <ul  *ngFor="let itemx of item.value | keyvalue"> <li > <span style="font-weight: bold;">{{itemx.key}}</span> : <span>{{itemx.value}}</span> </li> </ul>   </span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3" >
+                  <div class="row">
+                    <h4>Debris Hazards </h4>
+                  </div>
+                  <div class="row">
+                    <div *ngFor="let item of PCR_FiveBrotherModelObj.PCR_FiveBro_Debris_Hazards  | keyvalue">
+                      <span style="font-weight: bold;">{{item.key}}</span> : <span> <span *ngIf="item.value != '[object Object]'">{{item.value}}</span>   <ul  *ngFor="let itemx of item.value | keyvalue"> <li > <span style="font-weight: bold;">{{itemx.key}}</span> : <span>{{itemx.value}}</span> </li> </ul>   </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-3" >
+                    <div class="row">
+                      <h4>Roof </h4>
+                    </div>
+    
+                    <div class="row">
+                      <div *ngFor="let item of PCR_FiveBrotherModelObj.PCR_FiveBro_Roof  | keyvalue">
+                        <span style="font-weight: bold;">{{item.key}}</span> : <span> <span *ngIf="item.value != '[object Object]'">{{item.value}}</span>   <ul  *ngFor="let itemx of item.value | keyvalue"> <li > <span style="font-weight: bold;">{{itemx.key}}</span> : <span>{{itemx.value}}</span> </li> </ul>   </span>
+                      </div>
+                    </div>
+                </div>       
+            </div>
+            <div class="dropdown-divider"></div>
+            <div class="row m-auto">
+              <div class="col-lg-3" >
+                <div class="row">
+                  <h4>Pool</h4>
+                </div>
+                <div class="row">
+                  <div *ngFor="let item of PCR_FiveBrotherModelObj.PCR_FiveBro_Pool | keyvalue">
+                   <span style="font-weight: bold;">{{item.key}}</span> : <span> <span *ngIf="item.value != '[object Object]'">{{item.value}}</span>   <ul  *ngFor="let itemx of item.value | keyvalue"> <li > <span style="font-weight: bold;">{{itemx.key}}</span> : <span>{{itemx.value}}</span> </li> </ul>   </span>
+                  </div>
+                </div>
+                </div>
+                <div class="col-lg-3" >
+                  <div class="row">
+                    <h4>Utilities </h4>
+                  </div>
+  
+                  <div class="row">
+                    <div *ngFor="let item of PCR_FiveBrotherModelObj.PCR_FiveBro_Utilities  | keyvalue">
+                      <span style="font-weight: bold;">{{item.key}}</span> : <span> <span *ngIf="item.value != '[object Object]'">{{item.value}}</span>   <ul  *ngFor="let itemx of item.value | keyvalue"> <li > <span style="font-weight: bold;">{{itemx.key}}</span> : <span>{{itemx.value}}</span> </li> </ul>   </span>
+                    </div>
+                  </div>
+                  </div>
+                  <div class="col-lg-3" >
+                    <div class="row">
+                      <h4>Appliances</h4>
+                    </div>
+    
+                    <div class="row">
+                      <div *ngFor="let item of PCR_FiveBrotherModelObj.PCR_FiveBro_Appliances  | keyvalue">
+                        <span style="font-weight: bold;">{{item.key}}</span> : <span> <span *ngIf="item.value != '[object Object]'">{{item.value}}</span>   <ul  *ngFor="let itemx of item.value | keyvalue"> <li > <span style="font-weight: bold;">{{itemx.key}}</span> : <span>{{itemx.value}}</span> </li> </ul>   </span>
+                      </div>
+                    </div>
+                    </div> 
+            </div>
+            <div class="dropdown-divider"></div>
+            <div class="row m-auto">
+              <div class="col-lg-3" >
+                <div class="row">
+                  <h4>Damages</h4>
+                </div>
+
+                <div class="row">
+                  <div *ngFor="let item of PCR_FiveBrotherModelObj.PCR_FiveBro_Damages  | keyvalue">
+                    <span style="font-weight: bold;">{{item.key}}</span> : <span> <span *ngIf="item.value != '[object Object]'">{{item.value}}</span>   <ul  *ngFor="let itemx of item.value | keyvalue"> <li > <span style="font-weight: bold;">{{itemx.key}}</span> : <span>{{itemx.value}}</span> </li> </ul>   </span>
+                  </div>
+                </div>
+                </div>
+              <div class="col-lg-3 " >
+                <div class="row">
+                  <h4>Conveyance</h4>
+                </div>
+
+                <div class="row">
+                  <div *ngFor="let item of PCR_FiveBrotherModelObj.PCR_FiveBro_Conveyance | keyvalue">
+                   <span style="font-weight: bold;">{{item.key}}</span> : <span> <span *ngIf="item.value != '[object Object]'">{{item.value}}</span>   <ul  *ngFor="let itemx of item.value | keyvalue"> <li > <span style="font-weight: bold;">{{itemx.key}}</span> : <span>{{itemx.value}}</span> </li> </ul>   </span>
+                  </div>
+                </div>
+                </div>
+             
+                    
+            </div>
+            </div>
+          </div>
+    </div> <!-- end col -->
+  </div>
+  
+  
+  

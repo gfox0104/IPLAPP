@@ -1,0 +1,394 @@
+
+<div class="row">
+  <div class="col-md-12 mt-3">
+    <h5 (click)='hideProperty()' class="module-box-header m-0 col-12">Restore WorkOrder
+
+      <svg  style="float:right" xmlns="http://www.w3.org/1500/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z"/></svg>
+    </h5>
+    <div *ngIf='hidePH'>
+    <ul class="module-subheader nav nav-tabs w-100" id="myinvpro" role="tabs">
+      <li class="nav-item" *ngFor="let tab of tabs" (click)="onClickTab(tab)">
+        <a class="nav-link" [ngClass]="{'active': tab.active}" [hidden]="tab.hidden" [id]="tab.id" data-toggle="tab"
+         (click)="OnworkOrderclick(tab.id)" [href]="'#' + tab.link" role="tab" aria-controls="tab.link" aria-selected="true">{{tab.title}}</a>
+      </li>
+    </ul>
+    <div class="tab-content pt-0" id="myinvproContent">
+      <div class="tab-pane fade" [ngClass]="{'show': tabs[0].active, 'active': tabs[0].active}" id="invtpast"
+        role="tabpanel" aria-labelledby="invtpast-tab">
+        <div class="row">
+          <div class="col">
+            <kendo-grid #gridUser class="module-box" [kendoGridBinding]="restoreWorkOrderList" [pageSize]="25" [pageable]="true" [sortable]="true"
+              [filterable]="true" [selectable]="true" [groupable]="false" [reorderable]="true">
+
+              <kendo-grid-column *ngFor="let column of gridColumns" [field]="column.field" [title]="column.title" [width]="column.width">
+
+
+                <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'dueDate'">
+                  <div>{{dataItem[column.field] | date:"MM/dd/yyyy"}}</div>
+                </ng-template>
+
+
+                <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'ContractorName'">
+                  <span class="whole-cell" [style.backgroundColor]="SetColor(dataItem.ContractorBackColor)" [style.color]="'white'" [style.fontWeight]="'bold'"
+                              *ngIf="dataItem.ContractorName != null && dataItem.ContractorName.length > 1">
+                              <div>{{dataItem[column.field]}}</div>
+                  </span>
+                </ng-template>
+
+
+                <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'photocount'">
+                  <div class="d-flex align-items-center">
+                    <a class="edit" [routerLink]="dataItem.ViewPhotosUrl" class="k-grid-ignore-click" title="view Records">
+                      <img src="assets/images/images.png" class="mr-2 cursor-pinter"> &nbsp; &nbsp; {{dataItem.photocount}}
+                    </a>
+                  </div>
+                </ng-template>
+                <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'ecdnotecount'">
+                  <div class="d-flex align-items-center">
+                    <img src="assets/images/pinned_notes.png" class="mr-2 cursor-pinter message"
+                    (click)="openECDNotesModal(dataItem, EcdNoteBox)">
+                    <div>{{dataItem.ecdnotecount==undefined?0:dataItem.ecdnotecount}}</div>
+                  </div>
+                </ng-template>
+
+              </kendo-grid-column>
+              <kendo-grid-column field="IsEdit" title="Active" [headerStyle]="{'line-height': '1em'}" [width]="80" filter="boolean">
+                <ng-template kendoGridCellTemplate let-dataItem let-i="rowIndex" >
+                  <div class="custom-control custom-switch">
+                    <input type="checkbox" (change)="checkChange($event.target.checked?true:false, dataItem)"
+                        class="custom-control-input" id="switchisActive{{i}}"
+                        [checked]="dataItem.IsEdit">
+                    <label class="custom-control-label"
+                        for="switchisActive{{i}}"></label>
+                </div>
+                </ng-template>
+              </kendo-grid-column>
+
+              <!-- <kendo-grid-column width="150" field="status" title="Status"
+                [headerStyle]="{'font-weight':'bold'}">
+              </kendo-grid-column>
+              <kendo-grid-column width="150" field="CORNT_User_FirstName" title="Contractor"
+                [headerStyle]="{'font-weight':'bold'}">
+              </kendo-grid-column>
+              <kendo-grid-column width="150" field="IPLNO" title="IPL NO"
+                [headerStyle]="{'font-weight':'bold'}">
+              </kendo-grid-column>
+              <kendo-grid-column width="150" field="workOrderNumber" title="Work Order"
+                [headerStyle]="{'font-weight':'bold'}">
+              </kendo-grid-column>
+              <kendo-grid-column width="150" field="dueDate" title="Due Date"
+                [headerStyle]="{'font-weight':'bold'}">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                  <span>
+                    {{dataItem.dueDate | date: 'MM/dd/yyyy'}}
+                  </span>
+                </ng-template>
+              </kendo-grid-column>
+              <kendo-grid-column width="150" field="WT_WorkType" title="Work Type"
+                [headerStyle]="{'font-weight':'bold'}">
+              </kendo-grid-column>
+              <kendo-grid-column width="150" field="address1" title="Address"
+                [headerStyle]="{'font-weight':'bold'}">
+              </kendo-grid-column>
+              <kendo-grid-column width="150" field="CreatedBy" title="Created By"
+                [headerStyle]="{'font-weight':'bold'}">
+              </kendo-grid-column>
+              <kendo-grid-column width="150" field="ModifiedBy" title="Last Modified By"
+                [headerStyle]="{'font-weight':'bold'}">
+              </kendo-grid-column> -->
+
+
+
+              <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+                <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+                <kendo-pager-numeric-buttons [buttonCount]="10"></kendo-pager-numeric-buttons>
+                <kendo-pager-next-buttons></kendo-pager-next-buttons>
+                <kendo-pager-info></kendo-pager-info>
+                <kendo-pager-page-sizes [pageSizes]="[25, 50, 75, 100, 150, 200]"></kendo-pager-page-sizes>
+              </ng-template>
+            </kendo-grid>
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane fade" [ngClass]="{'show': tabs[1].active, 'active': tabs[1].active}" id="invbidhistory"
+        role="tabpanel" aria-labelledby="invbidhistory-tab">
+        <div class="row">
+          <div class="col">
+            <kendo-grid #gridUser class="module-box" [kendoGridBinding]="restoreWorkOrderList" [pageSize]="25" [pageable]="true" [sortable]="true"
+              [filterable]="true" [selectable]="true" [groupable]="false" [reorderable]="true">
+
+              <kendo-grid-column *ngFor="let column of gridColumns" [field]="column.field" [title]="column.title" [width]="column.width">
+
+
+                <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'dueDate'">
+                  <div>{{dataItem[column.field] | date:"MM/dd/yyyy"}}</div>
+                </ng-template>
+
+
+                <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'ContractorName'">
+                  <span class="whole-cell" [style.backgroundColor]="SetColor(dataItem.ContractorBackColor)" [style.color]="'white'" [style.fontWeight]="'bold'"
+                              *ngIf="dataItem.ContractorName != null && dataItem.ContractorName.length > 1">
+                              <div>{{dataItem[column.field]}}</div>
+                  </span>
+                </ng-template>
+
+
+                <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'photocount'">
+                  <div class="d-flex align-items-center">
+                    <a class="edit" [routerLink]="dataItem.ViewPhotosUrl" class="k-grid-ignore-click" title="view Records">
+                      <img src="assets/images/images.png" class="mr-2 cursor-pinter"> &nbsp; &nbsp; {{dataItem.photocount}}
+                    </a>
+                  </div>
+                </ng-template>
+                <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'ecdnotecount'">
+                  <div class="d-flex align-items-center">
+                    <img src="assets/images/pinned_notes.png" class="mr-2 cursor-pinter message"
+                    (click)="openECDNotesModal(dataItem, EcdNoteBox)">
+                    <div>{{dataItem.ecdnotecount==undefined?0:dataItem.ecdnotecount}}</div>
+                  </div>
+                </ng-template>
+
+              </kendo-grid-column>
+              <kendo-grid-column field="IsActive" title="Action" width="80">
+                <ng-template kendoGridCellTemplate let-dataItem let-i="rowIndex" >
+                  <div class="custom-control custom-switch">
+                    <input type="checkbox" (change)="deleteDetails($event.target.checked?true:false, dataItem)"
+                        class="custom-control-input" id="switchIsActive{{i}}"
+                        [checked]="dataItem.IsActive">
+                    <label class="custom-control-label"
+                        for="switchIsActive{{i}}"></label>
+                </div>
+                </ng-template>
+              </kendo-grid-column>
+
+              <!-- <kendo-grid-column width="150" field="status" title="Status"
+                [headerStyle]="{'font-weight':'bold'}">
+              </kendo-grid-column>
+              <kendo-grid-column width="150" field="CORNT_User_FirstName" title="Contractor"
+                [headerStyle]="{'font-weight':'bold'}">
+              </kendo-grid-column>
+              <kendo-grid-column width="150" field="IPLNO" title="IPL NO"
+                [headerStyle]="{'font-weight':'bold'}">
+              </kendo-grid-column>
+              <kendo-grid-column width="150" field="workOrderNumber" title="Work Order"
+                [headerStyle]="{'font-weight':'bold'}">
+              </kendo-grid-column>
+              <kendo-grid-column width="150" field="dueDate" title="Due Date"
+                [headerStyle]="{'font-weight':'bold'}">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                  <span>
+                    {{dataItem.dueDate | date: 'MM/dd/yyyy'}}
+                  </span>
+                </ng-template>
+              </kendo-grid-column>
+              <kendo-grid-column width="150" field="WT_WorkType" title="Work Type"
+                [headerStyle]="{'font-weight':'bold'}">
+              </kendo-grid-column>
+              <kendo-grid-column width="150" field="address1" title="Address"
+                [headerStyle]="{'font-weight':'bold'}">
+              </kendo-grid-column>
+              <kendo-grid-column width="150" field="CreatedBy" title="Created By"
+              [headerStyle]="{'font-weight':'bold'}">
+            </kendo-grid-column>
+            <kendo-grid-column width="150" field="ModifiedBy" title="Last Modified By"
+              [headerStyle]="{'font-weight':'bold'}">
+            </kendo-grid-column> -->
+
+              <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+                <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+                <kendo-pager-numeric-buttons [buttonCount]="10"></kendo-pager-numeric-buttons>
+                <kendo-pager-next-buttons></kendo-pager-next-buttons>
+                <kendo-pager-info></kendo-pager-info>
+                <kendo-pager-page-sizes [pageSizes]="[25, 50, 75, 100, 150, 200]"></kendo-pager-page-sizes>
+              </ng-template>
+            </kendo-grid>
+          </div>
+          <!-- <div class="col-12">
+            <kendo-grid #gridBid class="module-box" [kendoGridBinding]="taskbid" [pageSize]="15" [pageable]="true" [sortable]="true"
+              [filterable]="true" [selectable]="true" [groupable]="false" [reorderable]="true">
+              <iplapp-kendogrid-action></iplapp-kendogrid-action>
+              <kendo-grid-column-group class="action" title="Action" >
+                <kendo-grid-column width="40" [style]="{'text-align': 'center','font-weight':'bold'}"
+                  [headerStyle]="{'font-weight':'bold','text-align': 'center', 'padding': '12px 0px'}">
+                  <ng-template kendoGridHeaderTemplate let-dataItem let-columnIndex="columnIndex">
+                    <div>
+                      <input type="checkbox" (change)="checkRowAll($event)" />
+                    </div>
+                  </ng-template>
+                  <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex" filter="boolean">
+                    <div>
+                      <input type="checkbox" class="check-box" [checked]="false" (change)="checkRow(dataItem)" />
+                    </div>
+                  </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column width="60" class="text-center"
+                  [headerStyle]="{'text-align': 'center', padding: '12px 0px'}"
+                  [style]="{'text-align': 'center', 'padding': '0px'}">
+                  <ng-template kendoGridHeaderTemplate let-dataItem let-columnIndex="columnIndex">
+                    <iplapp-loading-button title="Copy" [isSubmitted]="isSubmitted"
+                      (onButtonClick)="copySelectedBid()"></iplapp-loading-button>
+                  </ng-template>
+                  <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                    <iplapp-loading-button title="Copy" [isSubmitted]="isSubmitted"
+                      (onButtonClick)="copyBidItem(dataItem)"></iplapp-loading-button>
+                  </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column width="70" [headerStyle]="{'text-align': 'center', padding: '12px 0px'}"
+                  [style]="{'text-align': 'center', 'padding': '0px'}">
+                  <ng-template kendoGridHeaderTemplate let-dataItem let-columnIndex="columnIndex">
+                    <iplapp-loading-button title="Approve" [isSubmitted]="isSubmitted"
+                      (onButtonClick)="approveSelected()" bgColor="#228B22"></iplapp-loading-button>
+                  </ng-template>
+                  <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                    <iplapp-loading-button title="Approve" [isSubmitted]="isSubmitted"
+                      (onButtonClick)="approve(dataItem)" bgColor="#228B22"></iplapp-loading-button>
+                  </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column title="Reject" width="60" [style]="{'text-align': 'center', 'padding': '0px'}"
+                  [headerStyle]="{'text-align': 'center', padding: '12px 0px'}">
+                  <ng-template kendoGridHeaderTemplate let-dataItem let-columnIndex="columnIndex">
+                    <iplapp-loading-button title="Reject" [isSubmitted]="isSubmitted"
+                      (onButtonClick)="rejectSelected()" bgColor="#8B0000"></iplapp-loading-button>
+                  </ng-template>
+                  <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                    <iplapp-loading-button title="Reject" [isSubmitted]="isSubmitted" bgColor="#8B0000"
+                      (onButtonClick)="reject(dataItem)">
+                    </iplapp-loading-button>
+                  </ng-template>
+                </kendo-grid-column>
+              </kendo-grid-column-group>
+              <ng-container *ngFor="let column of historyColumns">
+                <kendo-grid-column-group [title]="column.title" [locked]="false" *ngIf="column.type === 'group'">
+                  <kendo-grid-column *ngFor="let subColumn of column.groups" [width]="150"
+                    [field]="subColumn.field" [headerStyle]="{'font-weight':'bold'}" [title]="subColumn.title">
+                    <ng-template kendoGridCellTemplate let-dataItem >
+                      {{currencySymbol}}{{dataItem[subColumn.field]}}
+                   </ng-template>
+                  </kendo-grid-column>
+                </kendo-grid-column-group>
+                <kendo-grid-column [width]="150" *ngIf="column.type !== 'group'" [field]="column.field"
+                  [title]="column.title" [headerStyle]="{'font-weight':'bold','vertical-align': 'baseline'}" [field]="column.field">
+                  {{column.field}}
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'CountPhotos'">
+                    <div class="d-flex text-weight-bold align-items-center">
+                      <img src="assets/images/images.png" class="mr-2 cursor-pinter"
+                        (click)="navToPhoto(photoViewer, dataItem)">
+                      {{dataItem[column.field]}}
+
+                    </div>
+                  </ng-template>
+                </kendo-grid-column>
+              </ng-container>
+              <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+                <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+                <kendo-pager-numeric-buttons [buttonCount]="10"></kendo-pager-numeric-buttons>
+                <kendo-pager-next-buttons></kendo-pager-next-buttons>
+                <kendo-pager-info></kendo-pager-info>
+                <kendo-pager-page-sizes [pageSizes]="[15, 30, 50, 100]"></kendo-pager-page-sizes>
+              </ng-template>
+            </kendo-grid>
+          </div> -->
+        </div>
+      </div>
+
+
+
+    </div>
+    </div>
+  </div>
+</div>
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="default" color="#fff" type="timer" [fullScreen]="true">
+  <p style="color: white">Loading...</p>
+</ngx-spinner>
+<!-- <div class="container-fluid">
+
+  <div class="row">
+        <div class="row col-12 m-0 module-box-header">
+          <h4 class="page-title" style="font-weight: bolder;padding-left: 12px">Restore WorkOrder </h4>
+          <hr>
+          <iplapp-icon-button  *ngFor="let button of buttons | slice:0:3; let i=index"
+            [title]="button.title"
+            [iclass]="button.iclass"
+            [routerLink]="button.routerLink"
+            [param]="button.param" class="mr-1">
+          </iplapp-icon-button>
+        </div>
+        <iplapp-filter-form class="module-subheader col-12"
+        style="padding-left: 2%;"
+          [modelObj]="_restoreWorkOrderModelObj"
+          [formFilters]="userViewFilters"
+
+          (filterCall)="filterCall()"
+          (clearData)="clearData()"
+          (saveFilterData)="saveFilterData()"
+          (filterdrd) = "filterdrd($event)">
+        </iplapp-filter-form>
+        <div class="row m-0 module-box" style="overflow-x:auto">
+          <kendo-grid #gridUser [kendoGridBinding]="griddata" [pageSize]="15" [pageable]="true" [sortable]="true"
+            [filterable]="false" [selectable]="true" [groupable]="false"
+            [skip]="state.skip" [sort]="state.sort" [filter]="state.filter" (dataStateChange)="dataStateChange($event)">
+            <kendo-grid-column *ngFor="let column of gridColumns"
+              [field]="column.field"
+              [title]="column.title"
+              [headerStyle]="{'line-height': '1em'}"
+              [width]="80">
+            </kendo-grid-column>
+            <kendo-grid-column field="Grp_IsActive" title="Active"
+            [headerStyle]="{'line-height': '1em'}" [width]="80"
+            filter="boolean">
+            <ng-template kendoGridCellTemplate let-dataItem let-i="rowIndex" >
+              <div class="custom-control custom-switch">
+                <input type="checkbox" (change)="checkChange($event, dataItem)"
+                    class="custom-control-input" id="switchisActive{{i}}"
+                    [checked]="dataItem.User_IsActive">
+                <label class="custom-control-label"
+                    for="switchisActive{{i}}"></label>
+            </div>
+            </ng-template>
+          </kendo-grid-column>
+            <kendo-grid-column title="Action"
+              [headerStyle]="{'line-height': '1em'}" width="80">
+              <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                <a class="edit" data-toggle="tooltip"  data-placement="top"
+                  title="View Record" [routerLink]="dataItem.ViewUrl" class="k-grid-ignore-click">
+                  <i class="fa fa-eye"></i>
+                </a> &nbsp;&nbsp;
+                <a class="edit" data-toggle="tooltip" (click)="deleteDetails($event, dataItem)" data-placement="top"
+                  title="Delete Record" style="cursor: pointer">
+                  <i class="fa fa-trash"></i>
+                </a>
+              </ng-template>
+            </kendo-grid-column>
+
+            <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+              <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+              <kendo-pager-numeric-buttons [buttonCount]="10"></kendo-pager-numeric-buttons>
+              <kendo-pager-next-buttons></kendo-pager-next-buttons>
+              <kendo-pager-info></kendo-pager-info>
+              <kendo-pager-page-sizes [pageSizes]="[15, 30, 50, 100]"></kendo-pager-page-sizes>
+            </ng-template>
+          </kendo-grid>
+        </div>
+    </div>
+    <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="default" color="#fff" type="timer" [fullScreen]="true">
+      <p style="color: white">Loading...</p>
+    </ngx-spinner> -->
+
+
+    <ng-template #EcdNoteBox let-modal let-c="close" let-d="dismiss">
+      <div class="modal-header ecdnote-modal-header">
+        <h5 style="color: black;">Estimated Completion Date Notes</h5>
+        <button type="button" (click)="modal.close('Save click')" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+
+      </div>
+      <div class="modal-body ecdnote-modal-body">
+           <!-- Message box popup -->
+           <div class="row">
+            <div class="col-12">
+              <app-ipl-app-ecd-notes-box [workOrderId]="actionIPLNOs[0].WorkOrder_Id" (NoteRefresh)="GetRestoreWorkOrderData()"></app-ipl-app-ecd-notes-box>
+            </div>
+          </div>
+      </div>
+    </ng-template>

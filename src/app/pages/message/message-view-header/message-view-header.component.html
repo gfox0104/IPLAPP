@@ -1,0 +1,74 @@
+<div  [ngClass]="getActiveThreadHeaderClass()">
+  <div class="navbar">
+    <div class="user-details mr-auto">
+      <div class="float-left user-img">
+        <a class="avatar" [title]="userFullName">
+          <img [src]="User_ImagePath" class="rounded-circle" />
+          <span class="status online"></span>
+        </a>
+      </div>
+      <div class="user-info float-left">
+        <a href="#" title="{{ orderDetail.Client_Company_Name }}"><span style="color:black"><b>IPL# {{ orderDetail.IPLNO }}</b></span></a>
+        <span class="last-seen" style="color:black">Last seen today at 7:50 AM</span>
+      </div>
+    </div>
+    <div class="search-box se-box" *ngIf="IsSearchBoxDisplay">
+      <div id="search-icon-new-code" class="input-group input-group-sm">
+        <input type="text" placeholder="Search" class="form-control" [(ngModel)]="messageSearch" (input)="onChangeEvent($event)" />
+        <span class="input-group-append">
+          <button type="button" class="btn">
+            <i class="fa fa-search"></i>
+          </button>
+        </span>
+      </div>
+    </div>
+    <ul class="nav message-nav-header">
+      <li class="nav-item">
+        <a class="nav-link task-chat profile-rightbar float-right" id="task_chat" href="#task_window"><i
+            class="fa fa-user"></i></a>
+      </li>
+      <li class="nav-item">
+        <a *ngIf="groupRoleID < 5 && groupRoleID != 2" [ngClass]="{
+              active: threadID == orderDetail.workOrder_ID + '_contractor'
+            }" (click)="selectThread('contractor')" class="btn add-btn btn-custom btn-font-size contractor-btn-color">
+          Contractor</a>
+
+          <a *ngIf="groupRoleID == 2" [ngClass]="{
+            active: threadID == orderDetail.workOrder_ID + '_contractor'
+          }" (click)="selectThread('contractor')" class="btn add-btn btn-custom btn-font-size contractor-btn-color">
+          Co-Ordinator</a>
+      </li>
+      <li class="nav-item">
+        <a *ngIf="groupRoleID == 1 || groupRoleID == 5" [ngClass]="{ active: threadID == orderDetail.workOrder_ID + '_client' }"
+          (click)="selectThread('client')" class="btn add-btn btn-custom btn-font-size client-btn-color">
+          Client</a>
+      </li>
+      <li class="nav-item">
+        <a *ngIf="groupRoleID == 1 || groupRoleID == 4" [ngClass]="{ active: threadID == orderDetail.workOrder_ID + '_internal' }"
+          (click)="selectThread('internal')" class="btn btn-custom btn-font-size internal-btn-color">
+          Internal</a>
+      </li>
+      <!-- <li class="nav-item" >
+        <a *ngIf=" groupRoleID == 4" [ngClass]="{ active: threadID == orderDetail.workOrder_ID + '_internal' }" 
+              (click)="selectThread('internal')" class="btn btn-custom btn-font-size internal-btn-color">
+          Internal</a>
+      </li> -->
+    </ul>
+  </div>
+  <p class="contractor-cont-as" *ngIf="orderDetail">
+    <b>Contractor : </b>
+    <span>{{
+      orderDetail.ContractorName.split(",")[0]
+      }}</span>
+    &nbsp;
+    <b>Processor : </b>
+    <span>
+      {{
+        orderDetail.ProcessorName.split(",")[0]
+      }}</span>
+    &nbsp; <b>Co-Ordinator : </b>
+    <span>{{
+      orderDetail.CordinatorName.split(",")[0]
+      }}</span>
+  </p>
+</div>

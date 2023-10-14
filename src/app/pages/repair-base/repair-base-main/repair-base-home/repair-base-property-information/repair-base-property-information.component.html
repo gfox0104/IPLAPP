@@ -1,0 +1,126 @@
+<div class="repair-property">
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <div class="">
+                <h4 class="module-box-header mb-0">
+                    Property Characteristics
+                </h4>
+                <div class="module-box p-2">
+                    <form [formGroup]="formCharacteristicGroup"  (ngSubmit)="addCharacteristics()">
+                        <div class="row">
+                            <div style="width: 100%;">
+                                <div class="row col-md-12">
+                                    
+                                    <div class="col-lg-3 col-md-6 col-sm-12 col-12">
+                                        <label for="RB_Bedrooms">Bedrooms:</label>
+                                        <input type="text" id="RB_Bedrooms" class="form-control" [(ngModel)]="RepairBasePropertyInformationObj.RB_Bedrooms"
+                                        formControlName="RB_Bedrooms" name="RB_Bedrooms" placeholder="Bedrooms..">
+                                    </div>
+                                    <div class="col-lg-3 col-md-6 col-sm-12 col-12">
+                                        <label for="RB_Fullbaths">Full Baths: </label>
+                                        <input type="text" id="RB_Fullbaths" class="form-control" [(ngModel)]="RepairBasePropertyInformationObj.RB_Fullbaths"
+                                        formControlName="RB_Fullbaths" name="RB_Fullbaths" placeholder="Full baths..">
+                                    </div>
+                                    <div class="col-lg-3 col-md-6 col-sm-12 col-12">
+                                        <label for="RB_Halfbaths">Half Baths: </label>
+                                        <input type="text" id="RB_Halfbaths" class="form-control" [(ngModel)]="RepairBasePropertyInformationObj.RB_Halfbaths"
+                                        formControlName="RB_Halfbaths" name="RB_Halfbaths" placeholder="Half baths..">
+                                    </div>
+                                    <div class="col-lg-3 col-md-6 col-sm-12 col-12">
+                                        <label for="RB_Stories">Stories:</label>
+                                        <select id="RB_Stories" class="form-control form-control-sm" [(ngModel)]="RepairBasePropertyInformationObj.RB_Stories" formControlName="RB_Stories" name="RB_Stories">
+                                            <option [value]="story" *ngFor="let story of stories">
+                                                {{story}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <hr/>
+                                <div class="row col-md-12">
+                                    <div class="col-lg-3 col-md-6 col-sm-12 col-12">
+                                        <label for="RB_YearBuilt">Year Built:</label>
+                                        <input type="text" id="RB_YearBuilt" class="form-control" [(ngModel)]="RepairBasePropertyInformationObj.RB_YearBuilt"
+                                        formControlName="RB_YearBuilt" name="RB_YearBuilt" placeholder="Year Built..">
+                                    </div>
+                                    <div class="col-lg-3 col-md-6 col-sm-12 col-12">
+                                        <label for="RB_LivingArea">Living Area:</label>
+                                        <input type="text" id="RB_LivingArea" class="form-control" [(ngModel)]="RepairBasePropertyInformationObj.RB_LivingArea"
+                                        formControlName="RB_LivingArea" name="RB_LivingArea" placeholder="Living Area..">
+                                    </div>
+                                    <div class="col-lg-3 col-md-6 col-sm-12 col-12">
+                                        <label for="RB_StructureQuality">Structure Quality:</label>
+                                        <select id="RB_StructureQuality" class="form-control form-control-sm" [(ngModel)]="RepairBasePropertyInformationObj.RB_StructureQuality" formControlName="RB_StructureQuality" name="RB_StructureQuality">
+                                            <option [value]="quality" *ngFor="let quality of structureQuality">
+                                                {{quality}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-3 col-md-6 col-sm-12 col-12">
+                                        <label for="RB_Condition">Structure Condition:</label>
+                                        <select id="RB_Condition" class="form-control form-control-sm" [(ngModel)]="RepairBasePropertyInformationObj.RB_Condition" formControlName="RB_Condition" name="RB_Condition">
+                                            <option [value]="condition" *ngFor="let condition of conditions">
+                                                {{condition}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <hr/>
+                                <div class="row col-md-12">
+                                    <div class="col-lg-3 col-md-6 col-sm-12 col-12">
+                                        <label for="RB_Site">Site (Lot Size in Sq Ft):</label>
+                                        <input type="text" id="RB_Site" class="form-control" [(ngModel)]="RepairBasePropertyInformationObj.RB_Site"
+                                        formControlName="RB_Site" name="RB_Site" placeholder="Living Area..">
+                                    </div>
+                                    <div class="col-lg-3 col-md-6 col-sm-12 col-12">
+                                        <label for="RB_BasementSize">Basement Size SF:</label>
+                                        <input type="text" id="RB_BasementSize" class="form-control" [(ngModel)]="RepairBasePropertyInformationObj.RB_BasementSize"
+                                        formControlName="RB_BasementSize" name="RB_BasementSize" placeholder="Living Area..">
+                                    </div>
+                                    <div class="col-lg-3 col-md-6 col-sm-12 col-12">
+                                        <label for="RB_AttachedGarage">Attached Garages: # Cars:</label>
+                                        <select id="RB_AttachedGarage" class="form-control form-control-sm" [(ngModel)]="RepairBasePropertyInformationObj.RB_AttachedGarage" formControlName="RB_AttachedGarage" name="RB_AttachedGarage">
+                                            <option [value]="attachedGaragesNumberOfCar" *ngFor="let attachedGaragesNumberOfCar of attachedGaragesNumberOfCars">
+                                                {{attachedGaragesNumberOfCar}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-3 col-md-6 col-sm-12 col-12">
+                                        <label for="RB_BuiltInGarage">Built-In Garages: # Cars:</label>
+                                        <select id="RB_BuiltInGarage" class="form-control form-control-sm" [(ngModel)]="RepairBasePropertyInformationObj.RB_BuiltInGarage" formControlName="RB_BuiltInGarage" name="RB_BuiltInGarage">
+                                            <option [value]="builtInGaragesNumberOfCar" *ngFor="let builtInGaragesNumberOfCar of builtInGaragesNumberOfCars">
+                                                {{builtInGaragesNumberOfCar}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <hr/>
+                                <div class="row col-md-12">
+                                    <div class="col-lg-3 col-md-6 col-sm-12 col-12">
+                                        <label for="RB_RoofPitch">Roof Pitch?</label>
+                                        <select id="RB_RoofPitch" class="form-control form-control-sm" [(ngModel)]="RepairBasePropertyInformationObj.RB_RoofPitch" formControlName="RB_RoofPitch" name="RB_RoofPitch">
+                                            <option [value]="roofPitch" *ngFor="let roofPitch of roofPitchs">
+                                                {{roofPitch}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr/>
+                        <div class="row">
+                            <div style="width: 100%;">
+                                <div class="row col-md-12">
+                                </div>
+                            </div>
+                            <div style="width: 100%;">
+                                <div class="row col-md-12">
+                                    <button type="submit" class="btn btn-success">Next</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,50 @@
+.work-order-list{
+	cursor: pointer !important;
+}
+.active01 {
+	background: #291e7d;
+}
+.chat-avatar-sm {
+  display: inline-block;
+  margin-left: 0 !important;
+  margin-right: 10px;
+  position: relative;
+  width: 24px;
+}
+.chat-avatar-sm img {
+  width:24px;
+}
+.chat-avatar-sm.user-img .status {
+  bottom: 0;
+  right: -3px;
+}
+
+li a {
+  color: #b7c0cd;
+	font-size: 15px;
+	height: auto;
+	padding: 8px 15px;
+	align-items: center;
+	display: flex;
+	justify-content: flex-start;
+	position: relative;
+  transition: all 0.2s ease-in-out 0s;
+  .badge {
+    color: #fff;
+    margin-left: auto;
+    color: #fff;
+  }
+  &:hover {
+    color: #fff;
+  }
+}
+
+li.active a {
+	color: #fff;
+	background-color: rgba(0, 0, 0, 0.2);
+}
+
+.bg-danger,
+.badge-danger {
+	background-color: #f62d51 !important;
+}

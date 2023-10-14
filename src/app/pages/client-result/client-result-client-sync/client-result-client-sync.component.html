@@ -1,0 +1,143 @@
+<div class="row ml-0 mr-0">
+  <div class="mt-1  col-12">
+      <h4 class="module-box-header mb-0">
+        Client Sync
+      </h4>
+      <div class="row module-box m-0"  [hidden]="importidflag">
+        <div class="col-md-4 p-2">
+          <table id="table" class="table">
+            <tbody>
+
+              <tr *ngIf="isPrsvVisible">
+                <td>Preservation Sync</td>
+                <td>
+                  <button id="client_viewdetail_1" class="btn btn-primary btn-xs" [disabled]="isPrvLoading" (click)="SyncPreservationData()">
+                    <i *ngIf="isPrvLoading" class="fa fa-spinner fa-spin" style="margin-right: 5px;"></i>{{prvbutton}}</button>
+                </td>
+              </tr>
+              <tr *ngIf="isGrassVisible">
+                <td>Grass Sync</td>
+                <td>
+                  <button id="client_viewdetail_1" class="btn btn-primary btn-xs" [disabled]="isgrassLoading" (click)="SyncGrassData()">
+                    <i *ngIf="isPrvLoading" class="fa fa-spinner fa-spin" style="margin-right: 5px;"></i>{{grassbutton}}</button>
+                </td>
+              </tr>
+              <tr>
+                <td>Bid Sync</td>
+                <td>
+                  <button id="client_viewdetail_1" class="btn btn-primary btn-xs" [disabled]="isBidLoading" (click)="SyncBidData()">
+                    <i *ngIf="isBidLoading" class="fa fa-spinner fa-spin" style="margin-right: 5px;"></i>{{Bidbutton}}</button>
+                </td>
+              </tr>
+              <tr>
+                <td>photos Sync</td>
+                <td>
+                  <button id="client_viewdetail_1" class="btn btn-primary btn-xs" [disabled]="isPhotoLoading" (click)="SyncPhotoData()">
+                    <i *ngIf="isPhotoLoading" class="fa fa-spinner fa-spin" style="margin-right: 5px;"></i>{{photobutton}}</button>
+                </td>
+              </tr>
+              <tr>
+                <td>Invoice Sync</td>
+                <td>
+                  <button id="client_viewdetail_1" class="btn btn-primary btn-xs" [disabled]="isInvoiceLoading" (click)="SyncInvoiceData()">
+                    <i *ngIf="isInvoiceLoading" class="fa fa-spinner fa-spin" style="margin-right: 5px;"></i>{{invoicebutton}}</button>
+                </td>
+              </tr>
+              <tr>
+                <td>Damage Sync</td>
+                <td>
+                  <button id="client_viewdetail_1" class="btn btn-primary btn-xs" [disabled]="isdamageLoading" (click)="SyncDamageData()">
+                    <i *ngIf="isdamageLoading" class="fa fa-spinner fa-spin" style="margin-right: 5px;"></i>{{damagebutton}}</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-8">
+          <div class="form-row" [hidden]="bidLoad">
+            <label> Total Bid : {{total}} &nbsp;&nbsp;&nbsp;Success : {{success}} &nbsp;&nbsp;&nbsp;Failure : {{fail}} &nbsp;&nbsp;&nbsp;</label>
+            <kendo-grid #gridUser [kendoGridBinding]="griddata"  [pageSize]="15" [pageable]="true" [sortable]="true"
+                    [filterable]="false" [selectable]="true" [groupable]="false">
+                    <kendo-grid-column *ngFor="let column of gridColumns" [field]="column.field" [title]="column.title"
+                      [headerStyle]="{'background-color': '#323232','color': '#fff','line-height': '1em'}">
+                    </kendo-grid-column>
+
+                    <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+                      <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+                      <kendo-pager-numeric-buttons [buttonCount]="10"></kendo-pager-numeric-buttons>
+                      <kendo-pager-next-buttons></kendo-pager-next-buttons>
+                      <kendo-pager-info></kendo-pager-info>
+                      <kendo-pager-page-sizes [pageSizes]="[15, 30, 50, 100]"></kendo-pager-page-sizes>
+                    </ng-template>
+                  </kendo-grid>
+          </div>
+          <div class="form-row" [hidden]="invoiceLoad">
+            <label> Total : {{total}} &nbsp;&nbsp;&nbsp;Success : {{success}} &nbsp;&nbsp;&nbsp;Failure : {{fail}} &nbsp;&nbsp;&nbsp;</label>
+            <kendo-grid #gridUser [kendoGridBinding]="invoicedata"  [pageSize]="15" [pageable]="true" [sortable]="true"
+                    [filterable]="false" [selectable]="true" [groupable]="false">
+                    <kendo-grid-column *ngFor="let column of invoiceCyncColumns" [field]="column.field" [title]="column.title"
+                      [headerStyle]="{'background-color': '#323232','color': '#fff','line-height': '1em'}">
+                    </kendo-grid-column>
+
+                    <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+                      <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+                      <kendo-pager-numeric-buttons [buttonCount]="10"></kendo-pager-numeric-buttons>
+                      <kendo-pager-next-buttons></kendo-pager-next-buttons>
+                      <kendo-pager-info></kendo-pager-info>
+                      <kendo-pager-page-sizes [pageSizes]="[15, 30, 50, 100]"></kendo-pager-page-sizes>
+                    </ng-template>
+                  </kendo-grid>
+          </div>
+          <div class="form-row" [hidden]="photoLoad">
+            <label> Total : {{total}} &nbsp;&nbsp;&nbsp;Success : {{success}} &nbsp;&nbsp;&nbsp;Failure : {{fail}} &nbsp;&nbsp;&nbsp;</label>
+            <kendo-grid #gridUser [kendoGridBinding]="photodata"  [pageSize]="15" [pageable]="true" [sortable]="true"
+                    [filterable]="false" [selectable]="true" [groupable]="false">
+                    <kendo-grid-column *ngFor="let column of photoCyncColumns" [field]="column.field" [title]="column.title"
+                      [headerStyle]="{'background-color': '#323232','color': '#fff','line-height': '1em'}">
+                    </kendo-grid-column>
+
+                    <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+                      <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+                      <kendo-pager-numeric-buttons [buttonCount]="10"></kendo-pager-numeric-buttons>
+                      <kendo-pager-next-buttons></kendo-pager-next-buttons>
+                      <kendo-pager-info></kendo-pager-info>
+                      <kendo-pager-page-sizes [pageSizes]="[15, 30, 50, 100]"></kendo-pager-page-sizes>
+                    </ng-template>
+                  </kendo-grid>
+          </div>
+          <div class="form-row" [hidden]="prsvLoad">
+            <label *ngIf="fail > 0" style="background-color: #f7aeae;height: 30px;line-height: 2;">Preservation Upload Result : Fail : &nbsp; {{PreservationMsg}}</label>
+            <label *ngIf="fail == 0" style="background-color: skyblue;height: 30px;line-height: 2;">Preservation Upload Result : Success :&nbsp;{{PreservationMsg}}</label>
+          </div>
+          <div class="form-row" [hidden]="grassLoad">
+            <label *ngIf="fail > 0" style="background-color: #f7aeae;height: 30px;line-height: 2;margin-top: 10px;">Grass Upload Result : Fail : &nbsp; {{grassMsg}}</label>
+            <label *ngIf="fail == 0" style="background-color: skyblue;height: 30px;line-height: 2;margin-top: 10px;">Grass Upload Result : Success :&nbsp;{{grassMsg}}</label>
+          </div>
+          <div class="form-row" [hidden]="damageLoad">
+            <label> Total Bid : {{total}} &nbsp;&nbsp;&nbsp;Success : {{success}} &nbsp;&nbsp;&nbsp;Failure : {{fail}} &nbsp;&nbsp;&nbsp;</label>
+            <kendo-grid #gridUser [kendoGridBinding]="damagedata"  [pageSize]="15" [pageable]="true" [sortable]="true"
+                    [filterable]="false" [selectable]="true" [groupable]="false">
+                    <kendo-grid-column *ngFor="let column of damageCyncColumns" [field]="column.field" [title]="column.title"
+                      [headerStyle]="{'background-color': '#323232','color': '#fff','line-height': '1em'}">
+                    </kendo-grid-column>
+
+                    <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+                      <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+                      <kendo-pager-numeric-buttons [buttonCount]="10"></kendo-pager-numeric-buttons>
+                      <kendo-pager-next-buttons></kendo-pager-next-buttons>
+                      <kendo-pager-info></kendo-pager-info>
+                      <kendo-pager-page-sizes [pageSizes]="[15, 30, 50, 100]"></kendo-pager-page-sizes>
+                    </ng-template>
+                  </kendo-grid>
+          </div>
+        </div>
+      </div>
+      <div class="row module-box m-0" [hidden]="!importidflag">
+        <div class="col-md-12 p-2">
+         <label>No sync available.</label>
+        </div>
+  </div>
+</div>
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="default" color="#fff" type="timer" [fullScreen]="true">
+  <p style="color: white">Loading...</p>
+</ngx-spinner>

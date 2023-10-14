@@ -1,0 +1,29 @@
+<app-header *ngIf="isLoggedIn$ | async as isLoggedIn"></app-header>
+<div class="content-page" style="margin-right: 0px; ">
+  <router-outlet></router-outlet>
+</div>
+<app-footer *ngIf="showDownloadBar"></app-footer>
+
+<ng-template #idleUserBox let-modal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h5 style="color: black;">You Have Been Idle!</h5>
+    <button type="button" (click)="modal.close('Save click')" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="text-center">
+      <span>{{idleState}}</span>
+      <hr>
+      <div class="row mrgbtm">
+        <div class="col-md-6" >
+          <button type="button" class="btn btn-primary waves-effect waves-light" (click)="logout()">Logout</button>
+        </div>
+        <div class="col-md-6">
+          <button type="button" class="btn btn-primary waves-effect waves-light" (click)="stay()" *ngIf="!timedOut">Stay</button>
+          <button type="button" class="btn btn-primary waves-effect waves-light" (click)="closeModal()" *ngIf="timedOut">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

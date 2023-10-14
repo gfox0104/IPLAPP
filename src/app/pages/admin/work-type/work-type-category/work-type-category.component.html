@@ -1,0 +1,225 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div >
+        <div class="row m-0 module-box-header">
+          <h4 >Work Type</h4>
+          <hr>
+          <iplapp-icon-button *ngFor="let button of buttons" class="mr-1" [title]="button.title"
+          [iclass]="button.iclass" [routerLink]="button.routerLink"
+          (clickButton)="addNewWorkType($event, addWorkTypeForm)">
+        </iplapp-icon-button>
+      </div>
+      <div class="module-subheader p-1 pl-2">
+        <iplapp-filter-form class="module-subheader" [modelObj]="ViewWorkTypeCategoryModelObj" [formFilters]="workTypeFilters"
+          (filterCall)="filterCall()" (clearData)="clearData()" (saveFilterData)="saveFilterData()" (filterdrd) = "filterdrd($event)">
+        </iplapp-filter-form>
+      </div>
+        <div class="row m-0 module-box" style="overflow-x: auto;">
+          <kendo-grid #gridUser [kendoGridBinding]="griddata" [pageSize]="25" [pageable]="true" [sortable]="true"
+            [filterable]="false" [selectable]="true" [groupable]="false" [skip]="state.skip" [sort]="state.sort"
+            [filter]="state.filter" (dataStateChange)="dataStateChange($event)">
+            <kendo-grid-column *ngFor="let column of gridColumns" [field]="column.field" [title]="column.title"
+               [width]="column.width">
+
+              <ng-template kendoGridCellTemplate let-dataItem let-i="rowIndex" *ngIf="column.field ==='WT_CategoryJson'" >
+
+                <div class="d-flex align-items-center">
+                  <a class="edit" style="cursor: pointer" data-toggle="tooltip"
+                  (click)="ShowCategoryList(dataItem,GroupCategoryModal)" data-placement="top" title="View Categories">
+                  <i class="fa fa-eye"></i>
+                </a> &nbsp;&nbsp;
+                  <!-- <img src="assets/images/view_user.png" class="mr-2 cursor-pinter"
+                    (click)="ShowCategoryList(dataItem, GroupCategoryModal)"> -->
+                  <div>{{dataItem.CategoryCount}}</div>
+                </div>
+              </ng-template>
+
+              <ng-template kendoGridCellTemplate let-dataItem let-i="rowIndex" *ngIf="column.title==='Active'">
+
+                <div class="custom-control custom-switch">
+                  <input type="checkbox" (change)="checkChange($event, dataItem)"
+                      class="custom-control-input" id="switchisActive{{i}}"
+                      [checked]="dataItem.WT_IsActive">
+                  <label class="custom-control-label"
+                      for="switchisActive{{i}}"></label>
+              </div>
+              </ng-template>
+            </kendo-grid-column>
+
+            <kendo-grid-column title="Action"
+               width="80">
+              <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+
+                <a class="edit" style="cursor: pointer" data-toggle="tooltip"
+                  (click)="showDetails(addWorkTypeForm, dataItem)" data-placement="top" title="View Record">
+                  <i class="fa fa-edit"></i>
+                </a> &nbsp;&nbsp;
+                <a class="edit" data-toggle="tooltip" (click)="deleteDetails($event, dataItem)" data-placement="top"
+                  title="Delete Record" style="cursor: pointer">
+                  <i class="fa fa-trash"></i>
+                </a>
+              </ng-template>
+            </kendo-grid-column>
+
+            <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+              <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+              <kendo-pager-numeric-buttons [buttonCount]="10"></kendo-pager-numeric-buttons>
+              <kendo-pager-next-buttons></kendo-pager-next-buttons>
+              <kendo-pager-info></kendo-pager-info>
+              <kendo-pager-page-sizes [pageSizes]="[25, 50, 75, 100, 150, 200]"></kendo-pager-page-sizes>
+            </ng-template>
+          </kendo-grid>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #addWorkTypeForm let-modal>
+  <div class="modal-header">
+    <div>
+      <h4 class="page-title" style="font-weight: bolder; line-height: 1.5;">Add Work Type
+      </h4>
+    </div>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" [ngClass]="{ 'HelpCursor': isHelpActive }">
+    <div style="box-shadow: 0 0 4px gray;" class="p-2">
+      <iplapp-form-card [formUsrCommonGroup]="formUsrCommonGroup" title="Work Type" [fields]="workTypeFields"
+        [isEditDisable]="isEditDisable" [modelObj]="addCategoryModelObj" [isSubmitted]="isSubmitted"
+        (submitForm)="onSubmit()" (back)="closeModal()"(commondrd)="commondrd($event)" (dispalyInfoData)="DispalyInfo($event)"></iplapp-form-card>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #contentCateFORM let-modal>
+  <div class="modal-header">
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div style="box-shadow: 0 0 4px gray;" class="p-2">
+      <form (ngSubmit)="SubmitWorkTypeManage()">
+        <div class="form-row">
+          <div class="form-group col-md-12 text-center module-subheader" >
+            <h5 >Manage Work Type Groups</h5>
+          </div>
+          <br>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label>Enter Group Name<i class="text-danger"> *</i></label>
+            <input type="text" class="form-control form-control-sm" [(ngModel)]="CategoryPopupModelObj.Work_Type_Name"
+              placeholder="Enter Group Name.." [ngModelOptions]="{standalone: true}">
+              <div *ngIf="isWorktypeGroupValid" class="Mydropdown">this field is required</div>
+          </div>
+          <div class="form-group col-md-4">
+            <label>Select Client</label>
+            <kendo-dropdownlist class="form-control form-control-sm"
+                [data]="drdClientlist"
+                [defaultItem]="defaultClientItem"
+                [filterable]="true"
+                [textField]="'Client_Company_Name'"
+                [valueField]="'Client_pkeyID'"
+                (filterChange)="FilterClientDropdowen($event)"
+                [(ngModel)]="CategoryPopupModelObj.Work_Type_Client_pkeyID"
+                [valuePrimitive]="true"
+                [ngModelOptions]="{standalone: true}"
+              >
+            </kendo-dropdownlist>
+          </div>
+          <div class="form-group col-md-1">
+            <label>Active</label>
+            <div class="custom-control custom-switch" style="margin-top:5px">
+              <input type="checkbox" class="custom-control-input" id="Work_Type_IsActive_model"
+                [(ngModel)]="CategoryPopupModelObj.Work_Type_IsActive"
+                [ngModelOptions]="{standalone: true}">
+              <label class="custom-control-label" for="Work_Type_IsActive_model"></label>
+            </div>
+          </div>
+          <div class="form-group col-md-3" style="margin-top: 15px;">
+            <button id="client_viewdetail_1" class="btn btn-primary" type="submit"><i class="fas fa-save mr-1"></i>
+              {{button}}</button>
+              &nbsp;&nbsp;
+            <button id="client_viewdetail_2" class="btn btn-primary" type="button" (click)="CancleClick()">
+                Cancel</button>
+          </div>
+        </div>
+      </form>
+      <div class="col-12">
+        <kendo-grid #gridUserGroup [kendoGridBinding]="popformArray" [pageSize]="15" [pageable]="true" [sortable]="true"
+        [filterable]="true" [selectable]="true" [groupable]="false" [skip]="state_grid2.skip" [sort]="state_grid2.sort"
+        [filter]="state_grid2.filter" (dataStateChange)="dataStateChange_grid2($event)">
+        <kendo-grid-column *ngFor="let column of gridWorkTypeGroupColumns" [field]="column.field" [title]="column.title" [width]="80" [filterable]="column.title=='Active'?false:true">
+          <ng-template kendoGridCellTemplate let-dataItem let-i="rowIndex" *ngIf="column.title==='Active'">
+            <div class="custom-control custom-switch">
+              <input type="checkbox" class="custom-control-input" id="switchisActive_group{{i}}"
+              [checked]="dataItem[column.field]" (change)="checkChangeWorkTypeManage($event, dataItem)">
+              <label class="custom-control-label" for="switchisActive_group{{i}}"></label>
+            </div>
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column title="Action" width="80">
+          <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+            <a class="edit" data-toggle="tooltip" (click)="EditWorkTypeManage(dataItem)"  class="k-grid-ignore-click" data-placement="top"
+              title="Edit Record">
+              <i class="fa fa-edit"></i>
+            </a> &nbsp;&nbsp;
+            <button class="edit" data-toggle="tooltip" (click)="DeleteWorkTypeManage(dataItem)" data-placement="top"
+              title="Delete Record" style="cursor: pointer; border:none;"[disabled]="dataItem.Work_Type_IsDeleteAllow">
+              <i class="fa fa-trash"></i>
+            </button>
+          </ng-template>
+        </kendo-grid-column>
+        <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+          <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+          <kendo-pager-numeric-buttons [buttonCount]="10"></kendo-pager-numeric-buttons>
+          <kendo-pager-next-buttons></kendo-pager-next-buttons>
+          <kendo-pager-info></kendo-pager-info>
+          <kendo-pager-page-sizes [pageSizes]="[15, 30, 50, 100]"></kendo-pager-page-sizes>
+        </ng-template>
+        </kendo-grid>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<ng-template #GroupCategoryModal let-modal>
+  <div class="modal-header">
+    <div>
+      <h4 class="page-title" style="font-weight: bolder; line-height: 1.5;">Categories
+      </h4>
+    </div>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body row m-0 ">
+    <table class="table table-hover" >
+      <thead style="background-color:whitesmoke;">
+        <tr>
+          <th>Category</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of AssignedWorkTypeCategoryList.CategoriesList">
+            <td>{{item.Work_Type_Name}}</td>
+            <td>
+              <a class="edit" data-toggle="tooltip" (click)="deleteCategory($event, item.Work_Type_Cat_pkeyID,AssignedWorkTypeCategoryList.WT_pkeyID)" data-placement="top"
+                  title="Delete Record" style="cursor: pointer">
+                  <i class="fa fa-trash"></i>
+                </a>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</ng-template>
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="default" color="#fff" type="timer" [fullScreen]="true">
+  <p style="color: white">Loading...</p>
+</ngx-spinner>

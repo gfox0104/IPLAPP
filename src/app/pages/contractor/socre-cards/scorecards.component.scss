@@ -1,0 +1,9 @@
+#gridUser table {
+    width: auto;
+}
+
+@media(max-width:900px){
+    .onSmallKendo{
+        width: 200% !important;
+    }
+}

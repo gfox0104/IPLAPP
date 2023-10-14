@@ -1,0 +1,50 @@
+
+
+<kendo-grid
+[data]="view | async"
+[kendoGridBinding]="gridView"
+[pageSize]="5"
+[skip]="skip"
+[pageable]="true"
+scrollable="none"
+(pageChange)="pageChange($event)"
+class="module-box p-2 smallkendo"
+style="background-color: #ededed !important;"
+[navigable]="true"
+kendoGridFocusable
+>
+<kendo-grid-column title="Action" width="100" [locked]="false">
+
+    <ng-template kendoGridCellTemplate let-dataItem>
+      <a class="edit" (click)="showDetails($event, dataItem)" class="k-grid-ignore-click"
+        title="view Records">
+        <i class="fa fa-eye"></i> &nbsp; &nbsp; View
+      </a> 
+    </ng-template>
+  </kendo-grid-column>
+<kendo-grid-column field="IPLNO" title="IPLNO">
+</kendo-grid-column>
+<kendo-grid-column field="workOrderNumber" title="WorkOrder Number">
+</kendo-grid-column>
+<kendo-grid-column field="WT_WorkType" title="Work Type">
+</kendo-grid-column>
+<kendo-grid-column field="Cont_Name" title="Contractor">
+</kendo-grid-column>
+<kendo-grid-column field="Wo_Con_Score_Work_Quality" title="Work Quality">
+</kendo-grid-column>
+<kendo-grid-column field="Wo_Con_Score_Picturequality" title="Picture Quality">
+</kendo-grid-column>
+<kendo-grid-column field="Wo_Con_Score_Follow_Inst" title="Follow Inst">
+</kendo-grid-column>
+<kendo-grid-column field="Wo_Con_Score_EstDate" title="Est Date">
+</kendo-grid-column>
+<kendo-grid-column field="Wo_Con_Score_DueDate" title="Due Date">
+</kendo-grid-column>
+<kendo-grid-column field="Wo_Con_Score_Info_Needed" title="Info Needed">
+</kendo-grid-column>
+<kendo-grid-column field="Wo_Con_Score_Retern_Property" title="Return Property">
+</kendo-grid-column>
+<kendo-grid-column field="Wo_Con_Score_Contractor_Score" title="Total Score">
+</kendo-grid-column>
+
+</kendo-grid>

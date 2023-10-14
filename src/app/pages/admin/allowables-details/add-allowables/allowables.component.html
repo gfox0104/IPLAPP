@@ -1,0 +1,214 @@
+<div class="container-fluid mt-2"[ngClass]="{ 'HelpCursor': isHelpActive }">
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-12 module-box-header mb-0">Allowables
+          <a class="pull-right mr-2" data-toggle="tooltip" (click)="SetHelpFlag()" data-placement="top"
+        title="Item Help" style="cursor: pointer;"><b>Need Help</b>
+        <i class="fas fa-question"></i>&nbsp;&nbsp;
+        </a>
+      </div>
+      </div>
+    <br>
+    <form [formGroup]="formUsrCommonGroup" (ngSubmit)="formButton()">
+        <div class="row">
+          <div class="col-2">
+           <label  [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Allowables Name')">Allowables Name <span style="color: red">*</span></label>
+          </div>
+          <div class="col-3">
+           <input type="text" class="form-control" placeholder=" Enter Allowables"formControlName="allowablesVal"
+           [ngClass]="{ 'is-invalid': submitted && fx.allowablesVal.errors }"
+           [(ngModel)]="PostAllowablesDetailsObj.Allowable_Name" (click)="DispalyInfo($event,'Allowables Name')"[readonly]="isHelpActive" [ngClass]="{ 'HelpCursor': isHelpActive }">
+           <div *ngIf="submitted && fx.allowablesVal.errors" class="invalid-feedback">
+            <div *ngIf="fx.allowablesVal.errors.required">this field is required</div>
+          </div>
+        </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-2">
+            <label  [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Start Date')">Start Date</label>
+           </div>
+          <div class="col-3">
+            <div class="form-group">
+              <div class="input-group">
+                <label class="form-control " (click)="DispalyInfo($event,'Start Date')">
+
+                  {{ PostAllowablesDetailsObj.Allowable_StartDate | date:'mediumDate'}}
+                  <span *ngIf="!PostAllowablesDetailsObj.Allowable_StartDate"></span>
+                </label>
+                <input class="form-control" placeholder="yyyy-mm-dd"
+                  [(ngModel)]="PostAllowablesDetailsObj.Allowable_StartDate" [ngModelOptions]="{standalone: true}"
+                  ngbDatepicker #dt1="ngbDatepicker" firstDayOfWeek="7" style="display: none" [readonly]="isHelpActive" [ngClass]="{ 'HelpCursor': isHelpActive }">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-info btn-xs" [disabled]="isdisable"
+                    (click)="dt1.toggle()" type="button"><i class="fas fa-calendar-alt"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-2">
+            <label [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'End Date')">End Date</label>
+           </div>
+          <div class="col-3">
+            <div class="input-group">
+              <label class="form-control" (click)="DispalyInfo($event,'End Date')">{{ PostAllowablesDetailsObj.Allowable_EndDate}}
+                <span *ngIf="!PostAllowablesDetailsObj.Allowable_EndDate"></span>
+              </label>
+              <input class="form-control" placeholder="yyyy-mm-dd"
+                [(ngModel)]="PostAllowablesDetailsObj.Allowable_EndDate" [ngModelOptions]="{standalone: true}"
+                ngbDatepicker #dt2="ngbDatepicker" firstDayOfWeek="7" style="display: none" [readonly]="isHelpActive" [ngClass]="{ 'HelpCursor': isHelpActive }">
+              <div class="input-group-append">
+                <button class="btn btn-outline-info btn-xs" [disabled]="isdisable"
+                  (click)="dt2.toggle()" type="button"><i class="fas fa-calendar-alt"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-2">
+            <label [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Customer')">Customer</label>
+           </div>
+          <div class="col-3">
+            <kendo-dropdownlist class="form-control form-control-sm"
+            [defaultItem]="defaultItem"
+            [data]="customerList"
+            [filterable]="true"
+            [textField]="'Cust_Num_Number'"
+            [valueField]="'Cust_Num_pkeyId'"
+            [ngModelOptions]="{standalone: true}"
+            [(ngModel)]="PostAllowablesDetailsObj.Allowable_Cust_ID"
+            [valuePrimitive]="true"
+            (filterChange)="CustomerFilter($event)"
+            [disabled]="isdisable"
+            (click)="DispalyInfo($event,'Customer')"
+            [ngClass]="{ 'HelpCursor': isHelpActive }"
+           >
+        </kendo-dropdownlist>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-2">
+           <label [ngClass]="{ 'HelpCursor': isHelpActive }"
+           (click)="DispalyInfo($event,'Active')"> Active</label>
+          </div>
+          <div class="col-3">
+           <input type="checkbox" formControlName="allowcheckboxval"
+            [(ngModel)]="PostAllowablesDetailsObj.Allowable_IsActive" [ngClass]="{ 'HelpCursor': isHelpActive }"
+            (click)="DispalyInfo($event,'Active')">
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <button type="button" class="btn btn-primary" (click)='AddAllowables()'  [disabled]="isdisable"> <i
+            class="fas fa-plus-circle"></i> Add Allowables Category</button>
+        </div>
+        <br>
+        <div class="row">
+
+<table>
+  <th><label  [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Allowable Category')">Allowable Category</label> </th>
+  <th><label  [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Overall Allowables')">Overall Allowables</label> </th>
+  <th><label  [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Start Date')">Start Date</label> </th>
+  <th><label  [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'End Date')">End Date</label></th>
+
+  <tr *ngFor="let item of AllowablesDataArray;index as indx">
+    <td style="width: 158px;">
+      <kendo-dropdownlist class="form-control "
+      [data]="categoryList"
+      [defaultItem]="defaultTypeItem"
+      [filterable]="true"
+      [textField]="'Allowables_Cat_Name'"
+      [valueField]="'Allowables_Cat_PkeyId'"
+      [(ngModel)]="item.Allow_Child_Allowables_Cat_PkeyId"
+      [valuePrimitive]="true"
+      [ngModelOptions]="{standalone: true}"
+      (filterChange)="CategoryFilter($event)"
+      [disabled]="isdisable"
+      (click)="DispalyInfo($event,'Allowable Category')"
+      [ngClass]="{ 'HelpCursor': isHelpActive }"
+    >
+      </kendo-dropdownlist>
+    </td>
+    <td>
+      <input type="text" [(ngModel)]="item.Allow_Child_OverallAllowables"
+      [ngModelOptions]="{standalone: true}" class="form-control" [disabled]="isdisable"(click)="DispalyInfo($event,'Overall Allowables')"
+      [readonly]="isHelpActive" [ngClass]="{ 'HelpCursor': isHelpActive }">
+    </td>
+<td style="width: 30%">
+  <div class="form-group">
+    <div class="input-group">
+      <label class="form-control" (click)="DispalyInfo($event,'Start Date')">{{ item.Allow_Child_StartDate |
+        date:'MM/dd/yyyy'}}
+        <span *ngIf="!item.Allow_Child_StartDate"></span>
+      </label>
+      <input class="form-control" placeholder="yyyy-mm-dd"
+        [(ngModel)]="item.Allow_Child_StartDate" [ngModelOptions]="{standalone: true}"
+        ngbDatepicker #dt3="ngbDatepicker" firstDayOfWeek="7" style="display: none" [readonly]="isHelpActive" [ngClass]="{ 'HelpCursor': isHelpActive }">
+      <div class="input-group-append">
+        <button class="btn btn-outline-info btn-xs" [disabled]="isdisable"
+          (click)="dt3.toggle()" type="button"><i class="fas fa-calendar-alt"></i></button>
+      </div>
+    </div>
+  </div>
+</td>
+<td style="width: 30%">
+  <div class="form-group">
+    <div class="input-group">
+      <label class="form-control" (click)="DispalyInfo($event,'End Date')">{{ item.Allow_Child_EndDate |
+        date:'MM/dd/yyyy'}}
+        <span *ngIf="!item.Allow_Child_EndDate"></span>
+      </label>
+      <input class="form-control" placeholder="yyyy-mm-dd"
+        [(ngModel)]="item.Allow_Child_EndDate" [ngModelOptions]="{standalone: true}"
+        ngbDatepicker #dt4="ngbDatepicker" firstDayOfWeek="7" style="display: none" [readonly]="isHelpActive" [ngClass]="{ 'HelpCursor': isHelpActive }">
+      <div class="input-group-append">
+        <button class="btn btn-outline-info btn-xs" [disabled]="isdisable"
+          (click)="dt4.toggle()" type="button"><i class="fas fa-calendar-alt"></i></button>
+      </div>
+    </div>
+  </div>
+</td>
+
+<td style="width:20px; text-align: left;"><span><button type="button" class="border-0 bg-transparent ml-2" style="cursor: pointer"
+  (click)='RemoveAllowables(indx,item)' [disabled]="isdisable"> <i class="fa fa-trash fa-lg text-danger"></i></button></span>
+</td>
+  </tr>
+</table>
+        </div>
+<br>
+<div class="row">
+
+
+<div class="col-lg-6">
+  <div class="form-row">
+    <div class="float-right">
+      <label for="InvestmentSihhhze" *ngIf="formUsrCommonGroup.invalid" style="color:red;margin-top:10px">*
+        Field is Required
+      </label> <br>
+    </div>
+  </div>
+  <div class="form-row">
+    <div>
+      <a *ngIf="IsEditDisable" (click)="EditForms()" id="client_viewdetail_1" class="btn btn-primary"> <i
+          class="far fa-edit mr-1"></i> Edit </a>
+      <button type="submit" *ngIf="!IsEditDisable" id="client_viewdetail_1" class="btn btn-primary "
+        [disabled]="isLoading">
+        <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}"></i>
+        {{button}}</button>
+      &nbsp;&nbsp;&nbsp;
+      <a [routerLink]="['/home/allowables/details']" class="btn btn-primary waves-effect waves-light">
+        Back</a>
+    </div>
+  </div>
+</div>
+</div>
+      </form>
+    </div>
+  </div>
+</div>

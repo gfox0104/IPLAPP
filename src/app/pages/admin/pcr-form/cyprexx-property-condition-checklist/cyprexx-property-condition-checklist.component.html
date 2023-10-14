@@ -1,0 +1,1008 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="row m-0" style="width:81rem;">
+            <div class="col-12 bg-pattern">
+                <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="field-tab">
+                    <ul class="module-subheader m-0 nav nav-tabs" id="myproperty" role="tablist">
+
+                        <li class="nav-item">
+                            <a class="nav-link active" id="bidhistory-tab" data-toggle="tab" href="#bidhistory"
+                                role="tab" (click)="TabClickMethod(1)" aria-controls="bidhistory"
+                                aria-selected="true">General Property Questions</a>
+                        </li>
+    
+                        <li class="nav-item">
+                            <a class="nav-link" id="bidhistory-tab" data-toggle="tab" href="#InteriorAccessInformation" role="tab"
+                                (click)="TabClickMethod(2)" aria-controls="InteriorAccessInformation" aria-selected="true">
+                                Signature</a>
+                        </li>
+    
+                    </ul>
+                    <div class="pt-0 tab-content" id="mypropertyContent">
+                        <div class="tab-pane fade show active" id="bidhistory" role="tabpanel"
+                    aria-labelledby="bidhistory-tab">
+                <div class="row m-0">
+                    <div class="col-12" >
+                        <div style="box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;padding-bottom:0.5rem"
+                        (click)=" FormButton1(true)">
+                            <div>
+                                <h4 class="page-title">
+                                    General Property Questions</h4>
+                            </div>
+                            <div class="col-12">
+                                <div style="box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;width: 98%;margin: 1rem;">
+                                    <div style=" border: 1px solid #dbd1d1;width: 100%;"></div>
+
+                                    <div class="d-flex">
+                                        <div class="w-50 mx-3" style="text-align: end;">
+                                            <label>Aer any of the appliances missing?*</label>
+                                            <span class="fa fa-clock pcrHistoryIcon"
+                            [ngbPopover]="HistoryDetails" #HistoryPopover1="ngbPopover" placement="auto" [autoClose]="true"
+                            triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_PC_General_Property_Questions','PCR_GPQ_Appliancesmissing')" (mouseleave)="HistoryPopover1.close()"></span>
+                                        </div>
+
+                                        <div style="border:1px solid #7e7575"></div>
+                                        <div class="w-50">
+                                            <div class="radio radio-info form-check-inline mx-3 ">
+                                                <input type="radio" id="PCR_GPQ_Appliancesmissing" 
+                                                [ngModelOptions]="{standalone: true}" value="Yes"
+                                                 name="PCR_GPQ_Appliancesmissing"
+                                                [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Appliancesmissing">
+                                                <label for="PCR_GPQ_Appliancesmissing" >Yes</label>
+                                            </div>
+                                            <div class="radio radio-info form-check-inline ">
+                                                <input type="radio" id="PCR_GPQ_Appliancesmissing" 
+                                                [ngModelOptions]="{standalone: true}" value="No"
+                                                 name="PCR_GPQ_Appliancesmissing"
+                                                 [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Appliancesmissing">
+                                                <label for="PCR_GPQ_Appliancesmissing">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex" style=" border: 1px solid #dbd1d1;">
+                                        <div class="w-50 mx-3" style="text-align: end;padding: 0.5rem">
+                                            <label>If,yes please list missing appliances:* </label>
+                                            <span class="fa fa-clock pcrHistoryIcon"
+                                            [ngbPopover]="HistoryDetails" #HistoryPopover2="ngbPopover" placement="auto" [autoClose]="true"
+                                            triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_PC_General_Property_Questions','PCR_GPQ_Listmissingappliances')" (mouseleave)="HistoryPopover2.close()"></span>
+                                        </div>
+
+                                        <div style="border:1px solid #7e7575"></div>
+                                        <div class="w-50">
+                                            <div class="mx-3" style="padding: 0.5rem">
+                                                <input type="text" id="PCR_GPQ_Listmissingappliances" style="height:1.5rem;width:28rem"
+                                                [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Listmissingappliances">
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div style=" border: 1px solid #dbd1d1;width: 100%;"></div>
+                                    <div class="d-flex">
+                                        <div class="w-50 mx-3" style="text-align: end;">
+                                            <label>Is the lockbox present?*</label>
+                                            <span class="fa fa-clock pcrHistoryIcon"
+                                            [ngbPopover]="HistoryDetails" #HistoryPopover3="ngbPopover" placement="auto" [autoClose]="true"
+                                            triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_PC_General_Property_Questions','PCR_GPQ_Lockboxpresent')" (mouseleave)="HistoryPopover3.close()"></span>
+                                        </div>
+
+                                        <div style="border:1px solid #7e7575"></div>
+                                        <div class="w-50">
+                                            <div class="radio radio-info form-check-inline mx-3 ">
+                                                <input type="radio" id="PCR_GPQ_Lockboxpresent" 
+                                                [ngModelOptions]="{standalone: true}" value="Yes"
+                                                 name="PCR_GPQ_Lockboxpresent"
+                                                 [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Lockboxpresent">
+                                                <label for="PCR_GPQ_Lockboxpresent" >Yes</label>
+                                            </div>
+                                            <div class="radio radio-info form-check-inline ">
+                                                <input type="radio" id="PCR_GPQ_Lockboxpresent" 
+                                                [ngModelOptions]="{standalone: true}" value="No"
+                                                 name="PCR_GPQ_Lockboxpresent"
+                                                 [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Lockboxpresent">
+                                                <label for="PCR_GPQ_Lockboxpresent">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style=" border: 1px solid #dbd1d1;width: 100%;"></div>
+                                    <div class="d-flex">
+                                        <div class="w-50 mx-3" style="text-align: end;">
+                                            <label>Is the key Present?*</label>
+                                            <span class="fa fa-clock pcrHistoryIcon"
+                                            [ngbPopover]="HistoryDetails" #HistoryPopover4="ngbPopover" placement="auto" [autoClose]="true"
+                                            triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_PC_General_Property_Questions','PCR_GPQ_KeyPresent')" (mouseleave)="HistoryPopover4.close()"></span>
+                                        </div>
+
+                                        <div style="border:1px solid #7e7575"></div>
+                                        <div class="w-50">
+                                            <div class="radio radio-info form-check-inline mx-3 ">
+                                                <input type="radio" id="PCR_GPQ_KeyPresent" 
+                                                [ngModelOptions]="{standalone: true}" value="Yes"
+                                                 name="PCR_GPQ_KeyPresent"
+                                                 [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_KeyPresent">
+                                                <label for="PCR_GPQ_KeyPresent" >Yes</label>
+                                            </div>
+                                            <div class="radio radio-info form-check-inline ">
+                                                <input type="radio" id="PCR_GPQ_KeyPresent" 
+                                                [ngModelOptions]="{standalone: true}" value="No"
+                                                 name="PCR_GPQ_KeyPresent"
+                                                 [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_KeyPresent">
+                                                <label for="PCR_GPQ_KeyPresent">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style=" border: 1px solid #dbd1d1;width: 100%;"></div>
+                                    <div class="d-flex">
+                                        <div class="w-50 mx-3" style="text-align: end;">
+                                            <label>Dose the property have any damages?*</label>
+                                            <span class="fa fa-clock pcrHistoryIcon"
+                                            [ngbPopover]="HistoryDetails" #HistoryPopover5="ngbPopover" placement="auto" [autoClose]="true"
+                                            triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_PC_General_Property_Questions','PCR_GPQ_Propertydamages')" (mouseleave)="HistoryPopover5.close()"></span>
+                                        </div>
+
+                                        <div style="border:1px solid #7e7575"></div>
+                                        <div class="w-50">
+                                            <div class="radio radio-info form-check-inline mx-3 ">
+                                                <input type="radio" id="PCR_GPQ_Propertydamages" 
+                                                [ngModelOptions]="{standalone: true}" value="Yes"
+                                                 name="PCR_GPQ_Propertydamages"
+                                                 [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Propertydamages">
+                                                <label for="PCR_GPQ_Propertydamages" >Yes</label>
+                                            </div>
+                                            <div class="radio radio-info form-check-inline ">
+                                                <input type="radio" id="PCR_GPQ_Propertydamages" 
+                                                [ngModelOptions]="{standalone: true}" value="No"
+                                                 name="PCR_GPQ_Propertydamages"
+                                                 [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Propertydamages">
+                                                <label for="PCR_GPQ_Propertydamages">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex" style=" border: 1px solid #dbd1d1;">
+                                        <div class="w-50 mx-3" style="text-align: end;padding: 0.5rem">
+                                            <label>If yes,please list property damages:* </label>
+                                            <span class="fa fa-clock pcrHistoryIcon"
+                                            [ngbPopover]="HistoryDetails" #HistoryPopover6="ngbPopover" placement="auto" [autoClose]="true"
+                                            triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_PC_General_Property_Questions','PCR_GPQ_Listpropertydamages')" (mouseleave)="HistoryPopover6.close()"></span>
+                                        </div>
+
+                                        <div style="border:1px solid #7e7575"></div>
+                                        <div class="w-50">
+                                            <div class="mx-3" style="padding: 0.5rem">
+                                                <input type="text" id="PCR_GPQ_Listpropertydamages" style="height:1.5rem;width:28rem"
+                                                [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Listpropertydamages">
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div style=" border: 1px solid #dbd1d1;width: 100%;"></div>
+                                    <div class="d-flex">
+                                        <div class="w-50 mx-3" style="text-align: end;">
+                                            <label>Is a sump pump present?*</label>
+                                            <span class="fa fa-clock pcrHistoryIcon"
+                                            [ngbPopover]="HistoryDetails" #HistoryPopover7="ngbPopover" placement="auto" [autoClose]="true"
+                                            triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_PC_General_Property_Questions','PCR_GPQ_Sumppumppresent')" (mouseleave)="HistoryPopover7.close()"></span>
+                                        </div>
+
+                                        <div style="border:1px solid #7e7575"></div>
+                                        <div class="w-50">
+                                            <div class="radio radio-info form-check-inline mx-3 ">
+                                                <input type="radio" id="PCR_GPQ_Sumppumppresent" 
+                                                [ngModelOptions]="{standalone: true}" value="Yes"
+                                                 name="PCR_GPQ_Sumppumppresent"
+                                                 [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Sumppumppresent">
+                                                <label for="PCR_GPQ_Sumppumppresent" >Yes</label>
+                                            </div>
+                                            <div class="radio radio-info form-check-inline ">
+                                                <input type="radio" id="PCR_GPQ_Sumppumppresent"
+                                                [ngModelOptions]="{standalone: true}" value="No"
+                                                 name="PCR_GPQ_Sumppumppresent"
+                                                 [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Sumppumppresent">
+                                                <label for="PCR_GPQ_Sumppumppresent">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style=" border: 1px solid #dbd1d1;width: 100%;"></div>
+                                    <div class="d-flex">
+                                        <div class="w-50 mx-3" style="text-align: end;">
+                                            <label>If sump pump present,is it operational?*</label>
+                                            <span class="fa fa-clock pcrHistoryIcon"
+                                            [ngbPopover]="HistoryDetails" #HistoryPopover8="ngbPopover" placement="auto" [autoClose]="true"
+                                            triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_PC_General_Property_Questions','PCR_GPQ_sumppumppresentoperational')" (mouseleave)="HistoryPopover8.close()"></span>
+                                        </div>
+
+                                        <div style="border:1px solid #7e7575"></div>
+                                        <div class="w-50">
+                                            <div class="radio radio-info form-check-inline mx-3 ">
+                                                <input type="radio" id="PCR_GPQ_sumppumppresentoperational"
+                                                [ngModelOptions]="{standalone: true}" value="Yes"
+                                                 name="PCR_GPQ_sumppumppresentoperational"
+                                                 [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_sumppumppresentoperational">
+                                                <label for="PCR_GPQ_sumppumppresentoperational" >Yes</label>
+                                            </div>
+                                            <div class="radio radio-info form-check-inline ">
+                                                <input type="radio" id="PCR_GPQ_sumppumppresentoperational" 
+                                                [ngModelOptions]="{standalone: true}" value="No"
+                                                 name="PCR_GPQ_sumppumppresentoperational"
+                                                 [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_sumppumppresentoperational">
+                                                <label for="PCR_GPQ_sumppumppresentoperational">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style=" border: 1px solid #dbd1d1;width: 100%;"></div>
+                                    <div class="d-flex">
+                                        <div class="w-50 mx-3" style="text-align: end;">
+                                            <label>Any missing handrails?*</label>
+                                            <span class="fa fa-clock pcrHistoryIcon"
+                                            [ngbPopover]="HistoryDetails" #HistoryPopover9="ngbPopover" placement="auto" [autoClose]="true"
+                                            triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_PC_General_Property_Questions','PCR_GPQ_Missinghandrails')" (mouseleave)="HistoryPopover9.close()"></span>
+                                        </div>
+
+                                        <div style="border:1px solid #7e7575"></div>
+                                        <div class="w-50">
+                                            <div class="radio radio-info form-check-inline mx-3 ">
+                                                <input type="radio" id="PCR_GPQ_Missinghandrails" 
+                                                [ngModelOptions]="{standalone: true}" value="Yes"
+                                                 name="PCR_GPQ_Missinghandrails"
+                                                 [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Missinghandrails">
+                                                <label for="PCR_GPQ_Missinghandrails" >Yes</label>
+                                            </div>
+                                            <div class="radio radio-info form-check-inline ">
+                                                <input type="radio" id="PCR_GPQ_Missinghandrails" 
+                                                [ngModelOptions]="{standalone: true}" value="No"
+                                                 name="PCR_GPQ_Missinghandrails"
+                                                 [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Missinghandrails">
+                                                <label for="PCR_GPQ_Missinghandrails">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex" style=" border: 1px solid #dbd1d1;">
+                                        <div class="w-50 mx-3" style="text-align: end;padding: 0.5rem">
+                                            <label>If missing handrails,please enter bid details:* </label>
+                                            <span class="fa fa-clock pcrHistoryIcon"
+                                            [ngbPopover]="HistoryDetails" #HistoryPopover10="ngbPopover" placement="auto" [autoClose]="true"
+                                            triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_PC_General_Property_Questions','PCR_GPQ_Missinghandrailsbiddetails')" (mouseleave)="HistoryPopover10.close()"></span>
+                                        </div>
+
+                                        <div style="border:1px solid #7e7575"></div>
+                                        <div class="w-50">
+                                            <div class="mx-3" style="padding: 0.5rem">
+                                                <input type="text" id="PCR_GI_WhichUnitAreVacant" style="height:1.5rem;width:28rem"
+                                                [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Missinghandrailsbiddetails">
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex">
+                                        <div class="w-50 mx-3" style="text-align: end;"></div>
+                                        
+                                        <div style="border:1px solid #7e7575"></div>
+                                        <div class="w-50">
+                                            <div class="radio radio-info form-check-inline mx-3">
+                                                <input type="radio" id="PCR_GPQ_Linescapped" 
+                                                [ngModelOptions]="{standalone: true}" value="Yes"
+                                                 name="PCR_GPQ_Linescapped"
+                                                 [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Linescapped">
+                                                <label for="PCR_GPQ_Linescapped"> Yes</label>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div class="w-50 mx-3" style="text-align: end;">
+                                            <label>Were all open gas lines capped?*</label>
+                                            <span class="fa fa-clock pcrHistoryIcon"
+                                            [ngbPopover]="HistoryDetails" #HistoryPopover11="ngbPopover" placement="auto" [autoClose]="true"
+                                            triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_PC_General_Property_Questions','PCR_GPQ_Linescapped')" (mouseleave)="HistoryPopover11.close()"></span>
+                                        </div>
+
+                                        <div style="border:1px solid #7e7575"></div>
+                                        <div class="w-50">
+                                            <div class="radio radio-info form-check-inline mx-3">
+                                                <input type="radio" id="PCR_GPQ_Linescapped" 
+                                                [ngModelOptions]="{standalone: true}" value="No"
+                                                name="PCR_GPQ_Linescapped"
+                                                [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Linescapped">
+                                                <label for="PCR_GPQ_Linescapped">No</label>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div class="w-50 mx-3" style="text-align: end;"></div>
+                                        <div style="border:1px solid #7e7575"></div>
+                                        <div class="w-50">
+                                            <div class="radio radio-info form-check-inline mx-3">
+                                                <input type="radio" id="PCR_GPQ_Linescapped" 
+                                                [ngModelOptions]="{standalone: true}" value="N/A"
+                                                name="PCR_GPQ_Linescapped"
+                                                [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Linescapped">
+                                                <label for="PCR_GPQ_Linescapped">N/A</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style=" border: 1px solid #dbd1d1;width: 100%;"></div>
+                                    <div class="d-flex">
+                                        <div class="w-50 mx-3" style="text-align: end;">
+                                            <label>Is the property free of broken glass?*</label>
+                                            <span class="fa fa-clock pcrHistoryIcon"
+                                            [ngbPopover]="HistoryDetails" #HistoryPopover12="ngbPopover" placement="auto" [autoClose]="true"
+                                            triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_PC_General_Property_Questions','PCR_GPQ_Propertyfreebrokenglass')" (mouseleave)="HistoryPopover12.close()"></span>
+                                        </div>
+
+                                        <div style="border:1px solid #7e7575"></div>
+                                        <div class="w-50">
+                                            <div class="radio radio-info form-check-inline mx-3 ">
+                                                <input type="radio" id="PCR_GPQ_Propertyfreebrokenglass"
+                                                [ngModelOptions]="{standalone: true}" value="Yes"
+                                                 name="PCR_GPQ_Propertyfreebrokenglass"
+                                                 [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Propertyfreebrokenglass">
+                                                <label for="PCR_GPQ_Propertyfreebrokenglass" >Yes</label>
+                                            </div>
+                                            <div class="radio radio-info form-check-inline ">
+                                                <input type="radio" id="PCR_GPQ_Propertyfreebrokenglass" 
+                                                [ngModelOptions]="{standalone: true}" value="No"
+                                                 name="PCR_GPQ_Propertyfreebrokenglass"
+                                                 [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Propertyfreebrokenglass">
+                                                <label for="PCR_GPQ_Propertyfreebrokenglass">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style=" border: 1px solid #dbd1d1;width: 100%;"></div>
+                                    <div class="d-flex">
+                                        <div class="w-50 mx-3" style="text-align: end;">
+                                            <label>Are there any present trip hazards requiring a bid?*</label>
+                                            <span class="fa fa-clock pcrHistoryIcon"
+                                            [ngbPopover]="HistoryDetails" #HistoryPopover13="ngbPopover" placement="auto" [autoClose]="true"
+                                            triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_PC_General_Property_Questions','PCR_GPQ_presenttriphazardsrequiringbid')" (mouseleave)="HistoryPopover13.close()"></span>
+                                        </div>
+
+                                        <div style="border:1px solid #7e7575"></div>
+                                        <div class="w-50">
+                                            <div class="radio radio-info form-check-inline mx-3 ">
+                                                <input type="radio" id="PCR_GPQ_presenttriphazardsrequiringbid" 
+                                                [ngModelOptions]="{standalone: true}" value="Yes"
+                                                 name="PCR_GPQ_presenttriphazardsrequiringbid"
+                                                 [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_presenttriphazardsrequiringbid">
+                                                <label for="PCR_GPQ_presenttriphazardsrequiringbid" >Yes</label>
+                                            </div>
+                                            <div class="radio radio-info form-check-inline ">
+                                                <input type="radio" id="PCR_GPQ_presenttriphazardsrequiringbid" 
+                                                [ngModelOptions]="{standalone: true}" value="No"
+                                                 name="PCR_GPQ_presenttriphazardsrequiringbid"
+                                                 [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_presenttriphazardsrequiringbid">
+                                                <label for="PCR_GPQ_presenttriphazardsrequiringbid">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex" style=" border: 1px solid #dbd1d1;">
+                                        <div class="w-50 mx-3" style="text-align: end;padding: 0.5rem">
+                                            <label>Is yes to trip hazards requiring a bid,please enter bid details:* </label>
+                                            <span class="fa fa-clock pcrHistoryIcon"
+                                            [ngbPopover]="HistoryDetails" #HistoryPopover14="ngbPopover" placement="auto" [autoClose]="true"
+                                            triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_PC_General_Property_Questions','PCR_GPQ_presenttriphazardsrequiringbiddetails')" (mouseleave)="HistoryPopover14.close()"></span>
+                                        </div>
+
+                                        <div style="border:1px solid #7e7575"></div>
+                                        <div class="w-50">
+                                            <div class="mx-3" style="padding: 0.5rem">
+                                                <input type="text" id="PCR_GPQ_presenttriphazardsrequiringbiddetails" style="height:1.5rem;width:28rem"
+                                                [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_presenttriphazardsrequiringbiddetails">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style=" border: 1px solid #dbd1d1;width: 100%;"></div>
+                                    <div class="d-flex">
+                                        <div class="w-50 mx-3" style="text-align: end;">
+                                            <label>Are there any missing floor vents?*</label>
+                                            <span class="fa fa-clock pcrHistoryIcon"
+                                            [ngbPopover]="HistoryDetails" #HistoryPopover15="ngbPopover" placement="auto" [autoClose]="true"
+                                            triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_PC_General_Property_Questions','PCR_GPQ_Missingfloorvents')" (mouseleave)="HistoryPopover15.close()"></span>
+                                        </div>
+
+                                        <div style="border:1px solid #7e7575"></div>
+                                        <div class="w-50">
+                                            <div class="radio radio-info form-check-inline mx-3 ">
+                                                <input type="radio" id="PCR_GPQ_Missingfloorvents" 
+                                                [ngModelOptions]="{standalone: true}" value="Yes"
+                                                 name="PCR_GPQ_Missingfloorvents"
+                                                 [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Missingfloorvents">
+                                                <label for="PCR_GPQ_Missingfloorvents" >Yes</label>
+                                            </div>
+                                            <div class="radio radio-info form-check-inline ">
+                                                <input type="radio" id="PCR_GPQ_Missingfloorvents" 
+                                                [ngModelOptions]="{standalone: true}" value="No"
+                                                 name="PCR_GPQ_Missingfloorvents"
+                                                 [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Missingfloorvents">
+                                                <label for="PCR_GPQ_Missingfloorvents">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style=" border: 1px solid #dbd1d1;width: 100%;"></div>
+                                    <div class="d-flex">
+                                        <div class="w-50 mx-3" style="text-align: end;">
+                                            <label>Are there any loose steps?*</label>
+                                            <span class="fa fa-clock pcrHistoryIcon"
+                                            [ngbPopover]="HistoryDetails" #HistoryPopover16="ngbPopover" placement="auto" [autoClose]="true"
+                                            triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_PC_General_Property_Questions','PCR_GPQ_Loosesteps')" (mouseleave)="HistoryPopover16.close()"></span>
+                                        </div>
+
+                                        <div style="border:1px solid #7e7575"></div>
+                                        <div class="w-50">
+                                            <div class="radio radio-info form-check-inline mx-3 ">
+                                                <input type="radio" id="PCR_GPQ_Loosesteps" 
+                                                [ngModelOptions]="{standalone: true}" value="Yes"
+                                                 name="PCR_GPQ_Loosesteps"
+                                                 [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Loosesteps">
+                                                <label for="PCR_GPQ_Loosesteps" >Yes</label>
+                                            </div>
+                                            <div class="radio radio-info form-check-inline ">
+                                                <input type="radio" id="PCR_GPQ_Loosesteps" 
+                                                [ngModelOptions]="{standalone: true}" value="No"
+                                                 name="PCR_GPQ_Loosesteps"
+                                                 [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Loosesteps">
+                                                <label for="PCR_GPQ_Loosesteps">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style=" border: 1px solid #dbd1d1;width: 100%;"></div>
+                                    <div class="d-flex">
+                                        <div class="w-50 mx-3" style="text-align: end;">
+                                            <label>Was all hardware removed from the interior walls and/or exterior structures?*</label>
+                                            <span class="fa fa-clock pcrHistoryIcon"
+                                            [ngbPopover]="HistoryDetails" #HistoryPopover17="ngbPopover" placement="auto" [autoClose]="true"
+                                            triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_PC_General_Property_Questions','PCR_GPQ_Interiorwallsandexteriorstructures')" (mouseleave)="HistoryPopover17.close()"></span>
+                                        </div>
+
+                                        <div style="border:1px solid #7e7575"></div>
+                                        <div class="w-50">
+                                            <div class="radio radio-info form-check-inline mx-3 ">
+                                                <input type="radio" id="PCR_GPQ_Interiorwallsandexteriorstructures" 
+                                                [ngModelOptions]="{standalone: true}" value="Yes"
+                                                 name="PCR_GPQ_Interiorwallsandexteriorstructures"
+                                                 [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Interiorwallsandexteriorstructures">
+                                                <label for="PCR_GPQ_Interiorwallsandexteriorstructures" >Yes</label>
+                                            </div>
+                                            <div class="radio radio-info form-check-inline ">
+                                                <input type="radio" id="PCR_GPQ_Interiorwallsandexteriorstructures" 
+                                                [ngModelOptions]="{standalone: true}" value="No"
+                                                 name="PCR_GPQ_Interiorwallsandexteriorstructures"
+                                                 [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Interiorwallsandexteriorstructures">
+                                                <label for="PCR_GPQ_Interiorwallsandexteriorstructures">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style=" border: 1px solid #dbd1d1;width: 100%;"></div>
+                                    <div class="d-flex">
+                                        <div class="w-50 mx-3" style="text-align: end;">
+                                            <label>Are the required number of battery operated smoke detectors present,per local ordinance?*</label>
+                                            <span class="fa fa-clock pcrHistoryIcon"
+                                            [ngbPopover]="HistoryDetails" #HistoryPopover18="ngbPopover" placement="auto" [autoClose]="true"
+                                            triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_PC_General_Property_Questions','PCR_GPQ_Smokedetectorspresentperlocalordinance')" (mouseleave)="HistoryPopover18.close()"></span>
+                                        </div>
+
+                                        <div style="border:1px solid #7e7575"></div>
+                                        <div class="w-50">
+                                            <div class="radio radio-info form-check-inline mx-3 ">
+                                                <input type="radio" id="PCR_GPQ_Smokedetectorspresentperlocalordinance" 
+                                                [ngModelOptions]="{standalone: true}" value="Yes"
+                                                 name="PCR_GPQ_Smokedetectorspresentperlocalordinance"
+                                                 [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Smokedetectorspresentperlocalordinance">
+                                                <label for="PCR_GPQ_Smokedetectorspresentperlocalordinance" >Yes</label>
+                                            </div>
+                                            <div class="radio radio-info form-check-inline ">
+                                                <input type="radio" id="PCR_GPQ_Smokedetectorspresentperlocalordinance" 
+                                                [ngModelOptions]="{standalone: true}" value="No"
+                                                 name="PCR_GPQ_Smokedetectorspresentperlocalordinance"
+                                                 [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Smokedetectorspresentperlocalordinance">
+                                                <label for="PCR_GPQ_Smokedetectorspresentperlocalordinance">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style=" border: 1px solid #dbd1d1;width: 100%;"></div>
+                                    <div class="d-flex">
+                                        <div class="w-50 mx-3" style="text-align: end;">
+                                            <label>Is the electrical/breaker box cover present?*</label>
+                                            <span class="fa fa-clock pcrHistoryIcon"
+                                            [ngbPopover]="HistoryDetails" #HistoryPopover19="ngbPopover" placement="auto" [autoClose]="true"
+                                            triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_PC_General_Property_Questions','PCR_GPQ_Electricalbreakerboxcoverpresent')" (mouseleave)="HistoryPopover19.close()"></span>
+                                        </div>
+
+                                        <div style="border:1px solid #7e7575"></div>
+                                        <div class="w-50">
+                                            <div class="radio radio-info form-check-inline mx-3 ">
+                                                <input type="radio" id="PCR_GPQ_Electricalbreakerboxcoverpresent" 
+                                                [ngModelOptions]="{standalone: true}" value="Yes"
+                                                 name="PCR_GPQ_Electricalbreakerboxcoverpresent"
+                                                 [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Electricalbreakerboxcoverpresent">
+                                                <label for="PCR_GPQ_Electricalbreakerboxcoverpresent" >Yes</label>
+                                            </div>
+                                            <div class="radio radio-info form-check-inline ">
+                                                <input type="radio" id="PCR_GPQ_Electricalbreakerboxcoverpresent" 
+                                                [ngModelOptions]="{standalone: true}" value="No"
+                                                 name="PCR_GPQ_Electricalbreakerboxcoverpresent"
+                                                 [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Electricalbreakerboxcoverpresent">
+                                                <label for="PCR_GPQ_Electricalbreakerboxcoverpresent">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style=" border: 1px solid #dbd1d1;width: 100%;"></div>
+                                    <div class="d-flex">
+                                        <div class="w-50 mx-3" style="text-align: end;">
+                                            <label>Boardups required?*</label>
+                                            <span class="fa fa-clock pcrHistoryIcon"
+                                            [ngbPopover]="HistoryDetails" #HistoryPopover20="ngbPopover" placement="auto" [autoClose]="true"
+                                            triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_PC_General_Property_Questions','PCR_GPQ_Boardupsrequired')" (mouseleave)="HistoryPopover20.close()"></span>
+                                        </div>
+
+                                        <div style="border:1px solid #7e7575"></div>
+                                        <div class="w-50">
+                                            <div class="radio radio-info form-check-inline mx-3 ">
+                                                <input type="radio" id="PCR_GPQ_Boardupsrequired"
+                                                [ngModelOptions]="{standalone: true}"  value="Yes"
+                                                 name="PCR_GPQ_Boardupsrequired"
+                                                 [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Boardupsrequired">
+                                                <label for="PCR_GPQ_Boardupsrequired" >Yes</label>
+                                            </div>
+                                            <div class="radio radio-info form-check-inline ">
+                                                <input type="radio" id="PCR_GPQ_Boardupsrequired" 
+                                                [ngModelOptions]="{standalone: true}" value="No"
+                                                 name="PCR_GPQ_Boardupsrequired"
+                                                 [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Boardupsrequired">
+                                                <label for="PCR_GPQ_Boardupsrequired">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style=" border: 1px solid #dbd1d1;width: 100%;"></div>
+                                    <div class="d-flex">
+                                        <div class="w-50 mx-3" style="text-align: end;">
+                                            <label>Did you send measurements over to you coordinator?*</label>
+                                            <span class="fa fa-clock pcrHistoryIcon"
+                                            [ngbPopover]="HistoryDetails" #HistoryPopover21="ngbPopover" placement="auto" [autoClose]="true"
+                                            triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_PC_General_Property_Questions','PCR_GPQ_Measurementscoordinator')" (mouseleave)="HistoryPopover21.close()"></span>
+                                        </div>
+
+                                        <div style="border:1px solid #7e7575"></div>
+                                        <div class="w-50">
+                                            <div class="radio radio-info form-check-inline mx-3 ">
+                                                <input type="radio" id="PCR_GPQ_Measurementscoordinator" 
+                                                [ngModelOptions]="{standalone: true}" value="Yes"
+                                                 name="PCR_GPQ_Measurementscoordinator"
+                                                 [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Measurementscoordinator">
+                                                <label for="PCR_GPQ_Measurementscoordinator" >Yes</label>
+                                            </div>
+                                            <div class="radio radio-info form-check-inline ">
+                                                <input type="radio" id="PCR_GPQ_Measurementscoordinator" 
+                                                [ngModelOptions]="{standalone: true}" value="No"
+                                                 name="PCR_GPQ_Measurementscoordinator"
+                                                 [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Measurementscoordinator">
+                                                <label for="PCR_GPQ_Measurementscoordinator">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style=" border: 1px solid #dbd1d1;width: 100%;"></div>
+                                    <div class="d-flex">
+                                        <div class="w-50 mx-3" style="text-align: end;">
+                                            <label>Are the utilities on?*</label>
+                                            <span class="fa fa-clock pcrHistoryIcon"
+                                            [ngbPopover]="HistoryDetails" #HistoryPopover22="ngbPopover" placement="auto" [autoClose]="true"
+                                            triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_PC_General_Property_Questions','PCR_GPQ_Utilitieson')" (mouseleave)="HistoryPopover22.close()"></span>
+                                        </div>
+
+                                        <div style="border:1px solid #7e7575"></div>
+                                        <div class="w-50">
+                                            <div class="radio radio-info form-check-inline mx-3 ">
+                                                <input type="radio" id="PCR_GPQ_Utilitieson" 
+                                                [ngModelOptions]="{standalone: true}" value="Yes"
+                                                 name="PCR_GPQ_Utilitieson"
+                                                 [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Utilitieson">
+                                                <label for="PCR_GPQ_Utilitieson" >Yes</label>
+                                            </div>
+                                            <div class="radio radio-info form-check-inline ">
+                                                <input type="radio" id="PCR_GPQ_Utilitieson" 
+                                                [ngModelOptions]="{standalone: true}" value="No"
+                                                 name="PCR_GPQ_Utilitieson"
+                                                 [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Utilitieson">
+                                                <label for="PCR_GPQ_Utilitieson">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style=" border: 1px solid #dbd1d1;width: 100%;"></div>
+                                    <div class="d-flex">
+                                        <div class="w-50 mx-3" style="text-align: end;">
+                                            <label>Is the thermostat set to 55 degrees Fahrenheit?(Do Not Adjust)*</label>
+                                            <span class="fa fa-clock pcrHistoryIcon"
+                                            [ngbPopover]="HistoryDetails" #HistoryPopover23="ngbPopover" placement="auto" [autoClose]="true"
+                                            triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_PC_General_Property_Questions','PCR_GPQ_55degreesFahrenheit')" (mouseleave)="HistoryPopover23.close()"></span>
+                                        </div>
+
+                                        <div style="border:1px solid #7e7575"></div>
+                                        <div class="w-50">
+                                            <div class="radio radio-info form-check-inline mx-3 ">
+                                                <input type="radio" id="PCR_GPQ_55degreesFahrenheit" 
+                                                [ngModelOptions]="{standalone: true}" value="Yes"
+                                                 name="PCR_GPQ_55degreesFahrenheit"
+                                                 [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_55degreesFahrenheit">
+                                                <label for="PCR_GPQ_55degreesFahrenheit" >Yes</label>
+                                            </div>
+                                            <div class="radio radio-info form-check-inline ">
+                                                <input type="radio" id="PCR_GPQ_55degreesFahrenheit" 
+                                                [ngModelOptions]="{standalone: true}" value="No"
+                                                 name="PCR_GPQ_55degreesFahrenheit"
+                                                 [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_55degreesFahrenheit">
+                                                <label for="PCR_GPQ_55degreesFahrenheit">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style=" border: 1px solid #dbd1d1;width: 100%;"></div>
+                                    <div class="d-flex">
+                                        <div class="w-50 mx-3" style="text-align: end;">
+                                            <label>Does the property have a wet heating system?*</label>
+                                            <span class="fa fa-clock pcrHistoryIcon"
+                                            [ngbPopover]="HistoryDetails" #HistoryPopover24="ngbPopover" placement="auto" [autoClose]="true"
+                                            triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_PC_General_Property_Questions','PCR_GPQ_Wetheatingsystem')" (mouseleave)="HistoryPopover24.close()"></span>
+                                        </div>
+
+                                        <div style="border:1px solid #7e7575"></div>
+                                        <div class="w-50">
+                                            <div class="radio radio-info form-check-inline mx-3 ">
+                                                <input type="radio" id="PCR_GPQ_Wetheatingsystem" 
+                                                [ngModelOptions]="{standalone: true}" value="Yes"
+                                                 name="PCR_GPQ_Wetheatingsystem"
+                                                 [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Wetheatingsystem">
+                                                <label for="PCR_GPQ_Wetheatingsystem">Yes</label>
+                                            </div>
+                                            <div class="radio radio-info form-check-inline ">
+                                                <input type="radio" id="PCR_GPQ_Wetheatingsystem" 
+                                                [ngModelOptions]="{standalone: true}" value="No"
+                                                 name="PCR_GPQ_Wetheatingsystem"
+                                                 [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Wetheatingsystem">
+                                                <label for="PCR_GPQ_Wetheatingsystem">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style=" border: 1px solid #dbd1d1;width: 100%;"></div>
+                                    <div class="d-flex">
+                                        <div class="w-50 mx-3" style="text-align: end;">
+                                            <label>Has the property been winterized?*</label>
+                                            <span class="fa fa-clock pcrHistoryIcon"
+                                            [ngbPopover]="HistoryDetails" #HistoryPopover25="ngbPopover" placement="auto" [autoClose]="true"
+                                            triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_PC_General_Property_Questions','PCR_GPQ_Propertybeenwinterized')" (mouseleave)="HistoryPopover25.close()"></span>
+                                        </div>
+
+                                        <div style="border:1px solid #7e7575"></div>
+                                        <div class="w-50">
+                                            <div class="radio radio-info form-check-inline mx-3 ">
+                                                <input type="radio" id="PCR_GPQ_Propertybeenwinterized" 
+                                                [ngModelOptions]="{standalone: true}" value="Yes"
+                                                 name="PCR_GPQ_Propertybeenwinterized"
+                                                 [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Propertybeenwinterized">
+                                                <label for="PCR_GPQ_Propertybeenwinterized" >Yes</label>
+                                            </div>
+                                            <div class="radio radio-info form-check-inline ">
+                                                <input type="radio" id="PCR_GPQ_Propertybeenwinterized" 
+                                                [ngModelOptions]="{standalone: true}" value="No"
+                                                 name="PCR_GPQ_Propertybeenwinterized"
+                                                 [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Propertybeenwinterized">
+                                                <label for="PCR_GPQ_Propertybeenwinterized">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style=" border: 1px solid #dbd1d1;width: 100%;"></div>
+                                    <div class="d-flex">
+                                        <div class="w-50 mx-3" style="text-align: end;">
+                                            <label>If yes, is the Wintz intact?*</label>
+                                            <span class="fa fa-clock pcrHistoryIcon"
+                                            [ngbPopover]="HistoryDetails" #HistoryPopover26="ngbPopover" placement="auto" [autoClose]="true"
+                                            triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_PC_General_Property_Questions','PCR_GPQ_Wintzintact')" (mouseleave)="HistoryPopover26.close()"></span>
+                                        </div>
+
+                                        <div style="border:1px solid #7e7575"></div>
+                                        <div class="w-50">
+                                            <div class="radio radio-info form-check-inline mx-3 ">
+                                                <input type="radio" id="PCR_GPQ_Wintzintact" 
+                                                [ngModelOptions]="{standalone: true}" value="Yes"
+                                                 name="PCR_GPQ_Wintzintact"
+                                                 [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Wintzintact">
+                                                <label for="PCR_GPQ_Wintzintact" >Yes</label>
+                                            </div>
+                                            <div class="radio radio-info form-check-inline ">
+                                                <input type="radio" id="PCR_GPQ_Wintzintact" 
+                                                [ngModelOptions]="{standalone: true}" value="No"
+                                                 name="PCR_GPQ_Wintzintact"
+                                                 [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Wintzintact">
+                                                <label for="PCR_GPQ_Wintzintact">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style=" border: 1px solid #dbd1d1;width: 100%;"></div>
+                                    <div class="d-flex">
+                                        <div class="w-50 mx-3" style="text-align: end;">
+                                            <label>Are there any code violations on the property?*</label>
+                                            <span class="fa fa-clock pcrHistoryIcon"
+                                            [ngbPopover]="HistoryDetails" #HistoryPopover27="ngbPopover" placement="auto" [autoClose]="true"
+                                            triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_PC_General_Property_Questions','PCR_GPQ_Violationsproperty')" (mouseleave)="HistoryPopover27.close()"></span>
+                                        </div>
+
+                                        <div style="border:1px solid #7e7575"></div>
+                                        <div class="w-50">
+                                            <div class="radio radio-info form-check-inline mx-3 ">
+                                                <input type="radio" id="PCR_GPQ_Violationsproperty" 
+                                                [ngModelOptions]="{standalone: true}" value="Yes"
+                                                 name="PCR_GPQ_Violationsproperty"
+                                                 [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Violationsproperty">
+                                                <label for="PCR_GPQ_Violationsproperty" >Yes</label>
+                                            </div>
+                                            <div class="radio radio-info form-check-inline ">
+                                                <input type="radio" id="PCR_GPQ_Violationsproperty" 
+                                                [ngModelOptions]="{standalone: true}" value="No"
+                                                 name="PCR_GPQ_Violationsproperty"
+                                                 [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Violationsproperty">
+                                                <label for="PCR_GPQ_Violationsproperty">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex" style=" border: 1px solid #dbd1d1;">
+                                        <div class="w-50 mx-3" style="text-align: end;padding: 0.5rem">
+                                            <label>If yes, please enter code violation details:* </label>
+                                            <span class="fa fa-clock pcrHistoryIcon"
+                                            [ngbPopover]="HistoryDetails" #HistoryPopover28="ngbPopover" placement="auto" [autoClose]="true"
+                                            triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_PC_General_Property_Questions','PCR_GPQ_Violationdetails')" (mouseleave)="HistoryPopover28.close()"></span>
+                                        </div>
+
+                                        <div style="border:1px solid #7e7575"></div>
+                                        <div class="w-50">
+                                            <div class="mx-3" style="padding: 0.5rem">
+                                                <input type="text" id="PCR_GPQ_Violationdetails" style="height:1.5rem;width:28rem"
+                                                [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Violationdetails">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div class="w-50 mx-3" style="text-align: end;"></div>
+                                        
+                                        <div style="border:1px solid #7e7575"></div>
+                                        <div class="w-50">
+                                            <div class="radio radio-info form-check-inline mx-3">
+                                                <input type="radio" id="PCR_GPQ_Decorativepondssecured" 
+                                                [ngModelOptions]="{standalone: true}" value="Yes"
+                                                 name="PCR_GPQ_Decorativepondssecured"
+                                                 [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Decorativepondssecured">
+                                                <label for="PCR_GPQ_Decorativepondssecured"> Yes</label>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div class="w-50 mx-3" style="text-align: end;">
+                                            <label>Were all pools, spas, or decorative ponds secured?*</label>
+                                            <span class="fa fa-clock pcrHistoryIcon"
+                                            [ngbPopover]="HistoryDetails" #HistoryPopover29="ngbPopover" placement="auto" [autoClose]="true"
+                                            triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_PC_General_Property_Questions','PCR_GPQ_Decorativepondssecured')" (mouseleave)="HistoryPopover29.close()"></span>
+                                        </div>
+
+                                        <div style="border:1px solid #7e7575"></div>
+                                        <div class="w-50">
+                                            <div class="radio radio-info form-check-inline mx-3">
+                                                <input type="radio" id="PCR_GPQ_Decorativepondssecured" 
+                                                [ngModelOptions]="{standalone: true}" value="No"
+                                                name="PCR_GPQ_Decorativepondssecured"
+                                                [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Decorativepondssecured">
+                                                <label for="PCR_GPQ_Decorativepondssecured">No</label>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div class="w-50 mx-3" style="text-align: end;"></div>
+                                        <div style="border:1px solid #7e7575"></div>
+                                        <div class="w-50">
+                                            <div class="radio radio-info form-check-inline mx-3">
+                                                <input type="radio" id="PCR_GPQ_Decorativepondssecured" 
+                                                [ngModelOptions]="{standalone: true}" value="N/A"
+                                                name="PCR_GPQ_Decorativepondssecured"
+                                                [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Decorativepondssecured">
+                                                <label for="PCR_GPQ_Decorativepondssecured">N/A</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style=" border: 1px solid #dbd1d1;width: 100%;"></div>
+                                    <div class="d-flex">
+                                        <div class="w-50 mx-3" style="text-align: end;">
+                                            <label>Is there any discoloration present?*</label>
+                                            <span class="fa fa-clock pcrHistoryIcon"
+                                            [ngbPopover]="HistoryDetails" #HistoryPopover30="ngbPopover" placement="auto" [autoClose]="true"
+                                            triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_PC_General_Property_Questions','PCR_GPQ_Discolorationpresent')" (mouseleave)="HistoryPopover30.close()"></span>
+                                        </div>
+
+                                        <div style="border:1px solid #7e7575"></div>
+                                        <div class="w-50">
+                                            <div class="radio radio-info form-check-inline mx-3 ">
+                                                <input type="radio" id="PCR_GPQ_Discolorationpresent" 
+                                                [ngModelOptions]="{standalone: true}" value="Yes"
+                                                 name="PCR_GPQ_Discolorationpresent"
+                                                 [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Discolorationpresent">
+                                                <label for="PCR_GPQ_Discolorationpresent" >Yes</label>
+                                            </div>
+                                            <div class="radio radio-info form-check-inline ">
+                                                <input type="radio" id="PCR_GPQ_Discolorationpresent" 
+                                                [ngModelOptions]="{standalone: true}" value="No"
+                                                 name="PCR_GPQ_Discolorationpresent"
+                                                 [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Discolorationpresent">
+                                                <label for="PCR_GPQ_Discolorationpresent">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex" style=" border: 1px solid #dbd1d1;">
+                                        <div class="w-50 mx-3" style="text-align: end;padding: 0.5rem">
+                                            <label>Location of discoloration:* </label>
+                                            <span class="fa fa-clock pcrHistoryIcon"
+                                            [ngbPopover]="HistoryDetails" #HistoryPopover31="ngbPopover" placement="auto" [autoClose]="true"
+                                            triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_PC_General_Property_Questions','PCR_GPQ_Locationdiscoloration')" (mouseleave)="HistoryPopover31.close()"></span>
+                                        </div>
+
+                                        <div style="border:1px solid #7e7575"></div>
+                                        <div class="w-50">
+                                            <div class="mx-3" style="padding: 0.5rem">
+                                                <input type="text" id="PCR_GPQ_Locationdiscoloration" style="height:1.5rem;width:28rem"
+                                                [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Locationdiscoloration">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style=" border: 1px solid #dbd1d1;width: 100%;"></div>
+                                    <div class="d-flex">
+                                        <div class="w-50 mx-3" style="text-align: end;">
+                                            <label>Is the property completely secured,including all doors,windows,outbuildings,garages?*</label>
+                                            <span class="fa fa-clock pcrHistoryIcon"
+                                            [ngbPopover]="HistoryDetails" #HistoryPopover32="ngbPopover" placement="auto" [autoClose]="true"
+                                            triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_PC_General_Property_Questions','PCR_GPQ_Doorswindowsoutbuildingsgarages')" (mouseleave)="HistoryPopover32.close()"></span>
+                                        </div>
+
+                                        <div style="border:1px solid #7e7575"></div>
+                                        <div class="w-50">
+                                            <div class="radio radio-info form-check-inline mx-3 ">
+                                                <input type="radio" id="PCR_GPQ_Doorswindowsoutbuildingsgarages" 
+                                                [ngModelOptions]="{standalone: true}" value="Yes"
+                                                 name="PCR_GPQ_Doorswindowsoutbuildingsgarages"
+                                                 [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Doorswindowsoutbuildingsgarages">
+                                                <label for="PCR_GPQ_Doorswindowsoutbuildingsgarages" >Yes</label>
+                                            </div>
+                                            <div class="radio radio-info form-check-inline ">
+                                                <input type="radio" id="PCR_GPQ_Doorswindowsoutbuildingsgarages" 
+                                                [ngModelOptions]="{standalone: true}" value="No"
+                                                 name="PCR_GPQ_Doorswindowsoutbuildingsgarages"
+                                                 [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Doorswindowsoutbuildingsgarages">
+                                                <label for="PCR_GPQ_Doorswindowsoutbuildingsgarages">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style=" border: 1px solid #dbd1d1;width: 100%;"></div>
+                                    <div class="d-flex">
+                                        <div class="w-50 mx-3" style="text-align: end;">
+                                            <label>Is there any repair work or ongoing rehab currently at the property?*</label>
+                                            <span class="fa fa-clock pcrHistoryIcon"
+                                            [ngbPopover]="HistoryDetails" #HistoryPopover33="ngbPopover" placement="auto" [autoClose]="true"
+                                            triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_PC_General_Property_Questions','PCR_GPQ_Ongoingrehabcurrentlyproperty')" (mouseleave)="HistoryPopover33.close()"></span>
+                                        </div>
+
+                                        <div style="border:1px solid #7e7575"></div>
+                                        <div class="w-50">
+                                            <div class="radio radio-info form-check-inline mx-3 ">
+                                                <input type="radio" id="PCR_GPQ_Ongoingrehabcurrentlyproperty" 
+                                                [ngModelOptions]="{standalone: true}" value="Yes"
+                                                 name="PCR_GPQ_Ongoingrehabcurrentlyproperty"
+                                                 [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Ongoingrehabcurrentlyproperty">
+                                                <label for="PCR_GPQ_Ongoingrehabcurrentlyproperty" >Yes</label>
+                                            </div>
+                                            <div class="radio radio-info form-check-inline ">
+                                                <input type="radio" id="PCR_GPQ_Ongoingrehabcurrentlyproperty" 
+                                                [ngModelOptions]="{standalone: true}" value="No"
+                                                 name="PCR_GPQ_Ongoingrehabcurrentlyproperty"
+                                                 [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Ongoingrehabcurrentlyproperty">
+                                                <label for="PCR_GPQ_Ongoingrehabcurrentlyproperty">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex" style=" border: 1px solid #dbd1d1;">
+                                        <div class="w-50 mx-3" style="text-align: end;padding: 0.5rem">
+                                            <label>Any comments or other issues: </label>
+                                            <span class="fa fa-clock pcrHistoryIcon"
+                                            [ngbPopover]="HistoryDetails" #HistoryPopover34="ngbPopover" placement="auto" [autoClose]="true"
+                                            triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_PC_General_Property_Questions','PCR_GPQ_Commentsotherissues')" (mouseleave)="HistoryPopover34.close()"></span>
+                                        </div>
+
+                                        <div style="border:1px solid #7e7575"></div>
+                                        <div class="w-50">
+                                            <div class="mx-3" style="padding: 0.5rem">
+                                                <input type="text" id="PCR_GPQ_Commentsotherissues" style="height:1.5rem;width:28rem"
+                                                [(ngModel)]="_PCR_PC_General_Property_Questions.PCR_GPQ_Commentsotherissues">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                <div class="tab-pane fade" id="InteriorAccessInformation" role="tabpanel"
+                aria-labelledby="InteriorAccessInformation-tab">
+                <div class="row m-0">
+                    <div class="col-12">
+
+                        <div
+                            style="box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;padding-bottom:0.5rem"
+                            (click)="Signature(true)">
+                            <div>
+                                <h4 class="page-title"
+                                    style="font-weight: bolder;background-color: hwb(203deg 69% 21%);height:2rem">
+                                    Signature</h4>
+                            </div>
+                            <div class="col-12">
+                                <div
+                                    style="box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;width: 98%;margin: 1rem;">
+
+                                    <div class="d-flex"
+                                        style=" border: 1px solid #dbd1d1;height: 3rem;">
+                                        <div class="w-50 mx-3" style="text-align: end;">
+                                            <label style="margin-top:1rem">Completion Date?*</label>
+                                            <span class="fa fa-clock pcrHistoryIcon"
+                                            [ngbPopover]="HistoryDetails" #HistoryPopover35="ngbPopover" placement="auto" [autoClose]="true"
+                                            triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_PC_Signature','PCR_SIGN_CompletionDate')" (mouseleave)="HistoryPopover35.close()"></span>
+                                        </div>
+
+                                        <div style="border:1px solid #7e7575"></div>
+                                        <div class="w-50" style="margin-top:1rem">
+                                            <div class="mx-3">
+                                                <input type="date" id="PCR_SIGN_CompletionDate"  style="height:1.6rem;width:6rem"
+                                                [(ngModel)]="_PCR_PC_Signature.PCR_SIGN_CompletionDate">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex" style=" border: 1px solid #dbd1d1;height: 3rem">
+                                        <div class="w-50 mx-3" style="text-align: end;">
+                                            <label style="margin-top:1rem">Inspector Signature*</label>
+                                            <span class="fa fa-clock pcrHistoryIcon"
+                                            [ngbPopover]="HistoryDetails" #HistoryPopover36="ngbPopover" placement="auto" [autoClose]="true"
+                                            triggers="mouseenter" (mouseenter)="DisplayHistory('PCR_PC_Signature','PCR_SIGN_InspectorSignature')" (mouseleave)="HistoryPopover36.close()"></span>
+                                        </div>
+
+                                        <div style="border:1px solid #7e7575"></div>
+                                        <div class="w-50" style="margin-top:1rem">
+                                            <div class="mx-3">
+                                                <input type="text" id="PCR_SIGN_InspectorSignature"
+                                                    style="height:1.5rem;width:28rem"
+                                                    [(ngModel)]="_PCR_PC_Signature.PCR_SIGN_InspectorSignature">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+                <div class="mt-1 form-row" *ngIf="WorkorderId>0">
+                    <div class="float-right" (click)="SaveForm()">
+                      &nbsp;&nbsp;&nbsp;
+                   <button id="client_viewdetail_1" class="btn btn-primary" type="submit"
+                        [disabled]="isLoading">
+                        <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}"></i>
+                        {{button}}</button>
+                    </div>
+                  </div>
+
+
+
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+
+
+            <ng-template #HistoryDetails>
+                <app-ipl-form-history-hover [HistoryData]="PCR_HistoryList" [ColumnName]="PctHistoryConfigureObj.ColumnName" [KeyName]="PctHistoryConfigureObj.KeyName"></app-ipl-form-history-hover>
+              </ng-template>

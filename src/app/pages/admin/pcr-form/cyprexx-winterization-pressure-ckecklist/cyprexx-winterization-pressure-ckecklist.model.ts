@@ -1,0 +1,32 @@
+export class PCR_CyprexxWinterizationPressureModel{
+  PCR_CW_PkeyID:number;
+  PCR_CW_WO_ID:number;
+  PCR_CW_CompanyID:number;
+  PCR_CW_Pressure_Test:any;
+  PCR_CW_Upload_photo:any;
+  PCR_CW_IsActive:Boolean;
+  PCR_CW_IsDelete:Boolean;
+  ModifiedBy:string;
+  Type:number;
+  fwo_pkyeId:number;
+}
+export class PCR_CW_Pressure_Test_Model{
+  PT_WaterSource:string;
+  PT_WaterOffCurb:string;
+  PT_WaterOffMeter_Curb:string;
+  PT_WaterInTheLines_Curb:string;
+  PT_PressureDomesticWaterSystem_Curb:string;
+  PT_Reason_Curb:string;
+  PT_SystemHoldPressure_Curb:string;
+  PT_VisiblePlumbingBreaks_Curb:string;
+  PT_AllBreaksCapped_Curb:string;
+  PT_ExplainBreaksCapped_Curb:string;
+  PT_WaterOffWell:string;
+  PT_WaterInTheLines_Well:string;
+  PT_PressureDomesticWaterSystem_Well:string;
+  PT_Reason_Well:string;
+  PT_SystemHoldPressure_Well:string;
+  PT_VisiblePlumbingBreaks_Well:string;
+  PT_AllBreaksCapped_Well:string;
+  PT_ExplainBreaksCapped_Well:string;
+}

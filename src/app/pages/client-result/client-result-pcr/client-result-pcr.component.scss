@@ -1,0 +1,12 @@
+.onSmall{
+    display: none;
+}
+
+@media (max-width:650px){
+    .onLarge{
+        display: none;
+    }
+    .onSmall{
+        display: block;
+    }
+}

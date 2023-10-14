@@ -1,0 +1,23 @@
+.repair-search{
+    margin-top: 20px;
+    .row { 
+        margin: 20px 0px;
+        .label {
+            display: block;
+            font-weight: bold;
+            text-indent: 8px;
+            color: #656565;
+          }
+    }
+    .card{
+        font-size: 16px;
+        .card-header{
+            background-color: #000003;
+            color: #ffffff;
+        }
+        hr{
+            border: 0;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+    }
+}

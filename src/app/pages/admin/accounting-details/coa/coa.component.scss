@@ -1,0 +1,15 @@
+.set-btn-width {
+  width: 110px;
+}
+.k-dateinput .k-dateinput-wrap {
+  padding-left: 45px;
+}
+
+@media(max-width:900px){
+  .newDiv{
+    overflow-x: auto !important;
+  }
+  .griddiv{
+    width: 200% !important;
+  }
+}

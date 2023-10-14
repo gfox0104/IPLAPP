@@ -1,0 +1,44 @@
+{
+  openWeatherMapItemList: [
+    {
+      dateTime: '2018-01-29 12:00:00',
+      weatherMain: 'Rain',
+      weatherDescription: 'light rain',
+      windSpeed: 7.62,
+      tempMin: 11.6,
+      tempMax: 11.6
+    },
+    {
+      dateTime: '2018-01-30 12:00:00',
+      weatherMain: 'Clear',
+      weatherDescription: 'clear sky',
+      windSpeed: 2.02,
+      tempMin: 6.22,
+      tempMax: 6.22
+    },
+    {
+      dateTime: '2018-01-31 12:00:00',
+      weatherMain: 'Rain',
+      weatherDescription: 'light rain',
+      windSpeed: 7.01,
+      tempMin: 6.15,
+      tempMax: 6.15
+    },
+    {
+      dateTime: '2018-02-01 12:00:00',
+      weatherMain: 'Rain',
+      weatherDescription: 'light rain',
+      windSpeed: 8.16,
+      tempMin: 5.02,
+      tempMax: 5.02
+    },
+    {
+      dateTime: '2018-02-02 12:00:00',
+      weatherMain: 'Clear',
+      weatherDescription: 'clear sky',
+      windSpeed: 2.96,
+      tempMin: 5.63,
+      tempMax: 5.63
+    }
+  ]
+}

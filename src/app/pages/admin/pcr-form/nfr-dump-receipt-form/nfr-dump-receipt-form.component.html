@@ -1,0 +1,222 @@
+<div class="row m-0">
+    <div class="col-12" >
+        <div style="box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;padding-bottom:0.5rem"
+         >
+            <div>
+                <h4 class="page-title">
+                    NFR Dump Receipt</h4>
+            </div>
+            <div class="col-12">
+                <div
+                    style="box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;width: 98%;margin: 1rem;">
+                    <div style=" border: 1px solid #dbd1d1;width: 100%;"></div>
+
+                    <div class="d-flex" style=" border: 1px solid #dbd1d1;">
+                        <div class="w-50 mx-3" style="text-align: end;padding: 0.5rem">
+                            <label> Work Order #
+                              <br>
+                              <!-- <span class="pervious-answer">{{this.PCR_History.NF_NFR_Dump_Receipt!=undefined ? this.PCR_History.NF_NFR_Dump_Receipt.NFR_DR_WorkOrder :""}}</span> -->
+                            </label>
+                            <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"  [ColumnName]="'NF_NFR_Dump_Receipt'" [KeyName]="'NFR_DR_WorkOrder'"></app-ipl-form-history-label-hover>
+                        </div>
+
+                        <div style="border:1px solid #7e7575"></div>
+                        <div class="w-50">
+                            <div class="mx-3" style="padding: 0.5rem">
+                                <input type="text" id="NFR_DR_WorkOrder" style="height:1.5rem;width:13rem"
+                                [(ngModel)]="nf_nfr_dump_receipt.NFR_DR_WorkOrder">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex" style=" border: 1px solid #dbd1d1;">
+                        <div class="w-50 mx-3" style="text-align: end;padding: 0.5rem">
+                            <label>MTG CO
+                              <br>
+                              <!-- <span class="pervious-answer">{{this.PCR_History.NF_NFR_Dump_Receipt!=undefined ? this.PCR_History.NF_NFR_Dump_Receipt.NFR_DR_MTGCO :""}}</span> -->
+                            </label>
+                            <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"  [ColumnName]="'NF_NFR_Dump_Receipt'" [KeyName]="'NFR_DR_MTGCO'"></app-ipl-form-history-label-hover>
+                        </div>
+
+                        <div style="border:1px solid #7e7575"></div>
+                        <div class="w-50">
+                            <div class="mx-3" style="padding: 0.5rem">
+                                <input type="text" id="NFR_DR_MTGCO" style="height:1.5rem;width:13rem"
+                                [(ngModel)]="nf_nfr_dump_receipt.NFR_DR_MTGCO">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex" style=" border: 1px solid #dbd1d1;">
+                        <div class="w-50 mx-3" style="text-align: end;padding: 0.5rem">
+                            <label>Address
+                              <br>
+                              <!-- <span class="pervious-answer">{{this.PCR_History.NF_NFR_Dump_Receipt!=undefined ? this.PCR_History.NF_NFR_Dump_Receipt.NFR_DR_Address :""}}</span> -->
+                            </label>
+                            <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"  [ColumnName]="'NF_NFR_Dump_Receipt'" [KeyName]="'NFR_DR_Address'"></app-ipl-form-history-label-hover>
+                        </div>
+
+                        <div style="border:1px solid #7e7575"></div>
+                        <div class="w-50">
+                            <div class="mx-3" style="padding: 0.5rem">
+                                <input type="text" id="NFR_DR_Address" style="height:1.5rem;width:28rem"
+                                [(ngModel)]="nf_nfr_dump_receipt.NFR_DR_Address">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex" style=" border: 1px solid #dbd1d1;">
+                        <div class="w-50 mx-3" style="text-align: end;padding: 0.5rem">
+                            <label>Loan #
+
+                              <br>
+                              <!-- <span class="pervious-answer">{{this.PCR_History.NF_NFR_Dump_Receipt!=undefined ? this.PCR_History.NF_NFR_Dump_Receipt.NFR_DR_Loan :""}}</span> -->
+                            </label>
+                            <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"  [ColumnName]="'NF_NFR_Dump_Receipt'" [KeyName]="'NFR_DR_Loan'"></app-ipl-form-history-label-hover>
+                        </div>
+
+                        <div style="border:1px solid #7e7575"></div>
+                        <div class="w-50">
+                            <div class="mx-3" style="padding: 0.5rem">
+                                <input type="text" id="NFR_DR_Loan" style="height:1.5rem;width:13rem"
+                                [(ngModel)]="nf_nfr_dump_receipt.NFR_DR_Loan">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex" style=" border: 1px solid #dbd1d1;">
+                        <div class="w-50 mx-3" style="text-align: end;padding: 0.5rem">
+                            <label>Date
+                              <br>
+                              <!-- <span class="pervious-answer">{{this.PCR_History.NF_NFR_Dump_Receipt!=undefined ? this.PCR_History.NF_NFR_Dump_Receipt.NFR_DR_Date :""}}</span> -->
+                            </label>
+                            <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"  [ColumnName]="'NF_NFR_Dump_Receipt'" [KeyName]="'NFR_DR_Date'"></app-ipl-form-history-label-hover>
+                        </div>
+
+                        <div style="border:1px solid #7e7575"></div>
+                        <div class="w-50">
+                            <div class="mx-3" style="padding: 0.5rem">
+                                <input type="date" id="NFR_DR_Date" style="height:1.5rem;width:13rem"
+                                [(ngModel)]="nf_nfr_dump_receipt.NFR_DR_Date">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex" style=" border: 1px solid #dbd1d1;">
+                        <div class="w-50 mx-3" style="text-align: end;padding: 0.5rem">
+                            <label>Cubic Yard Amount
+
+                              <br>
+                              <!-- <span class="pervious-answer">{{this.PCR_History.NF_NFR_Dump_Receipt!=undefined ? this.PCR_History.NF_NFR_Dump_Receipt.NFR_DR_CubicYardAmount :""}}</span> -->
+                            </label>
+                            <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"  [ColumnName]="'NF_NFR_Dump_Receipt'" [KeyName]="'NFR_DR_CubicYardAmount'"></app-ipl-form-history-label-hover>
+                        </div>
+
+                        <div style="border:1px solid #7e7575"></div>
+                        <div class="w-50">
+                            <div class="mx-3" style="padding: 0.5rem">
+                                <input type="text" id="NFR_DR_CubicYardAmount" style="height:1.5rem;width:13rem"
+                                [(ngModel)]="nf_nfr_dump_receipt.NFR_DR_CubicYardAmount">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex" style=" border: 1px solid #dbd1d1;">
+                        <div class="w-50 mx-3" style="text-align: end;padding: 0.5rem">
+                            <label>Number of Appliances
+                              <br>
+                              <!-- <span class="pervious-answer">{{this.PCR_History.NF_NFR_Dump_Receipt!=undefined ? this.PCR_History.NF_NFR_Dump_Receipt.NFR_DR_NumberOfAppliances :""}}</span> -->
+                            </label>
+                            <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"  [ColumnName]="'NF_NFR_Dump_Receipt'" [KeyName]="'NFR_DR_NumberOfAppliances'"></app-ipl-form-history-label-hover>
+                        </div>
+
+                        <div style="border:1px solid #7e7575"></div>
+                        <div class="w-50">
+                            <div class="mx-3" style="padding: 0.5rem">
+                                <input type="text" id="NFR_DR_NumberOfAppliances" style="height:1.5rem;width:13rem"
+                                [(ngModel)]="nf_nfr_dump_receipt.NFR_DR_NumberOfAppliances">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex" style=" border: 1px solid #dbd1d1;">
+                        <div class="w-50 mx-3" style="text-align: end;padding: 0.5rem">
+                            <label>Description of Debris Being dumped
+                              <br>
+                              <!-- <span class="pervious-answer">{{this.PCR_History.NF_NFR_Dump_Receipt!=undefined ? this.PCR_History.NF_NFR_Dump_Receipt.NFR_DR_DescriptionDebrisBeingDumped :""}}</span> -->
+                            </label>
+                            <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"  [ColumnName]="'NF_NFR_Dump_Receipt'" [KeyName]="'NFR_DR_DescriptionDebrisBeingDumped'"></app-ipl-form-history-label-hover>
+                        </div>
+
+                        <div style="border:1px solid #7e7575"></div>
+                        <div class="w-50">
+                            <div class="mx-3" style="padding: 0.5rem">
+                                <textarea type="text" class="form-control"
+                                    style="width:20rem;height:3rem;"
+                                    [(ngModel)]="nf_nfr_dump_receipt.NFR_DR_DescriptionDebrisBeingDumped"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex" style=" border: 1px solid #dbd1d1;">
+                        <div class="w-50 mx-3" style="text-align: end;padding: 0.5rem">
+                            <label>Means of disposal
+                            </label>
+                        </div>
+
+                        <div style="border:1px solid #7e7575"></div>
+                        <div class="w-50 d-flex">
+                          <div class="custom-control custom-checkbox mx-3">
+                                <input type="checkbox" class="custom-control-input" id="NFR_DR_Disposal_Burned"
+                                [(ngModel)]="nf_nfr_dump_receipt.NFR_DR_Disposal_Burned">
+                                <label class="custom-control-label" for="NFR_DR_Disposal_Burned">Burned</label>
+                                <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"  [ColumnName]="'NF_NFR_Dump_Receipt'" [KeyName]="'NFR_DR_Disposal_Burned'"></app-ipl-form-history-label-hover>
+                                <!-- <span class="pervious-answer">{{this.PCR_History.NF_NFR_Dump_Receipt!=undefined ? this.PCR_History.NF_NFR_Dump_Receipt.NFR_DR_Disposal_Burned :""}}</span> -->
+                          </div>
+                          <div class="custom-control custom-checkbox mx-2">
+                            <input type="checkbox" class="custom-control-input"  id="NFR_DR_Disposal_LeftAtCurb"
+                            [(ngModel)]="nf_nfr_dump_receipt.NFR_DR_Disposal_LeftAtCurb">
+                            <label class="custom-control-label" for="NFR_DR_Disposal_LeftAtCurb">Left at curb</label>
+                            <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"  [ColumnName]="'NF_NFR_Dump_Receipt'" [KeyName]="'NFR_DR_Disposal_LeftAtCurb'"></app-ipl-form-history-label-hover>
+                            <!-- <span class="pervious-answer">{{this.PCR_History.NF_NFR_Dump_Receipt!=undefined ? this.PCR_History.NF_NFR_Dump_Receipt.NFR_DR_Disposal_LeftAtCurb :""}}</span> -->
+                          </div>
+                          <div class="custom-control custom-checkbox mx-2">
+                            <input type="checkbox" class="custom-control-input" id="NFR_DR_Disposal_DumpFacility"
+                            [(ngModel)]="nf_nfr_dump_receipt.NFR_DR_Disposal_DumpFacility">
+                            <label class="custom-control-label" for="NFR_DR_Disposal_DumpFacility">Dump at a Dump Facility</label>
+                            <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"  [ColumnName]="'NF_NFR_Dump_Receipt'" [KeyName]="'NFR_DR_Disposal_DumpFacility'"></app-ipl-form-history-label-hover>
+                            <!-- <span class="pervious-answer">{{this.PCR_History.NF_NFR_Dump_Receipt!=undefined ? this.PCR_History.NF_NFR_Dump_Receipt.NFR_DR_Disposal_DumpFacility :""}}</span> -->
+                          </div>
+                          <div class="custom-control custom-checkbox mx-2">
+                            <input type="checkbox" class="custom-control-input" id="NFR_DR_Disposal_PickedUpDisposalCompany"
+                            [(ngModel)]="nf_nfr_dump_receipt.NFR_DR_Disposal_PickedUpDisposalCompany">
+                            <label class="custom-control-label" for="NFR_DR_Disposal_PickedUpDisposalCompany">Picked up by a Disposal Company</label>
+                            <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"  [ColumnName]="'NF_NFR_Dump_Receipt'" [KeyName]="'NFR_DR_Disposal_PickedUpDisposalCompany'"></app-ipl-form-history-label-hover>
+                            <!-- <span class="pervious-answer">{{this.PCR_History.NF_NFR_Dump_Receipt!=undefined ? this.PCR_History.NF_NFR_Dump_Receipt.NFR_DR_Disposal_PickedUpDisposalCompany :""}}</span> -->
+                          </div>
+                        </div>
+                    </div>
+                    <div class="d-flex" style=" border: 1px solid #dbd1d1;">
+                        <div class="w-50 mx-3" style="text-align: end;padding: 0.5rem">
+                            <label>Name, Address and Phone Number of dump facility or disposal company
+                              <br>
+                              <!-- <span class="pervious-answer">{{this.PCR_History.NF_NFR_Dump_Receipt!=undefined ? this.PCR_History.NF_NFR_Dump_Receipt.NFR_DR_DisposalCompany_Description :""}}</span> -->
+                            </label>
+                            <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"  [ColumnName]="'NF_NFR_Dump_Receipt'" [KeyName]="'NFR_DR_DisposalCompany_Description'"></app-ipl-form-history-label-hover>
+                        </div>
+
+                        <div style="border:1px solid #7e7575"></div>
+                        <div class="w-50">
+                            <div class="mx-3" style="padding: 0.5rem">
+                                <textarea type="text" class="form-control"
+                                    style="width:20rem;height:3rem;"
+                                    [(ngModel)]="nf_nfr_dump_receipt.NFR_DR_DisposalCompany_Description"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-1 form-row" *ngIf="WorkorderId>0">
+              <div class="float-right" (click)="SaveForm()">
+                &nbsp;&nbsp;&nbsp;
+             <button id="client_viewdetail_1" class="btn btn-primary" type="submit"
+                  [disabled]="isLoading">
+                  <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}"></i>
+                  {{button}}</button>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>

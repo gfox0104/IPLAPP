@@ -1,0 +1,95 @@
+
+<div class="container-fluid mt-2" mousekeyboard [ngClass]="{ 'HelpCursor': isHelpActive }" style="padding-left: 10px;
+    min-width: 101%;">
+
+    <div class="row">
+        <div class="col-12">
+
+        <div class="">
+            <h3 class="module-box-header mb-0">Ticket History
+                <a class="pull-right" data-toggle="tooltip" (click)="SetHelpFlag()" data-placement="top" title="Item Help"
+            style="cursor: pointer;"><b>Need Help</b>
+            <i class="fas fa-question"></i>&nbsp;&nbsp;
+          </a>
+            </h3>
+            <div class="module-subheader p-1 pl-2" >
+                <iplapp-icon-button  *ngFor="let button of buttons | slice:0:1; let i=index"
+                    [title]="button.title"
+                    [iclass]="button.iclass"
+                    [routerLink]="button.routerLink"
+                    [param]="button.param" class="mr-1">
+                </iplapp-icon-button>
+
+
+            </div>
+            <kendo-grid class="module-box"
+                [kendoGridBinding]="gridView"
+                kendoGridSelectBy="id"
+                [selectedKeys]="mySelection"
+                [pageSize]="10"
+                [pageable]="true"
+                [sortable]="true"
+                [groupable]="false"
+                [reorderable]="true"
+                [resizable]="true"
+                [columnMenu]="{ filter: true }"
+            >
+
+                <kendo-grid-column width="45"  [columnMenu]="false" [class]="{'text-center': true}">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        <a class="edit"  (click)="showDetails($event, dataItem)" class="k-grid-ignore-click"
+                        title="view Records">
+                        <i class="fa fa-eye ticket_detail"></i>
+                        </a>
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="Sup_Tickets_ID" title="ID" [columnMenu]="false" [width]="100">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        <div class="customer-name">{{ dataItem.Sup_Tickets_ID }} </div>
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="AddDate" title="Date Added" [columnMenu]="false" [width]="200">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        <div class="customer-name">{{ dataItem.AddDate | date: 'MM/dd/yyyy' }}</div>
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="Sup_Tickets_Subject" title="Subject" [columnMenu]="false" [width]="500">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        <div class="customer-name">{{dataItem.Sup_Tickets_Subject}}</div>
+                    </ng-template>
+                </kendo-grid-column>
+
+                <kendo-grid-column
+                    field="Sup_Tickets_Ticket_Status"
+                    title="Status"
+                    [width]="100"
+                    [class]="{'text-center': true}"
+                    [resizable]="false"
+                    [columnMenu]="false"
+                >
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        <span *ngIf="dataItem.Sup_Tickets_Ticket_Status === 1" style="font-size: 12px;" class="badge badge-success">Pending </span>
+                        <span *ngIf="dataItem.Sup_Tickets_Ticket_Status === 2" style="font-size: 12px;" class="badge badge-warning">In development</span>
+                        <span *ngIf="dataItem.Sup_Tickets_Ticket_Status === 3" style="font-size: 12px;" class="badge badge-danger">Closed</span>
+                        <span *ngIf="dataItem.Sup_Tickets_Ticket_Status === 4" style="font-size: 12px;" class="badge badge-info">Open</span>
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="LastUpdate" title="Last Updated" [width]="200" [columnMenu]="false">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        <div class="customer-name">{{dataItem.LastUpdate | date: 'MM/dd/yyyy'}}</div>
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="Sup_Tickets_CreatedBy" title="CreatedBy" [columnMenu]="false" [width]="200">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                        <div class="customer-name">{{dataItem.Sup_Tickets_CreatedBy}}</div>
+                    </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column field="Sup_Tickets_ModifiedBy" title="LastModifiedBy" [columnMenu]="false" [width]="200">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                      <div class="customer-name">{{dataItem.Sup_Tickets_ModifiedBy}}</div>
+                    </ng-template>
+                </kendo-grid-column>
+            </kendo-grid>
+        </div>
+    </div>
+</div>

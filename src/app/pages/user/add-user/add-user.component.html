@@ -1,0 +1,899 @@
+<div class="container-fluid mt-2" [ngClass]="{ 'HelpCursor': isHelpActive }">
+  <h4 class="module-box-header page-title mb-0">Add User
+    <a class="pull-right mr-2" data-toggle="tooltip" (click)="SetHelpFlag()" data-placement="top"
+    title="Item Help" style="cursor: pointer;">Need Help
+    <i class="fas fa-question"></i>&nbsp;&nbsp;
+    </a>
+  </h4>
+
+  <div class="row m-0 pt-2 module-subheader">
+    <div class="col-lg-6">
+      <div class="form-row">
+        <div class="float-right">
+
+          <button id="client_viewdetail_1" class="btn btn-primary" *ngIf="IsEditDisable" (click)="EditForms()">
+            <i class="far fa-edit mr-1"></i> Edit
+          </button>
+          <button id="client_viewdetail_1" class="btn btn-primary" type="submit" (click)="FormButton()"
+            *ngIf="!IsEditDisable" [disabled]="isLoading">
+            <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}"></i>
+            {{button}}
+          </button>
+          <button id="client_viewdetail_1" [routerLink]="['/home/user/viewduser']" class="btn btn-primary"
+            style="margin-left:6px"><i class="fas fa-arrow-alt-circle-left mr-1"></i> Back</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6 buttons">
+      <button type="button" style="margin-bottom: 10px;" class="btn btn-primary">Auto Assign</button>&nbsp;&nbsp;
+      <button type="button" style="margin-bottom: 10px;" class="btn btn-info" [disabled]="docdisable"
+        (click)="addconaddress(ContractorForm)">Coverage Area</button>&nbsp;&nbsp;
+      <button type="button" style="margin-bottom: 10px;" class="btn btn-warning" [disabled]="docdisable"
+        (click)="addconaddress(BackdocForm)">Background check</button>&nbsp;&nbsp;
+      <button class="btn btn-primary" style="color: white; margin-bottom: 10px;" (click)="adddocument(UserdocForm)"
+        [disabled]="docdisable">User Document</button>&nbsp;&nbsp;
+      <button type="button" style="margin-bottom: 10px; background-color: chocolate;"  [disabled]="docdisable"
+      (click)="AccessDeviceDetails(logdevice)"
+        class="btn btn-danger" >User Activity</button>
+    </div>
+  </div>
+  <form [formGroup]="formUsrCommonGroup" (ngSubmit)="FormButton()">
+    <div class="row m-0 mt-1">
+      <div class="col-lg-4 module-box px-2 py-1">
+        <div class="">
+          <div class="form-row">
+            <div class="form-group col-md-12 text-center module-subheader">
+              <h5>User Info </h5>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label class="col-form-label" for="klodfgkridje" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'First Name')">First Name <span style="color: red">*</span></label>
+              <input type="text" [(ngModel)]="AddUserModelObj.User_FirstName" formControlName="FirstName" AlphabetOnly
+                [ngClass]="{ 'is-invalid': submitted && fx.FirstName.errors }" class="form-control form-control-sm"
+                id="klodfgkridje" placeholder="Enter First Name"(click)="DispalyInfo($event,'First Name')"
+                [readonly]="isHelpActive" [ngClass]="{ 'HelpCursor': isHelpActive }">
+              <div *ngIf="submitted && fx.FirstName.errors" class="invalid-feedback">
+                <div *ngIf="fx.FirstName.errors.required">this field is required</div>
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label class="col-form-label" for="klokridje" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Last Name')">Last Name <span style="color: red">*</span></label>
+              <input type="text" [(ngModel)]="AddUserModelObj.User_LastName" formControlName="LastName" AlphabetOnly
+                [ngClass]="{ 'is-invalid': submitted && fx.LastName.errors }" class="form-control form-control-sm"
+                id="klokridje" placeholder="Enter Last Name" (click)="DispalyInfo($event,'Last Name')"
+                [readonly]="isHelpActive" [ngClass]="{ 'HelpCursor': isHelpActive }">
+              <div *ngIf="submitted && fx.LastName.errors" class="invalid-feedback">
+                <div *ngIf="fx.LastName.errors.required">this field is required</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row" *ngFor="let item of FormArrayVal; index as indx">
+            <div class="form-group col-md-3">
+              <label class="col-form-label" for="password1fsfff" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Address')"> Address<span style="color: red">*</span> </label>
+            </div>
+            <div class="form-group col-md-9">
+              <textarea type="text" id="password1fsfff" class="form-control" placeholder="Enter Address..."
+                maxlength="300" [(ngModel)]="item.IPL_Address" formControlName="desaddress"
+                [ngClass]="{ 'is-invalid': submitted && fx.desaddress.errors }"
+                class="form-control form-control-sm" (click)="DispalyInfo($event,'Address')"
+                [readonly]="isHelpActive" [ngClass]="{ 'HelpCursor': isHelpActive }"></textarea>
+              <div *ngIf="submitted && fx.desaddress.errors" class="invalid-feedback">
+                <div *ngIf="fx.desaddress.errors.required">this field is required</div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-3">
+              <label class="col-form-label" for="fsddsfdsssss" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'State')">State <span style="color: red">*</span> </label>
+              <kendo-dropdownlist [defaultItem]="defaultStateItem" [data]="drpStateList" [filterable]="true"
+                [textField]="'IPL_StateName'" [valueField]="'IPL_StateID'" [(ngModel)]="item.IPL_State"
+                (filterChange)="statehandleFilter($event)" (valueChange)="selectChangeHandler($event)"
+                [valuePrimitive]="true" [formControlName]="'desstate'" style="width: 100%;" (click)="DispalyInfo($event,'State')"
+                [readonly]="isHelpActive" [ngClass]="{ 'HelpCursor': isHelpActive }">
+              </kendo-dropdownlist>
+              <div *ngIf="StateValFlag" class="Mydropdown">this field is required</div>
+
+            </div>
+            <div class="form-group col-md-3">
+              <label class="col-form-label" for="fsddsfdsssss" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'County')">County </label>
+              <kendo-dropdownlist [defaultItem]="defaultCountyItem" [data]="drpCountyList" [filterable]="true"
+                [textField]="'COUNTY'" [valueField]="'ID'" [(ngModel)]="item.IPL_County"
+                (filterChange)="CountyFilter($event)" [valuePrimitive]="true" [formControlName]="'descounty'"
+                style="width: 100%;" (click)="DispalyInfo($event,'County')"
+                [readonly]="isHelpActive" [ngClass]="{ 'HelpCursor': isHelpActive }">
+              </kendo-dropdownlist>
+            </div>
+
+            <div class="form-group col-md-3">
+              <label class="col-form-label" for="kjhgsdff" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'City')"> City <span style="color: red">*</span></label>
+              <input type="text" id="kjhgsdff" class="form-control form-control-sm" placeholder="Enter City"
+                [(ngModel)]="item.IPL_City" formControlName="descity"
+                [ngClass]="{ 'is-invalid': submitted && fx.descity.errors }" (click)="DispalyInfo($event,'City')"
+                [readonly]="isHelpActive" [ngClass]="{ 'HelpCursor': isHelpActive }">
+              <div *ngIf="submitted && fx.descity.errors" class="invalid-feedback">
+                <div *ngIf="fx.descity.errors.required">this field is required</div>
+              </div>
+            </div>
+
+
+            <div class="form-group col-md-3">
+              <label class="col-form-label" for="ufdrr" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Zip')"> Zip <span style="color: red">*</span> </label>
+              <input type="text" id="ufdrr" class="form-control form-control-sm" placeholder="Enter Zip" numbersOnly
+                maxlength="6" [(ngModel)]="item.IPL_Primary_Zip_Code" (blur)="onBlurZipCall()"
+                (change)="BindZipAddress(item.IPL_Primary_Zip_Code)"
+                [ngClass]="{ 'is-invalid': submitted && fx.deszip.errors }" class="form-control form-control-sm"
+                formControlName="deszip" (click)="DispalyInfo($event,'Zip')"
+                [readonly]="isHelpActive" [ngClass]="{ 'HelpCursor': isHelpActive }">
+              <div *ngIf="submitted && fx.deszip.errors" class="invalid-feedback">
+                <div *ngIf="fx.deszip.errors.required">this field is required</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label class="col-form-label" for="Companyx" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Company')">Company </label>
+            </div>
+            <div class="form-group col-md-8">
+              <input type="text" id="Companyx" class="form-control form-control-sm" placeholder="Enter Company Name"
+                [(ngModel)]="AddUserModelObj.User_CompanyName" formControlName="descomp" (click)="DispalyInfo($event,'Company')"
+                [readonly]="isHelpActive" [ngClass]="{ 'HelpCursor': isHelpActive }">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label class="col-form-label" for="Vendo" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Vendor ID')">Vendor ID </label>
+            </div>
+            <div class="form-group col-md-8">
+              <input type="text" id="Vendo" class="form-control form-control-sm" placeholder="Enter Vendo ID"
+                [(ngModel)]="AddUserModelObj.User_VendoID" formControlName="vendo_id" (click)="DispalyInfo($event,'Vendor ID')"
+                [readonly]="isHelpActive" [ngClass]="{ 'HelpCursor': isHelpActive }">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label class="col-form-label" for="kgdfgseds" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Email ID')">Email ID <span style="color: red">*</span></label>
+            </div>
+            <div class="form-group col-md-8">
+              <input type="text" class="form-control form-control-sm" id="kgdfgseds" placeholder="Enter Email ID"
+                [(ngModel)]="AddUserModelObj.User_Email" formControlName="EmailVal"
+                [ngClass]="{ 'is-invalid': submitted && fx.EmailVal.errors }" (click)="DispalyInfo($event,'Email ID')"
+                [readonly]="isHelpActive" [ngClass]="{ 'HelpCursor': isHelpActive }">
+              <div *ngIf="submitted && fx.EmailVal.errors" class="invalid-feedback">
+                <div *ngIf="fx.EmailVal.errors.required">this field is required</div>
+                <div *ngIf="fx.EmailVal.errors.email">Email must be a valid email address</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label class="col-form-label" for="confirm1d" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Cell Phone')">Cell Phone </label>
+            </div>
+            <div class="form-group col-md-8">
+              <input type="text" id="confirm1d" class="form-control form-control-sm" placeholder="Enter Cell No."
+                numbersOnly [(ngModel)]="AddUserModelObj.User_CellNumber" formControlName="desphone" (click)="DispalyInfo($event,'Cell Phone')"
+                [readonly]="isHelpActive" [ngClass]="{ 'HelpCursor': isHelpActive }">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label class="col-form-label" for="Compandwayfx" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Login Name')"><span>Login Name<span style="color: red">*</span></span>
+              </label>
+            </div>
+            <div class="form-group col-md-8">
+              <input type="text" id="Compandwayfx" [readonly]="UserNameReadOnly" class="form-control form-control-sm"
+                placeholder="Enter Login Name" [(ngModel)]="AddUserModelObj.User_LoginName"
+                formControlName="LoginNameVal" (focusout)="onBlurUserName()"
+                [ngClass]="{ 'is-invalid': submitted && fx.LoginNameVal.errors }" (click)="DispalyInfo($event,'Login Name')"
+                [readonly]="isHelpActive" [ngClass]="{ 'HelpCursor': isHelpActive }">
+              <div *ngIf="submitted && fx.LoginNameVal.errors" class="invalid-feedback">
+                <div *ngIf="fx.LoginNameVal.errors.required">this field is required</div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label class="col-form-label" for="password1cf" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Password')"> Password <span style="color: red">*</span></label>
+            </div>
+            <div class="form-group col-md-8 input-group">
+              <input type="password" id="password1cf" class="form-control form-control-sm"
+                placeholder="Enter Password (minimun 6 char..)" [(ngModel)]="AddUserModelObj.User_Password"
+                formControlName="PasswordVal" [ngClass]="{ 'is-invalid': submitted && fx.PasswordVal.errors }" (click)="DispalyInfo($event,'Password')"
+                [readonly]="isHelpActive" [ngClass]="{ 'HelpCursor': isHelpActive }" [type]="fieldTextType ? 'text' : 'password'">
+                <span  style="
+                margin: 1px;
+                position: absolute;
+                z-index: 9999;
+                right: 6px;
+                margin-top: 7px;
+            ">
+                  <i
+                  class="fa"
+                  [ngClass]="{
+                    'fa-eye-slash': !fieldTextType,
+                    'fa-eye': fieldTextType
+                  }"
+                  (click)="toggleFieldTextType()"
+                ></i>
+                </span>
+              <div *ngIf="submitted && fx.PasswordVal.errors" class="invalid-feedback">
+                <div *ngIf="fx.PasswordVal.errors.required">this field is required</div>
+                <div *ngIf="fx.PasswordVal.errors.minlength">
+                  Password must be 6 or more characters in length<br> </div>
+                <div *ngIf="fx.PasswordVal.errors.pattern">
+                  Password must contain 1 or more Alphabet characters [A-Z / a-z]<br>
+                  Password must contain 1 or more Special characters
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row" *ngIf="IsPasswordDisable">
+            <a style="cursor: pointer;color:blue" (click)="generatePassword()">Generate Password</a> &nbsp; &nbsp;
+            <span style="color: green" *ngIf="Passcode">New Password:- {{Passcode}}</span>
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" [(ngModel)]="AddUserModelObj.User_IspassSent"
+              [ngClass]="{ 'HelpCursor': isHelpActive }" formControlName="User_IspassSent"
+                    class="custom-control-input" id="passw" >
+              <label class="custom-control-label" for="passw"><small>Email New Password
+                  (Only enter when adding a new account
+                  or to change password of existing account.)</small> </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4 ">
+        <div class="divbox">
+          <div class="module-box px-2 py-1" style="height: 50%;">
+            <div class="form-row">
+              <div class="form-group col-md-12 text-center module-subheader">
+                <h5>Time Zone and Tracking</h5>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label class="col-form-label" for="Activesdfdsf" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Time Zone')">Time Zone </label>
+                <select id="Activesdfdsf" class="form-control form-control-sm" formControlName="disZone"
+                  [(ngModel)]="AddUserModelObj.User_Tme_Zone" (change)="TimeVal_Method();" (click)="DispalyInfo($event,'Time Zone ')"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }">
+                  <option value='0'>select</option>
+                  <option [ngValue]="kb.Id" *ngFor="let kb of TimeList">
+                    {{kb.Name}}
+                  </option>
+                </select>
+              </div>
+              <div class="form-group col-md-6">
+                <label class="col-form-label" for="Discounscst" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Discount')"> Discount % </label>
+                <input type="text" id="Discounscst" class="form-control form-control-sm" (keypress)="validate($event)"
+                  formControlName="disdiscount" placeholder="Enter Discount"
+                  [(ngModel)]="AddUserModelObj.User_Disc_percentage" (click)="DispalyInfo($event,'Discount')"
+                  [readonly]="isHelpActive" [ngClass]="{ 'HelpCursor': isHelpActive }">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" [(ngModel)]="AddUserModelObj.User_Tracking" formControlName="usertrack"
+                    class="custom-control-input" id="track" (change)="usertracktime(AddUserModelObj.User_Tracking)"  [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'User Tracking')">
+                  <label class="custom-control-label" for="track" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                  (click)="DispalyInfo($event,'User Tracking')">User Tracking </label>
+                </div>
+              </div>
+              <div class="form-group col-md-6">
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" [(ngModel)]="AddUserModelObj.User_IsActive" formControlName="useractive"
+                    class="custom-control-input" id="active" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'User Active')">
+                  <label class="custom-control-label" for="active" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                  (click)="DispalyInfo($event,'User Active')">User Active </label>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="form-row" [hidden]="usertrackOn">
+              <div class="form-group col-md-6">
+                <label class="col-form-label" for="Tracking" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'User Tracking Time')">User Tracking Time </label>
+                <select id="Tracking" class="form-control form-control-sm" formControlName="Trackingval"
+                  [(ngModel)]="AddUserModelObj.User_Tracking_Time" (click)="DispalyInfo($event,'User Tracking Time')"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }">
+                  <option value='0'>select</option>
+                  <option [ngValue]="kb.Id" *ngFor="let kb of UserTimeList">
+                    {{kb.Name}}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="module-box px-2 py-1" style="height: 48%; margin-top: 3%;">
+            <div class="form-row">
+              <div class="form-group col-md-12 text-center module-subheader">
+                <h5>Comments</h5>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-12">
+                <div class="custom-checkbox">
+                  <div class="form-row">
+                    <div class="form-group col-md-12">
+                      <label class="col-form-label" for="iHGnputCityrfDatew" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Comments')">Comments/Notes</label>
+                      <textarea type="text" class="form-control form-control-sm" id="iHGnputCityrfDatew" rows="4"
+                        formControlName="discom" [(ngModel)]="AddUserModelObj.User_Comments"
+                        placeholder="Enter Comments..." (click)="DispalyInfo($event,'Comments')"
+                        [readonly]="isHelpActive" [ngClass]="{ 'HelpCursor': isHelpActive }" > </textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 p-0">
+        <div style="width: 100%; height: 100%;">
+          <div class="module-box px-2 py-1" style="height: 87%;max-height: 87%;overflow-y: auto;">
+            <div class="form-row">
+              <div class="form-group col-md-12 text-center module-subheader">
+                <h5>User Type And Order Access </h5>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-4">
+                <label class="col-form-label" for="CompanyxtGroup" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Group')">Group <span style="color: red">*</span></label>
+              </div>
+              <div class="form-group col-md-8">
+                <select formControlName="GroupVal" id="CompanyxtGroup" class="form-control form-control-sm"
+                  [(ngModel)]="AddUserModelObj.User_Group" (change)="Group_Method(AddUserModelObj.User_Group);"
+                  [ngClass]="{ 'is-invalid': fx.GroupVal.touched && fx.GroupVal.errors }" (click)="DispalyInfo($event,'Group')"
+                   [ngClass]="{ 'HelpCursor': isHelpActive }">
+                  <option value='0'>select</option>
+                  <option [ngValue]="kb.Grp_pkeyID" *ngFor="let kb of GroupList">
+                    {{kb.Grp_Name}}
+                  </option>
+                </select>
+                <div *ngIf="GroupValFlag" class="Mydropdown">this field is required</div>
+              </div>
+            </div>
+
+            <!--Contractor categary-->
+            <div class="form-row" [hidden]="concateflg">
+              <div class="form-group col-md-4">
+                <label class="col-form-label" for="concat" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Contractor Category')">Contractor Category </label>
+              </div>
+              <div class="form-group col-md-8">
+                <select formControlName="ConcatVal" id="concat" class="form-control form-control-sm" (click)="DispalyInfo($event,'Address')"
+                 [ngClass]="{ 'HelpCursor': isHelpActive }"
+                  [(ngModel)]="AddUserModelObj.User_Con_Cat_Id">
+                  <option value='0'>select</option>
+                  <option [ngValue]="kb.Con_Cat_PkeyID" *ngFor="let kb of ConCatList">
+                    {{kb.Con_Cat_Name}}
+                  </option>
+                </select>
+
+              </div>
+
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-12 text-center">
+                <h5>User List </h5>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-4">
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" [(ngModel)]="AddUserModelObj.User_Cordinator" formControlName="discordinator"
+                    class="custom-control-input" id="jhdfrg" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Cordinator')">
+                  <label class="custom-control-label" for="jhdfrg" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                  (click)="DispalyInfo($event,'Cordinator')">Coordinator</label>
+                </div>
+              </div>
+              <div class="form-group col-md-4">
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" [(ngModel)]="AddUserModelObj.User_Processor" formControlName="disprocessor"
+                    class="custom-control-input" id="jhdffsrg" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Processor')">
+                  <label class="custom-control-label" for="jhdffsrg" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                  (click)="DispalyInfo($event,'Processor')">Processor </label>
+                </div>
+              </div>
+              <div class="form-group col-md-4">
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" [(ngModel)]="AddUserModelObj.User_Contractor" formControlName="discontractor"
+                    class="custom-control-input" id="ufhrgd" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Contractor')">
+                  <label class="custom-control-label" for="ufhrgd" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                  (click)="DispalyInfo($event,'Contractor')">Contractor </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-7">
+                <label class="col-form-label" for="gessfdfsfs" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Open Order Display Criteria')">Open Order Display Criteria </label>
+              </div>
+              <div class="form-group col-md-5">
+                <select id="gessfdfsfs" class="form-control form-control-sm" (click)="DispalyInfo($event,'Open Order Display Criteria')"
+               [ngClass]="{ 'HelpCursor': isHelpActive }"
+                  [(ngModel)]="AddUserModelObj.User_OpenOrderDisCriteria" formControlName="disCriteria">
+                  <option value='0'>select</option>
+                  <option [ngValue]="kb.Id" *ngFor="let kb of  OrderDisplayList">
+                    {{kb.Name}}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-12">
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" [(ngModel)]="AddUserModelObj.User_PastWorkOrder" formControlName="disorder"
+                    class="custom-control-input" (change)="onWorkOrderChanged($event)" id="uferwhrgd" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Display past work order')">
+                  <label class="custom-control-label" for="uferwhrgd" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                  (click)="DispalyInfo($event,'Display past work order')">Display past work order </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-7">
+                <label class="col-form-label" for="jfgrdrrd" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Past work Order Criteria')">Past work Order Criteria </label>
+              </div>
+              <div class="form-group col-md-5">
+                <select id="jfgrdrrd" class="form-control form-control-sm" (click)="DispalyInfo($event,'Past work Order Criteria')"
+                 [ngClass]="{ 'HelpCursor': isHelpActive }"
+                  [(ngModel)]="AddUserModelObj.User_PastOrderDisCriteria" formControlName="dispast">
+                  <option value='0'>select</option>
+                  <option [ngValue]="kb.Id" *ngFor="let kb of PastOrderDisplayList">
+                    {{kb.Name}}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-12">
+                <label class="col-form-label" for="Assigned" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Select Client assigned to user')">Select Client assigned to user</label>
+                <ng-multiselect-dropdown class="ngselect" [placeholder]="'Select client'" [data]="dropdownList"
+                  [(ngModel)]="selectedItems" formControlName="disuser" [settings]="dropdownSettings"
+                  (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                  (click)="DispalyInfo($event,'Select Client assigned to user')">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-12 text-center">
+                  <div class="">
+                    <div class="">
+                      <div>
+                        <label>
+                          <div *ngIf="AddUserModelObj.User_ImagePath == null">
+                            <img src="../../assets/images/users/userAvatar.png" style="border-radius:50%">
+                          </div>
+                          <div *ngIf="AddUserModelObj.User_ImagePath != null">
+                            <img [src]="AddUserModelObj.User_ImagePath "
+                              style="border-radius:50%; height: 158px; width: 164px;">
+                          </div>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+          <div class="module-box p-2" style="height: 20%; margin-top: 3%;">
+            <div class="form-row">
+              <div class="float-right">
+                <label for="InvestmentSihhhze" *ngIf="formUsrCommonGroup.invalid" style="color:red">*
+                  Field is Required
+                </label> <br>
+                <button id="client_viewdetail_1" class="btn btn-primary" *ngIf="IsEditDisable" (click)="EditForms()">
+                  <i class="far fa-edit mr-1"></i> Edit
+                </button>
+                <button id="client_viewdetail_1" class="btn btn-primary" type="submit" *ngIf="!IsEditDisable"
+                  [disabled]="isLoading">
+                  <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}"></i>
+                  {{button}}
+                </button>
+                <button id="client_viewdetail_1" [routerLink]="['/home/user/viewduser']" class="btn btn-primary"
+                  style="margin-left:6px"><i class="fas fa-arrow-alt-circle-left mr-1"></i> Back</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<ng-template #UserdocForm let-modal>
+  <div class="modal-header">
+    <div>
+      <h4>User Documents</h4>
+    </div>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="module-box p-2">
+            <div class="row m-0">
+              <div class="form-group col-md-12 text-center module-subheader">
+                <h5 style="color: black;">Enter User Documents </h5>
+              </div>
+            </div>
+            <form [formGroup]="formUsrCommonGroup" (ngSubmit)="DocumentUpload()">
+              <div class="row">
+                <div class="col-4">
+                  <span><strong>Document Name</strong> </span>
+                  <input type="text" class="form-control form-control-sm" placeholder="Enter Document Name"
+                    [(ngModel)]="WorkOrderCustomizeObj.wo_Custo_DocType" formControlName="disdocname">
+                </div>
+                <div class="col-4">
+                  <span><strong>Received Date</strong> </span>
+                  <div class="input-group">
+                    <label class="form-control form-control-sm">{{ WorkOrderCustomizeObj.wo_Custo_RecievedDate |
+                      date:'MM/dd/yyyy' }}
+                      <span *ngIf="!WorkOrderCustomizeObj.wo_Custo_RecievedDate">Enter Date</span> </label>
+                    <input class="form-control form-control-sm" placeholder="yyyy-mm-dd"
+                      [(ngModel)]="WorkOrderCustomizeObj.wo_Custo_RecievedDate" formControlName="disrecdate"
+                      ngbDatepicker #dt1="ngbDatepicker" firstDayOfWeek="7" style="display: none">
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-info btn-xs" (click)="dt1.toggle()" type="button"><i
+                          class="fas fa-calendar-alt"></i></button>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <span><strong>Expire Date</strong> </span>
+                  <div class="input-group">
+                    <label class="form-control form-control-sm">{{ WorkOrderCustomizeObj.wo_Custo_ExpDate |
+                      date:'MM/dd/yyyy' }}
+                      <span *ngIf="!WorkOrderCustomizeObj.wo_Custo_ExpDate">Enter Date</span> </label>
+                    <input class="form-control form-control-sm" placeholder="yyyy-mm-dd"
+                      [(ngModel)]="WorkOrderCustomizeObj.wo_Custo_ExpDate" formControlName="disexcdate" ngbDatepicker
+                      #dt2="ngbDatepicker" firstDayOfWeek="7" style="display: none">
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-info btn-xs" (click)="dt2.toggle()" type="button"><i
+                          class="fas fa-calendar-alt"></i></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <div class="row">
+                <div class="col-4">
+                  <span><strong>Notification Date</strong></span>
+                  <div class="input-group">
+                    <label class="form-control form-control-sm">{{ WorkOrderCustomizeObj.wo_Custo_NotificationDate |
+                      date:'MM/dd/yyyy' }}
+                      <span *ngIf="!WorkOrderCustomizeObj.wo_Custo_NotificationDate">Enter Date</span> </label>
+                    <input class="form-control form-control-sm" placeholder="yyyy-mm-dd"
+                      [(ngModel)]="WorkOrderCustomizeObj.wo_Custo_NotificationDate" formControlName="disnotdate"
+                      ngbDatepicker #dt3="ngbDatepicker" firstDayOfWeek="7" style="display: none">
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-info btn-xs" (click)="dt3.toggle()" type="button"><i
+                          class="fas fa-calendar-alt"></i></button>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <span><strong>Sent alert to user</strong></span>
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" [(ngModel)]="WorkOrderCustomizeObj.wo_Custo_AlertUser"
+                      formControlName="disalt" class="custom-control-input" id="gdfgfdgfd">
+                    <label class="custom-control-label" for="gdfgfdgfd"></label>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <span><strong>Select File</strong></span>
+                  <input type="file" class="form-control form-control-sm" id="qwrtLogoereCityr" title="Select File..."
+                    (change)="processImage($event)" formControlName="imageInput">
+                </div>
+              </div>
+              <br>
+              <div class="form-row">
+                <button id="client_viewdetail_1" class="btn btn-primary"><i
+                    [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}"
+                    class="fas fa-plus-circle mr-1"></i>{{ContactBtn}}</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-lg-12">
+          <div class="module-box p-2">
+            <div class="form-row">
+              <div class="form-group col-md-12 text-center module-subheader">
+                <h5 style="color: black;">User Document </h5>
+              </div>
+              <div class="form-group col-md-12">
+                <table class="table">
+                  <tr>
+                    <th>Doc Name</th>
+                    <th>Exp Date</th>
+                    <th>View</th>
+                    <th>Remove</th>
+                  </tr>
+                  <tr *ngFor="let item of multipledocPost;index as indx">
+                    <td>
+                      {{item.User_Doc_ValType}}
+                    </td>
+                    <td>{{item.User_Doc_Exp_Date|date:'shortDate'}}</td>
+                    <td>
+                      <a href="{{BaseURLpath}}{{item.User_Doc_DocPath}}" title="click to open document new tab"
+                        style="color:blue;cursor:pointer" target="_blank"> preview document</a>
+                    </td>
+                    <td><a style="cursor: pointer" (click)="DeleteDocFile(indx,item)"><i class="fas fa-trash"></i></a>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</ng-template>
+<ng-template #BackdocForm let-modal>
+  <div class="modal-header">
+    <div>
+      <h4>Background check</h4>
+    </div>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container">
+      <div class="col-lg-12">
+        <div class="module-box p-2">
+          <div class="row m-0">
+            <div class="col-md-12 text-center module-subheader">
+              <h5 style="color: black;">Background check </h5>
+            </div>
+          </div>
+          <br>
+          <form [formGroup]="formUsrCommonGroup" (ngSubmit)="backgrounUpload()">
+            <div class="row">
+              <div class="col-md-3">
+                <label class="col-form-label" for="fsdsgsgdgssss"> Background check Provider </label>
+              </div>
+              <div class="col-md-3">
+                <select id="fsdsgsgdgssss" class="form-control form-control-sm"
+                  [(ngModel)]="AddUserModelObj.User_BackgroundCheckProvider" formControlName="disProvider">
+                  <option value='0'>select</option>
+                  <option [ngValue]="kb.Back_Chk_ProviderID" *ngFor="let kb of BackgroundCheckProviderList">
+                    {{kb.Back_Chk_ProviderName}}
+                  </option>
+                </select>
+              </div>
+              <div class="col-md-3">
+                <label class="col-form-label" for="hgdfgfdgdb">Background check #/ID </label>
+              </div>
+              <div class="col-md-3">
+                <input type="text" id="hgdfgfdgdb" class="form-control form-control-sm" placeholder="Enter ID"
+                  [(ngModel)]="AddUserModelObj.User_BackgroundCheckId" formControlName="disID">
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-md-3">
+                <label class="col-form-label" for="fdsfdsfsdfddfg">Select File </label>
+              </div>
+              <div class="col-md-3">
+                <input #imageInputBackground type="file" class="form-control" id="fdsfdsfsdfddfg" title="Select File..."
+                  (change)="processImageBackground(imageInputBackground)" accept="image/*" formControlName="imageInput">
+              </div>
+            </div>
+
+            <div class="row" *ngIf="imgpath">
+              <div class="col-md-6"></div>
+              <div class="col-md-6">
+                <!-- <a href="{{imgpath}}" title="click to open document new tab" style="color:blue;cursor:pointer"
+             target="_blank"> preview document</a> -->
+                <img [src]="imgpath" style="width: 274px;" alt="company logo" class="img-thumbnail">
+              </div>
+            </div>
+            <hr>
+            <div class="row ml-2">
+              <button type="submit" class="btn btn-primary">
+                <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}"></i>
+                {{button}}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</ng-template>
+
+
+<ng-template #ContractorForm let-modal>
+  <div class="modal-header">
+    <div>
+      <h4>Contractor Map</h4>
+    </div>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container">
+      <div >
+        <div class="form-row">
+          <div class="form-group col-md-12 text-center" style="color: black;background-color: #9b9b9b;">
+            <h5 style="color:black;">Contractor Map </h5>
+          </div>
+        </div>
+        <br>
+        <form>
+
+          <table style="text-align: center;" style="border:1px">
+            <thead>
+              <tr>
+                <th>State</th>
+                <th>&nbsp;&nbsp;</th>
+                <th>County</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="example-wrapper">
+                    <kendo-dropdownlist [data]="ConstateList" [filterable]="true" [textField]="'IPL_StateName'"
+                      [valueField]="'IPL_StateID'" (filterChange)="handleFilter($event)"
+                      (selectionChange)="changestate($event)">
+                    </kendo-dropdownlist>
+                  </div>
+                  <div *ngIf="isStateInValid" class="Mydropdown">this field is required</div>
+                  <!-- [(ngModel)]="item.Cont_Coverage_Area_State_Id" [ngModelOptions]="{standalone: true}"-->
+                </td>
+                <td>&nbsp;&nbsp;</td>
+                <td>
+                  <div class="example-wrapper">
+                    <kendo-dropdownlist [data]="County" [filterable]="true" [textField]="'COUNTY'" [valueField]="'ID'"
+                      (filterChange)="CountyhandleFilter($event)" (selectionChange)="changeCounty($event)">
+                    </kendo-dropdownlist>
+                    <div *ngIf="isCountyInValid" class="Mydropdown">this field is required</div>
+                  </div>
+                  <!-- [(ngModel)]="item.Cont_Coverage_Area_County_Id" [ngModelOptions]="{standalone: true}"-->
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <br>
+          <hr>
+          <label><strong>Zip Code</strong></label>
+          <kendo-grid #gridUser [kendoGridBinding]="griddata" [pageSize]="10" [pageable]="true" [sortable]="true"
+            [filterable]="true" [selectable]="true" [groupable]="false" [skip]="state.skip" [sort]="state.sort"
+            [filter]="state.filter" (dataStateChange)="dataStateChange($event)">
+
+            <kendo-grid-column field="Zip_state_id" title="State"
+              [headerStyle]="{'background-color': '#323232','color': '#fff','line-height': '1em'}" [width]="200">
+            </kendo-grid-column>
+            <kendo-grid-column field="Zip_county_name" title="County"
+              [headerStyle]="{'background-color': '#323232','color': '#fff','line-height': '1em'}" [width]="200">
+            </kendo-grid-column>
+            <kendo-grid-column field="Zip_zip" title="Zip"
+              [headerStyle]="{'background-color': '#323232','color': '#fff','line-height': '1em'}" [width]="200">
+            </kendo-grid-column>
+            <kendo-grid-column field="Cont_Coverage_Area_IsActive" title="Active"
+              [headerStyle]="{'background-color': '#323232','color': '#fff','line-height': '1em'}" [width]="80"
+              filter="boolean">
+              <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+                <div style="padding-left: 4px;">
+                  <input type="checkbox" (change)="checkRowAll()" />
+                </div>
+              </ng-template>
+              <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                <div style="text-align: center;">
+                  <input type="checkbox" [(ngModel)]="dataItem.Cont_Coverage_Area_IsActive"
+                    [ngModelOptions]="{standalone: true}"
+                    (change)="checkzipRow(dataItem.Cont_Coverage_Area_IsActive, dataItem,rowIndex)" />
+                </div>
+              </ng-template>
+            </kendo-grid-column>
+            <!-- -->
+            <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+              <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+              <kendo-pager-numeric-buttons [buttonCount]="10"></kendo-pager-numeric-buttons>
+              <kendo-pager-next-buttons></kendo-pager-next-buttons>
+              <kendo-pager-info></kendo-pager-info>
+              <kendo-pager-page-sizes [pageSizes]="[15, 30, 50, 100]"></kendo-pager-page-sizes>
+            </ng-template>
+          </kendo-grid>
+          <br>
+          <hr>
+          <div class="row">
+            <div class="col-2">
+              <input type="text" class="form-control" placeholder="Enter Zip" [(ngModel)]="CountyZipModelObj.Zip_zip"
+                [ngModelOptions]="{standalone: true}">
+            </div>
+            <div class="col-2">
+              <button class="btn btn-primary" (click)='storezip()'><i class="fas fa-plus-circle"></i> Add More</button>
+
+            </div>
+          </div>
+
+
+
+          <br>
+          <div class="row">
+            <div class="col-md-2">
+              <input type="submit" class="btn btn-primary" (click)='SubmitConMap()' value="Save">&nbsp;&nbsp;
+              <button class="btn btn-primary" (click)='closeModal()'>Close</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+</ng-template>
+
+<!--Device details model-->
+<ng-template #logdevice let-modal>
+  <div class="modal-header">
+    <div>
+      <h4></h4>
+    </div>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container">
+      <kendo-grid #gridUser [kendoGridBinding]="AccessDevicelist" [pageSize]="10" [pageable]="true" [sortable]="true"
+      [filterable]="true" [selectable]="true" [groupable]="false" [skip]="state.skip" [sort]="state.sort"
+      [filter]="state.filter" (dataStateChange)="dataStateChange($event)">
+
+      <kendo-grid-column field="User_Acc_Log_UserName" title="User Name"
+        [headerStyle]="{'background-color': '#323232','color': '#fff','line-height': '1em'}" [width]="200">
+      </kendo-grid-column>
+      <kendo-grid-column field="User_Acc_Log_Logged_In" title="Logged In"
+        [headerStyle]="{'background-color': '#323232','color': '#fff','line-height': '1em'}" [width]="200">
+      </kendo-grid-column>
+      <kendo-grid-column field="User_Acc_Log_Logged_Out" title="Logged Out"
+        [headerStyle]="{'background-color': '#323232','color': '#fff','line-height': '1em'}" [width]="200">
+      </kendo-grid-column>
+      <kendo-grid-column field="User_Acc_Log_Device_Name" title="Device"
+      [headerStyle]="{'background-color': '#323232','color': '#fff','line-height': '1em'}" [width]="200">
+    </kendo-grid-column>
+
+      <!-- -->
+      <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+        <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+        <kendo-pager-numeric-buttons [buttonCount]="10"></kendo-pager-numeric-buttons>
+        <kendo-pager-next-buttons></kendo-pager-next-buttons>
+        <kendo-pager-info></kendo-pager-info>
+        <kendo-pager-page-sizes [pageSizes]="[15, 30, 50, 100]"></kendo-pager-page-sizes>
+      </ng-template>
+    </kendo-grid>
+
+    </div>
+  </div>
+
+
+</ng-template>

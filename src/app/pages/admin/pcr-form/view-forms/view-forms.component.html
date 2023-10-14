@@ -1,0 +1,236 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="">
+            <div class="col-12">
+                <div class="row m-0 module-box-header">
+                    <h4 class="page-title" style="font-weight: bolder">Form List</h4>
+                    <hr>
+                    <button type="submit" id="SaveForm" (click)="SaveForm()"  class="btn btn-primary mr-1 h35" [routerLink]="['../new-form']">
+                        <i class="fas fa-plus-circle"></i>
+                        New Form</button>
+
+                    <button type="submit" id="ViewForm" class="btn btn-primary mr-1 h35"
+                        (click)="docsupload(importForm);">
+                        <i class="fas fa-plus-circle"></i>
+                        Import Form</button>
+
+                    <button type="submit" id="Back" (click)="clickBack()" class="btn btn-primary mr-1 h35">
+                        <i class="fas fa-arrow-alt-circle-left"></i>
+                        Back</button>
+
+                </div>
+                <!-- <div class="form-row mt-3">
+
+                    </div> -->
+                    <!-- <iplapp-content-header title="" [buttons]="buttons" (clickButton)="checkButtonEvent($event,addForm)" ></iplapp-content-header> -->
+                    <div class="module-subheader p-1 pl-2">
+                      <iplapp-filter-form [modelObj]="formsMasterModelObject" [formFilters]="CustomFormFilters"
+                      (filterCall)="filterCall()" (clearData)="clearData()" (saveFilterData)="saveFilterData()">
+                      </iplapp-filter-form>
+                    </div>
+
+                    <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="default" color="#fff" type="timer" [fullScreen]="true">
+                        <p style="color: white">Loading...</p>
+                      </ngx-spinner>
+                <div class="row m-0 module-box">
+                    <kendo-grid #gridUser [kendoGridBinding]="gridData" [pageSize]="25" [pageable]="true"
+                        [sortable]="true" [filterable]="false" [selectable]="true" [groupable]="false"
+                        [skip]="state.skip" [sort]="state.sort" [filter]="state.filter"
+                        (dataStateChange)="dataStateChange($event)">
+                        <kendo-grid-column field="FormName" title="Form Name" [width]="150">
+                        </kendo-grid-column>
+                        <!-- <kendo-grid-column title="Version" [width]="200">
+                            <ng-template kendoGridCellTemplate let-dataItem let-i="rowIndex">
+                                2
+                            </ng-template>
+                        </kendo-grid-column> -->
+                        <kendo-grid-column field="Form_Version_No" title="Version"[width]="50">
+                        </kendo-grid-column>
+
+                        <kendo-grid-column field="IsRequired" title="Required" [width]="80" filter="boolean">
+                            <ng-template kendoGridCellTemplate let-dataItem let-i="rowIndex">
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" (change)="checkChange($event,dataItem.FormId,3)"
+                                        class="custom-control-input" id="switchIsRequired{{i}}"
+                                        [checked]="dataItem.IsRequired">
+                                    <label class="custom-control-label" for="switchIsRequired{{i}}"></label>
+                                </div>
+                            </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column field="Form_IsVisible" title="Active" [width]="80" filter="boolean">
+                            <ng-template kendoGridCellTemplate let-dataItem let-i="rowIndex">
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" (change)="checkChange($event,dataItem.FormId,1)"
+                                        class="custom-control-input" id="switchisActive{{i}}"
+                                        [checked]="dataItem.Form_IsVisible">
+                                    <label class="custom-control-label" for="switchisActive{{i}}"></label>
+                                </div>
+                            </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column field="OfficeResults" title="Office Results" [width]="80"
+                            filter="boolean">
+                            <ng-template kendoGridCellTemplate let-dataItem let-i="rowIndex">
+                                <div class="custom-control custom-switch" *ngIf="dataItem.Form_IsVisible">
+                                    <input type="checkbox" (change)="checkChange($event,dataItem.FormId,4)"
+                                        class="custom-control-input" id="switchOfficeResults{{i}}"
+                                        [checked]="dataItem.OfficeResults">
+                                    <label class="custom-control-label" for="switchOfficeResults{{i}}"></label>
+                                </div>
+                                <div class="custom-control custom-switch" *ngIf="!dataItem.Form_IsVisible">
+                                    <input type="checkbox" [disabled]="true"
+                                        (change)="checkChange($event,dataItem.FormId,4)" class="custom-control-input"
+                                        id="switchOfficeResults{{i}}" [checked]="dataItem.OfficeResults">
+                                    <label class="custom-control-label" for="switchOfficeResults{{i}}"></label>
+                                </div>
+                            </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column field="FieldResults" title="Field Results" [width]="80"
+                            filter="boolean">
+                            <ng-template kendoGridCellTemplate let-dataItem let-i="rowIndex">
+                                <div class="custom-control custom-switch" *ngIf="dataItem.Form_IsVisible">
+                                    <input type="checkbox" (change)="checkChange($event,dataItem.FormId,5)"
+                                        class="custom-control-input" id="switchFieldResults{{i}}"
+                                        [checked]="dataItem.FieldResults">
+                                    <label class="custom-control-label" for="switchFieldResults{{i}}"></label>
+                                </div>
+                                <div class="custom-control custom-switch" *ngIf="!dataItem.Form_IsVisible">
+                                    <input type="checkbox" [disabled]="true"
+                                        (change)="checkChange($event,dataItem.FormId,5)" class="custom-control-input"
+                                        id="switchFieldResults{{i}}" [checked]="dataItem.FieldResults">
+                                    <label class="custom-control-label" for="switchFieldResults{{i}}"></label>
+                                </div>
+                            </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column field="Form_IsPublished" title="Published" [width]="80"
+                            filter="boolean">
+                            <ng-template kendoGridCellTemplate let-dataItem let-i="rowIndex">
+                                <div class="custom-control custom-switch" *ngIf="dataItem.Form_IsVisible">
+                                    <input type="checkbox" (change)="checkChange($event,dataItem.FormId,6)"
+                                        class="custom-control-input" id="switchPublish{{i}}"
+                                        [checked]="dataItem.Form_IsPublished">
+                                    <label class="custom-control-label" for="switchPublish{{i}}"></label>
+                                </div>
+                                <div class="custom-control custom-switch" *ngIf="!dataItem.Form_IsVisible">
+                                    <input type="checkbox" [disabled]="true"
+                                        (change)="checkChange($event,dataItem.FormId,6)" class="custom-control-input"
+                                        id="switchPublish{{i}}" [checked]="dataItem.Form_IsPublished">
+                                    <label class="custom-control-label" for="switchPublish{{i}}"></label>
+                                </div>
+                            </ng-template>
+                        </kendo-grid-column>
+                        <kendo-grid-column field="Form_IsAutoAssign" title="Auto Assign" [width]="80">
+                          <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                            <b>{{dataItem.Form_IsAutoAssign?"On":"Off"}}</b>
+                          </ng-template>
+
+                        </kendo-grid-column>
+                        <kendo-grid-column field="username" title="Added By" [width]="150">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="Form_CreatedBy" title="Created By" [width]="150">
+                        </kendo-grid-column>
+                        <kendo-grid-column field="Form_ModifiedBy" title="Last Modified By" [width]="150">
+                        </kendo-grid-column>
+
+                        <kendo-grid-column title="Action" width="80">
+                            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+
+                                <a (click)="viewFormByID(dataItem.FormId)" data-toggle="tooltip" data-placement="top"
+                                    title="View Record" style="cursor: pointer"> <i class="fa fa-eye mr-1"></i>
+                                </a>
+                                &nbsp;
+                                <a (click)="CopyForm(dataItem.FormId)" data-toggle="tooltip" data-placement="top"
+                                    title="Copy Record" style="cursor: pointer"><i class="fa fa-copy"></i>
+                                </a>
+                                &nbsp;
+                                <a (click)="DeleteForm(dataItem.FormId)" data-toggle="tooltip" data-placement="top"
+                                    title="Delete Record" style="cursor: pointer"> <i class="fa fa-trash"></i>
+                                </a>
+
+                            </ng-template>
+                        </kendo-grid-column>
+
+                        <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+                            <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+                            <kendo-pager-numeric-buttons [buttonCount]="10"></kendo-pager-numeric-buttons>
+                            <kendo-pager-next-buttons></kendo-pager-next-buttons>
+                            <kendo-pager-info></kendo-pager-info>
+                            <kendo-pager-page-sizes [pageSizes]="[25, 50, 75, 100, 150, 200]"></kendo-pager-page-sizes>
+                        </ng-template>
+                    </kendo-grid>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #importForm let-modal>
+    <div class="modal-header">
+        <div>
+            <h4 class="page-title" style="font-weight: bolder; line-height: 1.5;">Import Form
+            </h4>
+        </div>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div style="box-shadow: 0 0 4px gray;" class="p-2">
+            <form (ngSubmit)="formButton()">
+                <div class="form-row">
+                    <div class="form-group col-md-12 text-center module-subheader">
+                        <h5>Import Form
+                            <a class="pull-right mr-2" data-toggle="tooltip" (click)="SetHelpFlag()" data-placement="top"
+                            title="Item Help" style="cursor: pointer;">Need Help
+                            <i class="fas fa-question"></i>&nbsp;&nbsp;
+                            </a>
+                        </h5>
+                    </div>
+                    <br>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="inputEmaildfsdfd4" class="col-form-label"  [ngClass]="{ 'HelpCursor': isHelpActive }"
+                        (click)="DispalyInfo($event,'Import From')">Import From
+                            <!-- <span style="color: red">*</span> -->
+                        </label>
+                    </div>
+                    <div class="form-group col-md-8">
+                        <select class="form-control form-control-sm" [(ngModel)]="importFormModelObj.Imtr_FromId"
+                            [ngModelOptions]="{standalone: true}" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                            (click)="DispalyInfo($event,'Import From')">
+                            <option value='0'>select</option>
+                            <option [ngValue]="kb.Import_Form_PkeyId" *ngFor="let kb of imrtFromList">
+                                {{kb.Import_Form_Name}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="inputEmaildfsdfd4" class="col-form-label" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                        (click)="DispalyInfo($event,'Select File')">Select File
+                            <span style="color: red">*</span></label>
+                    </div>
+                    <div class="form-group col-md-8">
+                        <input type="file" id="fileuploaddata" title="Select File..." (change)="uploadfiledoc($event)" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                        (click)="DispalyInfo($event,'Select File')">
+                        <div *ngIf="isFileSelected" class="Mydropdown">this field is required</div>
+                        <div *ngIf="!isFileSelected && isFileInValid" class="Mydropdown">Please select json file</div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="float-right">
+                        <label for="InvestmentSihhhze" style="color:red">*
+                            Field is Required
+                        </label> <br>
+                        <button class="btn btn-primary mr-1" type="submit" [disabled]="isLoading">
+                            <i class="fa mr-1" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}"></i>
+                            {{ button}}
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</ng-template>

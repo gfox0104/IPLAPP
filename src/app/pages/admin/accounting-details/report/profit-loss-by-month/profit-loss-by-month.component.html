@@ -1,0 +1,412 @@
+<form>
+  <div class="form-row p-2">
+    <div class="col-md-3">
+      <div class="form-group">
+        <div class="input-group">
+          <label class="form-control form-control-sm">{{ Filter.StartDate |
+            date:'MM/dd/yyyy'}}
+            <span *ngIf="!Filter.StartDate"></span>
+          </label>
+          <input class="form-control form-control-sm" placeholder="yyyy-mm-dd"
+            [(ngModel)]="Filter.StartDate" [ngModelOptions]="{standalone: true}"
+            ngbDatepicker #dt9="ngbDatepicker" firstDayOfWeek="7" style="display: none">
+          <div class="input-group-append">
+            <button class="btn btn-outline-info btn-xs"
+              (click)="dt9.toggle()" type="button"><i class="fas fa-calendar-alt"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <div class="input-group">
+          <label class="form-control form-control-sm">{{ Filter.EndDate |
+            date:'MM/dd/yyyy'}}
+            <span *ngIf="!Filter.EndDate"></span>
+          </label>
+          <input class="form-control form-control-sm" placeholder="yyyy-mm-dd"
+            [(ngModel)]="Filter.EndDate" [ngModelOptions]="{standalone: true}"
+            ngbDatepicker #dt1="ngbDatepicker" firstDayOfWeek="7" style="display: none">
+          <div class="input-group-append">
+            <button class="btn btn-outline-info btn-xs"
+              (click)="dt1.toggle()" type="button"><i class="fas fa-calendar-alt"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="getProfitLossByMonth()"
+      >
+        Run Report
+      </button>
+      <button
+        (click)="getProfiAndLossByMonthPDF()"
+        type="button"
+        class="btn btn-primary ml-2"
+      >
+        <i
+          class="fa"
+          [ngClass]="{
+            'fa-spin fa-spinner': IsPDFGenerate,
+            'fa-print': !IsPDFGenerate
+          }"
+        ></i>
+      </button>
+    </div>
+  </div>
+</form>
+
+<div class="report" [ngStyle]="{ margin: SetMargin }">
+  <div class="reportArea">
+    <div class="reportHeader focusable-text">
+      <div class="text-center">
+        <div class="companyNameRow">
+          <div class="companyName">
+            <h4>Profit and Loss By Month</h4>
+          </div>
+        </div>
+        <div class="dateRangeRow">
+          As of {{ CurrentDate | date: "mediumDate" }}
+        </div>
+      </div>
+    </div>
+    <div
+      *ngIf="!IsLoadProfitLossByMonth"
+      class="dgrid-header dgrid-header-row ui-widget-header table_style"
+      role="row"
+      style="width: 100%"
+    >
+      <table class="dgrid-row-table" role="presentation">
+        <tr>
+          <th
+            style="width: 15%"
+            class="dgrid-cell dgrid-cell-padding dgrid-column-0-1 right bold"
+            role="columnheader"
+            rowspan="1"
+          >
+            <div class="dgrid-resize-header-container">
+              <div class="dgrid-resize-handle resizeNode-0-1"></div>
+            </div>
+          </th>
+          <th
+            *ngFor="let month of SelectedMonthList; let i = index"
+            class="dgrid-cell dgrid-cell-padding dgrid-column-0-1 right bold"
+            role="columnheader"
+            rowspan="1"
+          >
+            <div class="dgrid-resize-header-container">
+              {{ month }}
+              <div class="dgrid-resize-handle resizeNode-0-1"></div>
+            </div>
+          </th>
+
+          <th
+            style="width: 10%"
+            class="dgrid-cell dgrid-cell-padding dgrid-column-0-5 right bold"
+            role="columnheader"
+            rowspan="1"
+          >
+            <div class="dgrid-resize-header-container">
+              Total
+              <div class="dgrid-resize-handle resizeNode-0-5"></div>
+            </div>
+          </th>
+        </tr>
+        <tr class="tr-border-bottom" (click)="IncomeIsShow = !IncomeIsShow">
+          <td>
+            <i
+              class="fa"
+              [ngClass]="{
+                'fa-caret-right': !IncomeIsShow,
+                'fa-caret-down': IncomeIsShow
+              }"
+            ></i>
+            Income
+          </td>
+          <td
+            class="text-center"
+            *ngFor="let total of ProfitAndLossByMonth.MonthByWiseTotalIncome"
+          >
+            <div>
+              <span [hidden]="IncomeIsShow">{{ total | currency }}</span>
+            </div>
+          </td>
+          <td class="text-right">
+            <div *ngIf="ProfitAndLossByMonth != null">
+              <b [hidden]="IncomeIsShow">{{
+                ProfitAndLossByMonth.TotalIncome | currency
+              }}</b>
+            </div>
+          </td>
+        </tr>
+        <tr [hidden]="!IncomeIsShow">
+          <td>
+            <div class="dgrid-expando-icon" style="float: left">&nbsp;</div>
+            Sales
+          </td>
+          <td
+            class="text-center"
+            *ngFor="let total of ProfitAndLossByMonth.MonthByWiseTotalSales"
+          >
+            <div>
+              {{ total | currency }}
+            </div>
+          </td>
+          <td>
+            <span *ngIf="ProfitAndLossByMonth != null">{{
+              ProfitAndLossByMonth.TotalSales | currency
+            }}</span>
+          </td>
+        </tr>
+        <tr
+          [hidden]="!IncomeIsShow"
+          *ngFor="let income of ProfitAndLossByMonth.Income"
+        >
+          <td>
+            <div class="dgrid-expando-icon" style="float: left">&nbsp;</div>
+            {{ income.AccountName }}
+          </td>
+          <td class="text-center" *ngFor="let total of income.MonthByAmount">
+            <div>
+              {{ total | currency }}
+            </div>
+          </td>
+          <td>
+            <span *ngIf="ProfitAndLossByMonth != null">{{
+              income.Amount | currency
+            }}</span>
+          </td>
+        </tr>
+        <tr class="tr-border-bottom tr-border-top" [hidden]="!IncomeIsShow">
+          <td>
+            <div class="dgrid-expando-icon" style="float: left">&nbsp;</div>
+            Total Income
+          </td>
+          <td
+            class="text-center"
+            *ngFor="let total of ProfitAndLossByMonth.MonthByWiseTotalIncome"
+          >
+            <div>
+              <b>{{ total | currency }}</b>
+            </div>
+          </td>
+          <td>
+            <span *ngIf="ProfitAndLossByMonth != null"
+              ><b>{{ ProfitAndLossByMonth.TotalIncome | currency }}</b></span
+            >
+          </td>
+        </tr>
+        <tr class="tr-border-bottom">
+          <td>
+            <div class="dgrid-expando-icon" style="float: left">&nbsp;</div>
+            GROSS PROFIT
+          </td>
+          <td
+            *ngFor="let total of ProfitAndLossByMonth.MonthByWiseTotalIncome"
+            class="text-center"
+          >
+            <div>
+              <b>{{ total | currency }}</b>
+            </div>
+          </td>
+          <td class="text-right">
+            <b *ngIf="ProfitAndLossByMonth != null">{{
+              ProfitAndLossByMonth.GrossProfit | currency
+            }}</b>
+          </td>
+        </tr>
+        <tr
+          class="tr-border-bottom"
+          (click)="OtherIncomeIsShow = !OtherIncomeIsShow"
+        >
+          <td>
+            <i
+              class="fa"
+              [ngClass]="{
+                'fa-caret-right': !OtherIncomeIsShow,
+                'fa-caret-down': OtherIncomeIsShow
+              }"
+            ></i>
+            Other Income
+          </td>
+          <td
+            class="text-center"
+            *ngFor="
+              let total of ProfitAndLossByMonth.MonthByWiseTotalOtherIncome
+            "
+          >
+            <div [hidden]="OtherIncomeIsShow">
+              <b>{{ total | currency }}</b>
+            </div>
+          </td>
+          <td class="text-right">
+            <span
+              *ngIf="
+                ProfitAndLossByMonth != null &&
+                ProfitAndLossByMonth.TotalOtherIncome != null
+              "
+            >
+              <b [hidden]="OtherIncomeIsShow">{{
+                ProfitAndLossByMonth.TotalOtherIncome | currency
+              }}</b></span
+            >
+          </td>
+        </tr>
+        <tr
+          [hidden]="!OtherIncomeIsShow"
+          *ngFor="let otherincome of ProfitAndLossByMonth.OtherIncome"
+        >
+          <td>
+            <div class="dgrid-expando-icon" style="float: left">&nbsp;</div>
+            {{ otherincome.AccountName }}
+          </td>
+          <td
+            *ngFor="let total of otherincome.MonthByAmount"
+            class="text-center"
+          >
+            <div>
+              {{ total | currency }}
+            </div>
+          </td>
+          <td class="text-right">
+            <b> {{ otherincome.Amount | currency }}</b>
+          </td>
+        </tr>
+        <tr [hidden]="!OtherIncomeIsShow" class="tr-border-bottom">
+          <td>
+            <i class="fa"></i>
+            Other Income Total
+          </td>
+          <td
+            class="text-center"
+            *ngFor="
+              let total of ProfitAndLossByMonth.MonthByWiseTotalOtherIncome
+            "
+          >
+            <div>
+              <b>{{ total | currency }}</b>
+            </div>
+          </td>
+          <td class="text-right">
+            <span
+              *ngIf="
+                ProfitAndLossByMonth != null &&
+                ProfitAndLossByMonth.TotalOtherIncome != null
+              "
+            >
+              <b [hidden]="!OtherIncomeIsShow">{{
+                ProfitAndLossByMonth.TotalOtherIncome | currency
+              }}</b></span
+            >
+          </td>
+        </tr>
+        <tr class="tr-border-bottom" (click)="ExpensesIsShow = !ExpensesIsShow">
+          <td>
+            <i
+              class="fa"
+              [ngClass]="{
+                'fa-caret-right': !ExpensesIsShow,
+                'fa-caret-down': ExpensesIsShow
+              }"
+            ></i>
+            Expenses
+          </td>
+          <td
+            *ngFor="let total of ProfitAndLossByMonth.MonthByWiseTotalExpenses"
+            class="text-center"
+          >
+            <div [hidden]="ExpensesIsShow">
+              {{ total | currency }}
+            </div>
+          </td>
+          <td class="text-right">
+            <span
+              *ngIf="
+                ProfitAndLossByMonth != null &&
+                ProfitAndLossByMonth.TotalExpenses != null
+              "
+            >
+              <b [hidden]="ExpensesIsShow">{{
+                ProfitAndLossByMonth.TotalExpenses | currency
+              }}</b></span
+            >
+          </td>
+        </tr>
+        <tr
+          [hidden]="!ExpensesIsShow"
+          *ngFor="let expense of ProfitAndLossByMonth.Expenses"
+        >
+          <td>
+            <div class="dgrid-expando-icon" style="float: left">&nbsp;</div>
+            {{ expense.AccountName }}
+          </td>
+          <td *ngFor="let total of expense.MonthByAmount" class="text-center">
+            <div>
+              {{ total | currency }}
+            </div>
+          </td>
+          <td class="text-right" role="gridcell">
+            <span> {{ expense.Amount | currency }}</span>
+          </td>
+        </tr>
+        <tr class="tr-border-bottom tr-border-top" [hidden]="!ExpensesIsShow">
+          <td>
+            <div class="dgrid-expando-icon" style="float: left">&nbsp;</div>
+            <b> Total Expenses</b>
+          </td>
+          <td
+            *ngFor="let total of ProfitAndLossByMonth.MonthByWiseTotalExpenses"
+            class="text-center"
+          >
+            <div>
+              <b>{{ total | currency }}</b>
+            </div>
+          </td>
+          <td class="text-bold">
+            <span>
+              <span
+                *ngIf="
+                  ProfitAndLossByMonth != null &&
+                  ProfitAndLossByMonth.TotalExpenses != null
+                "
+                ><b>{{ ProfitAndLossByMonth.TotalExpenses | currency }}</b>
+              </span></span
+            >
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="dgrid-expando-icon" style="float: left">&nbsp;</div>
+            Profit
+          </td>
+          <td
+            *ngFor="let total of ProfitAndLossByMonth.MonthByWiseProfit"
+            class="text-center"
+          >
+            <div>
+              <b> {{ total | currency }}</b>
+            </div>
+          </td>
+          <td class="text-right">
+            <span>
+              <span
+                *ngIf="
+                  ProfitAndLossByMonth != null &&
+                  ProfitAndLossByMonth.Profit != null
+                "
+                ><b>{{ ProfitAndLossByMonth.Profit | currency }}</b>
+              </span></span
+            >
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="row">
+      <div *ngIf="IsLoadProfitLossByMonth" class="loader m-auto"></div>
+    </div>
+  </div>
+</div>

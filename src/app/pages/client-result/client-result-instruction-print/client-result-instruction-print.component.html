@@ -1,0 +1,48 @@
+<kendo-pdf-export #pdf>
+    <div class="row" style="margin-top: 10px;">
+        <div class="col-md-12">
+            <div class="card-box bg-pattern border border-dark" style="background-color: #f7f7f7;">
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <h5 style="color: black;">Work Order No : {{WoDataModelObj.workOrderNumber}}</h5>
+                        <h5 style="color: black;">IPL No : {{WoDataModelObj.IPLNO}}</h5>
+                        <h5 style="color: black;">Work Type : {{WoDataModelObj.WT_WorkType}}</h5>                        
+                    </div>
+                    <div class="form-group col-md-4">
+                        <h5 style="color: black;">Address : {{WoDataModelObj.fulladdress}}</h5>
+                        <h5 style="color: black;">Client : {{WoDataModelObj.Client_Company_Name}}</h5>
+                        <h5 style="color: black;">Due Date : {{WoDataModelObj.dueDate | date:'MM/dd/yyyy'}}</h5>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <button id="client_viewdetail_1" class="btn btn-primary float-right" (click)="pdf.saveAs(pdfname)">
+                            <i class="fa fa-file-pdf-o"></i>&nbsp;&nbsp; Export To PDF
+                          </button>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-12 text-center" style="color: black;background-color: #9b9b9b;">
+                        <h5 style="color: black;">Instruction </h5>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <table class="table">
+                            <tr>
+                                <th>Instruction</th>
+                                <th>Comment</th>
+                                <th>Qty</th>
+                                <th>Price</th>
+                                <th>Total</th>
+                            </tr>
+                            <tr *ngFor="let item of InstDataArray;index as indx">
+                                <td style="width: 400px;">{{item.Instr_Task_Name}}</td>
+                                <td style="width: 200px;">{{item.Inst_Comand_Mobile_details}}</td>
+                                <td>{{item.Instr_Qty_Text}}</td>
+                                <td>{{item.Instr_Price_Text}}</td>
+                                <td>{{item.Instr_Total_Text}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</kendo-pdf-export>

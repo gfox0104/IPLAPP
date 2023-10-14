@@ -1,0 +1,74 @@
+<div class="repair-home  ">
+    <ngx-spinner
+        bdColor = "rgba(0, 0, 0, 0.8)"
+        size = "medium" color = "#fff"
+        type = "square-jelly-box"
+        [fullScreen] = "true"
+    >
+        <p style="color: white" > Loading... </p>
+    </ngx-spinner>
+    <div class="row ">
+        <div class="margin-left:10px">
+            <div class="">
+                <h4 class="module-box-header mb-0 " style="margin-right: 5px;">Home</h4>
+                <div class="module-box p-2" style="margin-right: 5px;">
+                    <div class="row ">
+                        <div style="width: 100%; margin-bottom: 20px;">
+                            <button type="button" class="btn btn-warning btn-lg" (click)="createEstimation()">Create New Estimate</button>
+                        </div>
+                        <kendo-grid
+                            style="overflow-x: auto; margin-left: -9px; margin-right: -8px;"
+                            class="module-box"
+                            [data]="griddata"
+                            [pageSize]="25"
+                            [pageable]="true"
+                            [sortable]="true"
+                            [skip]="skip"
+                            [filterable]="true"
+                            [selectable]="true"
+                            [groupable]="false"
+                            [reorderable]="true"
+                            (pageChange)="pageChange($event)"
+                        >
+                            <kendo-grid-column title="Action" field="id" width="100"
+                                >
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                <a class="edit" (click)="showDetails($event, dataItem)" class="k-grid-ignore-click"
+                                    title="view Records">
+                                    <i class="fa fa-eye"></i> &nbsp; &nbsp; View
+                                </a>
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="id" title="Bluebook ID" width="100" >
+                            </kendo-grid-column>
+                            <kendo-grid-column field="id" title="Order Type" width="150" >
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    <div>RepairBASE preservation Pricing</div>
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="address" title="Property Address" width="150" >
+                            </kendo-grid-column>
+                            <kendo-grid-column field="externalRefId" title="Reference ID" width="200" >
+                            </kendo-grid-column>
+                            <kendo-grid-column field="orderDate" title="Order Date" width="200" filter="date" format="{0:d}" >
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                      {{dataItem.orderDate | date: 'MM/dd/yyyy'}}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="fieldSurveyDate" title="Last Updated" width="200" filter="date" format="{0:d}" >
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    {{dataItem.fieldSurveyDate | date: 'MM/dd/yyyy'}}
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="Rep_UM_CreatedBy" title="CreatedBy" width="200" >
+                            </kendo-grid-column>
+                            <kendo-grid-column field="Rep_UM_ModifiedBy" title="LastModifiedBy" width="200" >
+                            </kendo-grid-column>
+                            <kendo-pager-page-sizes [pageSizes]="[10, 50, 100, 500, 1000]"></kendo-pager-page-sizes>
+                        </kendo-grid>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

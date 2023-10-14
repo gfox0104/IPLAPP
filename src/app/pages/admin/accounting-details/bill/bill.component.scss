@@ -1,0 +1,77 @@
+.griddiv {
+  button {
+    border: none;
+    //background-color: transparent;
+  }
+}
+
+.mr-10 {
+  margin-right: 10px;
+}
+.f-20 {
+  font-size: 30px;
+  letter-spacing: -1px;
+}
+.mr-40 {
+  margin-right: 40px;
+}
+.f-30 {
+  font-size: 40px;
+  letter-spacing: -1px;
+}
+.table-btn button {
+  border-radius: 4px;
+  padding: 0 20px;
+  margin-right: 10px;
+}
+.txt-total {
+  display: inline-block;
+}
+.txt-total input {
+  margin-left: 50px;
+  width: 25%;
+}
+.gid-chk {
+  height: 30px;
+  width: 20px;
+}
+#drop_zone {
+  border: 2px dashed #bbb;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  padding: 25px;
+  text-align: center;
+  font: 20pt bold "Vollkorn";
+  color: #bbb;
+}
+.badge-primary {
+  background-color: #3f729b !important;
+}
+
+.table-style {
+  border: 1px solid #adadad;
+}
+.table-style thead th,
+.table-style tr > td {
+  border: 1px solid #adadad !important;
+}
+
+.card-box table.table-style thead th {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+@media (max-width: 900px) {
+  .newDiv {
+    overflow-x: auto;
+    margin-bottom: 2%;
+  }
+  .griddiv {
+    width: 200%;
+  }
+
+  .gridTable {
+    width: max-content;
+  }
+}

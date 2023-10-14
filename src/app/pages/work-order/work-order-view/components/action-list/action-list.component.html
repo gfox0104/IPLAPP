@@ -1,0 +1,569 @@
+<div class="row" style="padding-left: 20px; padding-right: 20px;">
+  <div class="col-12" style="overflow-y: auto; height: 422px;">
+    <dl *ngFor="let item of actionList">
+      <dt>
+        {{item.Wo_Column_Name}}
+      </dt>
+      <dd *ngFor="let child of item.ChildActionList" style="margin-left: 15px;">
+        <i class="fa fa-arrow-right" aria-hidden="true" style="font-size: 10px;"></i>&nbsp;&nbsp;<a
+          href="javascript:void(0)" (click)="actionChanges(child, content)"
+          style="color: black;">{{child.Wo_Column_Name}}</a>
+      </dd>
+    </dl>
+
+  </div>
+</div>
+<ng-template #content let-modal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h5 style="color: black;">{{title}}</h5>
+    <button type="button" (click)="modal.close('Save click')" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="formUsrCommonGroup" (ngSubmit)="ActionFormButton()" *ngIf="arr !== 57; else elseBlock">
+      <div class="row" *ngIf="31 === arr">
+        <div class="col-4">
+          <label>{{labelname}}</label>
+        </div>
+        <div class="col-8">
+          <div class="example-wrapper">
+            <kendo-dropdownlist class="form-control form-control-sm" [data]="drpConList" [defaultItem]="defaultConItem"
+              [filterable]="true" [textField]="'User_FirstName'" [valueField]="'User_pkeyID'"
+              (filterChange)="contractorFilter($event)" [(ngModel)]="actionValue" [valuePrimitive]="true"
+              [ngModelOptions]="{standalone: true}">
+            </kendo-dropdownlist>
+          </div>
+          <div *ngIf="isDrpValid" class="Mydropdown">this field is required</div>
+
+        </div>
+      </div>
+
+      <div class="row" *ngIf="32 === arr">
+        <div class="col-4">
+          <label>{{labelname}}</label>
+        </div>
+        <div class="col-8">
+          <div class="example-wrapper">
+            <kendo-dropdownlist class="form-control form-control-sm" [data]="drpCoordinatorList"
+              [defaultItem]="defaultConItem" [filterable]="true" [textField]="'User_FirstName'"
+              [valueField]="'User_pkeyID'" (filterChange)="coordinatorFilter($event)" [(ngModel)]="actionValue"
+              [valuePrimitive]="true" [ngModelOptions]="{standalone: true}">
+            </kendo-dropdownlist>
+          </div>
+          <div *ngIf="isDrpValid" class="Mydropdown">this field is required</div>
+
+        </div>
+      </div>
+
+      <div class="row" *ngIf="33 === arr">
+        <div class="col-4">
+          <label>{{labelname}}</label>
+        </div>
+        <div class="col-8">
+          <div class="example-wrapper">
+            <kendo-dropdownlist class="form-control form-control-sm" [data]="drpProcessorList"
+              [defaultItem]="defaultConItem" [filterable]="true" [textField]="'User_FirstName'"
+              [valueField]="'User_pkeyID'" (filterChange)="processorFilter($event)" [(ngModel)]="actionValue"
+              [valuePrimitive]="true" [ngModelOptions]="{standalone: true}">
+            </kendo-dropdownlist>
+          </div>
+          <div *ngIf="isDrpValid" class="Mydropdown">this field is required</div>
+
+        </div>
+      </div>
+
+      <div class="row" *ngIf="34 === arr">
+        <div class="col-4">
+          <label>{{labelname}}</label>
+        </div>
+        <div class="col-8">
+          <div class="example-wrapper">
+            <kendo-dropdownlist class="form-control form-control-sm" [data]="drpComList" [defaultItem]="defaultComItem"
+              [filterable]="true" [textField]="'Client_Company_Name'" [valueField]="'Client_pkeyID'"
+              (filterChange)="companyFilter($event)" [(ngModel)]="actionValue" [valuePrimitive]="true"
+              [ngModelOptions]="{standalone: true}">
+            </kendo-dropdownlist>
+          </div>
+
+
+        </div>
+      </div>
+
+      <div class="row" *ngIf="35 === arr">
+        <div class="col-4">
+          <label>{{labelname}}</label>
+        </div>
+        <div class="col-8">
+          <div class="example-wrapper">
+            <kendo-dropdownlist class="form-control form-control-sm" [data]="drpWTList" [defaultItem]="defaultWTItem"
+              [filterable]="true" [textField]="'WT_WorkType'" [valueField]="'WT_pkeyID'"
+              (filterChange)="WTFilter($event)" [(ngModel)]="actionValue" [valuePrimitive]="true"
+              [ngModelOptions]="{standalone: true}">
+            </kendo-dropdownlist>
+          </div>
+
+
+        </div>
+      </div>
+
+      <div class="row" *ngIf="36 === arr">
+
+
+
+        <div class="col-4">
+          <label>{{labelname}}</label>
+        </div>
+        <div class="col-6">
+          <label class="form-control form-control-sm">{{actionValue |  date:'MM/dd/yyyy' }}
+            <span *ngIf="!actionValue">{{labelname}}</span> </label>
+          <input class="form-control form-control-sm" placeholder="yyyy-mm-dd" [(ngModel)]="actionValue"
+            [ngModelOptions]="{standalone: true}" ngbDatepicker #dt1="ngbDatepicker" firstDayOfWeek="7" style="display: none">
+
+        </div>
+        <div class="col-2">
+          <div class="input-group-append">
+            <button class="btn btn-outline-info btn-xs" (click)="dt1.toggle()" type="button"><i
+                class="fas fa-calendar-alt"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="37 === arr">
+        <div class="col-4">
+          <label>{{labelname}}</label>
+        </div>
+        <div class="col-6">
+          <label class="form-control form-control-sm">{{actionValue |  date:'MM/dd/yyyy' }}
+            <span *ngIf="!actionValue">{{labelname}}</span> </label>
+          <input class="form-control form-control-sm" placeholder="yyyy-mm-dd" [(ngModel)]="actionValue"
+            [ngModelOptions]="{standalone: true}" ngbDatepicker #dt1="ngbDatepicker" firstDayOfWeek="7" style="display: none">
+
+        </div>
+        <div class="col-2">
+          <div class="input-group-append">
+            <button class="btn btn-outline-info btn-xs" (click)="dt1.toggle()" type="button"><i
+                class="fas fa-calendar-alt"></i></button>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="row" *ngIf="38 === arr">
+        <div class="col-4">
+          <label>{{labelname}}</label>
+        </div>
+        <div class="col-6">
+          <label class="form-control form-control-sm">{{actionValue |  date:'MM/dd/yyyy' }}
+            <span *ngIf="!actionValue">{{labelname}}</span> </label>
+          <input class="form-control form-control-sm" placeholder="yyyy-mm-dd" [(ngModel)]="actionValue"
+            [ngModelOptions]="{standalone: true}" ngbDatepicker #dt1="ngbDatepicker" firstDayOfWeek="7" style="display: none">
+
+        </div>
+        <div class="col-2">
+          <div class="input-group-append">
+            <button class="btn btn-outline-info btn-xs" (click)="dt1.toggle()" type="button"><i
+                class="fas fa-calendar-alt"></i></button>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="row" *ngIf="39 === arr">
+          <div class="form-group col-md-6">
+            <label for="Recurs_Limitlbl" class="col-form-label">Received Date</label>
+
+            <div class="form-group">
+              <div class="input-group">
+                <label class="form-control form-control-sm">{{ ActionRecurringModelObj.Received_Date |
+                  date:'MM/dd/yyyy'}}
+                  <span *ngIf="!ActionRecurringModelObj.Received_Date"></span>
+                </label>
+                <input class="form-control form-control-sm" placeholder="yyyy-mm-dd"
+                  [(ngModel)]="ActionRecurringModelObj.Received_Date" [ngModelOptions]="{standalone: true}"
+                  ngbDatepicker #dt9="ngbDatepicker" firstDayOfWeek="7" style="display: none">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-info btn-xs"
+                    (click)="dt9.toggle()" type="button"><i class="fas fa-calendar-alt"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group col-md-6"></div>
+          <div class="form-group col-md-6">
+            <label for="Recurs_Daylbl" class="col-form-label">Recurs every</label>
+            <div class="form-group">
+              <input type="text" numbersonly class="form-control form-control-sm" id="Recurs_Daylbl"
+                [(ngModel)]="ActionRecurringModelObj.Recurs_Day" [ngModelOptions]="{standalone: true}" placeholder="Enter Days">
+            </div>
+
+          </div>
+          <div class="form-group col-md-6">
+            <label for="Recurs_Daylbl" class="col-form-label">&nbsp;</label>
+            <div class="form-group">
+
+              <select class="form-control form-control-sm" [(ngModel)]="ActionRecurringModelObj.Recurs_Period"
+                [ngModelOptions]="{standalone: true}">
+                <option [ngValue]="kb.Id" *ngFor="let kb of Recurs_PeriodList">
+                  {{kb.Name}}
+                </option>
+              </select>
+            </div>
+
+          </div>
+          <div class="form-group col-md-6">
+            <label for="Recurs_Limitlbl" class="col-form-label">Limit to</label>
+            <div class="form-group">
+              <input type="text" numbersonly class="form-control form-control-sm" id="Recurs_Limitlbl"
+                [(ngModel)]="ActionRecurringModelObj.Recurs_Limit" [ngModelOptions]="{standalone: true}" placeholder="Enter Limit">
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="Recurs_Limitlbl" class="col-form-label">CutOff Date</label>
+            <div class="form-group">
+              <div class="input-group">
+                <label class="form-control form-control-sm">{{ ActionRecurringModelObj.Recurs_CutOffDate |
+                  date:'MM/dd/yyyy'}}
+                  <span *ngIf="!ActionRecurringModelObj.Recurs_CutOffDate"></span>
+                </label>
+                <input class="form-control form-control-sm" placeholder="yyyy-mm-dd"
+                  [(ngModel)]="ActionRecurringModelObj.Recurs_CutOffDate" [ngModelOptions]="{standalone: true}"
+                  ngbDatepicker #dt6="ngbDatepicker" firstDayOfWeek="7" style="display: none">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-info btn-xs"
+                    (click)="dt6.toggle()" type="button"><i class="fas fa-calendar-alt"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+      </div>
+
+      <div class="row" *ngIf="40 === arr">
+        <!-- <div class="col-4">
+          <label>{{labelname}}</label>
+        </div> -->
+        <div class="col-12">
+          <kendo-editor id="mycomment_workorder" [(ngModel)]="actionValue" [ngModelOptions]="{standalone: true}"></kendo-editor>
+          <!-- <textarea class="form-control" [(ngModel)]="actionValue" [ngModelOptions]="{standalone: true}"></textarea> -->
+        </div>
+      </div>
+
+      <div class="row" *ngIf="41 === arr">
+        <div class="col-4">
+          <label>{{labelname}}</label>
+        </div>
+        <div class="col-6">
+          <label class="form-control form-control-sm">{{actionValue |  date:'MM/dd/yyyy' }}
+            <span *ngIf="!actionValue">{{labelname}}</span> </label>
+          <input class="form-control form-control-sm" placeholder="yyyy-mm-dd" [(ngModel)]="actionValue"
+            [ngModelOptions]="{standalone: true}" ngbDatepicker #dt1="ngbDatepicker" firstDayOfWeek="7" style="display: none">
+
+        </div>
+        <div class="col-2">
+          <div class="input-group-append">
+            <button class="btn btn-outline-info btn-xs" (click)="dt1.toggle()" type="button"><i
+                class="fas fa-calendar-alt"></i></button>
+          </div>
+        </div>
+
+      </div>
+      <!-- Send Message -->
+      <div class="row" *ngIf="42 === arr">
+        <div class="col-12">
+          <app-ipl-app-message-box [IPLNumbers]="actionIPLNOs"></app-ipl-app-message-box>
+        </div>
+
+        <!-- <div class="col-4">
+          <label>{{labelname}}</label>
+        </div>
+        <div class="col-8">
+          <textarea class="form-control" [(ngModel)]="actionValue" [ngModelOptions]="{standalone: true}"></textarea>
+        </div> -->
+      </div>
+      <!-- Add Task -->
+      <div class="row" *ngIf="43 === arr">
+        <div class="col-12">
+          <iplapp-task-table *ngIf="actionarr.length==1" [workOrderId]="this.actionarr[0].workOrder_ID" (clickSave)="actionAddTaskInstruction($event)"></iplapp-task-table>
+          <iplapp-task-table *ngIf="actionarr.length>1" (clickSave)="actionAddTaskInstruction($event)"></iplapp-task-table>
+        </div>
+      </div>
+      <!-- Add Instructions -->
+      <div class="row" *ngIf="44 === arr">
+        <div class="col-12">
+          <iplapp-instruction-table *ngIf="actionarr.length==1" [workOrderId]="this.actionarr[0].workOrder_ID" (clickSave)="actionAddTaskInstruction($event)"></iplapp-instruction-table>
+          <iplapp-instruction-table *ngIf="actionarr.length>1" (clickSave)="actionAddTaskInstruction($event)"></iplapp-instruction-table>
+        </div>
+      </div>
+      <div class="row" *ngIf="158 === arr">
+        <div class="col-12">
+          <app-ipl-app-client-contractor-invoice *ngIf="actionarr.length==1" [workOrderId]="this.actionarr[0].workOrder_ID" [workOrderId_Multiple]="this.actionarr"></app-ipl-app-client-contractor-invoice>
+          <app-ipl-app-client-contractor-invoice *ngIf="actionarr.length>1" [workOrderId_Multiple]="this.actionarr"></app-ipl-app-client-contractor-invoice>
+        </div>
+      </div>
+      <div class="row" *ngIf="45 === arr">
+        <div class="col-4">
+          <label>{{labelname}}</label>
+        </div>
+        <div class="col-8">
+          <div class="example-wrapper">
+            <kendo-dropdownlist class="form-control form-control-sm" [data]="drpCatList" [defaultItem]="defaultCatItem"
+              [filterable]="true" [textField]="'Cat_Name'" [valueField]="'Cat_ID'" (filterChange)="CatFilter($event)"
+              [(ngModel)]="actionValue" [valuePrimitive]="true" [ngModelOptions]="{standalone: true}">
+            </kendo-dropdownlist>
+          </div>
+          <div *ngIf="isDrpValid" class="Mydropdown">this field is required</div>
+
+        </div>
+      </div>
+
+      <div class="row" *ngIf="46 === arr">
+        <div class="col-4">
+          <label>{{labelname}}</label>
+        </div>
+        <div class="col-8">
+
+          <kendo-dropdownlist class="form-control form-control-sm" [data]="drpBackgroundProviderList" [defaultItem]="defaultProviderItem"
+              [filterable]="true" [textField]="'Back_Chk_ProviderName'" [valueField]="'Back_Chk_ProviderID'"
+              (filterChange)="backgroundProviderFilter($event)" [(ngModel)]="actionValue" [valuePrimitive]="true"
+              [ngModelOptions]="{standalone: true}">
+            </kendo-dropdownlist>
+
+          <!-- <select class="form-control form-control-sm">
+            <option value='0'>select</option>
+            <option [ngValue]="kb.Back_Chk_ProviderID" *ngFor="let kb of BackgroundList">
+              {{kb.Back_Chk_ProviderName}}
+            </option>
+          </select> -->
+        </div>
+      </div>
+
+      <div class="row" *ngIf="48 === arr">
+        <div class="col-4">
+          <label>{{labelname}}</label>
+        </div>
+        <div class="col-8">
+          <input type="checkbox" />
+        </div>
+      </div>
+
+      <div class="row" *ngIf="49 === arr">
+        <div class="col-4">
+          <label>{{labelname}}</label>
+        </div>
+        <div class="col-8">
+          <input type="checkbox" />
+        </div>
+      </div>
+
+      <div class="row" *ngIf="118 === arr">
+        <div class="col-4">
+          <label>{{labelname}}</label>
+        </div>
+        <div class="col-8">
+          <select [(ngModel)]="actionValue" [ngModelOptions]="{standalone: true}" class="form-control form-control-sm">
+            <option value='0'>Select Status</option>
+            <option [ngValue]="kb.Status_ID" *ngFor="let kb of Statuslst">
+              {{kb.Status_Name}}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row module-box" *ngIf="50 === arr">
+        <kendo-grid #gridUser [kendoGridBinding]="ClientPaymentarr" [sortable]="true" [filterable]="false"
+          [selectable]="true" [groupable]="false" [pageSize]="25" [pageable]="true" [skip]="state.skip"
+          [sort]="state.sort" [filter]="state.filter" (dataStateChange)="dataStateChange($event)">
+          <kendo-grid-column *ngFor="let column of gridColumns" [field]="column.field" [title]="column.title"
+            [width]="column.width">
+            <ng-template kendoGridCellTemplate let-dataItem let-i="rowIndex" *ngIf="column.field === 'Client_Amount'">
+              <div>
+                <input type="text" class="form-control" [(ngModel)]="dataItem.Client_Amount"
+                  [ngModelOptions]="{standalone: true}">
+              </div>
+
+            </ng-template>
+            <ng-template kendoGridCellTemplate let-dataItem let-i="rowIndex" *ngIf="column.field === 'Client_Comment'">
+              <div>
+                <textarea class="form-control" [(ngModel)]="dataItem.Client_Comment"
+                  [ngModelOptions]="{standalone: true}"></textarea>
+              </div>
+
+            </ng-template>
+          </kendo-grid-column>
+          <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+            <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+            <kendo-pager-numeric-buttons [buttonCount]="10"></kendo-pager-numeric-buttons>
+            <kendo-pager-next-buttons></kendo-pager-next-buttons>
+            <kendo-pager-info></kendo-pager-info>
+            <kendo-pager-page-sizes [pageSizes]="[25, 50, 100, 500, 1000]"></kendo-pager-page-sizes>
+          </ng-template>
+        </kendo-grid>
+       
+       
+          <div class="col-2">
+            <label>Payment Date:</label>
+          </div>
+          <div class="col-3">
+            
+              <div class="input-group">
+                <label class="form-control form-control-sm">{{ paymentDate |
+                  date:'MM/dd/yyyy'}}
+                  <span *ngIf="!paymentDate"></span>
+                </label>
+                <input class="form-control form-control-sm" placeholder="yyyy-mm-dd"
+                  [(ngModel)]="paymentDate" [ngModelOptions]="{standalone: true}"
+                  ngbDatepicker #dt6="ngbDatepicker" firstDayOfWeek="7" style="display: none">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-info btn-xs"
+                    (click)="dt6.toggle()" type="button"><i class="fas fa-calendar-alt"></i></button>
+                </div>
+              </div>
+          
+          </div>
+       
+       
+        <div class="col-7"></div>
+        <br><br>
+          <div class="col-2">
+            <label>Check Number:</label>
+          </div>
+          <div class="col-3 mb-1">
+            <input type="number" class="form-control" [(ngModel)]="checkNumber" [ngModelOptions]="{standalone: true}">
+          </div>
+     
+
+      </div>
+      <div class="row" *ngIf="47 === arr">
+        <div class="col-4">
+          <label>{{labelname}}</label>
+        </div>
+        <div class="col-8">
+          <div class="example-wrapper">
+            <kendo-dropdownlist class="form-control form-control-sm" [data]="drpPcrFormList"
+              [defaultItem]="defaultPcrItem" [textField]="'FormName'" [valueField]="'FormId'" [(ngModel)]="actionValue"
+              [valuePrimitive]="true" [ngModelOptions]="{standalone: true}">
+            </kendo-dropdownlist>
+          </div>
+          <div *ngIf="isDrpValid" class="Mydropdown">this field is required</div>
+        </div>
+      </div>
+      <div class="row module-box" *ngIf="52 === arr">
+        <kendo-grid #gridUser [kendoGridBinding]="congridData" [pageSize]="15" [pageable]="true" [sortable]="true"
+          [filterable]="false" [selectable]="true" [groupable]="false" [skip]="state.skip" [sort]="state.sort"
+          [filter]="state.filter" (dataStateChange)="dataStateChange($event)">
+          <kendo-grid-column field="IPLNO" title="IPLNO" [width]="200">
+          </kendo-grid-column>
+          <kendo-grid-column field="Inv_Con_Sub_Total" title="Total" [width]="200">
+          </kendo-grid-column>
+          <kendo-grid-column field="Pay_Amount" title="Amount" [width]="200">
+            <ng-template kendoGridCellTemplate let-dataItem let-i="rowIndex">
+              <input type="number" class="form-control" min="0" [(ngModel)]="dataItem.Pay_Amount"
+                [ngModelOptions]="{standalone: true}" />
+            </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column field="Pay_Comment" title="Comment" [width]="200">
+            <ng-template kendoGridCellTemplate let-dataItem let-i="rowIndex">
+              <textarea class="form-control" [(ngModel)]="dataItem.Pay_Comment"
+                [ngModelOptions]="{standalone: true}"></textarea>
+            </ng-template>
+          </kendo-grid-column>
+          <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+            <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+            <kendo-pager-numeric-buttons [buttonCount]="10"></kendo-pager-numeric-buttons>
+            <kendo-pager-next-buttons></kendo-pager-next-buttons>
+            <kendo-pager-info></kendo-pager-info>
+            <kendo-pager-page-sizes [pageSizes]="[15, 30, 50, 100]"></kendo-pager-page-sizes>
+          </ng-template>
+        </kendo-grid>
+        <div class="col-2">
+          <label>Payment Date</label>
+        </div>
+        <div class="col-3">
+
+          <div class="input-group">
+            <label class="form-control form-control-sm">{{conpaymentDate | date:'shortDate'}}
+              <span *ngIf="!conpaymentDate">Enter Date</span> </label>
+            <input class="form-control form-control-sm" placeholder="yyyy-mm-dd" [(ngModel)]="conpaymentDate"
+              [ngModelOptions]="{standalone: true}" ngbDatepicker #rp="ngbDatepicker" firstDayOfWeek="7" style="display: none">
+            <div class="input-group-append">
+              <button class="btn btn-outline-info btn-xs" (click)="rp.toggle()" type="button"><i
+                  class="fas fa-calendar-alt"></i></button>
+            </div>
+          </div>
+        </div>
+        <div class="col-7"></div>
+        <br><br>
+        <div class="col-2">
+          <label>Check Number</label>
+        </div>
+        <div class="col-3 mb-1" >
+          <input type="text" [(ngModel)]="concheckNumber" numbersOnly [ngModelOptions]="{standalone: true}"
+            class="form-control">
+        </div>
+      </div>
+
+
+
+      <br>
+      <div class="row" *ngIf="isFormSubmit">
+        <div class="col-4">
+          <input *ngIf="!isMessage" type="submit" value="Save" class="btn btn-primary waves-effect waves-light">
+          <input *ngIf="isMessage" type="submit" value="Send" class="btn btn-primary waves-effect waves-light">
+        </div>
+        <div class="col-8">
+
+        </div>
+      </div>
+
+    </form>
+    <ng-template #elseBlock>
+      <!-- Add Document -->
+      <div class="row" *ngIf="57 === arr">
+        <div class="col-md-12">
+          <kendo-upload [saveUrl]="uploadSaveUrl" [removeUrl]="uploadRemoveUrl" (error)="displayErrorDocument($event)"
+            (success)=displaySuccessDocument($event);>
+          </kendo-upload>
+        </div>
+
+      </div>
+      <hr>
+      <button id="client_viewdetail_1" class="btn btn-primary" (click)="modal.close('Save click')">Close</button>
+    </ng-template>
+
+  </div>
+</ng-template>
+<ng-template #Mapcontent let-modal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h5 style="color: black;">{{title}}</h5>
+    <button type="button" (click)="modal.close('Save click')" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container" style="height: 500px;">
+      <agm-map [zoom]="5" [latitude]="mapLat" [longitude]="mapLong" style="height: inherit;">
+        <ng-container *ngFor="let location of  locations">
+          <agm-marker [latitude]="location.Latitude" [longitude]="location.Longitude">
+            <!-- <agm-info-window [disableAutoPan]="true">
+              <h5>{{location.Name}}</h5>
+              <p><i class="fa fa-phone"></i>&nbsp; {{location.CellNumber}}</p>
+              <p><i class="fa fa-map-marker"></i>&nbsp;{{location.Latitude}} , {{location.Longitude}}</p>
+            </agm-info-window> -->
+
+            <agm-info-window [disableAutoPan]="true">
+              IPLNO <h5>{{location.IPLNO}}</h5>
+              <p *ngIf="location.WO_Number!=null"><i class="fa fa-solid fa-hashtag"></i>&nbsp; WO:{{location.WO_Number}}</p>
+              <p *ngIf="location.Address!=null"><i class="fa fa-map"></i>&nbsp; {{location.Address}}</p>
+              <p><i class="fa fa-map-marker"></i>&nbsp;{{location.Latitude}} , {{location.Longitude}}</p>
+            </agm-info-window>
+          </agm-marker>
+        </ng-container>
+      </agm-map>
+    </div>
+  </div>
+</ng-template>
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="default" color="#fff" type="timer" [fullScreen]="true">
+  <p style="color: white">Loading...</p>
+</ngx-spinner>

@@ -1,0 +1,433 @@
+<div class="row dashboardAccounting" >
+  <div class="col-md-2 sidebar">
+    <app-account-sidebar [ActiveLink]="3"></app-account-sidebar>
+  </div>
+  <div class="col-md-10">
+    <div class="">
+      <div class="row">
+        <div class="col-12">
+          <div class="">
+            <div>
+              <!-- clientresult -->
+              <div class="row m-0 mt-1 journalheader">
+                <div class="col-md-8 pl-0">
+                  <h3 class="page-title">Journal Entries</h3>
+                </div>
+                <div class="col-md-4 align-self-center">
+                  <button
+                    class="btn btn-primary"
+                    style="margin-right: 5px"
+                    (click)="addNewDetails(JournalFORM)"
+                  >
+                    <i class="fas fa-plus-circle"></i> Add
+                  </button>
+                </div>
+              </div>
+              <hr />
+              <div class="newDiv">
+                <div class="row m-0 journalgrid p-2">
+                  <kendo-grid
+                    class="module-box"
+                    #gridUser
+                    [kendoGridBinding]="JournalList"
+                    [loading]="IsLoad"
+                    [pageSize]="15"
+                    [pageable]="true"
+                    [sortable]="true"
+                    [filterable]="true"
+                    [selectable]="true"
+                    [groupable]="false"
+                    [skip]="state.skip"
+                    [sort]="state.sort"
+                    [filter]="state.filter"
+                    (dataStateChange)="dataStateChange($event)"
+                  >
+                    <kendo-grid-column
+                      field="JrnlH_Date"
+                      title="Date"
+                      filter="date"
+                    >
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        {{ dataItem.JrnlH_Date | date }}
+                      </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column
+                      field="JrnlH_ReferenceNo"
+                      title="Reference No"
+                    >
+                    </kendo-grid-column>
+                    <kendo-grid-column
+                      field="DebitAmount"
+                      title="Debit"
+                      format="{0:c}"
+                    >
+                    </kendo-grid-column>
+
+                    <kendo-grid-column
+                      field="CreditAmount"
+                      title="Credit"
+                      format="{0:c}"
+                    >
+                    </kendo-grid-column>
+                    <kendo-grid-column
+                      field="JrnlH_ReadyForPosting"
+                      title="Ready for posting"
+                    >
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        <input
+                          type="checkbox"
+                          disabled
+                          [checked]="dataItem.JrnlH_ReadyForPosting"
+                        />
+                      </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column field="JrnlH_Posted" title="Posted">
+                      <ng-template kendoGridCellTemplate let-dataItem>
+                        <input
+                          type="checkbox"
+                          disabled
+                          [checked]="dataItem.JrnlH_Posted"
+                        />
+                      </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column
+                    field="JrnlH_CreatedByName"
+                    title="CreatedBy"
+                  >
+                  </kendo-grid-column>
+                  <kendo-grid-column
+                  field="JrnlH_ModifiedByName"
+                  title="LastModifiedBy"
+                >
+                </kendo-grid-column>
+                    <kendo-grid-column title="Action">
+                      <ng-template
+                        kendoGridCellTemplate
+                        let-dataItem
+                        let-rowIndex="rowIndex"
+                      >
+                        <button
+                          [disabled]="false"
+                          (click)="editDetails(dataItem, JournalFORM)"
+                        >
+                          <i class="fa fa-pencil-square-o"></i></button
+                        >&nbsp;
+                        <button
+                          (click)="deleteDetails($event, dataItem)"
+                          [disabled]="dataItem.JrnlH_Posted"
+                        >
+                          <i class="fa fa-trash"></i></button
+                        >&nbsp;
+                        <button
+                          [disabled]="
+                            dataItem.JrnlH_Posted ||
+                            !dataItem.JrnlH_ReadyForPosting
+                          "
+                          (click)="addPostJournal(dataItem.JrnlH_pkeyId)"
+                        >
+                          <i class="fa fa-angle-right"></i>
+                        </button>
+                      </ng-template>
+                    </kendo-grid-column>
+                    <ng-template
+                      kendoPagerTemplate
+                      let-totalPages="totalPages"
+                      let-currentPage="currentPage"
+                    >
+                      <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+                      <kendo-pager-numeric-buttons
+                        [buttonCount]="10"
+                      ></kendo-pager-numeric-buttons>
+                      <kendo-pager-next-buttons></kendo-pager-next-buttons>
+                      <kendo-pager-info></kendo-pager-info>
+                      <kendo-pager-page-sizes
+                        [pageSizes]="[15, 30, 50, 100]"
+                      ></kendo-pager-page-sizes>
+                    </ng-template>
+                  </kendo-grid>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #JournalFORM let-modal>
+  <div class="modal-header"  [ngClass]="{ 'HelpCursor': isHelpActive }">
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body journalinsert"  [ngClass]="{ 'HelpCursor': isHelpActive }">
+    <div class="module-box p-2">
+      <form
+        [formGroup]="formUsrCommonGroup"
+        (ngSubmit)="FormButtonPOPUp(journalEditForm)"
+        #journalEditForm="ngForm"
+      >
+        <div class="form-row">
+          <div class="form-group col-md-12 text-center module-subheader">
+            <h5>Journal - Insert
+              <a class="pull-right" data-toggle="tooltip" (click)="SetHelpFlag()" data-placement="top"
+                title="Item Help" style="cursor: pointer;">Need Help
+                <i class="fas fa-question"></i>&nbsp;&nbsp;
+              </a>
+            </h5>
+          </div>
+          <br />
+        </div>
+        <div class="col-md-12 row">
+          <div class="form-group col-md-2">
+            <label for="journaldate" [ngClass]="{ 'HelpCursor': isHelpActive }"(click)="DispalyInfo($event,'Date')"> Date <i class="text-danger">*</i></label>
+            <div class="input-group">
+              <input
+                id="journaldate"
+                [disabled]="JournalModelObj.JrnlH_Posted"
+                type="text"
+                readonly
+                class="form-control form-control-sm"
+                formControlName="journaldate"
+                [(ngModel)]="JournalModelObj.JrnlH_Date"
+                ngbDatepicker
+                #dt1="ngbDatepicker"
+                firstDayOfWeek="7"
+                placeholder="Enter Date.."
+                (click)="DispalyInfo($event,'Date')"[readonly]="isHelpActive" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                required
+              />
+              <div class="input-group-append">
+                <button
+                  class="btn btn-outline-info btn-xs"
+                  (click)="dt1.toggle()"
+
+                  type="button"
+                >
+                  <i class="fas fa-calendar-alt"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="form-group col-md-2">
+            <label for="journalref" [ngClass]="{ 'HelpCursor': isHelpActive }"(click)="DispalyInfo($event,'Ref')"> Ref <i class="text-danger">*</i> </label>
+            <div class="input-group">
+              <input
+                id="journalref"
+                [readonly]="JournalModelObj.JrnlH_Posted"
+                type="text"
+                class="form-control form-control-sm"
+                formControlName="journalref"
+                (keyup)="RemovewhiteSpace($event, 'JrnlH_ReferenceNo')"
+                [(ngModel)]="JournalModelObj.JrnlH_ReferenceNo"
+                placeholder="Enter Reference no.."
+                (click)="DispalyInfo($event,'Ref')"[readonly]="isHelpActive" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                [ngClass]="{
+                  'is-invalid':
+                    journalEditForm.submitted && fx.journalref.errors
+                }"
+              />
+            </div>
+            <div
+              *ngIf="journalEditForm.submitted && fx.journalref.errors"
+              class="text-danger"
+            >
+              <div *ngIf="fx.journalref.errors.required">
+                this field is required
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr />
+        <table>
+          <thead>
+            <tr>
+              <td style="width: 20%">Account<i class="text-danger">*</i></td>
+              <!-- <td>Dr/Cr</td> -->
+              <td>Debits</td>
+              <td>Credits</td>
+              <!-- <td>Amount</td> -->
+              <td>Memo</td>
+              <td>Name</td>
+              <td>Class</td>
+              <td>Delete</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="
+                let item of JournalModelObj.JrnlH_JournalEntry;
+                index as i
+              "
+            >
+              <td>
+
+                <ng-multiselect-dropdown
+                  [settings]="dropdownSettingsAccount"
+                  [placeholder]="'Select Account'"
+                  [data]="AccountList"
+                  [(ngModel)]="item.JrnlE_AccountIdList"
+                  [ngModelOptions]="{ standalone: true }"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }"(click)="DispalyInfo($event,'Account')"
+                  [ngClass]="{
+                    'is-invalid':
+                      journalEditForm.submitted &&
+                      (item.JrnlE_AccountIdList == null ||
+                        item.JrnlE_AccountIdList.length == 0)
+                  }"
+                >
+                </ng-multiselect-dropdown>
+                <div
+                  *ngIf="
+                    journalEditForm.submitted &&
+                    (item.JrnlE_AccountIdList == null ||
+                      item.JrnlE_AccountIdList.length == 0)
+                  "
+                  class="text-danger"
+                >
+                  <div
+                    *ngIf="
+                      journalEditForm.submitted &&
+                      (item.JrnlE_AccountIdList == null ||
+                        item.JrnlE_AccountIdList.length == 0)
+                    "
+                  >
+                    Account is required
+                  </div>
+                </div>
+              </td>
+
+              <td>
+                <input
+                  type="number"
+                  [readonly]="JournalModelObj.JrnlH_Posted"
+                  class="form-control form-control-sm"
+                  [(ngModel)]="item.JrnlE_DrAmount"
+                  [ngModelOptions]="{ standalone: true }"
+                  (keyup)="GetDebitCreditAmount()"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }" [readonly]="isHelpActive"  (click)="DispalyInfo($event,'Debits')"
+                />
+              </td>
+              <td>
+                <input
+                  type="number"
+                  [readonly]="JournalModelObj.JrnlH_Posted"
+                  class="form-control form-control-sm"
+                  [(ngModel)]="item.JrnlE_CrAmount"
+                  (keyup)="GetDebitCreditAmount()"
+                  [ngModelOptions]="{ standalone: true }"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }" [readonly]="isHelpActive"  (click)="DispalyInfo($event,'Credits')"
+                />
+              </td>
+
+              <td>
+                <input
+                  type="text"
+                  [readonly]="JournalModelObj.JrnlH_Posted"
+                  class="form-control form-control-sm"
+                  [(ngModel)]="item.JrnlE_Memo"
+                  [ngModelOptions]="{ standalone: true }"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }" [readonly]="isHelpActive"  (click)="DispalyInfo($event,'Memo')"
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  [readonly]="JournalModelObj.JrnlH_Posted"
+                  class="form-control form-control-sm"
+                  [(ngModel)]="item.JrnlE_Name"
+                  [ngModelOptions]="{ standalone: true }"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }" [readonly]="isHelpActive"  (click)="DispalyInfo($event,'Name')"
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  [readonly]="JournalModelObj.JrnlH_Posted"
+                  class="form-control form-control-sm"
+                  [(ngModel)]="item.JrnlE_Class"
+                  [ngModelOptions]="{ standalone: true }"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }" [readonly]="isHelpActive"  (click)="DispalyInfo($event,'Class')"
+                />
+              </td>
+              <td class="tdaction">
+                <button
+                  [disabled]="JournalModelObj.JrnlH_Posted"
+                  (click)="deleteEntry($event, JournalModelObj, item)"
+                >
+                  <i class="fa fa-trash"></i></button
+                >&nbsp;
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div
+          *ngIf="
+            journalEditForm.submitted &&
+            (JournalModelObj.JrnlH_JournalEntry == null ||
+              JournalModelObj.JrnlH_JournalEntry.length == 0)
+          "
+          class="text-danger"
+        >
+          <div
+            *ngIf="
+              JournalModelObj.JrnlH_JournalEntry == null ||
+              JournalModelObj.JrnlH_JournalEntry.length == 0
+            "
+          >
+            Please Enter Journal Entry
+          </div>
+        </div>
+        <div class="row journalinsert-button">
+          <div class="col-md-3 text-center">Total</div>
+          <div class="col-md-2">{{ TotalDebitAmount | currency }}</div>
+          <div class="col-md-2">{{ TotalCreditAmount | currency }}</div>
+          <div class="col-md-1"></div>
+          <div class="col-md-4">
+            <!-- <input type="button" class="btn btn-primary waves-effect waves-light" (click)="AddJournalEntry(JournalModelObj)"
+              value="Add Journal Entry" /> -->
+            <button
+              type="button"
+              [disabled]="JournalModelObj.JrnlH_Posted"
+              (click)="AddJournalEntry(JournalModelObj)"
+              class="btn btn-primary waves-effect waves-light"
+            >
+              <i class="fas fa-plus-circle"></i> Add Journal Entry
+            </button>
+          </div>
+        </div>
+        <hr />
+        <div class="col-md-12 text-right">
+          <button
+            class="btn btn-success btn-lg mr-2"
+            (click)="modal.dismiss('Cross click')"
+            type="button"
+          >
+            Cancel
+          </button>
+
+          <button
+            [disabled]="JournalModelObj.JrnlH_Posted"
+            type="submit"
+            class="btn btn-primary waves-effect waves-light"
+          >
+            <i
+              class="fa"
+              [ngClass]="{
+                'fa-spin fa-spinner': isLoading,
+                'fa-save': !isLoading
+              }"
+            ></i>
+            {{ button }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>

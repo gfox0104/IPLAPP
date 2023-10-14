@@ -1,0 +1,16 @@
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-body">
+      <!-- <app-breadcrumb title="Contractor"></app-breadcrumb> -->
+      <div class="icons-list">
+        <div class="row" style="justify-content: space-evenly;">
+          <iplapp-dashboard-icon class="col-md-2 col-sm-3 col-lg-2 col-5 icons"  *ngFor="let item of contractorLinks"
+            [title]="item.title"
+            [images]="item.images"
+            [routerLink]="item.routerLink">
+          </iplapp-dashboard-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

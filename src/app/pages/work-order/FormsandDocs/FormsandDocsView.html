@@ -1,0 +1,83 @@
+<div class="pt-2">
+  <button class="btn btn-primary" (click)="openUploadDialog(folderUploadModal)">Add Folder</button>
+  <button class="btn btn-primary" (click)="openUploadDialog(docUploadModal)">Add File</button>
+</div>
+
+<ng-template #docUploadModal let-modal>
+  <div class="modal-header">
+    Upload Docs
+    <button type="button" class="close" (click)="modal.close('Save click')" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div>
+      <div class="row">
+        <div class="col-md-12">
+          <input type="file" (change)="uploadDocument($event)">
+        </div>
+      </div>
+      <hr>
+      <button type="button" class="btn btn-primary waves-effect waves-light" (click)="modal.close('Save click')">Close</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #folderUploadModal let-modal>
+  <div class="modal-header">
+    Upload Folder
+    <button type="button" class="close" (click)="modal.close('Save click')" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <input type="text" class="form-control" [(ngModel)]="newFolderName">
+          </div>
+          <button class="btn btn-primary" (click)="saveFolder()">Add Folder</button>
+        </div>
+      </div>
+      <hr>
+      <button type="button" class="btn btn-primary waves-effect waves-light" (click)="modal.close('Save click')">Close</button>
+    </div>
+  </div>
+</ng-template>
+
+<h1>Forms & Docs</h1>
+<div class="border">
+  <ng-container *ngFor="let item of fileList">
+    <div *ngIf="item.folder==='-----'" class="my-1 px-2">
+      <i class="fa fa-file"></i>
+      {{ item.name }}
+      <a [href]="item.path" class="ml-2" target="__blank">Download</a>
+      <i class="fa fa-trash ml-2" style="cursor: pointer" (click)="deleteDocument(item.name)"></i>Delete
+      <select class="ml-4" [name]="item.name" [(ngModel)]="changeFolderName">
+        <option [value]="folder" *ngFor="let folder of folderNames">{{folder}}</option>
+      </select>
+      <span style="cursor: pointer" (click)="changeFolder(item)">Change Folder</span>
+    </div>
+  </ng-container>
+
+  <kendo-panelbar>
+    <kendo-panelbar-item [title]="folder" *ngFor="let folder of folderNames">
+      <kendo-panelbar-item 
+        [title]="item.name"
+        *ngFor="let item of filteredFiles(folder)"
+      >
+        <ng-template kendoPanelBarContent>
+          <div class="px-1 py-1">
+            <a [href]="item.link" class="ml-2" target="__blank">Download</a>
+            <i class="fa fa-trash ml-2" style="cursor: pointer" (click)="deleteDocument(item.name)"></i>
+            <select class="ml-4" [name]="item.name" [(ngModel)]="changeFolderName">
+              <option [value]="folder" *ngFor="let folder of folderNames">{{folder}}</option>
+            </select>
+            <span style="cursor: pointer" (click)="changeFolder(item)">Change Folder</span>
+          </div>
+        </ng-template>
+      </kendo-panelbar-item>
+    </kendo-panelbar-item>
+  </kendo-panelbar>
+</div>

@@ -1,0 +1,68 @@
+<div class="row">
+<div class="col-md-6">
+  <div class="form-group">
+    <div class="input-group">
+
+
+      <kendo-dropdownlist
+      [defaultItem]="defaultStateItem"
+        [data]="locations"
+        [filterable]="true"
+        [textField]="'name'"
+        [valueField]="'name'"
+        (valueChange)="valueChange($event)"
+        (selectionChange)="selectionChange($event)"
+        (filterChange)="StateFilter($event)"
+        [valuePrimitive]="true"
+
+
+      >
+      </kendo-dropdownlist>
+    </div>
+  </div>
+</div>
+</div>
+<!-- <agm-map [zoom]="zoom" [latitude]="mapLat" [longitude]="mapLong">
+  <ng-container *ngFor="let location of  locations">
+    <agm-marker [latitude]="location.latitude" [longitude]="location.longitude" *ngIf="location.loggedTime">
+      <agm-info-window [disableAutoPan]="true">
+        <h5>{{location.name}}</h5>
+        <p><i class="fa fa-phone"></i>&nbsp; {{location.cellNumber}}</p>
+        <p>
+          <i class="fa fa-map-marker"></i>&nbsp;{{location.latitude}} ,
+          {{location.longitude}}
+        </p>
+        <p>
+          <i class="fa fa-clock"></i>&nbsp;{{location.loggedTime}}
+        </p>
+      </agm-info-window>
+    </agm-marker>
+  </ng-container>
+</agm-map> -->
+
+<agm-map [zoom]="zoom" [latitude]="mapLat" [longitude]="mapLong">
+  <!-- <agm-polygon [paths]="paths"></agm-polygon> -->
+  <ng-container *ngFor="let location of  LatLongData">
+    <!-- <agm-marker
+          [latitude]="mapLat"
+          [longitude]="mapLong"
+          [iconUrl]="icon">
+      </agm-marker> -->
+      <!-- <agm-overlay *ngIf="mapLat!=0" [latitude]="location.latitude" [longitude]="location.longitude"> -->
+    <agm-marker *ngIf="location.latitude!=0" [latitude]="location.latitude" [longitude]="location.longitude">
+      <agm-info-window [disableAutoPan]="true">
+        <h5>{{location.name}}</h5>
+        <p><i class="fa fa-phone"></i>&nbsp; {{location.cellNumber}}</p>
+        <p>
+          <i class="fa fa-map-marker"></i>&nbsp;{{location.latitude}} ,
+          {{location.longitude}}
+        </p>
+        <p>
+          <i class="fa fa-clock"></i>&nbsp;{{location.loggedTime}}
+        </p>
+      </agm-info-window>
+    </agm-marker>
+  <!-- </agm-overlay> -->
+  </ng-container>
+</agm-map>
+

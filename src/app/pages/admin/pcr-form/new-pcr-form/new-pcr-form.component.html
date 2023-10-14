@@ -1,0 +1,1045 @@
+<div class="container-fluid" [ngClass]="{ 'HelpCursor': isHelpActive }">
+
+
+    <div class="row m-0">
+        <div class="col-12">
+            <div class="">
+                <div class="row m-0 module-box-header">
+                    <h4 class="page-title">{{formName}} Forms
+
+                    </h4>
+                    <hr>
+                    <div class="btn btn-primary mr-1 h35" >
+                        <div class="custom-control custom-switch" >
+                            <input type="checkbox" (change)="checkChange(6)"  class="custom-control-input" [disabled]="formId==0"
+                                id="switchPublish" [checked]="isFormPublish">
+                            <label class="custom-control-label" for="switchPublish" style="color: #fff;">Publish</label>
+                        </div>
+                    </div>
+
+                    
+
+                    <button type="button" [disabled]="formId==0" (click)="addEditQuestion(addQuestion);"
+                        class="btn btn-primary mr-1 h35">
+                        <i class="fas fa-plus-circle"></i>
+                        Add Questions</button>
+
+                    <button type="button" [disabled]="formId==0" (click)="previewFormByID(0);"
+                        class="btn btn-primary mr-1 h35">
+                        <i class="fas fa-caret-square-o-right"></i>
+                        Preview</button>
+
+                    <button type="button" [disabled]="formId==0" (click)="docsupload(DocmentUpload);"
+                        class="btn btn-primary mr-1 h35">
+                        <i class="fas fa-file-upload mr-1"></i>
+                        Add Document <span class="badge badge-pill bg-danger">{{documentdetailslst.length}}</span></button>
+
+                    <button type="submit" id="ViewForm" class="btn btn-primary mr-1 h35" [disabled]="formId==0" (click)="redirectToList()">
+                        <i class="fas fa-plus-circle"></i>
+                        View Forms</button>&nbsp; &nbsp;
+
+                    <a class="pull-right mr-2" data-toggle="tooltip" (click)="SetHelpFlag()" data-placement="top"
+                    title="Item Help" style="cursor: pointer;"><b>Need Help</b>
+                    <i class="fas fa-question"></i>&nbsp;&nbsp;
+                    </a>
+                </div>
+
+
+                <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="default" color="#fff" type="timer" [fullScreen]="true">
+                    <p style="color: white">Loading...</p>
+                  </ngx-spinner>
+
+                <div class="row ">
+                    <!--*ngIf="formsMaster" must be add afterward-->
+                    <!-- Form Details Start-->
+                    <form [formGroup]="formsMaster" class="w-100" (submit)="onSubmit()" *ngIf="formsMaster">
+                        <div class="col-lg-12">
+                            <div class="module-box p-2" style="overflow-y: auto;overflow-x: hidden;">
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-12 text-center module-subheader">
+                                        <h5> Form Details</h5>
+                                    </div>
+                                </div>
+                                <div class="module-box p-2">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-2">
+                                            <label class="col-form-label" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                                                (click)="DispalyInfo($event,'Form Name')"> Form Name <span
+                                                    style="color: red">*</span></label>
+                                            <input type="text" class="form-control form-control-sm"
+                                                placeholder="Enter Form Name" formControlName="formName"
+                                                (click)="DispalyInfo($event,'Form Name')" [readonly]="isHelpActive"
+                                                [ngClass]="{ 'HelpCursor': isHelpActive }">
+                                            <div *ngIf="invalidFormName" class="Mydropdown">this field is required</div>
+                                        </div>
+                                        <div class="form-group col-md-1">
+                                            <label class="col-form-label" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                                                (click)="DispalyInfo($event,'Form ID')">Form ID <span
+                                                    style="color: red">*</span></label>
+                                            <input type="text" class="form-control form-control-sm"
+                                                placeholder="Form Id" formControlName="formNumber"
+                                                (click)="DispalyInfo($event,'Form ID')" [readonly]="isHelpActive"
+                                                [ngClass]="{ 'HelpCursor': isHelpActive }">
+                                            <div *ngIf="invalidFormNo" class="Mydropdown">this field is required</div>
+                                        </div>
+                                        <div class="form-group col-md-1">
+                                            <label class="col-form-label" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                                                (click)="DispalyInfo($event,'Required')">Required</label>
+                                            <select class="form-control form-control-sm" formControlName="IsRequired"
+                                                [ngClass]="{ 'HelpCursor': isHelpActive }"
+                                                (click)="DispalyInfo($event,'Required')">
+                                                <option value='1'>Yes</option>
+                                                <option value='0'>No</option>
+                                            </select>
+                                            <span
+                                                class="badge d-block badge-light form-text text-left badge-custom mt-1">If
+                                                required is Yes form is mandatory</span>
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                            <label class="col-form-label" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                                                (click)="DispalyInfo($event,'Office Results')">Office Results</label>
+                                            <select class="form-control form-control-sm" formControlName="OfficeResults"
+                                                [ngClass]="{ 'HelpCursor': isHelpActive }"
+                                                (click)="DispalyInfo($event,'Office Results')">
+                                                <option value='1'>Yes</option>
+                                                <option value='0'>No</option>
+                                            </select>
+                                            <span
+                                                class="badge d-block badge-light form-text text-left badge-custom mt-1">If
+                                                Yes
+                                                it will show in office result when filtered</span>
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                            <label class="col-form-label" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                                                (click)="DispalyInfo($event,'Field Results')">Field Results</label>
+                                            <select class="form-control form-control-sm" formControlName="FieldResults"
+                                                [ngClass]="{ 'HelpCursor': isHelpActive }"
+                                                (click)="DispalyInfo($event,'Field Results')">
+                                                <option value='1'>Yes</option>
+                                                <option value='0'>No</option>
+                                            </select>
+                                            <span
+                                                class="badge d-block badge-light form-text text-left badge-custom mt-1">If
+                                                Yes
+                                                it will show in field result when filtered</span>
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                            <label class="col-form-label" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                                                (click)="DispalyInfo($event,'Active')"> Active</label>
+                                            <select class="form-control form-control-sm" formControlName="Form_IsActive"
+                                                [ngClass]="{ 'HelpCursor': isHelpActive }"
+                                                (click)="DispalyInfo($event,'Active')">
+                                                <option value='1'>Yes</option>
+                                                <option value='0'>No</option>
+                                            </select>
+                                            <span
+                                                class="badge d-block badge-light form-text text-left badge-custom mt-1">Form
+                                                is
+                                                not active until questions are published</span>
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                          <label class="col-form-label" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                                              (click)="DispalyInfo($event,'Auto Assign')"> Auto Assign</label>
+                                          <select class="form-control form-control-sm" formControlName="Form_IsAutoAssign"
+                                              [ngClass]="{ 'HelpCursor': isHelpActive }"
+                                              (click)="DispalyInfo($event,'Auto Assign')">
+                                              <option value='1'>Yes</option>
+                                              <option value='0'>No</option>
+                                          </select>
+                                          <!-- <span
+                                              class="badge d-block badge-light form-text text-left badge-custom mt-1">Form
+                                              is
+                                              not active until questions are published</span> -->
+                                      </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="module-box p-2 mt-2" [hidden]="formsMaster.controls['Form_IsAutoAssign'].value === '0'">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-12 text-center module-subheader">
+                                            <h5>Work Order Filter</h5>
+                                        </div>
+                                    </div>
+                                    <div formArrayName="workOrderFilters"
+                                        *ngFor="let item of formsMaster.get('workOrderFilters')['controls']; let i = index;">
+                                        <div class="form-row" [formGroupName]="i">
+                                            <div class="form-group col-md-2">
+                                                <label class="col-form-label" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                                                    (click)="DispalyInfo($event,'Client Company')">Client
+                                                    Company</label>
+                                                <!-- {{selectedWOItems[i]|json}} -->
+                                                <ng-multiselect-dropdown style="width: max-content"
+                                                    [placeholder]="'select Client Company'"
+                                                    [settings]="dropdownSettings" [data]="dropdownListCompany"
+                                                    [(ngModel)]="selectedWOItems[i].selectedCompanyItems"
+                                                    [disabled]="IsEditDisable" formControlName="FiltersCompany"
+                                                    *ngIf="formId>0 && selectedWOItems[i]"
+                                                    [ngClass]="{ 'HelpCursor': isHelpActive }"
+                                                    (click)="DispalyInfo($event,'Client Company')">
+                                                </ng-multiselect-dropdown>
+                                                <ng-multiselect-dropdown *ngIf="!selectedWOItems[i]"
+                                                    style="width: max-content" [placeholder]="'select Client Company'"
+                                                    [settings]="dropdownSettings" [data]="dropdownListCompany"
+                                                    [disabled]="IsEditDisable" formControlName="FiltersCompany"
+                                                    [ngClass]="{ 'HelpCursor': isHelpActive }"
+                                                    (click)="DispalyInfo($event,'Client Company')">
+                                                </ng-multiselect-dropdown>
+                                            </div>
+                                            <div class="form-group col-md-2">
+                                                <label class="col-form-label" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                                                    (click)="DispalyInfo($event,'Work Type')">Work Type</label>
+                                                <ng-multiselect-dropdown style="width: max-content"
+                                                    [placeholder]="'select Work Type'"
+                                                    [settings]="dropdownSettingsWorkType" [data]="dropdownListWorkType"
+                                                    [(ngModel)]="selectedWOItems[i].selectedWorkTypeItems"
+                                                    [disabled]="IsEditDisable" formControlName="FiltersWorkType"
+                                                    *ngIf="formId>0 && selectedWOItems[i]"
+                                                    [ngClass]="{ 'HelpCursor': isHelpActive }"
+                                                    (click)="DispalyInfo($event,'Work Type')">
+                                                </ng-multiselect-dropdown>
+                                                <ng-multiselect-dropdown style="width: max-content"
+                                                    [placeholder]="'select Work Type'"
+                                                    [settings]="dropdownSettingsWorkType" [data]="dropdownListWorkType"
+                                                    [disabled]="IsEditDisable" formControlName="FiltersWorkType"
+                                                    [ngClass]="{ 'HelpCursor': isHelpActive }"
+                                                    (click)="DispalyInfo($event,'Work Type')"
+                                                    *ngIf="!selectedWOItems[i]">
+                                                </ng-multiselect-dropdown>
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label class="col-form-label" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                                                    (click)="DispalyInfo($event,'Work Type Groups')">Work Type
+                                                    Groups</label>
+                                                <ng-multiselect-dropdown style="width: max-content"
+                                                    [placeholder]="'select Work Type Group'"
+                                                    [settings]="dropdownSettingsGroup" [data]="dropdownListGroup"
+                                                    [(ngModel)]="selectedWOItems[i].selectedWorkTypeGroupItems"
+                                                    [disabled]="IsEditDisable" formControlName="FiltersWorkTypeGroup"
+                                                    *ngIf="formId>0 && selectedWOItems[i]"
+                                                    [ngClass]="{ 'HelpCursor': isHelpActive }"
+                                                    (click)="DispalyInfo($event,'Work Type Groups')">
+                                                </ng-multiselect-dropdown>
+                                                <ng-multiselect-dropdown style="width: max-content"
+                                                    [placeholder]="'select Work Type Group'"
+                                                    [settings]="dropdownSettingsGroup" [data]="dropdownListGroup"
+                                                    [disabled]="IsEditDisable" formControlName="FiltersWorkTypeGroup"
+                                                    *ngIf="!selectedWOItems[i]"
+                                                    [ngClass]="{ 'HelpCursor': isHelpActive }"
+                                                    (click)="DispalyInfo($event,'Work Type Groups')">
+                                                </ng-multiselect-dropdown>
+                                            </div>
+                                            <div class="form-group col-md-2">
+                                                <label class="col-form-label" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                                                    (click)="DispalyInfo($event,'Customer')">Customer</label>
+                                                <ng-multiselect-dropdown style="width: max-content"
+                                                    [placeholder]="'select Customer'"
+                                                    [settings]="dropdownSettingsCustomer" [data]="dropdownListCustomer"
+                                                    [(ngModel)]="selectedWOItems[i].selectedCustomerItems"
+                                                    [disabled]="IsEditDisable" formControlName="FiltersCustomer"
+                                                    [ngClass]="{ 'HelpCursor': isHelpActive }"
+                                                    (click)="DispalyInfo($event,'Customer')"
+                                                    *ngIf="formId>0&& selectedWOItems[i]">
+                                                </ng-multiselect-dropdown>
+                                                <ng-multiselect-dropdown style="width: max-content"
+                                                    [placeholder]="'select Customer'"
+                                                    [settings]="dropdownSettingsCustomer" [data]="dropdownListCustomer"
+                                                    [disabled]="IsEditDisable" formControlName="FiltersCustomer"
+                                                    *ngIf="!selectedWOItems[i]"
+                                                    [ngClass]="{ 'HelpCursor': isHelpActive }"
+                                                    (click)="DispalyInfo($event,'Customer')">
+                                                </ng-multiselect-dropdown>
+                                            </div>
+                                            <div class="form-group col-md-2">
+                                                <label class="col-form-label" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                                                    (click)="DispalyInfo($event,'Loan Type')">Loan Type</label>
+                                                <ng-multiselect-dropdown style="width: max-content"
+                                                    [placeholder]="'select Loan Type'"
+                                                    [settings]="dropdownSettingsLoanType" [data]="dropdownListLoanType"
+                                                    [(ngModel)]="selectedWOItems[i].selectedLoanItems"
+                                                    [disabled]="IsEditDisable" formControlName="FiltersLoanType"
+                                                    [ngClass]="{ 'HelpCursor': isHelpActive }"
+                                                    (click)="DispalyInfo($event,'Loan Type')"
+                                                    *ngIf="formId>0 && selectedWOItems[i]">
+                                                </ng-multiselect-dropdown>
+                                                <ng-multiselect-dropdown style="width: max-content"
+                                                    [placeholder]="'select Loan Type'"
+                                                    [settings]="dropdownSettingsLoanType" [data]="dropdownListLoanType"
+                                                    [disabled]="IsEditDisable" formControlName="FiltersLoanType"
+                                                    *ngIf="!selectedWOItems[i]"
+                                                    [ngClass]="{ 'HelpCursor': isHelpActive }"
+                                                    (click)="DispalyInfo($event,'Loan Type')">
+                                                </ng-multiselect-dropdown>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="form-row">
+                                    <div class="float-right">
+                                        <label for="SaveForm"
+                                            style="color:red;margin-top:10px">*
+                                            Field is Required
+                                        </label> <br>
+                                        <a href="javascript:void(0)" *ngIf="IsEditDisable" (click)="EditForms()"
+                                            class="btn btn-primary waves-effect waves-light"> <i
+                                                class="far fa-edit mr-1"></i> Edit </a>
+                                        <button type="submit" id="SaveForm" *ngIf="!IsEditDisable"
+                                            class="btn btn-primary" [disabled]="isLoading">
+                                            <i class="fa"
+                                                [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}"></i>
+                                            {{button}}</button>&nbsp;&nbsp;
+                                        <button type="submit" id="Back" (click)="clickBack()"
+                                            class="btn btn-primary ml-1 h35">
+                                            <i class="fas fa-arrow-alt-circle-left"></i>
+                                            Back</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                    <!-- Form Details End-->
+
+
+                    <!--tab panel-->
+                    <div class="col-lg-12 mt-3" *ngIf="formId>0">
+                        <ul class="nav nav-tabs module-subheader mr-0" id="forms" role="tabs">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="1" data-toggle="tab" href="#question-list" role="tab"
+                                    aria-controls="" aria-selected="true">Question List</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" [id]="2" data-toggle="tab" href="#form-rules" role="tab"
+                                    aria-controls="" aria-selected="true">Action Rules</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" [id]="2" data-toggle="tab" href="#field-rules" role="tab"
+                                    aria-controls="" aria-selected="true">Field Rules</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" [id]="3" data-toggle="tab" href="#form-list" role="tab"
+                                    aria-controls="" aria-selected="true">Past Form</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!--tab panel end-->
+
+                    <!--tab content-->
+                    <div class="tab-content px-2 pt-0" *ngIf="formId>0" id="formsTabContent" style="width: 100%;">
+                        <div class="tab-pane fade" class="tab-pane fade show active" id="question-list" role="tabpanel"
+                            aria-labelledby="question-list-tab">
+                            <div class="col-lg-12 p-0">
+                                <div class="module-box p-2">
+
+                                    <div class="form-row">
+                                        <div class="table-responsive questionTable">
+                                            <table class="table mb-0 custom">
+                                                <thead class="thead">
+                                                    <tr>
+                                                        <th>Question Name</th>
+                                                        <th>Question Form</th>
+                                                        <th>Active</th>
+                                                        <th>Required</th>
+                                                        <th>Office Results</th>
+                                                        <th>Field Results</th>
+                                                        <th>Alerts</th>
+                                                        <th>Rules</th>
+                                                        <th> </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let que of questionList;let i = index;" class="mb-2">
+                                                        <input type="hidden" value="{{que.QuestionId}}">
+                                                        <!-- {{que|json}} -->
+                                                        <td class="left"><a
+                                                                href="javascript: void(0);">{{que.Question}}</a></td>
+                                                        <td>
+                                                            <textarea class="width"
+                                                                *ngIf="que.QuestionType[0].QuestionTypeId==2"></textarea>
+                                                            <input type="text" class="width rounded"
+                                                                *ngIf="que.QuestionType[0].QuestionTypeId==5||que.QuestionType[0].QuestionTypeId==6">
+                                                            <input type="number" class="width rounded"
+                                                                *ngIf="que.QuestionType[0].QuestionTypeId==8">
+                                                            <input type="date"
+                                                                *ngIf="que.QuestionType[0].QuestionTypeId==7">
+                                                            <select class="form-control form-control-sm"
+                                                                *ngIf="que.QuestionType[0].QuestionTypeId==3">
+                                                                <option *ngFor="let item of que.Options"
+                                                                    value="{{item.OptionId}}">
+                                                                    {{item.OptionName}}</option>
+                                                            </select>
+                                                            <div class="custom-control custom-switch"
+                                                                *ngIf="que.QuestionType[0].QuestionTypeId==1">
+                                                                <div class="my-2" *ngFor="let item of que.Options">
+                                                                    <input type="checkbox"
+                                                                        class="custom-control-input col-4">
+                                                                    <label class="custom-control-label text-left col-8"
+                                                                        for="switchDefault">{{item.OptionName}}</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="radio radio-info form-check-inline"
+                                                                *ngIf="que.QuestionType[0].QuestionTypeId==4">
+                                                                <div class="m-2" *ngFor="let item of que.Options">
+                                                                    <input type="radio">
+                                                                    <label>{{item.OptionName}}</label>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="custom-control custom-switch">
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="switchisActive{{i}}" [checked]="que.Que_Show"
+                                                                    (change)="updateCheckedOptions('Que_Show',que.QuestionId, $event)">
+                                                                <label class="custom-control-label"
+                                                                    for="switchisActive{{i}}"></label>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="custom-control custom-switch">
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="switchRq{{i}}" [checked]="que.Que_Required"
+                                                                    (change)="updateCheckedOptions('Que_Required',que.QuestionId, $event)">
+                                                                <label class="custom-control-label"
+                                                                    for="switchRq{{i}}"></label>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="custom-control custom-switch">
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="switchOff{{i}}"
+                                                                    [checked]="que.Que_OfficeResults"
+                                                                    (change)="updateCheckedOptions('Que_OfficeResults',que.QuestionId, $event)">
+                                                                <label class="custom-control-label"
+                                                                    for="switchOff{{i}}"></label>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="custom-control custom-switch">
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="switchRes{{i}}" [checked]="que.Que_FieldResults"
+                                                                    (change)="updateCheckedOptions('Que_FieldResults',que.QuestionId, $event)">
+                                                                <label class="custom-control-label"
+                                                                    for="switchRes{{i}}"></label>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="custom-control custom-switch">
+                                                                <input type="checkbox" class="custom-control-input"
+                                                                    id="switchAle{{i}}" [checked]="que.Que_Alert"
+                                                                    (change)="updateCheckedOptions('Que_Alert',que.QuestionId, $event)">
+                                                                <label class="custom-control-label"
+                                                                    for="switchAle{{i}}"></label>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <a href="javascript: void(0);"> {{que.RuleCount}} </a>
+                                                        </td>
+                                                        <td>
+                                                            <button class="btn btn-primary custom-btn"
+                                                                (click)="EditQuestion(que.QuestionId) ">
+                                                                <i class="fa fa-edit"></i>
+                                                            </button>
+                                                            &nbsp;
+                                                            <button class="btn btn-primary custom-btn"
+                                                                (click)="deleteQuestion(que.QuestionId)"> <i
+                                                                    class="fa fa-trash"></i></button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="form-rules" role="tabpanel" aria-labelledby="form-rule-tab">
+                            <div class="col-lg-12 p-1  module-box">
+                                <!--header row-->
+                                <div class="form-row module-subheader">
+
+                                    <div class="form-group col-md-1 col">
+                                        <label for="questionType" class="col-form-label">
+                                        </label>
+                                    </div>
+                                    <div class="form-group col-md-2 col">
+                                        <label for="questionType" class="col-form-label">Question Name
+                                        </label>
+                                    </div>
+                                    <div class="form-group col-md-1 col">
+                                        <label for="questionType" class="col-form-label">
+                                        </label>
+                                    </div>
+                                    <div class="form-group col-md-2 col">
+                                        <label for="questionType" class="col-form-label">Operator
+                                        </label>
+                                    </div>
+                                    <div class="form-group col-md-2 col">
+                                        <label for="questionType" class="col-form-label">Value
+                                        </label>
+                                    </div>
+                                    <div class="form-group col-md-4 col">
+                                        <label for="questionType" class="col-form-label">
+                                        </label>
+                                    </div>
+                                    <hr>
+                                </div>
+                                <!--header row ends-->
+
+                                <!--child rows-->
+                                <div *ngFor="let arl of actionRuleList;let i = index;">
+                                    <div *ngFor="let arlm of arl.ActionRulesMaster;let j = index;">
+                                        <div class="form-row">
+                                            <div class="form-group col-md-1 col">
+                                                If question
+                                            </div>
+                                            <div class="form-group col-md-2 col">
+                                                <b>{{arl.Question}}</b>
+                                            </div>
+                                            <div class="form-group col-md-1 col">
+                                                is
+                                            </div>
+                                            <div class="form-group col-md-2 col">
+                                                <b>{{arlm.ActionRule_Operator}}</b>
+                                            </div>
+
+                                            <div class="form-group col-md-2 col"
+                                                *ngIf="arl.QuestionTypeId == 2 || arl.QuestionTypeId == 5 || arl.QuestionTypeId == 6 || arl.QuestionTypeId == 8 ">
+                                                <b>{{arlm.ActionRule_Value}}</b>
+                                            </div>
+                                            <div class="form-group col-md-2 col"
+                                                *ngIf="arl.QuestionTypeId == 1 || arl.QuestionTypeId == 3 || arl.QuestionTypeId == 4">
+                                                <b>{{arlm.ActionRule_ValueText}}</b>
+                                            </div>
+                                            <div class="form-group col-md-4 col">
+                                                then
+                                            </div>
+                                        </div>
+                                        <div class="form-row" *ngFor="let arlmc of arlm.ActionRules;let k = index;">
+                                            <div class="form-group col-md-1 col">
+                                                &nbsp;&nbsp; Question
+                                            </div>
+                                            <div class="form-group col-md-2 col">
+                                                <b>{{arlmc.ActionQuestionText}}</b>
+                                            </div>
+                                            <div class="form-group col-md-1 col">
+                                                will be
+                                            </div>
+                                            <div class="form-group col-md-2 col" *ngIf="arlmc.ActionValue == 'Show'">
+                                                <b>Shown</b>
+                                            </div>
+                                            <div class="form-group col-md-2 col" *ngIf="arlmc.ActionValue == 'Hide'">
+                                                <b>Hidden</b>
+                                            </div>
+                                            <div class="form-group col-md-2 col">
+                                            </div>
+                                            <div class="form-group col-md-4 col">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!--child rows end-->
+
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="field-rules" role="tabpanel" aria-labelledby="form-rule-tab">
+                            <div class="col-lg-12 p-1  module-box">
+                                <!--header row-->
+                                <div class="form-row module-subheader">
+
+                                    <div class="form-group col-md-1 col">
+                                        <label for="questionType" class="col-form-label">
+                                        </label>
+                                    </div>
+                                    <div class="form-group col-md-2 col">
+                                        <label for="questionType" class="col-form-label">Question Name
+                                        </label>
+                                    </div>
+                                    <div class="form-group col-md-1 col">
+                                        <label for="questionType" class="col-form-label">
+                                        </label>
+                                    </div>
+                                    <div class="form-group col-md-2 col">
+                                        <label for="questionType" class="col-form-label">Operator
+                                        </label>
+                                    </div>
+                                    <div class="form-group col-md-2 col">
+                                        <label for="questionType" class="col-form-label">Value
+                                        </label>
+                                    </div>
+                                    <div class="form-group col-md-4 col">
+                                        <label for="questionType" class="col-form-label">
+                                        </label>
+                                    </div>
+                                    <hr>
+                                </div>
+                                <!--header row ends-->
+
+                                <!--child rows-->
+                                <div *ngFor="let fr of fieldRuleList;let i = index;">
+                                    <div class="form-row" *ngFor="let frc of fr.FieldRules;let j = index;">
+                                        <div class="form-group col-md-1 col">
+                                            Question
+                                        </div>
+                                        <div class="form-group col-md-2 col">
+                                            <b>{{fr.Question}}</b>
+                                        </div>
+                                        <div class="form-group col-md-1 col">
+                                            must be
+                                        </div>
+                                        <div class="form-group col-md-2 col">
+                                            <b>{{frc.FieldRule_Operator}}</b>
+                                        </div>
+                                        <div class="form-group col-md-2 col"
+                                            *ngIf="fr.QuestionTypeId == 2 || fr.QuestionTypeId == 5 || fr.QuestionTypeId == 6 || fr.QuestionTypeId == 8 ">
+                                            <b>{{frc.FieldRule_Value}}</b>
+                                        </div>
+                                        <div class="form-group col-md-2 col"
+                                            *ngIf="fr.QuestionTypeId == 1 || fr.QuestionTypeId == 3 || fr.QuestionTypeId == 4">
+                                            <b>{{frc.FieldRule_ValueText}}</b>
+                                        </div>
+                                        <div class="form-group col-md-4 col">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--child rows end-->
+
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="form-list" role="tabpanel" aria-labelledby="form-list-tab">
+
+                            <div class="col-lg-12 p-1  module-box">
+                                <!--header row-->
+                                <div class="form-row module-subheader">
+
+
+                                    <div class="form-group col-md-2 col">
+                                        <label for="questionType" class="col-form-label">Form Name
+                                        </label>
+                                    </div>
+
+                                    <div class="form-group col-md-2 col">
+                                        <label for="questionType" class="col-form-label">Version
+                                        </label>
+                                    </div>
+
+
+
+                                    <hr>
+                                </div>
+                                <!--header row ends-->
+
+                                <!--child rows-->
+                                <div >
+                                    <div class="form-row" *ngFor="let frc of fieldformversionList;let j = index;">
+                                        <!-- <div class="form-group col-md-1 col">
+                                            Question
+                                        </div> -->
+                                        <div class="form-group col-md-2 col">
+                                            <b>{{frc.FormName}}</b>
+                                        </div>
+                                        <!-- <div class="form-group col-md-1 col">
+                                            must be
+                                        </div> -->
+                                        <div class="form-group col-md-2 col">
+                                            <b>{{frc.Form_Version_No}}</b>
+                                        </div>
+                                        <div class="form-group col-md-2 col">
+                                            <button type="button" (click)="previewFormByID(frc.FormId);"
+                                          class="btn btn-primary mr-1 h35">
+                                          <i class="fas fa-caret-square-o-right"></i>
+                                           Preview</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!--child rows end-->
+
+                            </div>
+
+
+                    </div>
+                    </div>
+                    <!--tab content end-->
+                    <!--tab content-->
+
+                  <!--tab content end-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #addQuestion let-modal>
+    <div class="modal-header">
+        <div>
+            <h4 class="page-title" style="font-weight: bolder; line-height: 1.5;">Add/Edit Question
+
+            </h4>
+        </div>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body" [ngClass]="{ 'HelpCursor': isHelpActive }">
+        <div class="p-2" style="box-shadow: 0 0 4px gray;">
+            <form [formGroup]="questionMaster" (submit)="submitQuestion()" *ngIf="questionMaster">
+                <div class="form-row">
+                    <div class="form-group col-md-12 text-center module-subheader">
+                        <h5 style="color: black;">Add Questions
+                            <a class="pull-right" data-toggle="tooltip" (click)="SetHelpFlag()" data-placement="top"
+                                title="Item Help" style="cursor: pointer;"><b>Need Help</b>
+                                <i class="fas fa-question"></i>&nbsp; &nbsp;
+                            </a>
+                        </h5>
+                    </div><br>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="questionType" class="col-form-label" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                            (click)="DispalyInfo($event,'Question Type')">Question Type <span
+                                style="color: red;">*</span>
+                        </label>
+                    </div>
+                    <div class="form-group col-md-8">
+                        <select (change)="onQuestionTypeChange()" class="form-control form-control-sm"
+                            [(ngModel)]="questionType" formControlName="questionType"
+                            [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Question Type')">
+                            <option *ngFor="let item of dropdownListQuestionInputs" value="{{item.QuestionTypeId}}">
+                                {{item.QuestionType}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="question" class="col-form-label" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                            (click)="DispalyInfo($event,'Question')">Question <span style="color: red;">*</span>
+                        </label>
+                    </div>
+                    <div class="form-group col-md-8">
+                        <input type="text" class="form-control form-control-sm" formControlName="question"
+                            (keyup)="ChangeInstruction()" placeholder="Question"
+                            (click)="DispalyInfo($event,'Question')" [readonly]="isHelpActive"
+                            [ngClass]="{ 'HelpCursor': isHelpActive }">
+                    </div>
+                </div>
+                <div class="form-row" *ngIf="questionType==2">
+                    <div class="form-group col-md-4">
+                        <label for="question" class="col-form-label" (click)="DispalyInfo($event,'Text Area Width')"
+                            [ngClass]="{ 'HelpCursor': isHelpActive }">Text Area Width</label>
+                    </div>
+                    <div class="form-group col-md-8">
+                        <input type="text" formControlName="textAreaWidth" class="form-control form-control-sm"
+                            placeholder="text area width" (click)="DispalyInfo($event,'Text Area Width')"
+                            [readonly]="isHelpActive" [ngClass]="{ 'HelpCursor': isHelpActive }">
+                    </div>
+                </div>
+                <div class="form-row" *ngIf="questionType==2">
+                    <div class="form-group col-md-4">
+                        <label for="question" class="col-form-label" (click)="DispalyInfo($event,'Text Area Height')"
+                            [ngClass]="{ 'HelpCursor': isHelpActive }">Text Area Height</label>
+                    </div>
+                    <div class="form-group col-md-8">
+                        <input type="text" formControlName="textAreaHeight" class="form-control form-control-sm"
+                            placeholder="text area height" (click)="DispalyInfo($event,'Text Area Height')"
+                            [readonly]="isHelpActive" [ngClass]="{ 'HelpCursor': isHelpActive }">
+                    </div>
+                </div>
+                <div class="form-row" *ngIf="questionType==5">
+                    <div class="form-group col-md-4">
+                        <label for="question" class="col-form-label" (click)="DispalyInfo($event,'Text Box size')"
+                            [ngClass]="{ 'HelpCursor': isHelpActive }">Text Box size</label>
+                    </div>
+                    <div class="form-group col-md-8">
+                        <input type="text" formControlName="textBoxSize" class="form-control form-control-sm"
+                            placeholder="text box size" (click)="DispalyInfo($event,'Text Box size')"
+                            [readonly]="isHelpActive" [ngClass]="{ 'HelpCursor': isHelpActive }">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="instruction" class="col-form-label" (click)="DispalyInfo($event,'Instructions')"
+                            [ngClass]="{ 'HelpCursor': isHelpActive }">Instructions<span style="color: red;">*</span>
+                        </label>
+                    </div>
+                    <div class="form-group col-md-8">
+                        <input type="text" class="form-control form-control-sm" formControlName="instruction"
+                            (click)="DispalyInfo($event,'Instructions')" [readonly]="isHelpActive"
+                            [ngClass]="{ 'HelpCursor': isHelpActive }" placeholder="Instructions">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="questionType" class="col-form-label" (click)="DispalyInfo($event,'Insert After')"
+                            [ngClass]="{ 'HelpCursor': isHelpActive }">Insert After
+                        </label>
+                    </div>
+                    <div class="form-group col-md-8">
+                        <select class="form-control form-control-sm" formControlName="insertAfter"
+                            (click)="DispalyInfo($event,'Insert After')" [ngClass]="{ 'HelpCursor': isHelpActive }">
+                            <option *ngFor="let item of questionAddAtList" value="{{item.questionId}}">{{item.question}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="Que_Photo_Label_Name" class="col-form-label" (click)="DispalyInfo($event,'Que_Photo_Label_Name')"
+                            [ngClass]="{ 'HelpCursor': isHelpActive }">Photo Label Name<span style="color: red;">*</span>
+                        </label>
+                    </div>
+                    <div class="form-group col-md-8">
+                        <input type="text" class="form-control form-control-sm" formControlName="Que_Photo_Label_Name"
+                            (click)="DispalyInfo($event,'Que_Photo_Label_Name')" [readonly]="isHelpActive"
+                            [ngClass]="{ 'HelpCursor': isHelpActive }" placeholder="Que Photo Label Name">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="Que_Photo_min_count" class="col-form-label"
+                            [ngClass]="{ 'HelpCursor': isHelpActive }">Photo Count<span style="color: red;">*</span>
+                        </label>
+                    </div>
+                    <div class="form-group col-md-8">
+                        <input type="text" class="form-control form-control-sm" formControlName="Que_Photo_min_count"
+                            (click)="DispalyInfo($event,'Que_Photo_min_count')" [readonly]="isHelpActive"
+                            [ngClass]="{ 'HelpCursor': isHelpActive }" placeholder="Que Photo min count">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="questionType" class="col-form-label" (click)="DispalyInfo($event,'Show')"
+                            [ngClass]="{ 'HelpCursor': isHelpActive }">Show
+                        </label>
+                    </div>
+                    <div class="form-group col-md-2" style="padding-top: 5px;">
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" formControlName="show" class="custom-control-input"
+                                id="switchDefault1" checked (click)="DispalyInfo($event,'Show')"
+                                [ngClass]="{ 'HelpCursor': isHelpActive }">
+                            <label class="custom-control-label" for="switchDefault1"></label>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="questionType" class="col-form-label" (click)="DispalyInfo($event,'Office Results')"
+                            [ngClass]="{ 'HelpCursor': isHelpActive }">Office Results
+                        </label>
+                    </div>
+                    <div class="form-group col-md-2" style="padding-top: 5px;">
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" formControlName="officeResults" class="custom-control-input"
+                                id="switchDefault2" checked (click)="DispalyInfo($event,'Office Results')"
+                                [ngClass]="{ 'HelpCursor': isHelpActive }">
+                            <label class="custom-control-label" for="switchDefault2"></label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="questionType" class="col-form-label" (click)="DispalyInfo($event,'Required')"
+                            [ngClass]="{ 'HelpCursor': isHelpActive }">Required
+                        </label>
+                    </div>
+                    <div class="form-group col-md-2" style="padding-top: 5px;">
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" formControlName="Required" class="custom-control-input"
+                                id="switchOfficeResults" checked (click)="DispalyInfo($event,'Required')"
+                                [ngClass]="{ 'HelpCursor': isHelpActive }">
+                            <label class="custom-control-label" for="switchOfficeResults"></label>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="questionType" class="col-form-label" (click)="DispalyInfo($event,'Field Results')"
+                            [ngClass]="{ 'HelpCursor': isHelpActive }">Field Results
+                        </label>
+                    </div>
+                    <div class="form-group col-md-2" style="padding-top: 5px;">
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" formControlName="fieldResults"
+                                id="switchFieldResults" checked (click)="DispalyInfo($event,'Field Results')"
+                                [ngClass]="{ 'HelpCursor': isHelpActive }">
+                            <label class="custom-control-label" for="switchFieldResults"></label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="questionType" class="col-form-label"
+                            (click)="DispalyInfo($event,'Clone Prev. Answer')"
+                            [ngClass]="{ 'HelpCursor': isHelpActive }">Clone Prev. Answer
+                        </label>
+                    </div>
+                    <div class="form-group col-md-8">
+                        <select class="form-control form-control-sm" formControlName="clonePrev"
+                            (click)="DispalyInfo($event,'Clone Prev. Answer')"
+                            [ngClass]="{ 'HelpCursor': isHelpActive }">
+                            <option value="0"></option>
+                            <option value='1'>DO NOT allow previous answer to be copied</option>
+                            <option value='2'>Allow previous answer to be displayed</option>
+                            <option value='3'>Allow previous answer to be copied</option>
+                            <option value='4'>Auto copy previous answer</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="questionType" class="col-form-label" (click)="DispalyInfo($event,'Active')"
+                            [ngClass]="{ 'HelpCursor': isHelpActive }">Active
+                        </label>
+                    </div>
+                    <div class="form-group col-md-2" style="padding-top: 5px;">
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="switchActive"
+                                formControlName="isActive" checked (click)="DispalyInfo($event,'Active')"
+                                [ngClass]="{ 'HelpCursor': isHelpActive }">
+                            <label class="custom-control-label" for="switchActive"></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="questionType" class="col-form-label" (click)="DispalyInfo($event,'Camera')"
+                            [ngClass]="{ 'HelpCursor': isHelpActive }">Camera
+                        </label>
+                    </div>
+                    <div class="form-group col-md-2" style="padding-top: 5px;">
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="switchCamera"
+                                formControlName="switchCamera" checked (click)="DispalyInfo($event,'Camera')"
+                                [ngClass]="{ 'HelpCursor': isHelpActive }">
+                            <label class="custom-control-label" for="switchCamera"></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="PDFField" class="col-form-label" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                            (click)="DispalyInfo($event,'PDF Field')">PDF Field <span
+                                style="color: red;">*</span>
+                        </label>
+                    </div>
+                    <div class="form-group col-md-8">
+                      <select class="form-control form-control-sm" formControlName="questionpdfField">
+                        <option *ngFor="let item of drpPDFFieldArray" value="{{item.PF_pkeyId}}">{{item.PF_Name}}</option>
+                      </select>
+                    </div>
+                </div>
+
+                <!--question option start-->
+                <div *ngIf="questionType==1 || questionType==3 || questionType==4">
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="questionType" class="col-form-label" (click)="DispalyInfo($event,'Option Name')"
+                                [ngClass]="{ 'HelpCursor': isHelpActive }">Option Name
+                            </label>
+                        </div>
+                        <hr>
+                    </div>
+                    <div class="form-row" formArrayName="Options"
+                        *ngFor="let item of questionMaster.get('Options')['controls']; let i = index;">
+                        <div class="form-group col-md-10" [formGroupName]="i">
+                            <input type="text" formControlName="OptionName" class="form-control form-control-sm"
+                                placeholder="Enter Option" (click)="DispalyInfo($event,'Option Name')"
+                                [ngClass]="{ 'HelpCursor': isHelpActive }" [readonly]="isHelpActive">
+                        </div>
+                        <div class="form-group col-md-2">
+                            <button class="btn btn-primary custom-btn"
+                                *ngIf="questionMaster.get('Options')['controls'].length>1"
+                                (click)="removeOptionField(i)"> <i class="fa fa-trash"></i></button>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-12 right">
+                            <button type="button" title="click to add more option"
+                                class="btn btn-outline-primary waves-effect btn-xs waves-light form-control-sm w-100"
+                                (click)="addOptionField()">
+                                <i class="fas fa-plus-circle"></i> Add Option</button>
+                        </div>
+                    </div>
+                </div>
+                <!--question option end-->
+
+                <div class="form-row">
+                    <div class="float-right">
+                        <label for="SaveForm" style="color:red;margin-top:10px">*
+                            Field is Required
+                        </label> <br>
+                        <button type="submit" id="SaveForm" class="btn btn-primary" [disabled]="isQueLoading">
+                            <i class="fa"
+                                [ngClass]="{'fa-spin fa-spinner': isQueLoading, 'fa-save': !isQueLoading}"></i>
+                            {{queButton}}</button>
+
+                        <!-- <button type="submit" id="SaveForm" class="btn btn-primary">
+                            <i class="fa fa-save"></i>
+                            Save</button> -->
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</ng-template>
+<ng-template #DocmentUpload let-modal>
+    <div class="modal-header">
+        Upload Documents
+        <button type="button" ngbAutofocus class="close" (click)="modal.close('Save click')" data-dismiss="modal"
+            aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div>
+            <div class="row">
+                <div class="col-md-12">
+
+                    <kendo-upload (success)="displaySuccessDocument($event);" [saveUrl]="uploadSaveUrl"
+                        [removeUrl]="uploadRemoveUrl" [(ngModel)]="myFiles">
+                    </kendo-upload>
+
+                </div>
+            </div>
+            <div class="row" style="margin-top: 10px;">
+                <div class="col-md-12">
+                    <div class="card-box bg-pattern border border-dark" style="background-color: #f7f7f7;">
+                        <div class="form-row">
+                            <div class="form-group col-md-12 text-center"
+                                style="color: black;background-color: #9b9b9b;">
+                                <h5 style="color: black;">Form Document </h5>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <table class="table">
+                                    <tr>
+                                        <th>Doc Name</th>
+                                        <th>Download</th>
+                                        <th>Active</th>
+                                        <th>Remove</th>
+                                    </tr>
+                                    <tr *ngFor="let item of documentdetailslst;index as indx">
+                                        <td>{{item.FMFI_File_Name}}</td>
+                                        <td><a [href]="item.FMFI_File_Path" target="_blank"
+                                                [download]="item.FMFI_File_Path"><i class="fa fa-download"
+                                                    aria-hidden="true"></i>
+                                                Download file</a></td>
+                                        <td>
+                                            <input type="checkbox" [(ngModel)]="item.FMFI_IsActive"
+                                                (change)="UpdateDocStatus(item.FMFI_Pkey,item.FMFI_FormId)"
+                                                [ngModelOptions]="{standalone: true}" [disabled]="item.FMFI_IsActive">
+                                        </td>
+                                        <td><a href="javascript:void(0)" (click)="DeleteFormDocument(item)"> <i
+                                                    class="fa fa-trash" style="color: black;"></i></a></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <button id="client_viewdetail_1" class="btn btn-primary" (click)="modal.close('Save click')">Close</button>
+        </div>
+    </div>
+</ng-template>

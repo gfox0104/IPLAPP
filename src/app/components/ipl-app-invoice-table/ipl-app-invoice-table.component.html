@@ -1,0 +1,286 @@
+<h5 class="col-12 mb-0 header p-1">{{title}}</h5>
+<div class="onSmall module-box tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+  <div class="row workorder-details">
+    <table class="table">
+      <tr style="text-align: center;">
+        <th><label class="col-form-label">Item</label></th>
+        <th><label class="col-form-label">Qty</label></th>
+        <th><label class="col-form-label">Price</label></th>
+        <th><label class="col-form-label">Total</label></th>
+        <th><label class="col-form-label">Adj Price</label></th>
+        <th><label class="col-form-label">Discount%</label></th>
+        <th><label class="col-form-label">Total</label></th>
+        <th>
+          <label class="col-form-label">Comments</label>
+        </th>
+        <th style="width: 85px;">Flat Fee</th>
+        <th></th>
+      </tr>
+      <ng-template [ngIf]="isContractor" [ngIfElse]="client">
+        <tr *ngFor="let item of invoiceArray; index as inx">
+          <td style="width: 15%" [ngClass]="{'highlight' : item[keys.taskId] == 0 && isContractInValid}">
+            <div class="example-wrapper" *ngIf="item[keys.taskId] != -99">
+              <kendo-dropdownlist class="form-control form-control-sm" [data]="drptaskList"
+                [defaultItem]="defaultTaskItem" [filterable]="true" [textField]="'Task_Name'"
+                [valueField]="'Task_pkeyID'" (filterChange)="taskFilter($event)" [(ngModel)]="item[keys.taskId]"
+                [valuePrimitive]="true" [ngModelOptions]="{standalone: true}" (valueChange)="onChange(item)">
+              </kendo-dropdownlist>
+            </div>
+            <div *ngIf="item[keys.taskId] == -99">
+              <input type="text" [(ngModel)]="item[keys.Other_Task_Name]" class="form-control">
+              <a (click)='backdropdown(item)'><i class="fas fa-arrow-alt-circle-left"></i></a>
+            </div>
+            <!-- <select class="form-control form-control-sm" (change)="onChange(item)" [(ngModel)]="item[keys.taskId]"
+              [ngModelOptions]="{standalone: true}"
+              [ngClass]="{'is-invalid': fx.Taskval.touched && fx.Taskval.errors }">
+              <option value='0'>select</option>
+              <option [ngValue]="kb.Task_pkeyID" *ngFor="let kb of TaskList">
+                {{kb.Task_Name}}
+              </option>
+            </select>
+            <div *ngIf="InvoiceValFlag" class="Mydropdown">this field is required
+            </div> -->
+         <td style="width: 4%;" [ngClass]="{'highlight' : item[keys.qty] == '0' && isContractInValid}">
+            <input type="text" (keypress)="validate($event)" (blur)="onQtyChange()" [(ngModel)]="item[keys.qty]"
+              class="form-control form-control-sm">
+          </td>
+          <td style="width:6.5%;">
+            <div class="inputWithIcon inputIconBg">
+            <input type="text"  (keypress)="validate($event)" (blur)="onPriceChange()" [(ngModel)]="item[keys.price]"
+            [disabled]="UpdateItemAndReturn(item,'contractor')" class="form-control form-control-sm">
+
+
+              <i class="fa fa-dollar-sign" aria-hidden="true"></i>
+            </div>
+            <div *ngIf="item.Inv_Con_Price_Disable" class="Mydropdown">
+              Price can not be changed.
+            </div>
+          </td>
+
+          <td style="width:6.5%;">
+            <div class="inputWithIcon inputIconBg">
+            <input type="text"  (keypress)="validate($event)" readonly [(ngModel)]="item[keys.total]"
+            [disabled]="true" class="form-control form-control-sm">
+              <i class="fa fa-dollar-sign" aria-hidden="true"></i>
+            </div>
+          </td>
+
+          <td style="width:6.5%;">
+            <div class="inputWithIcon inputIconBg">
+            <input type="text"  (keypress)="validate($event)"  (blur)="onAdjPriceChange()"  [(ngModel)]="item[keys.adjPrice]"
+            [disabled]="item.Inv_Con_Price_Disable" class="form-control form-control-sm">
+
+              <i class="fa fa-dollar-sign" aria-hidden="true"></i>
+            </div>
+            <div *ngIf="item.Inv_Con_Price_Disable" class="Mydropdown">
+              Price can not be changed.
+            </div>
+          </td>
+
+          <td style="width:5%;">
+            <div class="inputWithIcon inputIconBg">
+              <input type="number" min=0 max=100 step="0.01" [disabled]="item[keys.flatFee]" (keypress)="validate($event)" (blur)="onDiscountChange()"
+              [(ngModel)]="item[keys.discount]" class="form-control form-control-sm">
+            </div>
+          </td>
+          <td style="width:7%;">
+            <div class="inputWithIcon inputIconBg">
+            <input type="text"  (keypress)="validate($event)" readonly [(ngModel)]="item[keys.adjTotal]"
+            [disabled]="true" class="form-control form-control-sm">
+              <i class="fa fa-dollar-sign" aria-hidden="true"></i>
+            </div>
+          </td>
+          <td style="width: 30%">
+            <textarea  placeholder="Enter Comments" class="form-control form-control-sm"
+              [(ngModel)]="item[keys.comment]"></textarea>
+          </td>
+          <td>
+            <div class="pl-3 custom-control custom-checkbox">
+              <input type="checkbox" (change)="onFlatChange()" [(ngModel)]="item[keys.flatFee]"
+                class="custom-control-input" id="damageINVr{{inx + keys.flatFee}}">
+              <label class="custom-control-label" for="damageINVr{{inx + keys.flatFee}}">Flat Fee</label>
+            </div>
+          </td>
+          <td>
+            <span><a style="cursor: pointer" (click)="onRemoveItem(inx, item)">
+                <i class="fa fa-trash"></i></a>
+            </span>
+            <!-- <span><a style="cursor: pointer; margin-left: 10px;" (click)="onCopyItem(item)">
+                <i class="fa fa-copy" [ngClass]="{'deactive': item[keys.taskId] === 0}"></i></a>
+            </span> -->
+          </td>
+        </tr>
+        <tr>
+          <td colspan="10">
+            <hr>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4"></td>
+          <td colspan="3">
+            <table>
+              <tr>
+                <td  colspan="3">
+                  <table >
+                    <tr >
+                      <td style="width: 10rem;text-align: end;vertical-align: bottom;">
+                        <label style="padding: 4%;" >Contractor Total:</label>
+                      </td>
+                      <td style="width:36%;">
+                        <div class="inputWithIcon inputIconBg">
+                        <input type="text"  [(ngModel)]="Invoice_ContractorDTOObj.Inv_Con_Sub_Total" style="color: black;" readonly
+                        [disabled]="true" class="form-control form-control-sm">
+                          <i class="fa fa-dollar-sign" aria-hidden="true"></i>
+                        </div>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+          <td colspan="3"></td>
+        </tr>
+      </ng-template>
+
+      <ng-template #client>
+        <tr *ngFor="let item of invoiceArray; index as inx">
+          <td style="width: 15%" [ngClass]="{'highlight' : item[keys.taskId] == 0 && isClientInValid} ">
+            <div class="example-wrapper" *ngIf="item[keys.taskId] != -99">
+              <kendo-dropdownlist class="form-control form-control-sm" [data]="drptaskList"
+                [defaultItem]="defaultTaskItem" [filterable]="true" [textField]="'Task_Name'"
+                [valueField]="'Task_pkeyID'" (filterChange)="taskFilter($event)" [(ngModel)]="item[keys.taskId]"
+                [valuePrimitive]="true" [ngModelOptions]="{standalone: true}" (valueChange)="onChange(item)">
+              </kendo-dropdownlist>
+
+            </div>
+            <div *ngIf="item[keys.taskId] == -99">
+              <input type="text" [(ngModel)]="item[keys.Other_Task_Name]" class="form-control">
+              <a (click)='backdropdown(item)'><i class="fas fa-arrow-alt-circle-left"></i></a>
+            </div>
+
+            <!-- <select class="form-control form-control-sm" (change)="onChange(item)" [(ngModel)]="item[keys.taskId]"
+              [ngModelOptions]="{standalone: true}"
+              [ngClass]="{'is-invalid': fx.Taskval.touched && fx.Taskval.errors }">
+              <option value='0'>select</option>
+              <option [ngValue]="kb.Task_pkeyID" *ngFor="let kb of TaskList">
+                {{kb.Task_Name}}
+              </option>
+            </select> -->
+            <div *ngIf="InvoiceValFlag" class="Mydropdown">this field is required
+            </div>
+          </td>
+          <td style="width: 5%;" [ngClass]="{'highlight' : item[keys.qty] == '0' && isClientInValid}">
+            <input type="text" (keypress)="validate($event)" (blur)="onQtyChange()" [(ngModel)]="item[keys.qty]"
+              class="form-control form-control-sm">
+          </td>
+
+          <td style="width:7%;">
+            <div class="inputWithIcon inputIconBg">
+            <input type="text" (keypress)="validate($event)" (blur)="onPriceChange()" [(ngModel)]="item[keys.price]"
+            [disabled]="UpdateItemAndReturn(item,'client')" class="form-control form-control-sm">
+
+              <i class="fa fa-dollar-sign" aria-hidden="true"></i>
+            </div>
+            <div *ngIf="item.Inv_Client_Price_Disable" class="Mydropdown">
+              Price can not be changed.
+            </div>
+          </td>
+
+
+          <td style="width:7%;">
+            <div class="inputWithIcon inputIconBg">
+            <input type="text" (keypress)="validate($event)" readonly [(ngModel)]="item[keys.total]"
+            [disabled]="true" class="form-control form-control-sm">
+              <i class="fa fa-dollar-sign" aria-hidden="true"></i>
+            </div>
+          </td>
+
+          <td style="width:7%;">
+            <div class="inputWithIcon inputIconBg">
+            <input type="text" (keypress)="validate($event)" (blur)="onAdjPriceChange()"  [(ngModel)]="item[keys.adjPrice]"
+            [disabled]="item.Inv_Client_Price_Disable" class="form-control form-control-sm">
+
+              <i class="fa fa-dollar-sign" aria-hidden="true"></i>
+            </div>
+            <div *ngIf="item.Inv_Client_Price_Disable" class="Mydropdown">
+              Price can not be changed.
+            </div>
+          </td>
+
+
+          <!-- <td style="width: 7%;">
+            <input type="text" (keypress)="validate($event)" (blur)="onAdjPriceChange()"
+              [(ngModel)]="item[keys.adjPrice]" class="form-control form-control-sm">
+          </td> -->
+          <td style="width: 5%;">
+            <input type="number" min=0 max=100 step="0.01" [disabled]="item[keys.flatFee]" (keypress)="validate($event)" (blur)="onDiscountChange()"
+              [(ngModel)]="item[keys.discount]" class="form-control form-control-sm">
+          </td>
+
+          <td style="width:7%;">
+            <div class="inputWithIcon inputIconBg">
+            <input type="text" (keypress)="validate($event)"  readonly [(ngModel)]="item[keys.adjTotal]"
+            [disabled]="true" class="form-control form-control-sm">
+              <i class="fa fa-dollar-sign" aria-hidden="true"></i>
+            </div>
+          </td>
+
+          <td style="width: 30%">
+            <textarea  placeholder="Enter Comments" class="form-control form-control-sm"
+              [(ngModel)]="item[keys.comment]"></textarea>
+          </td>
+          <td >
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" (change)="onFlatChange()" [(ngModel)]="item[keys.flatFee]"
+                class="custom-control-input" id="damageINVr{{inx + keys.flatFee}}">
+              <label class="custom-control-label" for="damageINVr{{inx + keys.flatFee}}">Flat Fee</label>
+            </div>
+          </td>
+          <td >
+            <span><a style="cursor: pointer" (click)="onRemoveItem(inx, item)">
+                <i class="fa fa-trash"></i></a>
+            </span>
+            <!-- <span><a style="cursor: pointer; margin-left: 10px;" (click)="onCopyItem(item)">
+                <i class="fa fa-copy" [ngClass]="{'deactive': item[keys.taskId] === 0}"></i></a>
+            </span> -->
+          </td>
+        </tr>
+        <tr>
+          <td colspan="10">
+            <hr>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+          </td>
+          <td colspan="5">
+            <table class="w-100">
+              <tr>
+                <td style="width: 10rem;text-align: end;vertical-align: bottom;"> <label>Client Total:</label></td>
+                <td style="width:25%;">
+                  <div class="inputWithIcon inputIconBg">
+                  <input  style="color: #000;" type="text" [(ngModel)]="Invoice_ClientDTOObj.Inv_Client_Sub_Total"
+                  numbersOnly readonly
+                  [disabled]="true" class="form-control form-control-sm">
+                    <i class="fa fa-dollar-sign" aria-hidden="true"></i>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <!-- <tr>
+          <td colspan="2">
+            <label class="col-form-label">Internal Invoice Notes</label>
+          </td>
+          <td colspan="8">
+
+            <textarea row="7" [(ngModel)]="Invoice_ClientDTOObj.Inv_Client_Internal_Note"
+              class="form-control form-control-sm"></textarea>
+          </td>
+        </tr> -->
+      </ng-template>
+    </table>
+  </div>
+</div>

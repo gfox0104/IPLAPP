@@ -1,0 +1,396 @@
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex justify-content-center">
+                <img src="assets/images/logo.jpg" style="width: 258px;" class="img-responsive">
+            </div>
+            <br>
+            <form [formGroup]="formUsrCommonGroup" (ngSubmit)="FormButton()"> 
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row" style="text-align: center;">
+                               
+                                <div class="form-group col-md-12 text-center module-subheader" >
+                                    <h5 style="color: black;">User Info </h5>
+                                  </div>
+                               
+                            </div>
+                          
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="col-form-label" for="klodfgkridje">First Name <span
+                                                style="color: red">*</span></label>
+                                        <input type="text" class="form-control form-control-sm" id="klodfgkridje"
+                                            placeholder="Enter First Name" [(ngModel)]="IplRegisterModelObj.User_FirstName" formControlName="FirstName"
+                                            [ngClass]="{ 'is-invalid': submitted && fx.FirstName.errors }">
+                                            <div *ngIf="submitted && fx.FirstName.errors" class="invalid-feedback">
+                                                <div *ngIf="fx.FirstName.errors.required">this field is required</div>
+                                              </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="col-form-label" for="klokridje">Last Name <span
+                                                style="color: red">*</span></label>
+                                        <input type="text" class="form-control form-control-sm" id="klokridje"
+                                            placeholder="Enter Last Name" [(ngModel)]="IplRegisterModelObj.User_LastName"
+                                             formControlName="LastName" [ngClass]="{ 'is-invalid': submitted && fx.LastName.errors }">
+                                             <div *ngIf="submitted && fx.LastName.errors" class="invalid-feedback">
+                                                <div *ngIf="fx.LastName.errors.required">this field is required</div>
+                                              </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label" for="password1fsfff"> Address<span
+                                                style="color: red">*</span> </label>
+                                        <textarea type="text" id="password1fsfff" class="form-control"
+                                            placeholder="Enter Address..." maxlength="300"
+                                            class="form-control form-control-sm"[(ngModel)]="IplRegisterModelObj.User_Address" 
+                                            formControlName="desaddress"[ngClass]="{ 'is-invalid': submitted && fx.desaddress.errors }">
+                                            <div *ngIf="submitted && fx.desaddress.errors" class="invalid-feedback">
+                                                <div *ngIf="fx.desaddress.errors.required">this field is required</div>
+                                              </div>
+                                        </textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="col-form-label" for="ufdrr"> Zip <span style="color: red">*</span>
+                                        </label>
+                                        <input type="text" id="ufdrr" class="form-control form-control-sm"
+                                            placeholder="Enter Zip" numbersOnly maxlength="6"
+                                            class="form-control form-control-sm"  [(ngModel)]="IplRegisterModelObj.User_Zip"
+                                             formControlName="deszip" [ngClass]="{ 'is-invalid': submitted && fx.deszip.errors }">
+                                             <div *ngIf="submitted && fx.deszip.errors" class="invalid-feedback">
+                                                <div *ngIf="fx.deszip.errors.required">this field is required</div>
+                                              </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group col-sm-10">
+                                        <label class="col-form-label" for="fsddsf">State<span style="color: red">*</span> </label>
+                                        <kendo-dropdownlist id="fsddsf" 
+                                            [defaultItem]="defaultStateItem"
+                                            [data]="StateList"
+                                            [filterable]="true"
+                                            [textField]="'IPL_StateName'"
+                                            [valueField]="'IPL_StateID'"
+                                            [(ngModel)]="IplRegisterModelObj.User_State" 
+                                            (filterChange)="statehandleFilter($event)"
+                                            (valueChange)="selectChangeHandler($event)"
+                                            [valuePrimitive]="true"
+                                            [formControlName]="'desstate'">
+                                        </kendo-dropdownlist>
+                                        <div *ngIf="StateValFlag" class="Mydropdown">this field is required</div>
+                                    </div>
+                                    
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group col-sm-3">
+                                        <label class="col-form-label" for="fscoi">County </label>
+                                        <kendo-dropdownlist id="fscoi"
+                                            [defaultItem]="defaultCountyItem"
+                                            [data]="drpCountyList"
+                                            [filterable]="true"
+                                            [textField]="'COUNTY'"
+                                            [valueField]="'ID'"
+                                            [(ngModel)]="IplRegisterModelObj.IPL_County"
+                                            (filterChange)="CountyFilter($event)" 
+                                            [valuePrimitive]="true"
+                                            [formControlName]="'descounty'"
+                                          >
+                                        </kendo-dropdownlist>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="col-form-label" for="kjhgsdff"> City <span
+                                                style="color: red">*</span></label>
+                                        <input type="text" id="kjhgsdff" class="form-control form-control-sm"
+                                            placeholder="Enter City" [(ngModel)]="IplRegisterModelObj.User_City"
+                                             formControlName="descity"[ngClass]="{ 'is-invalid': submitted && fx.descity.errors }">
+                                             <div *ngIf="submitted && fx.descity.errors" class="invalid-feedback">
+                                                <div *ngIf="fx.descity.errors.required">this field is required</div>
+                                              </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="col-form-label" for="Vendo">Copy Address &nbsp; &nbsp;</label><br>
+                                        <input type="checkbox" id="Vendo" [(ngModel)]="IplRegisterModelObj.flag" [ngModelOptions]="{standalone: true}"
+                                        (change)="copyAddress(IplRegisterModelObj.flag)">
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="col-form-label" for="Companyx">Company </label>
+                                        <input type="text" id="Companyx" class="form-control form-control-sm"
+                                            placeholder="Enter Company Name"[(ngModel)]="IplRegisterModelObj.User_CompanyName" 
+                                            formControlName="companyval">
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="col-form-label" for="kgdfgseds">Email ID <span
+                                                style="color: red">*</span></label>
+                                        <input type="text" class="form-control form-control-sm" id="kgdfgseds"
+                                            placeholder="Enter EmailID" [(ngModel)]="IplRegisterModelObj.User_Email" 
+                                            formControlName="EmailVal"[ngClass]="{ 'is-invalid': submitted && fx.EmailVal.errors }">
+                                            <div *ngIf="submitted && fx.EmailVal.errors" class="invalid-feedback">
+                                                <div *ngIf="fx.EmailVal.errors.required">this field is required</div>
+                                              </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="col-form-label" for="confirm1d">Cell Phone </label>
+                                        <input type="text" id="confirm1d" class="form-control form-control-sm"
+                                            placeholder="Enter Cell No." numbersOnly [(ngModel)]="IplRegisterModelObj.User_CellNumber" 
+                                            formControlName="PhoneVal" >
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="col-form-label" for="Compandwayfx"><span>Login Name<span
+                                                    style="color: red">*</span></span> </label>
+                                        <input type="text" id="Compandwayfx" class="form-control form-control-sm"
+                                            placeholder="Enter Login Name"[(ngModel)]="IplRegisterModelObj.User_LoginName" 
+                                            formControlName="LoginNameVal" [ngClass]="{ 'is-invalid': submitted && fx.LoginNameVal.errors }">
+                                            <div *ngIf="submitted && fx.LoginNameVal.errors" class="invalid-feedback">
+                                                <div *ngIf="fx.LoginNameVal.errors.required">this field is required</div>
+                                              </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="col-form-label" for="password1cf"> Password <span
+                                                style="color: red">*</span></label>
+                                                <div >
+                                                    <input type="password" id="password1cf" class="form-control form-control-sm"
+                                                    placeholder="Enter Password (min 6 char..)" [(ngModel)]="IplRegisterModelObj.User_Password" 
+                                                    formControlName="PasswordVal"   [type]="fieldTextType ? 'text' : 'password'"
+                                                    [ngClass]="{ 'is-invalid': submitted && fx.PasswordVal.errors }">
+                                                    <span class="test-index">
+                                                        <i 
+                                                        class="fa"
+                                                        [ngClass]="{
+                                                          'fa-eye-slash': !fieldTextType,
+                                                          'fa-eye': fieldTextType
+                                                        }"
+                                                        (click)="toggleFieldTextType()"
+                                                      ></i>
+                                                      </span>
+                                                </div>
+                                    
+                                            
+                                            <div *ngIf="submitted && fx.PasswordVal.errors" class="invalid-feedback">
+                                                <div *ngIf="fx.PasswordVal.errors.required">this field is required</div>
+                                              </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="col-form-label" for="passcf">Confirm Password </label>
+                                        <div >
+                                            <input type="password" id="passcf" class="form-control form-control-sm"
+                                            placeholder="Enter Confirm Password " [(ngModel)]="IplRegisterModelObj.Confirm_Password" 
+                                            formControlName="confirmpass" [type]="fieldTextCon ? 'text' : 'password'"
+                                            [ngClass]="{ 'is-invalid': submitted && fx.confirmpass.errors }">
+                                            <span class="test-index" >
+                                                <i
+                                                class="fa"
+                                                [ngClass]="{
+                                                  'fa-eye-slash': !fieldTextCon,
+                                                  'fa-eye': fieldTextCon
+                                                }"
+                                                (click)="toggleFieldTextCon()"
+                                              ></i>
+                                              </span>
+                                        </div>
+                                      
+                                            <div *ngIf="submitted && fx.confirmpass.errors" class="invalid-feedback">
+                                                <div *ngIf="fx.confirmpass.errors.required">Confirm Password is required</div>
+                                                <div *ngIf="fx.confirmpass.errors.mustMatch">Password must match</div>
+                                              </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row" style="text-align: center;">
+                               
+                                <div class="form-group col-md-12 text-center module-subheader" >
+                                    <h5 style="color: black;">Company Info </h5>
+                                  </div>
+                               
+                            </div>
+                           
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label for="inputCompany">Company Name<span style="color: red">*</span></label>
+                                        <input type="text" class="form-control form-control-sm" id="inputCompany"
+                                        [(ngModel)]="IplRegisterModelObj.IPL_Company_Name"    placeholder="Enter Company Name"
+                                        formControlName="IPLCompany"[ngClass]="{ 'is-invalid': submitted && fx.IPLCompany.errors }">
+                                        <div *ngIf="submitted && fx.IPLCompany.errors" class="invalid-feedback">
+                                            <div *ngIf="fx.IPLCompany.errors.required">this field is required</div>
+                                          </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label for="mobile">Mobile</label>
+                                        <input type="text" class="form-control form-control-sm" id="mobile"
+                                        [(ngModel)]="IplRegisterModelObj.IPL_Company_Mobile"    placeholder="Enter Mobile Num."
+                                        formControlName="IPLMobile">
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label for="Phone">Company Phone</label>
+                                        <input type="text" class="form-control form-control-sm" id="Phone"
+                                        [(ngModel)]="IplRegisterModelObj.IPL_Company_Phone"  placeholder="Enter Phone Num."
+                                        formControlName="IPLPhone">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label" for="password1fsfff"> Address <span style="color: red">*</span></label>
+                                        <textarea type="text" id="password1fsfff" class="form-control"
+                                            placeholder="Enter Address..." maxlength="300"
+                                            class="form-control form-control-sm"
+                                            [(ngModel)]="IplRegisterModelObj.IPL_Company_Address" 
+                                            formControlName="IPLaddress"[ngClass]="{ 'is-invalid': submitted && fx.IPLaddress.errors }">
+                                            <div *ngIf="submitted && fx.IPLaddress.errors" class="invalid-feedback">
+                                                <div *ngIf="fx.IPLaddress.errors.required">this field is required</div>
+                                              </div>
+                                        </textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="col-form-label" for="ufdrr"> Zip<span style="color: red">*</span>
+                                        </label>
+                                        <input type="text" id="ufdrr" class="form-control form-control-sm"
+                                            placeholder="Enter Zip" numbersOnly maxlength="6"
+                                            class="form-control form-control-sm"[(ngModel)]="IplRegisterModelObj.IPL_Company_PinCode" 
+                                            formControlName="IPLPin"[ngClass]="{ 'is-invalid': submitted && fx.IPLPin.errors }">
+                                            <div *ngIf="submitted && fx.IPLPin.errors" class="invalid-feedback">
+                                                <div *ngIf="fx.IPLPin.errors.required">this field is required</div>
+                                              </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group col-sm-10">
+                                        <label class="col-form-label" for="fstate">State<span style="color: red">*</span> </label>
+                                        <kendo-dropdownlist id="fstate"  
+                                   
+                                        [defaultItem]="defaultStateItem"
+                                        [data]="StateList"
+                                        [filterable]="true"
+                                        [textField]="'IPL_StateName'"
+                                        [valueField]="'IPL_StateID'"
+                                        [(ngModel)]="IplRegisterModelObj.IPL_Company_State"
+                                        (filterChange)="statehandleFilter($event)"
+                                        (valueChange)="selectChangeHandler($event)"
+                                        [valuePrimitive]="true"
+                                        [formControlName]="'IPLstate'"  >
+                                        </kendo-dropdownlist>
+                                        <div *ngIf="StateValFlag" class="Mydropdown">this field is required</div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group col-sm-3">
+                                        <label class="col-form-label" for="fcounty">County </label>
+                                        <kendo-dropdownlist id="fcounty"  
+                                     
+                                        [defaultItem]="defaultCountyItem"
+                                        [data]="drpCountyList"
+                                        [filterable]="true"
+                                        [textField]="'COUNTY'"
+                                        [valueField]="'ID'"
+                                        [(ngModel)]="IplRegisterModelObj.IPL_Company_County" 
+                                        (filterChange)="CountyFilter($event)" 
+                                        [valuePrimitive]="true"
+                                        [formControlName]="'IPLcount'" >
+                                        </kendo-dropdownlist>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="col-form-label" for="kjhgsdff"> City<span style="color: red">*</span> </label>
+                                        <input type="text" id="kjhgsdff" class="form-control form-control-sm"
+                                            placeholder="Enter City"  [(ngModel)]="IplRegisterModelObj. IPL_Company_City" 
+                                            formControlName="IPLcity"[ngClass]="{ 'is-invalid': submitted && fx.IPLcity.errors }">
+                                            <div *ngIf="submitted && fx.IPLcity.errors" class="invalid-feedback">
+                                                <div *ngIf="fx.IPLcity.errors.required">this field is required</div>
+                                              </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="email">Email</label>
+                                        <input type="email" class="form-control form-control-sm" id="email" 
+                                        [(ngModel)]="IplRegisterModelObj.IPL_Company_Email" placeholder="Enter Company Email"
+                                        formControlName="IPLEmail">
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="Companyl">Company Link</label>
+                                        <input type="text" class="form-control form-control-sm" id="Companyl"
+                                        [(ngModel)]="IplRegisterModelObj.IPL_Company_Company_Link" placeholder="Enter Company link"
+                                        formControlName="IPLCompanyLink">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <button id="client_viewdetail_1" class="btn btn-primary" type="submit"  
+                        [disabled]="isLoading">
+                        <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}"></i>
+                        {{button}}
+                      </button>
+                    </div>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div>
+    <footer class="footer footer-alt">
+        2023 &copy; IPRESERVATION LIVE <a href="#" class="text-white-50"></a>
+    </footer>
+</div>
+

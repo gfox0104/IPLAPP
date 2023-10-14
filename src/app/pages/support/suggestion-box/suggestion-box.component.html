@@ -1,0 +1,68 @@
+<div class=" suggestion-box" mousekeyboard [ngClass]="{ 'HelpCursor': isHelpActive }">
+    <div class="" >
+        <div class="module-box-header p-2 h4 my-0">
+            Request New Feature
+            <a class="pull-right" data-toggle="tooltip" (click)="SetHelpFlag()" data-placement="top"
+            title="Item Help" style="cursor: pointer;">Need Help
+            <i class="fas fa-question"></i>&nbsp; &nbsp;
+          </a>
+        </div>
+        <div class="module-box p-2">
+            <div>
+            <div class="Row">
+                <div class="" [ngClass]="{ 'HelpCursor': isHelpActive }"(click)="DispalyInfo($event,'Title')">
+                    Title
+                </div>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" [(ngModel)]="SuggestionModelObj.Sug_Tittle"
+                     aria-label="Title" aria-describedby="basic-addon1" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                     (click)="DispalyInfo($event,'Title')" [readonly]="isHelpActive">
+                </div>
+            </div>
+            <div class="Row">
+                <div class="" [ngClass]="{ 'HelpCursor': isHelpActive }"(click)="DispalyInfo($event,'Description')">
+                    Description
+                </div>
+                <div class="input-group">
+                    <textarea class="form-control suggestion-desc" [(ngModel)]="SuggestionModelObj.Sug_Description" 
+                    aria-label="With textarea" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'Description')" [readonly]="isHelpActive"></textarea>
+                </div>
+            </div>
+            </div>  
+            <div class="Row send-btn">
+                <button type="button" class="btn btn-lg" (click)="sendRequest()">Send Request</button>
+            </div>
+            <hr>
+            <div class="Row my-1" >
+                <div class="col-12 p-1 module-subheader">
+                    Previous Feedback 
+                </div>
+               <div class="row m-0" *ngFor="let suggestion of suggestionGroup| paginate: config; let i=index">
+                   <div class="col-md-1 col-sm-2 col-lg-1 col-3 p-0 pl-1 row m-0">
+                        <div class="buton" *ngIf = "suggestion.votecount != 0"
+                        (click)="AddSuggestionVote(suggestion)">
+                        <i class="fa fa-arrow-up"></i>
+                        </div>
+                         <div *ngIf = "suggestion.votecount == 0" class="buton" (click)="AddSuggestionVote(suggestion)">
+                        <i class="fa fa-arrow-down"></i>
+                        </div>
+                        <span class="vote-count">{{suggestion.votecount}}</span>
+                    </div>
+                    <div class="row m-0">
+                        <div class="col-12 h6">
+                            {{suggestion.Sug_Tittle}}
+                        </div>
+                        <div class="col-12">
+                            {{suggestion.Sug_Description}}
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <br>
+            <pagination-controls (pageChange)="onPageChange($event)" *ngIf="suggestionGroup.length > 0"></pagination-controls>
+        </div>
+    </div>
+</div>
+

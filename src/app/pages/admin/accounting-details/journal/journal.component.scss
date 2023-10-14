@@ -1,0 +1,51 @@
+.journalheader {
+  margin-bottom: 20px;
+  button {
+    float: right;
+  }
+}
+.journalgrid {
+  button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+  }
+}
+.k-dateinput .k-dateinput-wrap {
+  padding-left: 45px;
+}
+.journalinsert {
+  
+  table {
+    width: 100%;
+    margin-bottom: 5%;
+    thead{
+      text-align: center;
+      font-weight: bold;
+      color: black;
+    }
+    .tdaction {
+      text-align: center;
+      button {
+        border: none;
+        background-color: transparent;
+      }
+    }
+  }
+  .journalinsert-button {
+    button {
+      float: right;
+    }
+  }
+}
+
+
+@media(max-width:900px){
+  .newDiv{
+    overflow-x: auto;
+  }
+  .journalgrid{
+    width: 200%;
+  }
+
+}

@@ -1,0 +1,266 @@
+<!-- <div class="container-fluid mt-2" [ngClass]="{ 'HelpCursor': isHelpActive }">
+  <div class="">
+    <div class="">
+      <div class="row">
+        <h4 class="col-12 module-box-header mb-0">Add Damage</h4>
+        <div class="col-lg-12 p-0">
+          <div class="module-box p-2" >
+            <iplapp-form-card title="Damage" [formUsrCommonGroup]="formUsrCommonGroup" [isEditDisable]="IsEditDisable"
+            [fields]="formfields" [modelObj]="AddDamageModelObj" [isSubmitted]="submitted" (submitForm)="formButton()"
+            (back)="clickBack()" (dispalyInfoData)="DispalyInfo($event)"></iplapp-form-card>
+         
+
+
+            <div></div>
+            <table class="table text-center" style="width:40% ;">
+              <tr>
+                <th>Preset Text hi</th>
+                <th>Default</th>
+                <th>Action</th>
+              </tr>
+              <tr *ngFor="let item of FormArrayPresetVal; index as indx">
+                <td>
+                  <textarea class="form-control form-control-sm" placeholder="Enter Preset Text" id="hfghddaawdawsdfgh"
+                  [(ngModel)]="item.Damage_Preset_Text" [ngModelOptions]="{standalone: true}"
+                  [disabled]="isdisable" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                   [readonly]="isHelpActive"></textarea>
+                </td>
+                <td style="width: 10%;">
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input"
+                      [(ngModel)]="item.Damage_Preset_IsDefault"
+                      [id]="'Preset_ch'+item.Damage_Preset_pkeyId" [ngModelOptions]="{standalone: true}"
+                      [disabled]="isdisable">
+                    <label class="custom-control-label" [for]="'Preset_ch'+item.Damage_Preset_pkeyId"></label>
+                  </div>
+                </td>
+                <td style="width:20% ;">
+                  <button *ngIf="isdisable" type="button"
+                  class="btn btn-outline-primary btn-xs waves-effect  form-control-sm"
+                  style="margin-bottom: -8px;pointer-events: none;">
+                  <i class="fa fa-trash" ></i></button>
+  
+                <button *ngIf="!isdisable" type="button"
+                  class="btn btn-outline-primary btn-xs waves-effect  form-control-sm"
+                  (click)="RemoveRowPreset(indx,item)" style="margin-bottom: -8px;">
+                  <i class="fa fa-trash"></i></button>
+                </td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td>
+                  <button type="button" class="btn btn-outline-primary waves-effect btn-xs waves-light form-control-sm"
+                  title="click to add more" (click)="AddMoreRowPreset()" [disabled]="isdisable"> <i
+                    class="fas fa-plus-circle"></i> Add More</button>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+
+<!-- <ng-template #addWorkTypeForm let-modal>
+  <div class="modal-header">
+    <div>
+      <h4 class="page-title" style="font-weight: bolder; line-height: 1.5;">Add Work Type
+      </h4>
+    </div>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" [ngClass]="{ 'HelpCursor': isHelpActive }">
+    <div style="box-shadow: 0 0 4px gray;" class="p-2">
+      
+    </div>
+  </div>
+</ng-template> -->
+
+<div class="container-fluid mt-2">
+  <div class="">
+    <form [formGroup]="formUsrCommonGroup" (ngSubmit)="formButton()">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="form-group col-md-12  module-box-header mb-0">
+            <h5>Damage
+              <a class="pull-right mr-2" data-toggle="tooltip" (click)="SetHelpFlag()" data-placement="top"
+              title="Item Help" style="cursor: pointer;">Need Help
+              <i class="fas fa-question"></i>&nbsp;&nbsp;
+              </a>
+            </h5>
+          </div>
+          <div class="row m-0 module-subheader p-1 pl-2">
+            <div class="col-lg-4">
+              <div class="form-row">
+                <div class="float-right">
+                  <button  class="btn btn-primary" *ngIf="IsEditDisable" (click)="EditForms()">
+                    <i class="far fa-edit mr-1"></i> Edit
+                  </button>
+                  <button  class="btn btn-primary" type="submit" *ngIf="!IsEditDisable"
+                    [disabled]="isLoading">
+                    <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}"></i>
+                    {{button}}
+                  </button>
+                  <button class="btn btn-primary mx-2" (click)="clickBack()">
+                    <i class="fas fa-arrow-alt-circle-left mr-1"></i> Back</button>
+                </div>
+              </div>
+  
+            </div>
+          </div>
+          <div class="module-box p-2">
+            <div class="form-row">
+            </div>
+            <div class="form-row" style="margin-top: 10px;">
+              <div class="form-group col-md-2">
+                <label class="col-form-label">Damage Type
+                  <span style="color: red">*</span>
+                </label>
+              </div>
+              <div class="form-group col-md-4">
+                <input type="text" class="form-control form-control-sm" id='hgfhgfhdsfgfhgf'
+                  placeholder="Enter Damage Type" [(ngModel)]="AddDamageModelObj.Damage_Type"
+                  formControlName="DamageName" [ngClass]="{ 'is-invalid': submitted && fx.DamageName.errors }">
+                  <div *ngIf="submitted && fx.DamageName.errors" class="invalid-feedback">
+                    <div *ngIf="fx.DamageName.errors.required">this field is required</div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row mt-1">
+                <div class="form-group col-md-2">
+                  <label class="col-form-label" for="DamageInt">Int/Ext
+                  </label>
+                </div>
+                <div class="form-group col-md-4">
+                  <select class="form-control form-control-sm"[(ngModel)]="AddDamageModelObj.Damage_Int"
+                  formControlName="DamageInt" name="DamageInt">
+                    <option value='1'>select</option>
+                    <option value='2'>Int</option>
+                    <option value='3'>Ext</option>
+                  </select>
+                  
+              </div>
+              </div>
+              <div class="form-row" style="margin-top: 10px;">
+                <div class="form-group col-md-2">
+                  <label class="col-form-label">Location
+                  </label>
+                </div>
+                <div class="form-group col-md-4">
+                  <input type="text" class="form-control form-control-sm" id='hgfhgfhdsfgfhgf'
+                    placeholder="Enter Location" [(ngModel)]="AddDamageModelObj.Damage_Location"
+                    formControlName="DamageLocation" >
+                  </div>
+                </div>
+
+                <div class="form-row" style="margin-top: 10px;">
+                  <div class="form-group col-md-2">
+                    <label class="col-form-label">Quantity
+                    </label>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <input type="text" class="form-control form-control-sm" id='Quantityfe'
+                      placeholder="Enter Quantity" [(ngModel)]="AddDamageModelObj.Damage_Qty"
+                      formControlName="DamageQuantity" >
+                    </div>
+                  </div>
+
+
+                <div class="form-row" style="margin-top: 10px;">
+                  <div class="form-group col-md-2">
+                    <label class="col-form-label">Estimate
+                    </label>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <input type="text" class="form-control form-control-sm" id='Estimatedf'
+                      placeholder="Enter Estimate" [(ngModel)]="AddDamageModelObj.Damage_Estimate"
+                      formControlName="DamageEstimate" >
+                    </div>
+                  </div>
+                  <div class="form-row">
+                <div class="form-group col-md-2">
+                  <label class="col-form-label" 
+                  >Active</label>
+                </div>
+                <div class="form-group col-md-8">               
+                  <input type="checkbox" [(ngModel)]="AddDamageModelObj.Damage_IsActive"
+                  id="customCheck11c"  formControlName="DamageActive">
+  
+                  
+                </div>
+              </div>
+
+              <table class="table text-center" style="width:40% ;">
+                <tr>
+                  <th>Preset Text</th>
+                  <th >Default</th>
+                  <th>Action</th>
+                </tr>
+                <tr *ngFor="let item of FormArrayPresetVal; index as indx">
+                  <!-- <div style="width: 7.5rem; text-align: initial">
+                    <label>Preset Text</label>
+                  </div> -->
+                  <td>
+                    <textarea class="form-control form-control-sm" placeholder="Enter Preset Text" id="hfghddaawdawsdfgh"
+                    [(ngModel)]="item.Damage_Preset_Text"
+                    [disabled]="isdisable" [ngClass]="{ 'HelpCursor': isHelpActive }" [ngModelOptions]="{standalone: true}"
+                     [readonly]="isHelpActive" (click)="DispalyInfo($event,'Preset Text')"></textarea>
+                  </td>
+                  <td style="width: 10%;">
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input"
+                        [(ngModel)]="item.Damage_Preset_IsDefault"
+                        [id]="'Preset_ch'+item.Damage_Preset_pkeyId" 
+                        [disabled]="isdisable" [ngModelOptions]="{standalone: true}">
+                      <label class="custom-control-label" [for]="'Preset_ch'+item.Damage_Preset_pkeyId"></label>
+                    </div>
+                  </td>
+                  <td style="width:20% ;">
+                    <button *ngIf="isdisable" type="button"
+                    class="btn btn-outline-primary btn-xs waves-effect  form-control-sm"
+                    style="margin-bottom: -8px;pointer-events: none;">
+                    <i class="fa fa-trash" ></i></button>
+    
+                  <button *ngIf="!isdisable" type="button"
+                    class="btn btn-outline-primary btn-xs waves-effect  form-control-sm"
+                    (click)="RemoveRowPreset(indx,item)" style="margin-bottom: -8px;">
+                    <i class="fa fa-trash"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td>
+                    <button type="button" class="btn btn-outline-primary waves-effect btn-xs waves-light form-control-sm"
+                    title="click to add more" (click)="AddMoreRowPreset()" [disabled]="isdisable"> <i
+                      class="fas fa-plus-circle"></i> Add More</button>
+                  </td>
+                </tr>
+              </table>
+
+              <div class="form-row">
+                <div class="float-right">
+                  <label for="InvestmentSihhhze" *ngIf="formUsrCommonGroup.invalid" style="color:red">*
+                    Field is Required
+                  </label> <br>
+                </div>
+              </div>
+
+            </div>
+            
+           
+           
+            
+          </div>
+        </div>
+       
+      </form>
+      </div>
+    
+  </div>
+  

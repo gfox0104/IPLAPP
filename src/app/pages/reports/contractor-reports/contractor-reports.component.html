@@ -1,0 +1,428 @@
+<div>
+<div class="row module-subheader p-1" style="margin-right: 5px">
+  <div class="col-12">
+    <a class="pull-right" data-toggle="tooltip" (click)="SetHelpFlag()" data-placement="top"
+      title="Item Help" style="cursor: pointer;"><b>Need Help</b>
+      <i class="fas fa-question"></i>&nbsp;&nbsp;
+    </a>
+  </div>
+</div>
+<kendo-tabstrip class="module-box" [ngClass]="{ 'HelpCursor': isHelpActive }" style="min-height: 79vh; margin-right: 5px;" (tabSelect)="onTabSelect($event)">
+
+  <kendo-tabstrip-tab [title]="'Paid'" [selected]="true" >
+    <ng-template kendoTabContent>
+      <form [formGroup]="formUsrCommonGroup" (ngSubmit)="GetContractorPaidDetails()" >
+        <div class="row m-0 module-subheader mt-n1 p-1" >
+          <div class="form-group col-md-2">
+            <label [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Start Date')"> From </label>
+            <div class="form-group">
+              <div class="input-group">
+                <label class="form-control form-control-sm" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Start Date')">
+                  {{ContractorReportsModelObj.FromDatePaidInvoice | date: "MM/dd/yyyy"}}
+                  <span *ngIf="!ContractorReportsModelObj.FromDatePaidInvoice">Enter Date</span> </label>
+                <input class="form-control form-control-sm" placeholder="yyyy-mm-dd"
+                  [(ngModel)]="ContractorReportsModelObj.FromDatePaidInvoice" [ngModelOptions]="{standalone: true}"
+                  ngbDatepicker #dtr1="ngbDatepicker" firstDayOfWeek="7" style="display: none">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-info btn-xs" [ngClass]="{ 'HelpCursor': isHelpActive }" [disabled]="isHelpActive" (click)="dtr1.toggle()" type="button"><i
+                      class="fas fa-calendar-alt"></i></button>
+                </div>
+                <div *ngIf="isFromSelect" class="Mydropdown">this field is required</div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group col-md-2">
+            <label [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'End Date')"> To </label>
+            <div class="form-group">
+              <div class="input-group" >
+                <label class="form-control form-control-sm" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'End Date')">
+                  {{ContractorReportsModelObj.ToDateDatePaidInvoice| date: "MM/dd/yyyy"}}
+                  <span *ngIf="!ContractorReportsModelObj.ToDateDatePaidInvoice">Enter Date</span> </label>
+                <input class="form-control form-control-sm" placeholder="yyyy-mm-dd"
+                  [(ngModel)]="ContractorReportsModelObj.ToDateDatePaidInvoice" [ngModelOptions]="{standalone: true}"
+                  ngbDatepicker #dtr2="ngbDatepicker" firstDayOfWeek="7" style="display: none">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-info btn-xs" [ngClass]="{ 'HelpCursor': isHelpActive }" [disabled]="isHelpActive" (click)="dtr2.toggle()" type="button"><i
+                      class="fas fa-calendar-alt"></i></button>
+                </div>
+                <div *ngIf="isToSelect" class="Mydropdown">this field is required</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-2">
+            <label [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Contractor')" >Contractor</label>
+            <div style="background-color: white !important;">
+              <ng-multiselect-dropdown style="width: max-content;" [placeholder]="'select contractor'"
+                [settings]="dropdownSettings" [data]="dropdownList"
+                [(ngModel)]="ContractorReportsModelObj.Contractorarr" [ngModelOptions]="{standalone: true}"
+                [disabled]="disablePaidCon" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Contractor')">
+
+              </ng-multiselect-dropdown>
+            </div>
+
+          </div>
+          <div class="col-md-2">
+            <button type="submit" class="btn btn-primary" [disabled]="ispaidLoading" style="margin-top: 25px;">
+              <i class="fa" [ngClass]="{'fa-spin fa-spinner': ispaidLoading, 'fas fa-search mr-1': !ispaidLoading}"></i>
+              {{paidSearch}}</button>
+          </div>
+        </div>
+      </form>
+
+      <div class="panelbar-wrapper" >
+        <kendo-panelbar class="module-box p-2" *ngIf="this.DateStripArr != null && this.DateStripArr != undefined && DateStripArr.length>0">
+
+          <kendo-panelbar-item *ngFor="let contractorpaid of DateStripArr | paginate: config; let i=index"
+            title="'Check No#{{contractorpaid.Con_Pay_CheckNumber}} Amount {{currencySymbol}}{{contractorpaid.Con_Pay_Amount.toFixed(2)}}'">
+            <ng-template kendoPanelBarContent>
+              <kendo-grid [data]="contractorpaid.Contractor_Paid_InvoiceDTO"
+                [pageSize]="state.take"
+                [skip]="state.skip"
+                [sort]="state.sort"
+                [pageable]="true"
+                [sortable]="true"
+              (dataStateChange)="dataStateChange($event)" (excelExport)="onExcelExport($event)">
+
+                <!-- <ng-template kendoGridToolbarTemplate>
+                  <button type="button" kendoGridExcelCommand style="margin-left: 41px;">Export to Excel</button>
+                 </ng-template> -->
+
+                <kendo-grid-column title="" width="100" [locked]="false">
+                  <ng-template kendoGridCellTemplate let-dataItem>
+                    <a class="edit" [routerLink]="getReportDetailsUrl(dataItem)" target="_blank" class="k-grid-ignore-click"
+                      title="view Records">
+                      <i class="fa fa-eye"></i> &nbsp; &nbsp; View
+                    </a>
+                  </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column *ngFor="let column of columns" width="{{column.width}}" field="{{column.field}}"
+                  title="{{column.title}}">
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.type === 'date'">
+                    <span [ngClass]="{'whole-cell': column.field === 'dueDate'}">
+                      {{dataItem[column.field] | date: 'MM/dd/yyyy'}}
+                    </span>
+                  </ng-template>
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'Inv_Con_Sub_Total' || column.field === 'Con_Pay_Amount'">
+                    <span>
+                    {{currencySymbol}}{{dataItem[column.field]==null?"0.00":dataItem[column.field].toFixed(2)}}
+                    </span>
+                  </ng-template>
+                </kendo-grid-column>
+
+                <div *kendoGridDetailTemplate="let dataItem">
+                  <contractor-reports-detail [detailData]='dataItem.Contractor_Paid_Invoice_ChildDTO'>
+                  </contractor-reports-detail>
+                </div>
+                <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+                  <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+                  <kendo-pager-numeric-buttons [buttonCount]="10"></kendo-pager-numeric-buttons>
+                  <kendo-pager-next-buttons></kendo-pager-next-buttons>
+                  <kendo-pager-info></kendo-pager-info>
+                  <kendo-pager-page-sizes [pageSizes]="[15, 30, 50, 100,200,300,500]"></kendo-pager-page-sizes>
+                </ng-template>
+                <!-- <kendo-grid-excel fileName="PaidContractor.xlsx" ></kendo-grid-excel> -->
+              </kendo-grid>
+            </ng-template>
+          </kendo-panelbar-item>
+
+        </kendo-panelbar>
+        <br>
+        <pagination-controls (pageChange)="onPageChange($event)"
+          *ngIf="this.DateStripArr != null && this.DateStripArr != undefined && DateStripArr.length > 0"></pagination-controls>
+      </div>
+    </ng-template>
+  </kendo-tabstrip-tab>
+  <kendo-tabstrip-tab [title]="'Pending'">
+    <ng-template kendoTabContent>
+      <form [formGroup]="formUsrCommonGroup" (ngSubmit)="GetPendingInvoiceTabData()">
+        <div class="row m-0 module-subheader p-1 mt-n1">
+          <div class="form-group col-md-2">
+            <label [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Start Date')"> From </label>
+            <div class="form-group">
+              <div class="input-group">
+                <label class="form-control form-control-sm" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Start Date')">
+                  {{ContractorReportsModelObj.From_InvoiceDate | date: "MM/dd/yyyy"}}
+                  <span *ngIf="!ContractorReportsModelObj.From_InvoiceDate">Enter Date</span> </label>
+                <input class="form-control form-control-sm" placeholder="yyyy-mm-dd"
+                  [(ngModel)]="ContractorReportsModelObj.From_InvoiceDate" [ngModelOptions]="{standalone: true}"
+                  ngbDatepicker #dtr3="ngbDatepicker" firstDayOfWeek="7" style="display: none">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-info btn-xs" [ngClass]="{ 'HelpCursor': isHelpActive }" [disabled]="isHelpActive" (click)="dtr3.toggle()" type="button"><i
+                      class="fas fa-calendar-alt"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group col-md-2">
+            <label [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'End Date')"> To </label>
+            <div class="form-group">
+              <div class="input-group">
+                <label class="form-control form-control-sm" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'End Date')">
+                  {{ContractorReportsModelObj.To_InvoiceDate | date: "MM/dd/yyyy"}}
+                  <span *ngIf="!ContractorReportsModelObj.To_InvoiceDate">Enter Date</span> </label>
+                <input class="form-control form-control-sm" placeholder="yyyy-mm-dd"
+                  [(ngModel)]="ContractorReportsModelObj.To_InvoiceDate" [ngModelOptions]="{standalone: true}"
+                  ngbDatepicker #dtr4="ngbDatepicker" firstDayOfWeek="7" style="display: none">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-info btn-xs" [ngClass]="{ 'HelpCursor': isHelpActive }" [disabled]="isHelpActive" (click)="dtr4.toggle()" type="button"><i
+                      class="fas fa-calendar-alt"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group col-md-2">
+            <label [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Contractor')"> Contractor </label>
+            <div style="background-color: white !important;">
+              <ng-multiselect-dropdown style="width: max-content;" [placeholder]="'select contractor'"
+                [settings]="dropdownSettings" [data]="dropdownList"
+                [(ngModel)]="ContractorReportsModelObj.PendingTabCon" [ngModelOptions]="{standalone: true}"
+                [disabled]="disablePendingCon" [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'Contractor')">
+              </ng-multiselect-dropdown>
+            </div>
+          </div>
+          <div class="col-2">
+            <button type="submit" class="btn btn-primary" [disabled]="ispendingLoading" style="margin-top: 25px;">
+              <i class="fa"
+                [ngClass]="{'fa-spin fa-spinner': ispendingLoading, 'fas fa-search mr-1': !ispendingLoading}"></i>
+              {{pendingSearch}}</button>
+          </div>
+        </div>
+      </form>
+
+      <div class="panelbar-wrapper module-box p-2">
+        <kendo-panelbar>
+          <kendo-panelbar-item [title]="'Approved'">
+            <ng-template kendoPanelBarContent>
+              <kendo-grid [data]="pendingInvoice"
+                [pageSize]="state.take"
+                [skip]="state.skip"
+                [sort]="state.sort"
+                [pageable]="true"
+                [sortable]="true"
+                (dataStateChange)="dataStateChange($event)" (excelExport)="onExcelExport($event)">
+                <!-- <ng-template kendoGridToolbarTemplate>
+                      <button type="button" kendoGridExcelCommand style="margin-left: 41px;">Export to Excel</button>
+                     </ng-template> -->
+                <kendo-grid-column title="" width="100" [locked]="false">
+                  <ng-template kendoGridCellTemplate let-dataItem>
+                    <a class="edit" [routerLink]="getReportDetailsUrl(dataItem)" target="_blank" class="k-grid-ignore-click"
+                      title="view Records">
+                      <i class="fa fa-eye"></i> &nbsp; &nbsp; View
+                    </a>
+                  </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column *ngFor="let column of columns" width="{{column.width}}" field="{{column.field}}"
+                  title="{{column.title}}">
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.type === 'date'">
+                    <span [ngClass]="{'whole-cell': column.field === 'dueDate'}">
+                      {{dataItem[column.field] | date: 'MM/dd/yyyy'}}
+                    </span>
+                  </ng-template>
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'Inv_Con_Sub_Total' || column.field === 'Con_Pay_Amount'">
+                    <span>
+                      {{currencySymbol}}{{dataItem[column.field]===null?"0.00":dataItem[column.field].toFixed(2)}}
+                    </span>
+                  </ng-template>
+                  <ng-template kendoGridFooterTemplate let-column let-columnIndex="columnIndex">
+                    <div *ngIf="column.field=='Inv_Con_Sub_Total'">
+                      Total : {{currencySymbol}}{{invoiceTotalSum_Due.toFixed(2)}}
+                    </div>
+                    <div *ngIf="column.field=='Con_Pay_Amount'">
+                      Total : {{currencySymbol}}{{amountPaidSum_Due.toFixed(2)}}
+                    </div>
+                  </ng-template>
+                </kendo-grid-column>
+
+                <div *kendoGridDetailTemplate="let dataItem">
+                  <contractor-reports-detail [detailData]='dataItem.Contractor_Paid_Invoice_ChildDTO'>
+                  </contractor-reports-detail>
+                </div>
+                <!-- <kendo-grid-column title="" width="100" [locked]="false">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                          <a class="edit" (click)="showDetails($event, dataItem)" class="k-grid-ignore-click"
+                            title="view Records">
+                            <i class="fa fa-eye"></i> &nbsp; &nbsp; View
+                          </a>
+                        </ng-template>
+                      </kendo-grid-column>
+                       <kendo-grid-column field="Invoice" title="Invoice#" width="70">
+                       </kendo-grid-column>
+                       <kendo-grid-column field="Date" title="Ivoice Date" width="70">
+                       </kendo-grid-column>
+                       <kendo-grid-column field="IPL" title="IPL#" width="70">
+                       </kendo-grid-column>
+                       <kendo-grid-column field="Contractor" title="Contractor" width="70">
+                       </kendo-grid-column>
+                       <kendo-grid-column field="AssignedAdmin" title="Assigned Admin" width="70">
+                       </kendo-grid-column>
+                       <kendo-grid-column field="Address" title="Address" width="100">
+                       </kendo-grid-column>
+                       <kendo-grid-column field="City" title="City" width="70">
+                       </kendo-grid-column>
+                       <kendo-grid-column field="State" title="State" width="70">
+                       </kendo-grid-column>
+                       <kendo-grid-column field="Zip" title="Zip" width="70">
+                       </kendo-grid-column>
+                       <kendo-grid-column field="Loan" title="Loan" width="70">
+                       </kendo-grid-column>
+                       <kendo-grid-column field="WO" title="WO #" width="70">
+                       </kendo-grid-column>
+                       <kendo-grid-column field="Client" title="Client" width="70">
+                       </kendo-grid-column>
+                       <kendo-grid-column field="CustomerBank" title="Customer Bank" width="100">
+                       </kendo-grid-column>
+                       <kendo-grid-column field="WorkType" title="Work Type" width="70">
+                       </kendo-grid-column>
+                       <kendo-grid-column field="DateDue" title="Date Due" width="70">
+                       </kendo-grid-column>
+                       <kendo-grid-column field="DateDueClient" title="DateDueClient" width="70">
+                       </kendo-grid-column>
+                       <kendo-grid-column field="ContractorDiscount" title="Contractor Discount" width="120">
+                       </kendo-grid-column>
+                       <kendo-grid-column field="ContractorTotal" title="Contractor Total" width="120">
+                       </kendo-grid-column>
+
+                       <div *kendoGridDetailTemplate="let pendingInvoice">
+                        <contractor-pending-child [pendingdetailData]='pendingInvoice.Detail'></contractor-pending-child>
+                        </div> -->
+                <!-- <kendo-grid-excel fileName="CurrentContractor.xlsx" ></kendo-grid-excel> -->
+
+                <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+                  <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+                  <kendo-pager-numeric-buttons [buttonCount]="10"></kendo-pager-numeric-buttons>
+                  <kendo-pager-next-buttons></kendo-pager-next-buttons>
+                  <kendo-pager-info></kendo-pager-info>
+                  <kendo-pager-page-sizes [pageSizes]="[15, 30, 50, 100,200,300,500]"></kendo-pager-page-sizes>
+                </ng-template>
+              </kendo-grid>
+            </ng-template>
+          </kendo-panelbar-item>
+          <kendo-panelbar-item [title]="'In Review'">
+            <ng-template kendoPanelBarContent>
+              <kendo-grid [data]="completeinv"
+                [pageSize]="state.take"
+                [skip]="state.skip"
+                [sort]="state.sort"
+                [pageable]="true"
+                [sortable]="true"
+                (dataStateChange)="dataStateChange($event)" (excelExport)="onExcelExport($event)">
+                <!-- <ng-template kendoGridToolbarTemplate>
+                    <button type="button" kendoGridExcelCommand style="margin-left: 41px;">Export to Excel</button>
+                   </ng-template> -->
+                <kendo-grid-column title="" width="100" [locked]="false">
+                  <ng-template kendoGridCellTemplate let-dataItem>
+                    <a class="edit" [routerLink]="getReportDetailsUrl(dataItem)" target="_blank" class="k-grid-ignore-click"
+                      title="view Records">
+                      <i class="fa fa-eye"></i> &nbsp; &nbsp; View
+                    </a>
+                  </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column *ngFor="let column of columns" width="{{column.width}}" field="{{column.field}}"
+                  title="{{column.title}}">
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.type === 'date'">
+                    <span [ngClass]="{'whole-cell': column.field === 'dueDate'}">
+                      {{dataItem[column.field] | date: 'MM/dd/yyyy'}}
+                    </span>
+                  </ng-template>
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'Inv_Con_Sub_Total' || column.field === 'Con_Pay_Amount'">
+                    <span>
+                      {{currencySymbol}}{{dataItem[column.field]==null?"0.00":dataItem[column.field].toFixed(2)}}
+                    </span>
+                  </ng-template>
+                  <ng-template kendoGridFooterTemplate let-column let-columnIndex="columnIndex">
+                    <div *ngIf="column.field=='Inv_Con_Sub_Total'">
+                      Total : {{currencySymbol}}{{invoiceTotalSum_Done.toFixed(2)}}
+                    </div>
+                    <div *ngIf="column.field=='Con_Pay_Amount'">
+                      Total : {{currencySymbol}}{{amountPaidSum_Done.toFixed(2)}}
+                    </div>
+                  </ng-template>
+                </kendo-grid-column>
+
+
+                <div *kendoGridDetailTemplate="let dataItem">
+                  <contractor-reports-detail [detailData]='dataItem.Contractor_Paid_Invoice_ChildDTO'>
+                  </contractor-reports-detail>
+                </div>
+                <!-- <kendo-grid-excel fileName="CompleteContractor.xlsx" ></kendo-grid-excel> -->
+
+                <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+                  <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+                  <kendo-pager-numeric-buttons [buttonCount]="10"></kendo-pager-numeric-buttons>
+                  <kendo-pager-next-buttons></kendo-pager-next-buttons>
+                  <kendo-pager-info></kendo-pager-info>
+                  <kendo-pager-page-sizes [pageSizes]="[15, 30, 50, 100,200,300,500]"></kendo-pager-page-sizes>
+                </ng-template>
+              </kendo-grid>
+            </ng-template>
+          </kendo-panelbar-item>
+          <kendo-panelbar-item [title]="'On Hold'">
+            <ng-template kendoPanelBarContent>
+              <kendo-grid [data]="PendingHold"
+                [pageSize]="state.take"
+                [skip]="state.skip"
+                [sort]="state.sort"
+                [pageable]="true"
+                [sortable]="true"
+                (dataStateChange)="dataStateChange($event)" (excelExport)="onExcelExport($event)">
+                <!-- <ng-template kendoGridToolbarTemplate>
+                    <button type="button" kendoGridExcelCommand style="margin-left: 41px;">Export to Excel</button>
+                   </ng-template> -->
+                <kendo-grid-column title="" width="100" [locked]="false">
+                  <ng-template kendoGridCellTemplate let-dataItem>
+                    <a class="edit" [routerLink]="getReportDetailsUrl(dataItem)" target="_blank" class="k-grid-ignore-click"
+                      title="view Records">
+                      <i class="fa fa-eye"></i> &nbsp; &nbsp; View
+                    </a>
+                  </ng-template>
+                </kendo-grid-column>
+                <kendo-grid-column *ngFor="let column of columns" width="{{column.width}}" field="{{column.field}}"
+                  title="{{column.title}}">
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.type === 'date'">
+                    <span [ngClass]="{'whole-cell': column.field === 'dueDate'}">
+                     {{dataItem[column.field] | date: 'MM/dd/yyyy'}}
+                    </span>
+                  </ng-template>
+                  <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'Inv_Con_Sub_Total' || column.field === 'Con_Pay_Amount'">
+                    <span>
+                    {{currencySymbol}}{{dataItem[column.field]==null?"0.00":dataItem[column.field].toFixed(2)}}
+                    </span>
+                  </ng-template>
+                  <ng-template kendoGridFooterTemplate let-column let-columnIndex="columnIndex">
+                    <div *ngIf="column.field=='Inv_Con_Sub_Total'">
+                      Total : {{currencySymbol}}{{invoiceTotalSum_Hold.toFixed(2)}}
+                    </div>
+                    <div *ngIf="column.field=='Con_Pay_Amount'">
+                      Total : {{currencySymbol}}{{amountPaidSum_Hold.toFixed(2)}}
+                    </div>
+                  </ng-template>
+                </kendo-grid-column>
+
+
+                <div *kendoGridDetailTemplate="let dataItem">
+
+                  <contractor-reports-detail [detailData]='dataItem.Contractor_Paid_Invoice_ChildDTO'>
+                  </contractor-reports-detail>
+                </div>
+                <!-- <kendo-grid-excel fileName="OnHoldContractor.xlsx" ></kendo-grid-excel> -->
+
+                <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+                  <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+                  <kendo-pager-numeric-buttons [buttonCount]="10"></kendo-pager-numeric-buttons>
+                  <kendo-pager-next-buttons></kendo-pager-next-buttons>
+                  <kendo-pager-info></kendo-pager-info>
+                  <kendo-pager-page-sizes [pageSizes]="[15, 30, 50, 100,200,300,500]"></kendo-pager-page-sizes>
+                </ng-template>
+              </kendo-grid>
+            </ng-template>
+          </kendo-panelbar-item>
+        </kendo-panelbar>
+      </div>
+    </ng-template>
+  </kendo-tabstrip-tab>
+</kendo-tabstrip>
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="default" color="#fff" type="timer" [fullScreen]="true">
+  <p style="color: white">Loading...</p>
+</ngx-spinner>
+</div>

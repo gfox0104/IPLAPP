@@ -1,0 +1,130 @@
+.nav-tabs {
+  color: black;
+  font-weight: 500;
+  border: none;
+  margin-right: 15px;
+  cursor: pointer;
+}
+
+.disabled {
+  color: gray;
+  pointer-events: none;
+}
+
+#drag-drop-wrapper {
+  .e-swap-icon:before {
+    content: "\e700";
+  }
+
+  width: 85%;
+  margin: auto;
+  display: flex;
+
+  .e-btn {
+    margin-top: 15px;
+    float: right;
+    margin-bottom: -43px;
+  }
+}
+
+.tab-content {
+  padding: 20px 0 0;
+}
+
+ejs-listbox {
+  display: block;
+}
+
+.listbox-control {
+  width: 40%;
+  margin: auto;
+  margin-top: 0px;
+}
+
+.filter-item {
+  width: 160px;
+}
+
+label {
+  color: black;
+  font-weight: 500;
+}
+
+#tab-selectbyid3 {
+  display: none !important;
+}
+
+.popover {
+  max-width: 80% !important;
+}
+
+a {
+  cursor: pointer;
+}
+
+.cursor-pinter {
+  cursor: pointer;
+}
+
+kendo-grid-date-filter-cell {
+  .k-picker-wrap {
+    height: 26px !important;
+  }
+}
+.k-grid tbody tr {
+  height: 38px;
+}
+.k-grid {
+  font-size: 12px;
+  overflow-x: auto !important;
+  kendo-grid-filter-wrapper-cell {
+    flex-direction: column;
+    display: flex;
+    align-items: baseline;
+    kendo-grid-filter-cell-operators {
+      margin-left: 0px !important;
+      margin-top: 5px;
+    }
+  }
+
+  .k-button {
+    margin-left: 2px;
+    width: 22px !important;
+    height: 22px !important;
+  }
+  .k-textbox {
+    height: 25px !important;
+    font-size: 12px !important;
+  }
+  .k-select {
+    width: 20px !important;
+    height: 20px !important;
+  }
+}
+
+kendo-grid-toolbar {
+  .k-button {
+    margin-left: 0px !important;
+    width: none !important;
+    height: none !important;
+  }
+}
+
+.tool-button {
+  margin-left: 0px !important;
+  width: none !important;
+  height: none !important;
+}
+
+.k-grid .no-padding {
+  padding: 0 !important;
+}
+.whole-cell {
+  display: block;
+  padding: 8px 12px;
+}
+
+.message {
+  width: 20px;
+  height: 20px;
+}

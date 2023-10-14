@@ -1,0 +1,2019 @@
+<div class="row dashboardAccounting" >
+  <div class="col-md-2 sidebar">
+    <app-account-sidebar [ActiveLink]="10"></app-account-sidebar>
+  </div>
+  <div class="col-md-10 mainDashboard">
+    <div class="">
+      <div class="row m-0">
+        <div class="col-md-12">
+          <ul class="nav nav-tabs">
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                routerLinkActive="active"
+                routerLink="/accounting/accountingdetails/client"
+                >Customer
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                routerLinkActive="active"
+                routerLink="/accounting/accountingdetails/invoice"
+                >Invoice</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                routerLinkActive="active"
+                routerLink="/accounting/accountingdetails/task"
+                >Services</a
+              >
+            </li>
+          </ul>
+          <div>
+            <br />
+            <div class="row m-0">
+              <div class="col-md-8">
+                <h3 class="page-title">Invoice</h3>
+              </div>
+              <div class="col-md-4 align-self-center">
+                <button
+                  id="Add"
+                  type="button"
+                  (click)="AddNewInvoice(InvoiceFORM)"
+                  class="btn btn-primary float-right"
+                >
+                  <i class="fas fa-plus-circle"></i> Add
+                </button>
+                <button
+                  id="Bank"
+                  type="button"
+                  (click)="BankDepositModel(BankDepositFORM)"
+                  class="btn btn-primary float-right mr-1"
+                >
+                  <i class="fas fa-plus-circle"></i> Bank Deposit
+                </button>
+              </div>
+            </div>
+          </div>
+          <hr />
+          <div class="newDiv">
+            <div class="row griddiv m-0 px-2">
+              <kendo-grid
+                class="module-box"
+                #gridUser
+                [kendoGridBinding]="InvoiceList"
+                [loading]="IsLoad"
+                [pageSize]="15"
+                [pageable]="true"
+                [sortable]="true"
+                [filterable]="true"
+                [selectable]="true"
+                [groupable]="false"
+                [skip]="state.skip"
+                [sort]="state.sort"
+                [filter]="state.filter"
+                (dataStateChange)="dataStateChange($event)"
+              >
+                <kendo-grid-column-group>
+                  <kendo-grid-column
+                    field="Invoice_Number"
+                    title="Invoice Number"
+                  >
+                  </kendo-grid-column>
+                  <kendo-grid-column
+                    field="Invoice_Custome_Name"
+                    title="Client Name"
+                  >
+                  </kendo-grid-column>
+                  <kendo-grid-column
+                    field="Invoice_Custome_Email"
+                    title="Client Email"
+                  >
+                  </kendo-grid-column>
+
+                  <kendo-grid-column
+                    field="Invoice_Date"
+                    title="Invoice Date"
+                    filter="date"
+                  >
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                      {{ dataItem.Invoice_Date | date }}
+                    </ng-template>
+                  </kendo-grid-column>
+
+                  <kendo-grid-column
+                    field="Invoice_Sub_total"
+                    title="Sub Total"
+                    format="{0:c}"
+                  >
+                  </kendo-grid-column>
+                  <kendo-grid-column
+                    field="Invoice_Total"
+                    title="Total"
+                    format="{0:c}"
+                  >
+                  </kendo-grid-column>
+                  <kendo-grid-column title="Status">
+                    <ng-template
+                      kendoGridCellTemplate
+                      let-dataItem
+                      let-rowIndex="rowIndex"
+                    >
+                      <label
+                        *ngIf="
+                          dataItem.Invoice_Status == 0 &&
+                          CheckIsOverDueDate(dataItem.Invoice_Due_Date)
+                        "
+                      >
+                        <i class="fa fa-exclamation-circle text-warning"></i>
+                        Overdue On
+                        {{
+                          dataItem.Invoice_Due_Date | date: "MM/dd/yyyy"
+                        }}</label
+                      >
+                      <label
+                        *ngIf="
+                          dataItem.Invoice_Status == 0 &&
+                          !CheckIsOverDueDate(dataItem.Invoice_Due_Date)
+                        "
+                        >Due On
+                        {{
+                          dataItem.Invoice_Due_Date | date: "MM/dd/yyyy"
+                        }}</label
+                      >
+                      <label *ngIf="dataItem.Invoice_Status == 1">
+                        <i class="text-success fa fa-check-circle mr-1"></i
+                        >Paid</label
+                      >
+                      <label *ngIf="dataItem.Invoice_Status == 2">
+                        <i class="text-success fa fa-check-circle mr-1"></i
+                        >Deposit</label
+                      >
+                    </ng-template>
+                  </kendo-grid-column>
+
+                  <kendo-grid-column
+                    field="Inv_CreatedBy"
+                    title="CreatedBy"
+                  >
+                  </kendo-grid-column>
+                  <kendo-grid-column
+                    field="Inv_ModifiedBy"
+                    title="LastModifiedBy"
+                  >
+                  </kendo-grid-column>
+                  <kendo-grid-column title="Action">
+                    <ng-template
+                      kendoGridCellTemplate
+                      let-dataItem
+                      let-rowIndex="rowIndex"
+                    >
+                      <button
+                        *ngIf="dataItem.Invoice_Status == 0"
+                        class="btn"
+                        type="button"
+                        (click)="
+                          ReceivePaymentModel(dataItem, ReceivePaymentFORM)
+                        "
+                      >
+                        Receive Payment</button
+                      >&nbsp;
+                      <button
+                        [disabled]="false"
+                        type="button"
+                        class="btn-bg-tran"
+                        (click)="
+                          GetInvoiceDetail(dataItem.Invoice_pkeyId, InvoiceFORM)
+                        "
+                      >
+                        <i class="fa fa-pencil-square-o"></i></button
+                      >&nbsp;
+                      <button
+                        [disabled]="false"
+                        type="button"
+                        class="btn-bg-tran"
+                        (click)="DeleteInvoice(dataItem.Invoice_pkeyId)"
+                      >
+                        <i class="fa fa-trash text-danger"></i></button
+                      >&nbsp;
+                    </ng-template>
+                  </kendo-grid-column>
+                </kendo-grid-column-group>
+                <ng-template
+                  kendoPagerTemplate
+                  let-totalPages="totalPages"
+                  let-currentPage="currentPage"
+                >
+                  <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+                  <kendo-pager-numeric-buttons
+                    [buttonCount]="10"
+                  ></kendo-pager-numeric-buttons>
+                  <kendo-pager-next-buttons></kendo-pager-next-buttons>
+                  <kendo-pager-info></kendo-pager-info>
+                  <kendo-pager-page-sizes
+                    [pageSizes]="[15, 30, 50, 100]"
+                  ></kendo-pager-page-sizes>
+                </ng-template>
+              </kendo-grid>
+            </div>
+          </div>
+          <!-- <div class="loader offset-5" *ngIf="IsLoad"></div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #InvoiceFORM let-modal>
+  <div class="modal-header">
+    <button type="button" class="close" aria-label="Close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body"  [ngClass]="{ 'HelpCursor': isHelpActive }">
+    <div class="module-box p-2">
+      <form
+        [formGroup]="formInvoiceCommonGroup"
+        (ngSubmit)="FormButtonPOPUp(EditInvoiceForm)"
+        #EditInvoiceForm="ngForm"
+      >
+        <div class="form-row">
+          <div class="form-group col-md-12 text-center module-subheader">
+            <h5>
+              Invoice
+              <label for="" *ngIf="Invoice.Invoice_pkeyId > 0">{{
+                Invoice.Invoice_Number
+              }}</label>
+              <a class="pull-right" data-toggle="tooltip" (click)="SetHelpFlag()" data-placement="top"
+              title="Item Help" style="cursor: pointer;">Need Help
+              <i class="fas fa-question"></i>&nbsp; &nbsp;
+            </a>
+            </h5>
+          </div>
+          <br />
+        </div>
+        <div class="row">
+          <div class="col-md-10">
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label [ngClass]="{ 'HelpCursor': isHelpActive }"(click)="DispalyInfo($event,'Customer')"> Customer <i class="text-danger">*</i></label>
+                  <div class="input-group">
+                    <select
+                      [disabled]="Invoice.Inv_Client_pkeyId > 0"
+                      class="form-control form-control-sm"
+                      name="Invoice_CustomeId"
+                      [(ngModel)]="Invoice.Invoice_CustomeId"
+                      #Invoice_CustomeId="ngModel"
+                      [ngModelOptions]="{ standalone: true }"
+                      (change)="
+                        changeInvoiceCustomer(Invoice.Invoice_CustomeId)
+                      "
+                      [ngClass]="{
+                        'is-invalid':
+                          EditInvoiceForm.submitted &&
+                          Invoice.Invoice_CustomeId == 0
+                      }"
+                      (click)="DispalyInfo($event,'Customer')"
+                      [ngClass]="{ 'HelpCursor': isHelpActive }"
+
+                    >
+                      <option [value]="0">select</option>
+                      <option
+                        [hidden]="cust.IsActive == 0"
+                        [value]="cust.Acc_Client_pkeyId"
+                        *ngFor="let cust of CustomerList"
+                      >
+                        {{ cust.Company_Name }}
+                      </option>
+                    </select>
+                    <!-- <select
+                      class="form-control form-control-sm"
+                      name="Acc__Account_Type"
+                      aria-placeholder="Select a customer"
+                    >
+                      <option [value]="0">select</option>
+                    </select> -->
+                  </div>
+                  <div
+                    *ngIf="
+                      EditInvoiceForm.submitted &&
+                      Invoice.Invoice_CustomeId == 0
+                    "
+                    class="text-danger"
+                  >
+                    <div *ngIf="Invoice.Invoice_CustomeId == 0">
+                      this field is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label [ngClass]="{ 'HelpCursor': isHelpActive }"(click)="DispalyInfo($event,'Customer Email')">
+                    Customer Email
+                    <!-- <i class="text-danger">*</i> -->
+                  </label>
+                  <div class="input-group mb-2">
+                    <input
+                      type="text"
+                      formControlName="Invoice_Custome_Email"
+                      name="Invoice_Custome_Email"
+                      [(ngModel)]="Invoice.Invoice_Custome_Email"
+                      placeholder=" Customer Email"
+                      class="form-control form-control-sm"
+                      [ngClass]="{
+                        'is-invalid':
+                          EditInvoiceForm.submitted &&
+                          fx.Invoice_Custome_Email.errors
+                      }"
+                      (click)="DispalyInfo($event,'Customer Email')"
+                      [ngClass]="{ 'HelpCursor': isHelpActive }"
+                      [readonly]="isHelpActive"
+                    />
+                  </div>
+                  <div
+                    *ngIf="
+                      EditInvoiceForm.submitted &&
+                      fx.Invoice_Custome_Email.errors
+                    "
+                    class="text-danger"
+                  >
+                    <!-- <div *ngIf="fx.Invoice_Custome_Email.errors.required">
+                      this field is required
+                    </div> -->
+                    <div *ngIf="fx.Invoice_Custome_Email.errors.email">
+                      Email must be a valid email address
+                    </div>
+                  </div>
+                  <a
+                    href="javascript:void"
+                    *ngIf="!Invoice.Invoice_CcBcc"
+                    (click)="Invoice.Invoice_CcBcc = !Invoice.Invoice_CcBcc"
+                    class="float-right"
+                    >Cc/Bcc</a
+                  >
+                  <a
+                    href="javascript:void"
+                    (click)="Invoice.Invoice_CcBcc = !Invoice.Invoice_CcBcc"
+                    *ngIf="Invoice.Invoice_CcBcc"
+                    class="float-right"
+                    >Close</a
+                  >
+                  <div class="custom-control custom-checkbox col-md-8">
+                    <input
+                      type="checkbox"
+                      name="Invoice_Send_to"
+                      [(ngModel)]="Invoice.Invoice_Send_to"
+                      #Invoice_Send_to="ngModel"
+                      [ngModelOptions]="{ standalone: true }"
+                      class="custom-control-input"
+                      id="Invoice_Send_to"
+                      (click)="DispalyInfo($event,'Send Later')"
+                      [ngClass]="{ 'HelpCursor': isHelpActive }"
+
+                    />
+                    <label class="custom-control-label" for="Invoice_Send_to" (click)="DispalyInfo($event,'Send Later')"
+                    [ngClass]="{ 'HelpCursor': isHelpActive }"
+                      >Send Later</label
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4" *ngIf="Invoice.Invoice_CcBcc">
+                <div class="form-group">
+                  <label  (click)="DispalyInfo($event,'Cc/Bcc Email')"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }"> Cc/Bcc Email</label>
+                  <div class="input-group">
+                    <input
+                      type="text"
+                      name="Invoice_CcBcc_Label"
+                      [(ngModel)]="Invoice.Invoice_CcBcc_Label"
+                      (keyup)="
+                        RemoveWhiteSpaceInvoice(Invoice.Invoice_CcBcc_Label)
+                      "
+                      placeholder="Email Address"
+                      #Invoice_CcBcc_Label="ngModel"
+                      [ngModelOptions]="{ standalone: true }"
+                      class="form-control form-control-sm"
+                      [ngClass]="{
+                        'is-invalid':
+                          EmailSubmit && Invoice.Invoice_CcBcc && !validEmail
+                      }"
+                      (click)="DispalyInfo($event,'Cc/Bcc Email')"
+                      [ngClass]="{ 'HelpCursor': isHelpActive }"
+                      [readonly]="isHelpActive"
+                    />
+                    <div class="input-group-append">
+                      <button
+                        class="btn btn-outline-secondary form-control-sm"
+                        (click)="AddCcBccLabel()"
+                        type="button"
+                      >
+                        <i class="fas fa-plus" style="vertical-align: top"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div
+                    class="text-danger"
+                    *ngIf="EmailSubmit && Invoice.Invoice_CcBcc && !validEmail"
+                  >
+                    Email must be a valid email address
+                  </div>
+                </div>
+                <span
+                  *ngFor="let item of CcBccLabelList; let i = index"
+                  class="badge badge-pill badge-primary p-1 m-1"
+                  >{{ item.Label }}
+                  <a
+                    type="button"
+                    href="javascript:void"
+                    (click)="RemoveCcBccLabel(i)"
+                    class="text-danger pl-1"
+                  >
+                    <i class="fas fa-times"></i></a
+                ></span>
+              </div>
+            </div>
+            <div class="row pl-2" *ngIf="Invoice.Invoice_Send_to">
+              <div class="col-md-3">
+                <div class="form-group pt-2">
+                  <label   (click)="DispalyInfo($event,'Select Date')"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }"> Select Date</label>
+                  <!-- {{ Invoice.Invoice_Send_to_DateTime | date: "h:mm a z" }} -->
+                  <div class="input-group">
+                    <input
+                      class="form-control form-control-sm"
+                      placeholder="yyyy-mm-dd"
+                      ngbDatepicker
+                      #dt3="ngbDatepicker"
+                      firstDayOfWeek="7"
+                      name="Invoice_Send_to_DateTime"
+                      [(ngModel)]="Invoice.Invoice_Send_to_DateTime"
+                      [ngModelOptions]="{ standalone: true }"
+                      (click)="DispalyInfo($event,'Select Date')"
+                      [ngClass]="{ 'HelpCursor': isHelpActive }"
+                      [readonly]="isHelpActive"
+                    />
+                    <div class="input-group-append">
+                      <button
+                        class="btn btn-outline-info btn-xs"
+                        (click)="dt3.toggle()"
+                        type="button"
+                      >
+                        <i class="fas fa-calendar-alt"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <ngb-timepicker
+                  [(ngModel)]="Invoice.Invoice_Send_to_Time"
+                  [meridian]="meridian"
+                  [ngModelOptions]="{ standalone: true }"
+                ></ngb-timepicker>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label   (click)="DispalyInfo($event,'Billing Address')"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }"> Billing Address</label>
+                  <div class="input-group">
+                    <textarea
+                      rows="4"
+                      [(ngModel)]="Invoice.Invoice_Billing_Address"
+                      #Invoice_Billing_Address="ngModel"
+                      [ngModelOptions]="{ standalone: true }"
+                      class="form-control form-control-sm"
+                      (click)="DispalyInfo($event,'Billing Address')"
+                     [ngClass]="{ 'HelpCursor': isHelpActive }"
+                     [readonly]="isHelpActive"
+                    >
+                    </textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label  (click)="DispalyInfo($event,'Terms')"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }"> Terms</label>
+                  <div class="input-group">
+                    <select
+                      class="form-control form-control-sm"
+                      name="Invoice_Terms"
+                      [(ngModel)]="Invoice.Invoice_Terms"
+                      #Invoice_Terms="ngModel"
+                      [ngModelOptions]="{ standalone: true }"
+                      (click)="DispalyInfo($event,'Terms')"
+                      [ngClass]="{ 'HelpCursor': isHelpActive }"
+
+                    >
+                      <option [value]="0">Select</option>
+                      <option [value]="1">Due on receipt</option>
+                      <option [value]="2">Net 15</option>
+                      <option [value]="3">Net 30</option>
+                      <option [value]="4">Net 60</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label  (click)="DispalyInfo($event,'P.O.Number')"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }"> P.O.Number</label>
+                  <div class="input-group">
+                    <input
+                      type="text"
+                      name="Invoice_PO_No"
+                      [(ngModel)]="Invoice.Invoice_PO_No"
+                      #Invoice_PO_No="ngModel"
+                      [ngModelOptions]="{ standalone: true }"
+                      class="form-control form-control-sm"
+                      (click)="DispalyInfo($event,'P.O.Number')"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }"
+                  [readonly]="isHelpActive"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label  (click)="DispalyInfo($event,'Invoice Date')"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }"> Invoice Date</label>
+                  <div class="input-group">
+                    <input
+                      class="form-control form-control-sm"
+                      placeholder="yyyy-mm-dd"
+                      ngbDatepicker
+                      disabled
+                      #dt2="ngbDatepicker"
+                      firstDayOfWeek="7"
+                      name="Invoice_Date"
+                      [(ngModel)]="Invoice.Invoice_Date"
+                      [ngModelOptions]="{ standalone: true }"
+                      (click)="DispalyInfo($event,'Invoice Date')"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }"
+                  [readonly]="isHelpActive"
+                    />
+                    <!-- <div class="input-group-append">
+                      <button
+                        class="btn btn-outline-info btn-xs"
+                        (click)="dt2.toggle()"
+                        type="button"
+                      >
+                        <i class="fas fa-calendar-alt"></i>
+                      </button>
+                    </div> -->
+                  </div>
+                  <!-- <a href="#">Create recurring invoice</a> -->
+                </div>
+                <div class="form-group">
+                  <label  (click)="DispalyInfo($event,'Due Date')"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    >Due Date
+                    <!-- <i class="text-danger">*</i> -->
+                  </label>
+                  <div class="input-group">
+                    <input
+                      class="form-control form-control-sm"
+                      placeholder="yyyy-mm-dd"
+                      ngbDatepicker
+                      readonly
+                      #dt3="ngbDatepicker"
+                      firstDayOfWeek="7"
+                      name="Invoice_Due_Date"
+                      [ngModelOptions]="{ standalone: true }"
+                      [(ngModel)]="Invoice.Invoice_Due_Date"
+                      (click)="DispalyInfo($event,'Due Date')"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }"
+                  [readonly]="isHelpActive"
+                    />
+                    <!-- formControlName="Invoice_Due_Date" [ngClass]="{
+                        'is-invalid':
+                          EditInvoiceForm.submitted &&
+                          fx.Invoice_Due_Date.errors
+                      }" -->
+                    <div class="input-group-append">
+                      <button
+                        class="btn btn-outline-info btn-xs"
+                        (click)="dt3.toggle()"
+                        type="button"
+                      >
+                        <i class="fas fa-calendar-alt"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <!-- <div
+                    *ngIf="
+                      EditInvoiceForm.submitted && fx.Invoice_Due_Date.errors
+                    "
+                    class="text-danger"
+                  >
+                    <div *ngIf="fx.Invoice_Due_Date.errors.required">
+                      this field is required
+                    </div>
+                  </div> -->
+                </div>
+                <!-- <div class="form-group">
+                  <label>Sales Rep</label>
+                  <div class="input-group">
+                    <input type="text" class="form-control form-control-sm" />
+                  </div>
+                </div> -->
+              </div>
+            </div>
+            <!-- <div class="row p-2">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label> Tags</label>
+                  <a class="float-right" href="#">Manage tags</a>
+                  <div class="input-group">
+                    <input type="text" class="form-control form-control-sm" />
+                  </div>
+                </div>
+              </div>
+            </div> -->
+          </div>
+          <div class="col-md-2 text-center">
+            <div *ngIf="Invoice.Invoice_Status == 0">
+              <p class="mb-0 text-dark"  (click)="DispalyInfo($event,'Balance Due')"
+              [ngClass]="{ 'HelpCursor': isHelpActive }">Balance Due</p>
+              <span class="font-weight-bold text-dark" style="font-size: 33px;"
+                >{{ Invoice.Invoice_Balance_Due | currency }}</span
+              >
+            </div>
+            <div *ngIf="Invoice.Invoice_Status == 1">
+              <p class="mb-0 text-dark">Invoice Status</p>
+              <span class="font-weight-bold text-dark f-20"
+                ><i class="text-success fa fa-check-circle mr-1"></i> Paid</span
+              >
+            </div>
+            <div *ngIf="Invoice.Invoice_Status == 2">
+              <p class="mb-0 text-dark">Invoice Status</p>
+              <span class="font-weight-bold text-dark f-20"
+                ><i class="text-success fa fa-check-circle mr-1"></i>
+                Deposit</span
+              >
+            </div>
+            <ng-template
+              style="width: 250px"
+              #popContent
+              let-greeting="greetings"
+            >
+              <ng-container
+                ><table class="table">
+                  <tr>
+                    <th>Date</th>
+                    <th class="text-left">Amount</th>
+                  </tr>
+                  <tr *ngFor="let item of Invoice.Receive_Invoice_Items">
+                    <td>{{ item.PaymentDate | date: "MM/dd/yyyy" }}</td>
+                    <td class="text-left">
+                      {{ item.Invoice_Rec_Payment | currency }}
+                    </td>
+                  </tr>
+                </table>
+              </ng-container>
+            </ng-template>
+
+            <ng-template #popTitle let-language="language">
+              Receive Amount</ng-template
+            >
+            <button
+              *ngIf="
+                Invoice.Receive_Invoice_Items != null &&
+                Invoice.Receive_Invoice_Items.length > 0
+              "
+              type="button"
+              class="btn"
+              [ngbPopover]="popContent"
+              [popoverTitle]="popTitle"
+              placement="bottom"
+              triggers="manual"
+              #p1="ngbPopover"
+              (click)="toggleWithGreeting(p1)"
+            >
+              {{ Invoice.Receive_Invoice_Items.length }} Payments Made
+              {{ TotalReceivedAmount | currency }}
+            </button>
+            <!-- <button
+              type="button"
+              class="btn btn-outline-secondary"
+              [autoClose]="'outside'"
+              placement="left"
+              ngbPopover="Click outside or press Escape to close"
+            >
+              Click to toggle
+            </button> -->
+            <button
+              *ngIf="Invoice.Invoice_pkeyId > 0 && Invoice.Invoice_Status == 0"
+              type="button"
+              (click)="
+                ReceivePaymentClick(
+                  Invoice.Invoice_CustomeId,
+                  Invoice.Invoice_pkeyId,
+                  ReceivePaymentFORM
+                )
+              "
+              class="btn btn-primary mt-1"
+            >
+              Receive Payment
+            </button>
+          </div>
+        </div>
+        <div class="newDiv">
+          <table class="table text-center gridtable">
+            <thead>
+              <th><label class="col-form-label"></label></th>
+              <th style="width: 20%">
+                <label class="col-form-label font-weight-bold"(click)="DispalyInfo($event,'Product/Service')"
+                [ngClass]="{ 'HelpCursor': isHelpActive }"
+                  >Product/Service</label
+                >
+              </th>
+              <th style="width: 7%">
+                <label class="col-form-label font-weight-bold" (click)="DispalyInfo($event,'Qty')"
+                [ngClass]="{ 'HelpCursor': isHelpActive }">Qty</label>
+              </th>
+              <th>
+                <label class="col-form-label font-weight-bold" (click)="DispalyInfo($event,'Rate')"
+                [ngClass]="{ 'HelpCursor': isHelpActive }">Rate</label>
+              </th>
+              <th>
+                <label class="col-form-label font-weight-bold" (click)="DispalyInfo($event,'Amount')"
+                [ngClass]="{ 'HelpCursor': isHelpActive }">Amount</label>
+              </th>
+              <th>
+                <label class="col-form-label col-form-label font-weight-bold"(click)="DispalyInfo($event,'Tax')"
+                [ngClass]="{ 'HelpCursor': isHelpActive }"
+                  >Tax</label
+                >
+              </th>
+              <th>
+                <label class="col-form-label col-form-label font-weight-bold" (click)="DispalyInfo($event,'Class')"
+                [ngClass]="{ 'HelpCursor': isHelpActive }"
+                  >Class</label
+                >
+              </th>
+              <th>
+                <label class="col-form-label font-weight-bold"(click)="DispalyInfo($event,'Description')"
+                [ngClass]="{ 'HelpCursor': isHelpActive }"
+                  >Description</label
+                >
+              </th>
+
+              <th><label class="col-form-label"></label></th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of Invoice.Invoice_Items; let i = index">
+                <td>
+                  <span>{{ i + 1 }}</span>
+                </td>
+                <td>
+                  <!-- <input
+                  type="text"
+                  (keyup)="
+                    RemoveWhiteSpace(
+                      item.Product_Services,
+                      'Product_Services',
+                      i
+                    )
+                  "
+                  name="Product_Services"
+                  [(ngModel)]="item.Product_Services"
+                  [ngModelOptions]="{ standalone: true }"
+                  class="form-control form-control-sm"
+                /> -->
+                  <!-- <select
+                  class="form-control form-control-sm"
+                  name="Product_Services"
+                  [(ngModel)]="item.Product_Services"
+                  [ngModelOptions]="{ standalone: true }"
+                >
+                  <option [value]="0">Select</option>
+                  <option
+                    [value]="task.Task_pkeyID"
+                    *ngFor="let task of TaskItemList"
+                  >
+                    {{ task.Task_Name }}
+                  </option>
+                </select> -->
+                  <ng-multiselect-dropdown
+                    [settings]="dropdownSettingsProductServices"
+                    [placeholder]="'Select Product Service'"
+                    [data]="TaskItemList"
+                    [(ngModel)]="item.TaskListId"
+                    [ngModelOptions]="{ standalone: true }"
+                    [ngClass]="{
+                      'is-invalid':
+                        EditInvoiceForm.submitted &&
+                        (item.TaskListId == null || item.TaskListId.length == 0)
+                    }"
+                    (click)="DispalyInfo($event,'Product Services')"
+                [ngClass]="{ 'HelpCursor': isHelpActive }"
+                  >
+                  </ng-multiselect-dropdown>
+                  <div
+                    *ngIf="
+                      EditInvoiceForm.submitted &&
+                      (item.TaskListId == null || item.TaskListId.length == 0)
+                    "
+                    class="text-danger"
+                  >
+                    <div
+                      *ngIf="
+                        EditInvoiceForm.submitted &&
+                        (item.TaskListId == null || item.TaskListId.length == 0)
+                      "
+                    >
+                      Product Service is required
+                    </div>
+                  </div>
+                  <!-- <select
+                  class="form-control form-control-sm"
+                  name="Acc__Account_Type"
+                  aria-placeholder="Select a customer"
+                >
+                  <option [value]="0">select</option>
+                </select> -->
+                </td>
+
+                <td>
+                  <input
+                    type="text"
+                    name="QTY"
+                    [(ngModel)]="item.QTY"
+                    (keypress)="validate($event)"
+                    (keyup)="onChangeInvoiceItems(item)"
+                    [ngModelOptions]="{ standalone: true }"
+                    class="form-control form-control-sm"
+                    (click)="DispalyInfo($event,'QTY')"
+                [ngClass]="{ 'HelpCursor': isHelpActive }"
+                [readonly]="isHelpActive"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    name="Rate"
+                    (keypress)="validate($event)"
+                    (keyup)="onChangeInvoiceItems(item)"
+                    [(ngModel)]="item.Rate"
+                    [ngModelOptions]="{ standalone: true }"
+                    class="form-control form-control-sm"
+                    (click)="DispalyInfo($event,'Rate')"
+                    [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    [readonly]="isHelpActive"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    name="Amount"
+                    readonly
+                    [(ngModel)]="item.Amount"
+                    [ngModelOptions]="{ standalone: true }"
+                    class="form-control form-control-sm"
+                    (click)="DispalyInfo($event,'Amount')"
+                    [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    [readonly]="isHelpActive"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="checkbox"
+                    name="Tax"
+                    [(ngModel)]="item.Tax"
+                    [ngModelOptions]="{ standalone: true }"
+                    class="ml-1 gid-chk"
+                    (click)="DispalyInfo($event,'Tax')"
+                    [ngClass]="{ 'HelpCursor': isHelpActive }"
+
+                  />
+                </td>
+                <td>
+                  <select
+                    class="form-control form-control-sm"
+                    name="Class"
+                    [(ngModel)]="item.Class"
+                    [ngModelOptions]="{ standalone: true }"
+                    (click)="DispalyInfo($event,'Class')"
+                    [ngClass]="{ 'HelpCursor': isHelpActive }"
+                  >
+                    <option [value]="0">select</option>
+                    <option [value]="1">1</option>
+                    <option [value]="2">2</option>
+                  </select>
+                </td>
+                <td>
+                  <textarea
+                    style="height: 32px"
+                    class="form-control form-control-sm"
+                    name="Descp"
+                    [(ngModel)]="item.Descp"
+                    [ngModelOptions]="{ standalone: true }"
+                    (click)="DispalyInfo($event,'Description')"
+                    [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    [readonly]="isHelpActive"
+                  ></textarea>
+                </td>
+                <td>
+                  <button
+                    type="button"
+                    (click)="RemoveInvoiceItems(i)"
+                    class="text-danger"
+                    style="border: none; background: transparent"
+                  >
+                    <i class="fa fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="table-btn mb-2">
+              <button type="button" class="btn" (click)="AddInvoiceItem()">
+                Add Lines
+              </button>
+              <button type="button" class="btn" (click)="RemoveAll()">
+                Clear all lines
+              </button>
+              <!-- <button type="button">Add Sub Total</button> -->
+            </div>
+            <div class="form-group">
+              <label (click)="DispalyInfo($event,'Message on Invoice')"
+              [ngClass]="{ 'HelpCursor': isHelpActive }"> Message on Invoice</label>
+              <div class="input-group">
+                <textarea
+                  rows="4"
+                  name="Invoice_Message"
+                  [(ngModel)]="Invoice.Invoice_Message"
+                  [ngModelOptions]="{ standalone: true }"
+                  class="form-control form-control-sm"
+                  (click)="DispalyInfo($event,'Message on Invoice')"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }"
+                  [readonly]="isHelpActive"
+                >
+                </textarea>
+              </div>
+            </div>
+            <div class="form-group">
+              <label (click)="DispalyInfo($event,'Message on Statement')"
+              [ngClass]="{ 'HelpCursor': isHelpActive }"> Message on Statement</label>
+              <div class="input-group">
+                <textarea
+                  rows="4"
+                  name="Invoice_Statement"
+                  [(ngModel)]="Invoice.Invoice_Statement"
+                  [ngModelOptions]="{ standalone: true }"
+                  class="form-control form-control-sm"
+                  (click)="DispalyInfo($event,'Message on Statement')"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }"
+                  [readonly]="isHelpActive"
+                >
+                </textarea>
+              </div>
+            </div>
+            <div class="form-group">
+              <label (click)="DispalyInfo($event,'Attachments')"
+              [ngClass]="{ 'HelpCursor': isHelpActive }"
+              > Attachments</label
+              ><small class="ml-4">Maximum size:20MB</small>
+              <div id="drop_zone">Drag/Drop files here or click the icon</div>
+              <div class="">
+                <a href="javascript:void">Show Existing</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 text-right">
+            <div>
+              <p class="d-inline-block font-weight-bold text-dark mr-40"  (click)="DispalyInfo($event,' SubTotal')"
+              [ngClass]="{ 'HelpCursor': isHelpActive }" >
+                SubTotal
+              </p>
+              <span class="font-weight-bold text-dark ml-5"
+                >{{ Invoice.Invoice_Sub_total | currency }}</span
+              >
+            </div>
+            <div class="txt-total mb-2">
+              <div class="input-group">
+                <!-- <small class="text-dark font-weight-bold w-100"
+                  >Taxable SubTotal</small
+                >
+                <select
+                  class="form-control form-control-sm"
+                  name="Invoice_Taxble_Sub_total"
+                  [(ngModel)]="Invoice.Invoice_Taxble_Sub_total"
+                  [ngModelOptions]="{ standalone: true }"
+                >
+                  <option [value]="0">Select</option>
+                  <option [value]="1">GST</option>
+                  <option [value]="2">Other</option>
+                </select> -->
+                <input
+                  type="text"
+                  class="form-control float-right text-right"
+                  name="Invoice_Taxble_Amount"
+                  (keypress)="validate($event)"
+                  (keyup)="changeTaxbleAmount()"
+                  [(ngModel)]="Invoice.Invoice_Taxble_Amount"
+                  [ngModelOptions]="{ standalone: true }"
+                  (click)="DispalyInfo($event,' SubTotal')"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }"
+                  [readonly]="isHelpActive"
+                />
+              </div>
+            </div>
+            <div>
+              <p class="d-inline-block font-weight-bold text-dark mr-40">
+                Total
+              </p>
+              <span class="font-weight-bold text-dark ml-5"
+                >{{ Invoice.Invoice_Total | currency }}</span
+              >
+            </div>
+            <div>
+              <p class="d-inline-block mr-40 font-weight-bold text-dark">
+                Balance Due
+              </p>
+              <span class="font-weight-bold text-dark ml-5"
+                >{{ Invoice.Invoice_Balance_Due | currency }}</span
+              >
+            </div>
+            <div *ngIf="Invoice.Invoice_pkeyId > 0">
+              <p class="d-inline-block mr-40 font-weight-bold text-dark">
+                Customer Pay Amount
+              </p>
+              <span class="font-weight-bold text-dark ml-5"
+                >{{ InvoicePaymentPay | currency }}</span
+              >
+            </div>
+            <div id="PaymentTable" *ngIf="Invoice.Invoice_pkeyId > 0">
+              <table class="table module-box mt-2">
+                <thead>
+                  <tr class="text-left">
+                    <th>
+                      <label class="col-form-label">Payment Date</label>
+                    </th>
+                    <th>
+                      <label class="col-form-label">Amount</label>
+                    </th>
+                    <th>
+                      <label class="col-form-label">Check Number</label>
+                    </th>
+                    <th>
+                      <label class="col-form-label">Entered By</label>
+                    </th>
+                    <th>
+                      <label class="col-form-label">Comment</label>
+                    </th>
+
+                    <!-- <th width="40px"></th> -->
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    class="text-left"
+                    *ngFor="let pay of Invoice.Invoice_Payments"
+                  >
+                    <td>{{ pay.Invoice_Pay_Payment_Date }}</td>
+                    <td>${{ pay.Invoice_Pay_Amount }}</td>
+                    <td>{{ pay.Invoice_Pay_CheckNumber }}</td>
+                    <td>{{ pay.Invoice_Pay_EnteredBy_Name }}</td>
+                    <td>{{ pay.Invoice_Pay_Comment }}</td>
+                    <td class="text-center">
+                      <span
+                        ><a
+                          style="color: black"
+                          (click)="RemoveInvoicePayment(pay)"
+                          href="javascript:void"
+                        >
+                          <i class="fa fa-trash"></i></a
+                      ></span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="5">
+                      <hr class="m-0" />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>Total</strong>
+                    </td>
+                    <td colspan="5">
+                      <strong class="float-left pl-2"
+                        >{{ InvoicePaymentPay | currency }}</strong
+                      >
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="text-left p-2 module-box">
+                <form
+                  [formGroup]="formInvoicePaymentGroup"
+                  (ngSubmit)="FormButtonPOPUpPayment(EditInvoicePaymentForm)"
+                  #EditInvoicePaymentForm="ngForm"
+                >
+                  <div class="row">
+                    <div class="col-5">
+                      <label class="col-form-label"> Payment Date </label>
+                    </div>
+                    <div class="col-7">
+                      <div class="input-group">
+                        <input
+                          class="form-control form-control-sm"
+                          ngbDatepicker
+                          readonly
+                          #dt4="ngbDatepicker"
+                          firstDayOfWeek="7"
+                          placeholder="Payment Date"
+                          name="Invoice_Pay_Payment_Date"
+                          [ngModelOptions]="{ standalone: true }"
+                          [(ngModel)]="Invoice_Payment.Invoice_Pay_Payment_Date"
+                        />
+                        <div class="input-group-append">
+                          <button
+                            class="btn btn-outline-info btn-xs"
+                            (click)="dt4.toggle()"
+                            type="button"
+                          >
+                            <i class="fas fa-calendar-alt"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-5">
+                      <label class="col-form-label">
+                        Amount
+                        <span class="text-danger">*</span></label
+                      >
+                    </div>
+                    <div class="col-7">
+                      <input
+                        type="text"
+                        placeholder="Amount"
+                        name="Invoice_Pay_Amount"
+                        formControlName="Invoice_Pay_Amount"
+                        [(ngModel)]="Invoice_Payment.Invoice_Pay_Amount"
+                        class="form-control form-control-sm"
+                        (keyup)="CheckInvoicePaymentValid()"
+                        (keypress)="validate($event)"
+                        [ngClass]="{
+                          'is-invalid':
+                            EditInvoicePaymentForm.submitted &&
+                            (fp.Invoice_Pay_Amount.errors ||
+                              Invoice_Payment.Invoice_Pay_Amount == null ||
+                              Invoice_Payment.Invoice_Pay_Amount == 0)
+                        }"
+                      />
+                      <!-- (keypress)="
+                    RemoveWhiteSpaceInvoicePayemnt(
+                      'Invoice_Pay_Amount',
+                      Invoice_Payment.Invoice_Pay_Amount
+                    )
+                  " -->
+                      <div
+                        *ngIf="
+                          EditInvoicePaymentForm.submitted &&
+                          (fp.Invoice_Pay_Amount.errors ||
+                            Invoice_Payment.Invoice_Pay_Amount == null ||
+                            Invoice_Payment.Invoice_Pay_Amount == 0)
+                        "
+                        class="text-danger"
+                      >
+                        <div
+                          *ngIf="
+                            fp.Invoice_Pay_Amount.errors ||
+                            Invoice_Payment.Invoice_Pay_Amount == null
+                          "
+                        >
+                          this field is required
+                        </div>
+                        <div *ngIf="Invoice_Payment.Invoice_Pay_Amount == 0">
+                          Payment Amount not allow zero
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-5">
+                      <label class="col-form-label">
+                        Check Number
+                        <span class="text-danger">*</span></label
+                      >
+                    </div>
+                    <div class="col-7">
+                      <input
+                        type="text"
+                        placeholder="Check Number"
+                        name="Invoice_Pay_CheckNumber"
+                        formControlName="Invoice_Pay_CheckNumber"
+                        [(ngModel)]="Invoice_Payment.Invoice_Pay_CheckNumber"
+                        class="form-control form-control-sm"
+                        (keypress)="validate($event)"
+                        [ngClass]="{
+                          'is-invalid':
+                            EditInvoicePaymentForm.submitted &&
+                            (fp.Invoice_Pay_CheckNumber.errors ||
+                              Invoice_Payment.Invoice_Pay_CheckNumber == null ||
+                              Invoice_Payment.Invoice_Pay_CheckNumber == 0)
+                        }"
+                      />
+                      <div
+                        *ngIf="
+                          EditInvoicePaymentForm.submitted &&
+                          (fp.Invoice_Pay_CheckNumber.errors ||
+                            Invoice_Payment.Invoice_Pay_CheckNumber == null ||
+                            Invoice_Payment.Invoice_Pay_CheckNumber == 0)
+                        "
+                        class="text-danger"
+                      >
+                        <div
+                          *ngIf="
+                            fp.Invoice_Pay_CheckNumber.errors ||
+                            Invoice_Payment.Invoice_Pay_CheckNumber == null
+                          "
+                        >
+                          this field is required
+                        </div>
+                        <div
+                          *ngIf="Invoice_Payment.Invoice_Pay_CheckNumber == 0"
+                        >
+                          Check Number not allow zero
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-5">
+                      <label class="col-form-label"> Comment </label>
+                    </div>
+                    <div class="col-7">
+                      <input
+                        type="text"
+                        placeholder="Comment"
+                        name="Invoice_Pay_Comment"
+                        [ngModelOptions]="{ standalone: true }"
+                        [(ngModel)]="Invoice_Payment.Invoice_Pay_Comment"
+                        class="form-control form-control-sm"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-md-12 text-right p-0 pt-2">
+                    <button
+                      [disabled]="isLoadingPayment"
+                      type="submit"
+                      class="btn btn-primary"
+                    >
+                      <i
+                        class="fa mr-1"
+                        [ngClass]="{
+                          'fa-spin fa-spinner': isLoadingPayment,
+                          'fa-save': !isLoadingPayment
+                        }"
+                      ></i>
+                      {{ buttonPayment }}
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr />
+        <div class="col-md-12 text-right">
+          <button
+            class="btn btn-success btn-lg mr-2"
+            (click)="close()"
+            type="button"
+          >
+            Cancel
+          </button>
+          <button
+            [disabled]="isLoading"
+            class="btn btn-success btn-lg"
+            type="submit"
+          >
+            <i
+              class="fa"
+              [ngClass]="{
+                'fa-spin fa-spinner': isLoading,
+                'fa-save': !isLoading
+              }"
+            ></i>
+            {{ button }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #ReceivePaymentFORM let-modal>
+  <div class="modal-header">
+    <button type="button" class="close" aria-label="Close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="module-box p-2">
+      <form
+        [formGroup]="formInvoiceReceivePaymentGroup"
+        (ngSubmit)="FormButtonPOPUpReceivePayment(ReceivePaymentForm)"
+        #ReceivePaymentForm="ngForm"
+      >
+        <div class="form-row">
+          <div class="form-group col-md-12 text-center module-subheader">
+            <h5>Receive Payment</h5>
+          </div>
+          <br />
+        </div>
+        <div class="row p-2">
+          <div class="col-md-9">
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label> Customer <i class="text-danger">*</i></label>
+                  <div class="input-group">
+                    <select
+                      class="form-control form-control-sm"
+                      name="Invoice_Rec_Customer_Id"
+                      [(ngModel)]="ReceivePayment.Invoice_Rec_Customer_Id"
+                      #Invoice_Rec_Customer_Id="ngModel"
+                      [ngModelOptions]="{ standalone: true }"
+                      (change)="
+                        changeCustomer(
+                          ReceivePayment.Invoice_Rec_Customer_Id,
+                          null
+                        )
+                      "
+                      [ngClass]="{
+                        'is-invalid':
+                          ReceivePaymentForm.submitted &&
+                          ReceivePayment.Invoice_Rec_Customer_Id == 0
+                      }"
+                    >
+                      <option [value]="0">select</option>
+                      <option
+                        [value]="cust.Acc_Client_pkeyId"
+                        *ngFor="let cust of CustomerList"
+                      >
+                        {{ cust.Company_Name }}
+                      </option>
+                    </select>
+                  </div>
+                  <div
+                    *ngIf="
+                      ReceivePaymentForm.submitted &&
+                      ReceivePayment.Invoice_Rec_Customer_Id == 0
+                    "
+                    class="text-danger"
+                  >
+                    <div *ngIf="ReceivePayment.Invoice_Rec_Customer_Id == 0">
+                      this field is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>
+                    Find By Invoice Number
+                    <!-- <i class="text-danger">*</i> -->
+                  </label>
+                  <div class="input-group mb-2">
+                    <input
+                      type="text"
+                      [ngModelOptions]="{ standalone: true }"
+                      name="Invoice_Number"
+                      [(ngModel)]="ReceivePayment.Invoice_Number"
+                      placeholder=" Invoice Number"
+                      class="form-control form-control-sm"
+                    />
+                    <div class="input-group-append">
+                      <button
+                        class="btn btn-outline-info btn-xs"
+                        (click)="
+                          FormButtonInvoiceNumber(ReceivePayment.Invoice_Number)
+                        "
+                        type="button"
+                      >
+                        <i class="fas fa-search"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label
+                    >Payment Date
+                    <!-- <i class="text-danger">*</i> -->
+                  </label>
+                  <div class="input-group">
+                    <input
+                      class="form-control form-control-sm"
+                      placeholder="yyyy-mm-dd"
+                      ngbDatepicker
+                      #dt3="ngbDatepicker"
+                      firstDayOfWeek="7"
+                      name="Invoice_Rec_Payment_Date"
+                      [ngModelOptions]="{ standalone: true }"
+                      [(ngModel)]="ReceivePayment.Invoice_Rec_Payment_Date"
+                    />
+                    <div class="input-group-append">
+                      <button
+                        class="btn btn-outline-info btn-xs"
+                        (click)="dt3.toggle()"
+                        type="button"
+                      >
+                        <i class="fas fa-calendar-alt"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group mb-3">
+                  <label> Payment Method</label>
+                  <div class="input-group mb-2">
+                    <select
+                      class="form-control form-control-sm"
+                      name="Invoice_Rec_Payment_Method"
+                      [(ngModel)]="ReceivePayment.Invoice_Rec_Payment_Method"
+                      #Invoice_Rec_Payment_Method="ngModel"
+                      [ngModelOptions]="{ standalone: true }"
+                    >
+                      <option [value]="0">Select</option>
+                      <option
+                        [value]="item.Id"
+                        *ngFor="let item of Payment_Method_List"
+                      >
+                        {{ item.Type }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Reference Number</label>
+                  <div class="input-group mb-2">
+                    <input
+                      type="text"
+                      name="Invoice_Rec_Reference_No"
+                      [(ngModel)]="ReceivePayment.Invoice_Rec_Reference_No"
+                      #Invoice_Rec_Reference_No="ngModel"
+                      [ngModelOptions]="{ standalone: true }"
+                      class="form-control form-control-sm"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <label> Deposit to</label>
+                <ng-multiselect-dropdown
+                  [disabled]="IsAlreadyDeposit"
+                  [settings]="dropdownSettingsDepositTo"
+                  [placeholder]="'Select Deposit Account'"
+                  [data]="DepositAccountList"
+                  [(ngModel)]="ReceivePayment.Payment_Deposit_To_ListId"
+                  [ngModelOptions]="{ standalone: true }"
+                >
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 text-right">
+            <p class="mb-0 text-dark">Amount Received</p>
+            <span class="font-weight-bold text-dark f-30">{{
+              ReceivePayment.Amount_Receive | currency
+            }}</span>
+          </div>
+        </div>
+        <h3>Outstanding Transactions</h3>
+        <div class="module-box p-2" style="max-height: 50vh; overflow-y: auto">
+          <table class="table">
+            <thead class="text-center">
+              <tr>
+                <th class="">
+                  <div class="custom-control custom-checkbox pt-1">
+                    <input
+                      type="checkbox"
+                      name="SelectAll"
+                      [(ngModel)]="ReceivePayment.SelectAll"
+                      [checked]="ReceivePayment.SelectAll"
+                      #SelectAll="ngModel"
+                      [ngModelOptions]="{ standalone: true }"
+                      class="custom-control-input"
+                      id="SelectAll"
+                      (change)="ChangesSelectAll($event.target.checked)"
+                    />
+                    <label class="custom-control-label" for="SelectAll"
+                      >All</label
+                    >
+                  </div>
+                </th>
+                <th style="width: 20%">
+                  <label class="col-form-label font-weight-bold"
+                    >Description</label
+                  >
+                </th>
+                <th>
+                  <label class="col-form-label font-weight-bold"
+                    >Due Date</label
+                  >
+                </th>
+                <th class="">
+                  <label class="col-form-label font-weight-bold"
+                    >Origin Amount</label
+                  >
+                </th>
+                <th class="">
+                  <label class="col-form-label font-weight-bold"
+                    >Paid Amount</label
+                  >
+                </th>
+                <!-- <th class="text-right">
+                <label class="col-form-label font-weight-bold"
+                  >Open Balance</label
+                >
+              </th> -->
+                <th class="text-right" style="width: 20%">
+                  <label class="col-form-label col-form-label font-weight-bold"
+                    >Payment</label
+                  >
+                </th>
+              </tr>
+            </thead>
+            <tbody class="text-center">
+              <tr
+                *ngFor="
+                  let item of ReceivePayment.Receive_Invoice_Items;
+                  let i = index
+                "
+              >
+                <td class="pl-1">
+                  <div class="custom-control custom-checkbox">
+                    <input
+                      type="checkbox"
+                      name="Select"
+                      [(ngModel)]="item.Select"
+                      #Select="ngModel"
+                      [ngModelOptions]="{ standalone: true }"
+                      class="custom-control-input"
+                      id="Select_{{ i }}"
+                      (change)="ChangeSelect($event.target.checked, i)"
+                    />
+                    <label
+                      class="custom-control-label"
+                      for="Select_{{ i }}"
+                    ></label>
+                  </div>
+                </td>
+                <td>#Invoice {{ item.Invoice_Number }}</td>
+
+                <td>{{ item.DueDate | date }}</td>
+                <td class="">
+                  {{ item.Invoice_Rec_Original_Amount | currency }}
+                </td>
+                <td class="">
+                  {{ item.Invoice_Rec_Payment | currency }}
+                </td>
+                <!-- <td class="">{{ item.Open_Amount | currency }}</td> -->
+                <td>
+                  <input
+                    [disabled]="!item.Select"
+                    type="text"
+                    name="Payment"
+                    [(ngModel)]="item.Pending_Amount"
+                    #Payment="ngModel"
+                    (keypress)="validate($event)"
+                    (keyup)="changeReceivePaymentAmount(item, i)"
+                    [ngModelOptions]="{ standalone: true }"
+                    class="form-control-sm text-right"
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="row mt-2">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Memo</label>
+              <div class="input-group">
+                <textarea
+                  rows="4"
+                  name="Invoice_Rec_Memo"
+                  [(ngModel)]="ReceivePayment.Invoice_Rec_Memo"
+                  [ngModelOptions]="{ standalone: true }"
+                  class="form-control form-control-sm"
+                >
+                </textarea>
+              </div>
+            </div>
+            <div class="form-group">
+              <label> Attachments</label
+              ><small class="ml-4">Maximum size:20MB</small>
+              <div id="drop_zone">Drag/Drop files here or click the icon</div>
+              <div class="">
+                <a href="javascript:void">Show Existing</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 text-right">
+            <div>
+              <p class="d-inline-block font-weight-bold text-dark">
+                Amount to Apply
+              </p>
+              <span class="font-weight-bold text-dark ml-5">{{
+                ReceivePayment.Invoice_Rec_Amount | currency
+              }}</span>
+            </div>
+            <div>
+              <p class="d-inline-block font-weight-bold text-dark">
+                Amount to Credit
+              </p>
+              <span class="font-weight-bold text-dark ml-5">{{
+                ReceivePayment.Amount_To_Credit | currency
+              }}</span>
+            </div>
+          </div>
+        </div>
+        <hr />
+        <div class="col-md-12 text-right">
+          <button
+            class="btn btn-success btn-lg mr-2"
+            (click)="close()"
+            type="button"
+          >
+            Cancel
+          </button>
+          <button
+            [disabled]="isLoading"
+            class="btn btn-success btn-lg"
+            type="submit"
+          >
+            <i
+              class="fa"
+              [ngClass]="{
+                'fa-spin fa-spinner': isLoading,
+                'fa-save': !isLoading
+              }"
+            ></i>
+            {{ button }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>
+<ng-template #BankDepositFORM let-modal>
+  <div class="modal-header">
+    <button type="button" class="close" aria-label="Close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body"  [ngClass]="{ 'HelpCursor': isHelpActive }">
+    <div class="module-box p-2">
+      <form
+        [formGroup]="formInvoiceBankDepositGroup"
+        (ngSubmit)="FormButtonPOPUpBankDeposit(BankDepositForm)"
+        #BankDepositForm="ngForm"
+      >
+        <div class="form-row">
+          <div class="form-group col-md-12 text-center module-subheader">
+            <h5>Bank Deposit
+              <a class="pull-right" data-toggle="tooltip" (click)="SetHelpFlag()" data-placement="top"
+              title="Item Help" style="cursor: pointer;">Need Help
+              <i class="fas fa-question"></i>&nbsp; &nbsp;
+            </a>
+            </h5>
+          </div>
+          <br />
+        </div>
+        <div class="row p-2">
+          <div class="col-md-10">
+            <div class="row">
+              <div class="col-md-5">
+                <label [ngClass]="{ 'HelpCursor': isHelpActive }"(click)="DispalyInfo($event,'Deposit to')"> Deposit to <i class="text-danger">*</i></label>
+                <ng-multiselect-dropdown
+                  [settings]="dropdownSettingsDepositTo"
+                  [placeholder]="'Select Deposit Account'"
+                  [data]="DepositAccountList"
+                  [(ngModel)]="BankDeposit.Deposit_To_ListId"
+                  [ngModelOptions]="{ standalone: true }"
+                  [ngClass]="{
+                    'is-invalid':
+                      BankDepositForm.submitted &&
+                      (BankDeposit.Deposit_To_ListId == null ||
+                        BankDeposit.Deposit_To_ListId.length == 0)
+                  }"
+                  class="col-md-12"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }"
+                  (click)="DispalyInfo($event,'Deposit to')"
+                >
+                </ng-multiselect-dropdown>
+                <div
+                  *ngIf="
+                    BankDepositForm.submitted &&
+                    (BankDeposit.Deposit_To_ListId == null ||
+                      BankDeposit.Deposit_To_ListId.length == 0)
+                  "
+                  class="text-danger"
+                >
+                  <div
+                    *ngIf="
+                      BankDeposit.Deposit_To_ListId == null ||
+                      BankDeposit.Deposit_To_ListId.length == 0
+                    "
+                  >
+                    this field is required
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label [ngClass]="{ 'HelpCursor': isHelpActive }"
+                  (click)="DispalyInfo($event,'Payment Date')">Payment Date </label>
+                  <div class="input-group">
+                    <input
+                      class="form-control form-control-sm"
+                      placeholder="yyyy-mm-dd"
+                      ngbDatepicker
+                      disabled
+                      #dt3="ngbDatepicker"
+                      firstDayOfWeek="7"
+                      name="PaymentDate"
+                      [ngModelOptions]="{ standalone: true }"
+                      [(ngModel)]="BankDeposit.PaymentDate"
+                      [ngClass]="{ 'HelpCursor': isHelpActive }"
+                  (click)="DispalyInfo($event,'Payment Date')"
+                  [readonly]="isHelpActive"
+                    />
+                    <div class="input-group-append">
+                      <button
+                        class="btn btn-outline-info btn-xs"
+                        (click)="dt3.toggle()"
+                        type="button"
+                      >
+                        <i class="fas fa-calendar-alt"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2 text-right">
+            <p class="mb-0 text-dark"   [ngClass]="{ 'HelpCursor': isHelpActive }"
+            (click)="DispalyInfo($event,'Amount')"
+          >Amount</p>
+            <span class="font-weight-bold text-dark f-30">{{
+              BankDeposit.SelectedAmount | currency
+            }}</span>
+          </div>
+        </div>
+        <h4>Select the payments included in this deposit</h4>
+        <div class="newDiv">
+          <table class="table text-center">
+            <tr>
+              <th class="pl-1">
+                <div class="custom-control custom-checkbox pt-1">
+                  <input
+                    type="checkbox"
+                    name="SelectPaidInvoiceAll"
+                    [(ngModel)]="BankDeposit.SelectAll"
+                    [checked]="BankDeposit.SelectAll"
+                    #SelectPaidInvoiceAll="ngModel"
+                    [ngModelOptions]="{ standalone: true }"
+                    class="custom-control-input"
+                    id="SelectPaidInvoiceAll"
+                    (change)="
+                      ChangesPaidInvoiceSelectAll($event.target.checked)
+                    "
+                    [ngClass]="{ 'HelpCursor': isHelpActive }"
+            (click)="DispalyInfo($event,'All')"
+                  />
+                  <label class="custom-control-label" for="SelectPaidInvoiceAll"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }"
+                  (click)="DispalyInfo($event,'All')"
+                    >All</label
+                  >
+                </div>
+              </th>
+              <th style="width: 20%">
+                <label class="col-form-label font-weight-bold"
+                [ngClass]="{ 'HelpCursor': isHelpActive }"
+                (click)="DispalyInfo($event,'Received From')"
+                  >Received From</label
+                >
+              </th>
+              <th>
+                <label class="col-form-label font-weight-bold"  [ngClass]="{ 'HelpCursor': isHelpActive }"
+                (click)="DispalyInfo($event,'Date')">Date</label>
+              </th>
+              <th class="text-right">
+                <label class="col-form-label font-weight-bold" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                (click)="DispalyInfo($event,'Type')">Type</label>
+              </th>
+              <th class="text-right">
+                <label class="col-form-label col-form-label font-weight-bold"
+                [ngClass]="{ 'HelpCursor': isHelpActive }"
+                (click)="DispalyInfo($event,'Payment Method')"
+                  >Payment Method</label
+                >
+              </th>
+              <th class="text-right">
+                <label class="col-form-label col-form-label font-weight-bold"
+                [ngClass]="{ 'HelpCursor': isHelpActive }"
+                (click)="DispalyInfo($event,'Memo')"
+                  >Memo</label
+                >
+              </th>
+              <th class="text-right">
+                <label class="col-form-label col-form-label font-weight-bold"
+                [ngClass]="{ 'HelpCursor': isHelpActive }"
+                (click)="DispalyInfo($event,'Ref No.')"
+                  >Ref No.</label
+                >
+              </th>
+
+              <th class="text-right">
+                <label class="col-form-label col-form-label font-weight-bold"
+                [ngClass]="{ 'HelpCursor': isHelpActive }"
+                (click)="DispalyInfo($event,'Amount')"
+                  >Amount</label
+                >
+              </th>
+            </tr>
+            <tr
+              *ngFor="let item of BankDeposit.BankDeposit_Items; let i = index"
+            >
+              <td class="pl-1">
+                <div class="custom-control custom-checkbox">
+                  <input
+                    type="checkbox"
+                    name="Select"
+                    [(ngModel)]="item.Select"
+                    #Select="ngModel"
+                    [ngModelOptions]="{ standalone: true }"
+                    class="custom-control-input"
+                    id="Select_{{ i }}"
+                    (change)="ChangePaidInvoiceSelect($event.target.checked, i)"
+                    [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'All')"
+                  />
+                  <label
+                    class="custom-control-label"
+                    for="Select_{{ i }}"
+                  ></label>
+                </div>
+              </td>
+              <td>
+                {{ item.Customer_Name }}
+              </td>
+
+              <td>{{ item.Payment_Date | date }}</td>
+              <td class="text-right">Payment</td>
+              <td>
+                <select
+                  class="form-control form-control-sm"
+                  name="Payment_Method"
+                  [(ngModel)]="item.Payment_Method"
+                  #Payment_Method="ngModel"
+                  [ngModelOptions]="{ standalone: true }"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }"
+                  (click)="DispalyInfo($event,'Payment Method')"
+                >
+                  <option [value]="0">Select</option>
+                  <option
+                    [value]="item.Id"
+                    *ngFor="let item of Payment_Method_List"
+                  >
+                    {{ item.Type }}
+                  </option>
+                </select>
+              </td>
+              <td>
+                <input
+                  type="text"
+                  name="Memo"
+                  [(ngModel)]="item.Memo"
+                  #Memo="ngModel"
+                  [ngModelOptions]="{ standalone: true }"
+                  class="form-control-sm"
+                  id="Memo_{{ i }}"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }"
+                  (click)="DispalyInfo($event,'Memo')"
+                  [readonly]="isHelpActive"
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  name="Ref_No"
+                  [(ngModel)]="item.Ref_No"
+                  #Ref_No="ngModel"
+                  [ngModelOptions]="{ standalone: true }"
+                  class="form-control-sm"
+                  id="Ref_No_{{ i }}"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }"
+                  (click)="DispalyInfo($event,'Ref No')"
+                  [readonly]="isHelpActive"
+                />
+              </td>
+              <td class="text-right">
+                {{ item.Amount | currency }}
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Memo</label>
+              <div class="input-group">
+                <textarea
+                  rows="4"
+                  name="BankMemo"
+                  #BankMemo="ngModel"
+                  [(ngModel)]="BankDeposit.Memo"
+                  [ngModelOptions]="{ standalone: true }"
+                  class="form-control form-control-sm"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }"
+                  (click)="DispalyInfo($event,'Bank Memo')"
+                  [readonly]="isHelpActive"
+                >
+                </textarea>
+              </div>
+            </div>
+            <div class="form-group">
+              <label   [ngClass]="{ 'HelpCursor': isHelpActive }"
+              (click)="DispalyInfo($event,'Attachments')"
+            > Attachments</label
+              ><small class="ml-4">Maximum size:20MB</small>
+              <div id="drop_zone">Drag/Drop files here or click the icon</div>
+              <div class="">
+                <a href="javascript:void">Show Existing</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 text-right">
+            <div>
+              <p class="d-inline-block font-weight-bold text-dark">Total</p>
+              <span class="font-weight-bold text-dark ml-5">{{
+                BankDeposit.TotalAmount | currency
+              }}</span>
+            </div>
+            <div>
+              <p class="d-inline-block font-weight-bold text-dark">
+                Selected Payment Total
+              </p>
+              <span class="font-weight-bold text-dark ml-5">{{
+                BankDeposit.SelectedAmount | currency
+              }}</span>
+            </div>
+          </div>
+        </div>
+        <hr />
+        <div class="col-md-12 text-right">
+          <button
+            class="btn btn-success btn-lg mr-2"
+            (click)="close()"
+            type="button"
+          >
+            Cancel
+          </button>
+          <button
+            [disabled]="isLoading"
+            class="btn btn-success btn-lg"
+            type="submit"
+          >
+            <i
+              class="fa"
+              [ngClass]="{
+                'fa-spin fa-spinner': isLoading,
+                'fa-save': !isLoading
+              }"
+            ></i>
+            {{ depositbutton }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>

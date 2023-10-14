@@ -1,0 +1,54 @@
+
+ 
+<div class="alert alert-danger" id="connectionError" *ngIf="openWeatherMap && !openWeatherMap?.openWeatherMapItemList.length">
+  Unable to retrieve Open Weather Map data, please check your Internet connection.
+</div>
+<div class="row">
+  <div class="col-1" style="margin-top: 65px;">
+    <label>Weather:</label><br><br><br>
+    <label>Temperature:</label><br><br><br>
+    <label>Wind:</label><br><br><br>
+    <label>Humidity:</label><br><br><br>
+    <label>Visibility:</label><br><br><br>
+  </div>
+  <div class="col-11">
+    <div *ngFor="let item of openWeatherMap?.openWeatherMapItemList; let idSuffix = index" class="col-xs-1ths col-sm-1ths col-md-5ths col-lg-5ths">
+  
+      <div class="weatherPanel panel panel-default" style="width: 148px;">
+        <div class="panel-heading">
+          <h1 id="weatherDate{{idSuffix}}"><i class="calendarIcon fa fa-calendar" aria-hidden="true"></i>{{item.dateTime | date: 'EE d MMM y'}}</h1>
+        </div>
+        <div class="panel-body">
+          <h2 id="dailySummaryHeading{{idSuffix}}" class="dailySummaryHeading"></h2>
+          <ul style="list-style: none;" id="weatherDescription{{idSuffix}}">
+            <li *ngIf="item.weatherMain === 'Clouds'"><img src = "../../../../assets/images/partly_cloudy.png" width="40px" height="40px" ></li>
+            <li *ngIf="item.weatherMain === 'Clear'"><img src = "../../../../assets/images/c.jpg" width="40px" height="40px" ></li>
+            <li *ngIf="item.weatherMain === 'Rain'" > <img src = "../../../../assets/images/rain_s_cloudy.png" width="40px" height="40px" ></li>
+            <span>{{item.weatherDescription}}</span>
+          </ul><br>
+          <p id="weatherTemperature{{idSuffix}}">
+            <i class="fa fa-thermometer-empty fa-2x iconMarginRight" aria-hidden="true"></i>{{item.tempMin}} - {{item.tempMax}} °F</p>
+          <br>
+            <ul style="list-style: none;" id="weatherWindSpeed{{idSuffix}}">
+              <li><i class="fas fa-wind"></i> &nbsp;&nbsp; <span>{{item.windSpeed}} MPH</span></li>
+           
+            </ul>
+            <br> <br>
+            <ul style="list-style: none;" id="weatherVisibility{{idSuffix}}">
+              <li><i class="fas fa-humidity"></i> &nbsp;&nbsp; <span>{{item.humidity}}%</span></li> 
+           
+            </ul>
+            <br> <br>
+            <ul style="list-style: none;" id="weatherHumidity{{idSuffix}}">
+              <li><i class="fas fa-humidity"></i> &nbsp;&nbsp; <span> {{item.visibility}}</span></li> 
+           
+            </ul>
+         
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

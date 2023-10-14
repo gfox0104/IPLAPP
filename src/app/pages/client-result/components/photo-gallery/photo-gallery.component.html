@@ -1,0 +1,122 @@
+<div class="row">
+  <div class="col" style="padding-right: 0px !important;">
+    <div *ngIf="!measuring && !isButtonShow" style="padding-bottom: 10px;">
+      <button class="btn btn-primary btn-sm mr-1 mb-1 control-button" (click)="SaveChange()" [disabled]="isLoading">
+        <i class="fa fa-spin fa-spinner mr-1" *ngIf="isLoading"></i><span>{{button}}</span></button>
+      <button class="btn btn-primary btn-sm mr-1 mb-1 control-button" (click)="Undo()"><i
+          class="fas fa-refresh mr-1"></i>Reset</button>
+      <button class="btn btn-primary btn-sm mr-1 mb-1 control-button" (click)="editImage('rotatel')"><i
+          class="fas fa-undo-alt mr-1"></i>
+        Left</button>
+      <button class="btn btn-primary btn-sm mr-1 mb-1 control-button" (click)="editImage('rotater')"><i
+          class="fas fa-redo-alt mr-1"></i>Right</button>
+      <button class="btn btn-primary btn-sm mr-1 mb-1 control-button" (click)="editImage('lighter')"><i
+          class="far fa-sun mr-1"></i>
+        Lighten</button>
+      <button class="btn btn-primary btn-sm mr-1 mb-1 control-button" (click)="editImage('darker')"><i
+          class="fas fa-sun mr-1"></i> Darken</button>
+      <button class="btn btn-primary btn-sm mr-1 mb-1 control-button" (click)="editImage('circle')"><i
+          class="far fa-circle mr-1"></i>
+        Circle</button>
+      <button class="btn btn-primary btn-sm mr-1 mb-1 control-button" (click)="editImage('square')"><i
+          class="far fa-square mr-1"></i> Square</button>
+      <button class="btn btn-primary btn-sm mr-1 mb-1 control-button" (click)="zoom(true)"><i
+          class="fas fa-search-plus"></i>
+        Zoom</button>
+      <button class="btn btn-primary btn-sm mr-1 mb-1 control-button" (click)="zoom(false)"><i
+          class="fas fa-search-minus"></i>
+        Zoom</button>
+        <button class="table-design btn btn-primary btn-sm mr-1 mb-1 control-button" (click)="editImage('crop')"><i
+          class="fas fa-crop-alt"></i> Crop</button>
+          <button class="btn btn-primary btn-sm" (click)="showMeasure(true, calibrate, scaleContent)"><i
+              class="fas fa-ruler-combined mr-1"></i>
+            Measuring</button>
+          <div class="row m-0">
+            <input type="text" [(ngModel)]="drawText" class="form-control control-button col-md-8 col-8" placeholder="Enter Text">
+            <button class="btn btn-primary btn-sm control-button col-md-4 col-4" (click)="editImage('text')"
+              >Text</button>
+
+          </div>
+    </div>
+  </div>
+  <div class="col-md-7" style="padding: 0px !important;">
+    <div class="justify-conent-between" *ngIf="measuring && !isButtonShow">
+      <button class="btn btn-primary btn-sm mr-2" (click)="showMeasure(false)">Editing</button>
+      
+    </div>
+    <div class="show-image " style="float: none;">
+      <canvas style="border: 1px solid black; width: 100%; height: auto;" id="image-editorr" width="640"
+        height="480"></canvas>
+      <input type="button" [disabled]='PrevBtnHide' (click)='prevImage()' class="update btn-primary"
+        style="font-size: 19px;" value="<" />
+      <input type="button" [disabled]='NextBtnHide' (click)='nextImag()' class="delete btn-primary"
+        style="font-size: 19px;" value=">" />
+    </div>
+  </div>
+  <div class="col-md-2 col-12">
+    <p>UploadBy: <span>{{metadata.Client_Result_Photo_UploadBy}}</span></p>
+    <p>UploadTimeStamp: <span>{{metadata.Client_Result_Photo_UploadTimestamp | date: 'MM/dd/yyyy hh:mm:ss a' }}</span></p>
+    <p>FileName: <span>{{metadata.Client_Result_Photo_FileName}}</span></p>
+    <p>DateTimeOriginal: <span>
+        {{ metadata.Client_Result_Photo_DateTimeOriginal | date: 'MM/dd/yyyy hh:mm:ss a' }}</span></p>
+    <p>GPSLatitude: <span>{{ metadata.Client_Result_Photo_GPSLatitude }}</span></p>
+    <p>GPSLongitude: <span>{{ metadata.Client_Result_Photo_GPSLongitude }}</span></p>
+    <p>Make: <span>{{metadata.Client_Result_Photo_Make}}</span></p>
+    <p>Model: <span>{{metadata.Client_Result_Photo_Model}}</span></p>
+    <p>UploadFrom: <span>{{metadata.Client_Result_Photo_UploadFrom}}</span></p>
+    <p *ngIf="!isButtonShow" class="mb-1">Labeled to: </p>
+    <select *ngIf="!isButtonShow" class="custom-select" [(ngModel)]="photoLabel">
+      <option [ngValue]="label" *ngFor="let label of photoLabels">
+        {{label.name}} - {{label.buttonName}}
+      </option>
+    </select>
+  </div>
+</div>
+
+<ng-template #calibrate let-modal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    Calibrate Page Scale
+    <button type="button" (click)="modal.dismiss('Cross click')" class="close">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="align-center">
+      <p>Please calibrate the scale of this page before making a measurement.</p>
+      <button class="btn btn-primary btn-sm" (click)="modal.close('Save click')">OK</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #scaleContent let-modal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    Calibrate Page Scale
+    <button type="button" (click)="modal.dismiss('Cross click')" class="close">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="">
+      <div class="mb-4">
+        <p>1 Select 2 points on the page that have a stated measurement</p>
+        <p>2 Measure the distance between the points and enter the stated measurment value below:</p>
+      </div>
+      <div *ngIf="!scaleValid" style="color: red;">The measurement you entered is not valid. Please enter a new
+        measurement!</div>
+      <div class="row justify-content-around">
+        <input class="col-5" type="text" [(ngModel)]="calibrateScale" (change)="scaleChange()">
+        <select class="form-control form-control-sm col-6">
+          <option value='0'>ft'in"</option>
+          
+        </select>
+      </div>
+      <div class="row justify-content-around mt-2">
+        <p class="col-5">Example 6'0"</p>
+        <div class="col-6 d-flex" style="padding: 0px;">
+          <button class="btn btn-primary btn-sm mr-1" (click)="modal.close('Save click')">OK</button>
+          <button class="btn btn-primary btn-sm" (click)="modal.dismiss('Cross click')">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

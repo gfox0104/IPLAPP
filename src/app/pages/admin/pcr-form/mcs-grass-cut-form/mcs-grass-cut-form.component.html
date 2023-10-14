@@ -1,0 +1,2000 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="row m-0" style="width:81rem;">
+            <div class="col-12 bg-pattern">
+                <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="field-tab">
+                    <ul class="module-subheader m-0 nav nav-tabs" id="myproperty" role="tablist">
+
+                        <li class="nav-item">
+                            <a class="nav-link active" id="bidhistory-tab" data-toggle="tab" href="#bidhistory"
+                                role="tab" (click)="TabClickMethod(1)" aria-controls="bidhistory"
+                                aria-selected="true">Property Info</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="bidhistory-tab" data-toggle="tab" href="#invoicehistory" role="tab"
+                                (click)="TabClickMethod(2)" aria-controls="invoicehistory" aria-selected="true">
+                                Completion Info</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="bidhistory-tab" data-toggle="tab" href="#PropertyType" role="tab"
+                                (click)="TabClickMethod(3)" aria-controls="PropertyType" aria-selected="true">Access Issue
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="bidhistory-tab" data-toggle="tab" href="#Utilities" role="tab"
+                                (click)="TabClickMethod(4)" aria-controls="Utilities" aria-selected="true">Validation</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="bidhistory-tab" data-toggle="tab" href="#OccupancyInfo1" role="tab"
+                                (click)="TabClickMethod(5)" aria-controls="OccupancyInfo1"
+                                aria-selected="true">Check Ins
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="bidhistory-tab" data-toggle="tab" href="#Securing" role="tab"
+                                (click)="TabClickMethod(6)" aria-controls="Securing" aria-selected="true">Notes
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="bidhistory-tab" data-toggle="tab" href="#roof" role="tab"
+                                (click)="TabClickMethod(7)" aria-controls="roof" aria-selected="true">Expected Completion Date
+                            </a>
+                        </li>
+                    </ul>
+
+                    <div class="pt-0 tab-content" id="mypropertyContent">
+                        <div class="tab-pane fade show active" id="bidhistory" role="tabpanel"
+                            aria-labelledby="bidhistory-tab">
+                    <div class="row m-0">
+                        <div class="col-12">
+                            <div
+                                style="box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;padding-bottom:0.5rem"
+                                (click)=" FormButton1(true)">
+                                <div>
+                                    <h4 class="page-title">
+                                        Property Info</h4>
+                                </div>
+                                <div class="col-12">
+                                    <div
+                                        style="box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;width: 98%;margin: 1rem;">
+                                        <div class="d-flex">
+
+                                          <div>
+                                              <div class="d-flex">
+                                                  <div class="mx-3" style="padding: 0.5rem">
+                                                      <label style="width:17rem;text-align: end">Is Completions needed?
+
+                                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                          [ColumnName]="'MG_Property_Info'" [KeyName]="'MG_PI_IsCompletionsNeeded'"></app-ipl-form-history-label-hover>
+                                                      </label>
+
+                                                  </div>
+                                                  <div style="padding: 0.5rem">
+                                                      <div class="radio radio-info form-check-inline mx-3 ">
+                                                          <input type="radio" id="MG_PI_IsCompletionsNeeded" value="Yes"
+                                                              name="MG_PI_IsCompletionsNeeded"
+                                                              [(ngModel)]="MG_Property_Info.MG_PI_IsCompletionsNeeded">
+                                                          <label for="MG_PI_IsCompletionsNeeded">Yes</label>
+                                                      </div>
+                                                      <div class="radio radio-info form-check-inline ">
+                                                          <input type="radio" id="MG_PI_IsCompletionsNeeded" value="No"
+                                                              name="MG_PI_IsCompletionsNeeded"
+                                                              [(ngModel)]="MG_Property_Info.MG_PI_IsCompletionsNeeded">
+                                                          <label for="MG_PI_IsCompletionsNeeded">No</label>
+                                                      </div>
+                                                  </div>
+                                              </div>
+
+                                              <div class="d-flex">
+                                                  <div class="mx-3" style="padding: 0.5rem">
+                                                      <label style="width:17rem;text-align: end">Building type of the property?
+
+                                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                          [ColumnName]="'MG_Property_Info'" [KeyName]="'MG_PI_PropertyType'"></app-ipl-form-history-label-hover>
+                                                      <!-- <span class="pervious-answer">{{this.PCR_History.MG_Property_Info!=undefined ? this.PCR_History.MG_Property_Info.MG_PI_PropertyType :""}}</span> -->
+                                                      </label>
+                                                  </div>
+                                                  <div style="padding: 0.5rem">
+                                                      <div class="radio radio-info form-check-inline mx-3 ">
+                                                          <select id="MG_PI_PropertyType" class="form-control form-control-sm"
+                                                              style="width:14rem"
+                                                              [(ngModel)]="MG_Property_Info.MG_PI_PropertyType">
+                                                              <option value="">Select</option>
+                                                              <option value="Single Family Home">Single Family Home</option>
+                                                              <option value="Vacant Lot">Vacant Lot</option>
+                                                              <option value="Mobile Home">Mobile Home</option>
+                                                              <option value="Muilt-Unit">Muilt-Unit</option>
+                                                          </select>
+                                                      </div>
+                                                  </div>
+                                              </div>
+
+
+
+                                              <div class="d-flex">
+                                                  <div class="mx-3" style="padding: 0.5rem">
+                                                      <label style="width:17rem;text-align: end">Are you Unable to Access the
+                                                          Property?
+                                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                          [ColumnName]="'MG_Property_Info'" [KeyName]="'MG_PI_UnableAccessProperty'"></app-ipl-form-history-label-hover>
+                                                      <!-- <span class="pervious-answer">{{this.PCR_History.MG_Property_Info!=undefined ? this.PCR_History.MG_Property_Info.MG_PI_UnableAccessProperty :""}}</span> -->
+                                                        </label>
+                                                  </div>
+                                                  <div style="padding: 0.5rem">
+                                                      <div class="radio radio-info form-check-inline mx-3 ">
+                                                          <input type="radio" id="MG_PI_UnableAccessProperty" value="Yes"
+                                                              name="MG_PI_UnableAccessProperty"
+                                                              [(ngModel)]="MG_Property_Info.MG_PI_UnableAccessProperty">
+                                                          <label for="MG_PI_UnableAccessProperty">Yes</label>
+                                                      </div>
+                                                      <div class="radio radio-info form-check-inline ">
+                                                          <input type="radio" id="MG_PI_UnableAccessProperty" value="No"
+                                                              name="MG_PI_UnableAccessProperty"
+                                                              [(ngModel)]="MG_Property_Info.MG_PI_UnableAccessProperty">
+                                                          <label for="MG_PI_UnableAccessProperty">No</label>
+                                                      </div>
+                                                  </div>
+                                              </div>
+
+                                              <div class="d-flex">
+                                                  <div class="mx-3" style="padding: 0.5rem">
+                                                      <label style="width:17rem;text-align: end">Is the Property occupied?
+                                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                          [ColumnName]="'MG_Property_Info'" [KeyName]="'MG_PI_IsPropertyOccupied'"></app-ipl-form-history-label-hover>
+                                                        <!-- <span class="pervious-answer">{{this.PCR_History.MG_Property_Info!=undefined ? this.PCR_History.MG_Property_Info.MG_PI_IsPropertyOccupied :""}}</span> -->
+                                                      </label>
+                                                  </div>
+                                                  <div style="padding: 0.5rem">
+                                                      <div class="radio radio-info form-check-inline mx-3 ">
+                                                          <input type="radio" id="MG_PI_IsPropertyOccupied" value="Yes"
+                                                              name="MG_PI_IsPropertyOccupied"
+                                                              [(ngModel)]="MG_Property_Info.MG_PI_IsPropertyOccupied">
+                                                          <label for="MG_PI_IsPropertyOccupied">Yes</label>
+                                                      </div>
+                                                      <div class="radio radio-info form-check-inline ">
+                                                          <input type="radio" id="MG_PI_IsPropertyOccupied" value="No"
+                                                              name="MG_PI_IsPropertyOccupied"
+                                                              [(ngModel)]="MG_Property_Info.MG_PI_IsPropertyOccupied">
+                                                          <label for="MG_PI_IsPropertyOccupied">No</label>
+                                                      </div>
+                                                  </div>
+                                              </div>
+
+                                              <div class="d-flex">
+                                                  <div class="mx-3" style="padding: 0.5rem">
+                                                      <label style="width:17rem;text-align: end">Is the Property vacant with
+                                                          Pessonals?
+                                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                          [ColumnName]="'MG_Property_Info'" [KeyName]="'MG_PI_IsPropertyVacant'"></app-ipl-form-history-label-hover>
+                                                        <!-- <span class="pervious-answer">{{this.PCR_History.MG_Property_Info!=undefined ? this.PCR_History.MG_Property_Info.MG_PI_IsPropertyVacant :""}}</span> -->
+                                                        </label>
+                                                  </div>
+                                                  <div style="padding: 0.5rem">
+                                                      <div class="radio radio-info form-check-inline mx-3 ">
+                                                          <input type="radio" id="MG_PI_IsPropertyVacant" value="Yes"
+                                                              name="MG_PI_IsPropertyVacant"
+                                                              [(ngModel)]="MG_Property_Info.MG_PI_IsPropertyVacant">
+                                                          <label for="MG_PI_IsPropertyVacant">Yes</label>
+                                                      </div>
+                                                      <div class="radio radio-info form-check-inline ">
+                                                          <input type="radio" id="MG_PI_IsPropertyVacant" value="No"
+                                                              name="MG_PI_IsPropertyVacant"
+                                                              [(ngModel)]="MG_Property_Info.MG_PI_IsPropertyVacant">
+                                                          <label for="MG_PI_IsPropertyVacant">No</label>
+                                                      </div>
+                                                  </div>
+                                              </div>
+
+                                              <div class="d-flex">
+                                                  <div class="mx-3" style="padding: 0.5rem">
+                                                      <label style="width:17rem;text-align: end">Are Environmental hazards
+                                                          present?
+                                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                          [ColumnName]="'MG_Property_Info'" [KeyName]="'MG_PI_IsEnvironmentalHazardsPresent'"></app-ipl-form-history-label-hover>
+                                                        <!-- <span class="pervious-answer">{{this.PCR_History.MG_Property_Info!=undefined ? this.PCR_History.MG_Property_Info.MG_PI_IsEnvironmentalHazardsPresent :""}}</span> -->
+                                                        </label>
+                                                  </div>
+                                                  <div style="padding: 0.5rem">
+                                                      <div class="radio radio-info form-check-inline mx-3 ">
+                                                          <input type="radio" id="MG_PI_IsEnvironmentalHazardsPresent" value="Yes"
+                                                              name="MG_PI_IsEnvironmentalHazardsPresent"
+                                                              [(ngModel)]="MG_Property_Info.MG_PI_IsEnvironmentalHazardsPresent">
+                                                          <label for="MG_PI_IsEnvironmentalHazardsPresent">Yes</label>
+                                                      </div>
+                                                      <div class="radio radio-info form-check-inline ">
+                                                          <input type="radio" id="MG_PI_IsEnvironmentalHazardsPresent" value="No"
+                                                              name="MG_PI_IsEnvironmentalHazardsPresent"
+                                                              [(ngModel)]="MG_Property_Info.MG_PI_IsEnvironmentalHazardsPresent">
+                                                          <label for="MG_PI_IsEnvironmentalHazardsPresent">No</label>
+                                                      </div>
+                                                  </div>
+                                              </div>
+
+                                              <div class="d-flex">
+                                                  <div class="mx-3" style="padding: 0.5rem">
+                                                      <label style="width:17rem;text-align: end">Does the Property have Damages?
+                                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                          [ColumnName]="'MG_Property_Info'" [KeyName]="'MG_PI_IsPropertyHaveDamages'"></app-ipl-form-history-label-hover>
+                                                        <!-- <span class="pervious-answer">{{this.PCR_History.MG_Property_Info!=undefined ? this.PCR_History.MG_Property_Info.MG_PI_IsPropertyHaveDamages :""}}</span> -->
+                                                      </label>
+                                                  </div>
+                                                  <div style="padding: 0.5rem">
+                                                      <div class="radio radio-info form-check-inline mx-3 ">
+                                                          <input type="radio" id="MG_PI_IsPropertyHaveDamages" value="Yes"
+                                                              name="MG_PI_IsPropertyHaveDamages"
+                                                              [(ngModel)]="MG_Property_Info.MG_PI_IsPropertyHaveDamages">
+                                                          <label for="MG_PI_IsPropertyHaveDamages">Yes</label>
+                                                      </div>
+                                                      <div class="radio radio-info form-check-inline ">
+                                                          <input type="radio" id="MG_PI_IsPropertyHaveDamages" value="No"
+                                                              name="MG_PI_IsPropertyHaveDamages"
+                                                              [(ngModel)]="MG_Property_Info.MG_PI_IsPropertyHaveDamages">
+                                                          <label for="MG_PI_IsPropertyHaveDamages">No</label>
+                                                      </div>
+                                                  </div>
+                                              </div>
+
+                                              <div class="d-flex">
+                                                  <div class="mx-3" style="padding: 0.5rem">
+                                                      <label style="width:17rem;text-align: end">Is Mold Present?
+
+                                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                          [ColumnName]="'MG_Property_Info'" [KeyName]="'MG_PI_IsMoldPresent'"></app-ipl-form-history-label-hover>
+                                                        <!-- <span class="pervious-answer">{{this.PCR_History.MG_Property_Info!=undefined ? this.PCR_History.MG_Property_Info.MG_PI_IsMoldPresent :""}}</span> -->
+                                                      </label>
+                                                  </div>
+                                                  <div style="padding: 0.5rem">
+                                                      <div class="radio radio-info form-check-inline mx-3 ">
+                                                          <input type="radio" id="MG_PI_IsMoldPresent" value="Yes"
+                                                              name="MG_PI_IsMoldPresent"
+                                                              [(ngModel)]="MG_Property_Info.MG_PI_IsMoldPresent">
+                                                          <label for="MG_PI_IsMoldPresent">Yes</label>
+                                                      </div>
+                                                      <div class="radio radio-info form-check-inline ">
+                                                          <input type="radio" id="MG_PI_IsMoldPresent" value="No"
+                                                              name="MG_PI_IsMoldPresent"
+                                                              [(ngModel)]="MG_Property_Info.MG_PI_IsMoldPresent">
+                                                          <label for="MG_PI_IsMoldPresent">No</label>
+                                                      </div>
+                                                  </div>
+                                              </div>
+
+                                              <div class="d-flex">
+                                                  <div class="mx-3" style="padding: 0.5rem">
+                                                      <label style="width:17rem;text-align: end">Dose the Property have a Pool?
+
+                                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                          [ColumnName]="'MG_Property_Info'" [KeyName]="'MG_PI_IsPropertyHavePool'"></app-ipl-form-history-label-hover>
+                                                        <!-- <span class="pervious-answer">{{this.PCR_History.MG_Property_Info!=undefined ? this.PCR_History.MG_Property_Info.MG_PI_IsPropertyHavePool :""}}</span> -->
+                                                      </label>
+                                                  </div>
+                                                  <div style="padding: 0.5rem">
+                                                      <div class="radio radio-info form-check-inline mx-3 ">
+                                                          <input type="radio" id="MG_PI_IsPropertyHavePool" value="Yes"
+                                                              name="MG_PI_IsPropertyHavePool"
+                                                              [(ngModel)]="MG_Property_Info.MG_PI_IsPropertyHavePool">
+                                                          <label for="MG_PI_IsPropertyHavePool">Yes</label>
+                                                      </div>
+                                                      <div class="radio radio-info form-check-inline ">
+                                                          <input type="radio" id="MG_PI_IsPropertyHavePool" value="No"
+                                                              name="MG_PI_IsPropertyHavePool"
+                                                              [(ngModel)]="MG_Property_Info.MG_PI_IsPropertyHavePool">
+                                                          <label for="MG_PI_IsPropertyHavePool">No</label>
+                                                      </div>
+                                                  </div>
+                                              </div>
+
+                                              <div class="d-flex">
+                                                  <div class="mx-3" style="padding: 0.5rem">
+                                                      <label style="width:17rem;text-align: end">Does the Property have additional
+                                                          buildings?
+
+                                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                          [ColumnName]="'MG_Property_Info'" [KeyName]="'MG_PI_IsPropertyHaveAdditionalBuildings'"></app-ipl-form-history-label-hover>
+                                                        <!-- <span class="pervious-answer">{{this.PCR_History.MG_Property_Info!=undefined ? this.PCR_History.MG_Property_Info.MG_PI_IsPropertyHaveAdditionalBuildings :""}}</span> -->
+                                                        </label>
+                                                  </div>
+                                                  <div style="padding: 0.5rem">
+                                                      <div class="radio radio-info form-check-inline mx-3 ">
+                                                          <input type="radio" id="MG_PI_IsPropertyHaveAdditionalBuildings" value="Yes"
+                                                              name="MG_PI_IsPropertyHaveAdditionalBuildings"
+                                                              [(ngModel)]="MG_Property_Info.MG_PI_IsPropertyHaveAdditionalBuildings">
+                                                          <label for="MG_PI_IsPropertyHaveAdditionalBuildings">Yes</label>
+                                                      </div>
+                                                      <div class="radio radio-info form-check-inline ">
+                                                          <input type="radio" id="MG_PI_IsPropertyHaveAdditionalBuildings" value="No"
+                                                              name="MG_PI_IsPropertyHaveAdditionalBuildings"
+                                                              [(ngModel)]="MG_Property_Info.MG_PI_IsPropertyHaveAdditionalBuildings">
+                                                          <label for="MG_PI_IsPropertyHaveAdditionalBuildings">No</label>
+                                                      </div>
+                                                  </div>
+                                              </div>
+
+                                              <div class="d-flex">
+                                                  <div class="mx-3" style="padding: 0.5rem">
+                                                      <label style="width:17rem;text-align: end">Is the Property open/exposed to the
+                                                          elements?
+                                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                          [ColumnName]="'MG_Property_Info'" [KeyName]="'MG_PI_IsPropertyOpenTheElements'"></app-ipl-form-history-label-hover>
+                                                        <!-- <span class="pervious-answer">{{this.PCR_History.MG_Property_Info!=undefined ? this.PCR_History.MG_Property_Info.MG_PI_IsPropertyOpenTheElements :""}}</span> -->
+                                                        </label>
+                                                  </div>
+                                                  <div style="padding: 0.5rem">
+                                                      <div class="radio radio-info form-check-inline mx-3 ">
+                                                          <input type="radio" id="MG_PI_IsPropertyOpenTheElements" value="Yes"
+                                                              name="MG_PI_IsPropertyOpenTheElements"
+                                                              [(ngModel)]="MG_Property_Info.MG_PI_IsPropertyOpenTheElements">
+                                                          <label for="MG_PI_IsPropertyOpenTheElements">Yes</label>
+                                                      </div>
+                                                      <div class="radio radio-info form-check-inline ">
+                                                          <input type="radio" id="MG_PI_IsPropertyOpenTheElements" value="No"
+                                                              name="MG_PI_IsPropertyOpenTheElements"
+                                                              [(ngModel)]="MG_Property_Info.MG_PI_IsPropertyOpenTheElements">
+                                                          <label for="MG_PI_IsPropertyOpenTheElements">No</label>
+                                                      </div>
+                                                  </div>
+                                              </div>
+
+                                              <div class="d-flex">
+                                                  <div class="mx-3" style="padding: 0.5rem">
+                                                      <label style="width:17rem;text-align: end">Is there a violation?
+
+                                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                          [ColumnName]="'MG_Property_Info'" [KeyName]="'MG_PI_IsThereViolation'"></app-ipl-form-history-label-hover>
+                                                        <!-- <span class="pervious-answer">{{this.PCR_History.MG_Property_Info!=undefined ? this.PCR_History.MG_Property_Info.MG_PI_IsThereViolation :""}}</span> -->
+                                                      </label>
+                                                  </div>
+                                                  <div style="padding: 0.5rem">
+                                                      <div class="radio radio-info form-check-inline mx-3 ">
+                                                          <input type="radio" id="MG_PI_IsThereViolation" value="Yes"
+                                                              name="MG_PI_IsThereViolation"
+                                                              [(ngModel)]="MG_Property_Info.MG_PI_IsThereViolation">
+                                                          <label for="MG_PI_IsThereViolation">Yes</label>
+                                                      </div>
+                                                      <div class="radio radio-info form-check-inline ">
+                                                          <input type="radio" id="MG_PI_IsThereViolation" value="No"
+                                                              name="MG_PI_IsThereViolation"
+                                                              [(ngModel)]="MG_Property_Info.MG_PI_IsThereViolation">
+                                                          <label for="MG_PI_IsThereViolation">No</label>
+                                                      </div>
+                                                  </div>
+                                              </div>
+
+                                              <div class="d-flex">
+                                                  <div class="mx-3" style="padding: 0.5rem">
+                                                      <label style="width:17rem;text-align: end">Is the Roof traped?
+                                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                          [ColumnName]="'MG_Property_Info'" [KeyName]="'MG_PI_IsRoofTraped'"></app-ipl-form-history-label-hover>
+                                                        <!-- <span class="pervious-answer">{{this.PCR_History.MG_Property_Info!=undefined ? this.PCR_History.MG_Property_Info.MG_PI_IsRoofTraped :""}}</span> -->
+                                                      </label>
+                                                  </div>
+                                                  <div style="padding: 0.5rem">
+                                                      <div class="radio radio-info form-check-inline mx-3 ">
+                                                          <select id="MG_PI_IsRoofTraped" class="form-control form-control-sm" style="width:14rem"
+                                                              [(ngModel)]="MG_Property_Info.MG_PI_IsRoofTraped">
+                                                              <option value="">Select</option>
+                                                              <option value="Yes">Yes</option>
+                                                              <option value="No">No</option>
+                                                          </select>
+                                                      </div>
+                                                  </div>
+                                              </div>
+
+                                              <div class="form-group " style="margin-left: 12rem">
+                                                  <label class=" col-form-label">Describe Exposure issue:
+                                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                          [ColumnName]="'MG_Property_Info'" [KeyName]="'MG_PI_DescribeExposureIssue'"></app-ipl-form-history-label-hover>
+                                                  </label>
+                                                  <textarea type="text" class="form-control" style="width:25rem;"
+                                                  [(ngModel)]="MG_Property_Info.MG_PI_DescribeExposureIssue"></textarea>
+                                              </div>
+                                              <!-- <span class="pervious-answer">{{this.PCR_History.MG_Property_Info!=undefined ? this.PCR_History.MG_Property_Info.MG_PI_DescribeExposureIssue :""}}</span> -->
+                                          </div>
+
+
+                                          <div>
+
+                                              <div class="d-flex" style="margin-top: 2.5rem">
+                                                  <div class="mx-3" style="padding: 0.5rem">
+                                                      <label style="text-align: end">Number of Units:
+                                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                          [ColumnName]="'MG_Property_Info'" [KeyName]="'MG_PI_NumberOfUnits'"></app-ipl-form-history-label-hover>
+                                                      <!-- <span class="pervious-answer">{{this.PCR_History.MG_Property_Info!=undefined ? this.PCR_History.MG_Property_Info.MG_PI_NumberOfUnits :""}}</span> -->
+                                                      </label>
+                                                  </div>
+                                                  <div style="padding: 0.5rem">
+                                                      <div class="radio radio-info form-check-inline mx-3 ">
+                                                          <select id="MG_PI_NumberOfUnits" class="form-control form-control-sm"
+                                                              style="width:14rem"
+                                                              [(ngModel)]="MG_Property_Info.MG_PI_NumberOfUnits">
+                                                              <option value="">Select</option>
+                                                              <option value="5">5</option>
+                                                              <option value="15">15</option>
+                                                              <option value="30">30</option>
+                                                              <option value="50">50</option>
+                                                          </select>
+                                                      </div>
+                                                  </div>
+                                              </div>
+
+                                              <div class="d-flex">
+                                                  <div class="mx-3" style="padding: 0.5rem">
+                                                      <label style="text-align: end">Reason Why:
+                                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                          [ColumnName]="'MG_Property_Info'" [KeyName]="'MG_PI_ReasonWhy'"></app-ipl-form-history-label-hover>
+                                                      <!-- <span class="pervious-answer">{{this.PCR_History.MG_Property_Info!=undefined ? this.PCR_History.MG_Property_Info.MG_PI_ReasonWhy :""}}</span> -->
+                                                      </label>
+                                                  </div>
+                                                  <div style="padding: 0.5rem">
+                                                      <div class="radio radio-info form-check-inline mx-3 ">
+                                                          <select id="MG_PI_ReasonWhy" class="form-control form-control-sm"
+                                                              style="width:14rem;margin-left: 1.5rem"
+                                                              [(ngModel)]="MG_Property_Info.MG_PI_ReasonWhy">
+                                                              <option value="">Select</option>
+                                                              <option value="Yes">Yes</option>
+                                                              <option value="No">No</option>
+                                                          </select>
+                                                      </div>
+                                                  </div>
+                                              </div>
+
+                                              <fieldset class="border-div" style="width:26rem;">
+                                                  <legend style="margin-left:20px; font-size:12px; color:black">Securing Information
+                                                  </legend>
+
+                                                  <div class="d-flex">
+                                                      <div class="mx-3" style="padding: 0.5rem">
+                                                          <label style="width:12rem;text-align: end">Were You able to gain entry after
+                                                              trying all
+                                                              MCS keycodes?
+
+                                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                          [ColumnName]="'MG_Property_Info'" [KeyName]="'MG_PI_IsYouAbleGainEntry'"></app-ipl-form-history-label-hover>
+                                                              <!-- <span class="pervious-answer">{{this.PCR_History.MG_Property_Info!=undefined ? this.PCR_History.MG_Property_Info.MG_PI_IsYouAbleGainEntry :""}}</span> -->
+                                                            </label>
+                                                      </div>
+                                                      <div style="padding: 0.5rem">
+                                                          <div class="radio radio-info form-check-inline mx-3 ">
+                                                              <input type="radio" id="MG_PI_IsYouAbleGainEntry" value="Yes"
+                                                                  name="MG_PI_IsYouAbleGainEntry"
+                                                                  [(ngModel)]="MG_Property_Info.MG_PI_IsYouAbleGainEntry">
+                                                              <label for="MG_PI_IsYouAbleGainEntry">Yes</label>
+                                                          </div>
+                                                          <div class="radio radio-info form-check-inline ">
+                                                              <input type="radio" id="MG_PI_IsYouAbleGainEntry" value="No"
+                                                                  name="MG_PI_IsYouAbleGainEntry"
+                                                                  [(ngModel)]="MG_Property_Info.MG_PI_IsYouAbleGainEntry">
+                                                              <label for="MG_PI_IsYouAbleGainEntry">No</label>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+
+                                                  <div class="row">
+                                                      <div class="col-md-12">
+                                                          <div class="row ml-3">
+                                                              <div class="col-sm-6">
+                                                                  <div class="form-group row" style="width:20rem">
+                                                                      <label for="inputPassword" class="col-form-label">Lockbox
+                                                                          Code:
+                                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                          [ColumnName]="'MG_Property_Info'" [KeyName]="'MG_PI_LockboxCode'"></app-ipl-form-history-label-hover>
+                                                              <!-- <span class="pervious-answer">{{this.PCR_History.MG_Property_Info!=undefined ? this.PCR_History.MG_Property_Info.MG_PI_LockboxCode :""}}</span> -->
+                                                                        </label>
+
+                                                                          <input type="text"
+                                                                          class="form-control form-control-sm"
+                                                                          style="margin-left:1rem;width: 13rem"
+                                                                          [(ngModel)]="MG_Property_Info.MG_PI_LockboxCode">
+                                                                      <!-- <div class="col-sm-8">
+                                                                          <select class="form-control" style="width:13rem;height: 2rem"
+                                                                          [(ngModel)]="MG_Property_Info.MG_PI_LockboxCode">
+                                                                              <option value="">Select</option>
+                                                                          </select>
+                                                                      </div> -->
+                                                                  </div>
+                                                              </div>
+                                                          </div>
+                                                          <div class="row ml-3">
+                                                              <div class="col-sm-6">
+                                                                  <div class="form-group row" style="width:20rem">
+                                                                      <label for="inputPassword" class=" col-form-label">keycode1:
+
+                                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                          [ColumnName]="'MG_Property_Info'" [KeyName]="'MG_PI_Keycode1'"></app-ipl-form-history-label-hover>
+                                                              <!-- <span class="pervious-answer">{{this.PCR_History.MG_Property_Info!=undefined ? this.PCR_History.MG_Property_Info.MG_PI_Keycode1 :""}}</span> -->
+                                                                      </label>
+                                                                      <div class="col-sm-8">
+                                                                          <select class="form-control"
+                                                                              style="width:13rem;margin-left: 1.6rem;height: 2rem"
+                                                                              [(ngModel)]="MG_Property_Info.MG_PI_Keycode1">
+                                                                              <option value="">Select</option>
+                                                                              <option value="23323">23323</option>
+                                                                              <option value="25223">25223</option>
+                                                                              <option value="2563">2563</option>
+                                                                              <option value="25632">25632</option>
+                                                                              <option value="34255">34255</option>
+                                                                              <option value="34939">34939</option>
+                                                                              <option value="35241">35241</option>
+                                                                              <option value="35542">35542</option>
+                                                                              <option value="4453">4453</option>
+                                                                              <option value="44535">44535</option>
+                                                                              <option value="64445">64445</option>
+                                                                              <option value="67767">67767</option>
+                                                                              <option value="76667">76667</option>
+                                                                              <option value="7667">7667</option>
+                                                                              <option value="A389 Padlock">A389 Padlock</option>
+                                                                              <option value="PK67767">PK67767</option>
+                                                                          </select>
+                                                                      </div>
+                                                                  </div>
+                                                              </div>
+                                                          </div>
+                                                          <div class="row ml-3">
+                                                              <div class="col-sm-6">
+                                                                  <div class="form-group row" style="width:20rem">
+                                                                      <label for="inputPassword" class=" col-form-label">Door Secure
+                                                                          1:
+                                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                          [ColumnName]="'MG_Property_Info'" [KeyName]="'MG_PI_DoorSecure1'"></app-ipl-form-history-label-hover>
+                                                              <!-- <span class="pervious-answer">{{this.PCR_History.MG_Property_Info!=undefined ? this.PCR_History.MG_Property_Info.MG_PI_DoorSecure1 :""}}</span> -->
+                                                                        </label>
+                                                                      <div class="col-sm-8">
+                                                                          <select class="form-control" style="width:13rem;height: 2rem"
+                                                                          [(ngModel)]="MG_Property_Info.MG_PI_DoorSecure1">
+                                                                              <option value="">Select</option>
+                                                                              <option value="Front">Front</option>
+                                                                              <option value="Back">Back</option>
+                                                                              <option value="Side">Side</option>
+                                                                              <option value="Other">Other</option>
+                                                                              <option value="Gate/Fence">Gate/Fence</option>
+                                                                              <option value="All Doors">All Doors</option>
+                                                                              <option value="None">None</option>
+                                                                          </select>
+                                                                      </div>
+                                                                  </div>
+                                                              </div>
+                                                          </div>
+
+                                                          <div class="row ml-3">
+                                                              <div class="col-sm-6">
+                                                                  <div class="form-group row" style="width:20rem">
+                                                                      <label for="inputPassword" class=" col-form-label">keycode2:
+                                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                          [ColumnName]="'MG_Property_Info'" [KeyName]="'MG_PI_Keycode2'"></app-ipl-form-history-label-hover>
+                                                                        <!-- <span class="pervious-answer">{{this.PCR_History.MG_Property_Info!=undefined ? this.PCR_History.MG_Property_Info.MG_PI_Keycode2 :""}}</span> -->
+                                                                      </label>
+                                                                      <div class="col-sm-8">
+                                                                          <select class="form-control"
+                                                                              style="width:13rem;margin-left: 1.6rem;height: 2rem"
+                                                                              [(ngModel)]="MG_Property_Info.MG_PI_Keycode2">
+                                                                              <option value="">Select</option>
+                                                                              <option value="23323">23323</option>
+                                                                              <option value="25223">25223</option>
+                                                                              <option value="2563">2563</option>
+                                                                              <option value="25632">25632</option>
+                                                                              <option value="34255">34255</option>
+                                                                              <option value="34939">34939</option>
+                                                                          </select>
+                                                                      </div>
+                                                                  </div>
+                                                              </div>
+                                                          </div>
+                                                          <div class="row ml-3">
+                                                              <div class="col-sm-6">
+                                                                  <div class="form-group row" style="width:20rem">
+                                                                      <label for="inputPassword" class=" col-form-label">Door Secure
+                                                                          2:
+                                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                          [ColumnName]="'MG_Property_Info'" [KeyName]="'MG_PI_DoorSecure2'"></app-ipl-form-history-label-hover>
+                                                                        <!-- <span class="pervious-answer">{{this.PCR_History.MG_Property_Info!=undefined ? this.PCR_History.MG_Property_Info.MG_PI_DoorSecure2 :""}}</span> -->
+                                                                        </label>
+                                                                      <div class="col-sm-8">
+                                                                          <select class="form-control" style="width:13rem;height: 2rem"
+                                                                          [(ngModel)]="MG_Property_Info.MG_PI_DoorSecure2">
+                                                                              <option value="">Select</option>
+                                                                              <option value="Front">Front</option>
+                                                                              <option value="Back">Back</option>
+                                                                              <option value="Side">Side</option>
+                                                                              <option value="Other">Other</option>
+                                                                              <option value="Gate/Fence">Gate/Fence</option>
+                                                                              <option value="All Doors">All Doors</option>
+                                                                              <option value="None">None</option>
+                                                                          </select>
+                                                                      </div>
+                                                                  </div>
+                                                              </div>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+
+                                              </fieldset>
+
+
+                                              <fieldset class="border-div" style="width:26rem">
+                                                  <legend style="margin-left:20px; font-size:12px; color:black">Additional Building
+                                                      Information
+                                                  </legend>
+
+
+                                                  <div class="mx-2" style="padding: 0.5rem">
+                                                      <label style="width:23rem;text-align: end">Please Select any additional building
+                                                          found on
+                                                          the property </label>
+                                                  </div>
+                                                  <div class="d-flex">
+                                                      <div class="custom-control custom-checkbox mx-3">
+                                                          <input type="checkbox" class="custom-control-input"
+                                                              id="MG_PI_ABI_Barn"
+                                                              [(ngModel)]="MG_Property_Info.MG_PI_ABI_Barn">
+                                                          <label class="custom-control-label" for="MG_PI_ABI_Barn"
+                                                              style="width: 7rem">Barn</label>
+                                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                          [ColumnName]="'MG_Property_Info'" [KeyName]="'MG_PI_ABI_Barn'"></app-ipl-form-history-label-hover>
+                                                          <!-- <span class="pervious-answer">{{this.PCR_History.MG_Property_Info!=undefined ? this.PCR_History.MG_Property_Info.MG_PI_ABI_Barn :""}}</span> -->
+                                                      </div>
+
+                                                      <div class="custom-control custom-checkbox mx-3">
+                                                          <input type="checkbox" class="custom-control-input"
+                                                              id="MG_PI_ABI_MotherInLawSute"
+                                                              [(ngModel)]="MG_Property_Info.MG_PI_ABI_MotherInLawSute">
+                                                          <label class="custom-control-label"
+                                                              for="MG_PI_ABI_MotherInLawSute">Mother-in-law Sute</label>
+                                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                          [ColumnName]="'MG_Property_Info'" [KeyName]="'MG_PI_ABI_MotherInLawSute'"></app-ipl-form-history-label-hover>
+                                                          <!-- <span class="pervious-answer">{{this.PCR_History.MG_Property_Info!=undefined ? this.PCR_History.MG_Property_Info.MG_PI_ABI_MotherInLawSute :""}}</span> -->
+                                                      </div>
+                                                  </div>
+
+                                                  <div class="d-flex">
+                                                      <div class="custom-control custom-checkbox mx-3">
+                                                          <input type="checkbox" class="custom-control-input"
+                                                              id="MG_PI_ABI_DetachedGarage"
+                                                              [(ngModel)]="MG_Property_Info.MG_PI_ABI_DetachedGarage">
+                                                          <label class="custom-control-label" for="MG_PI_ABI_DetachedGarage"
+                                                              style="width: 7rem">Detached Garage</label>
+                                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                          [ColumnName]="'MG_Property_Info'" [KeyName]="'MG_PI_ABI_DetachedGarage'"></app-ipl-form-history-label-hover>
+                                                          <!-- <span class="pervious-answer">{{this.PCR_History.MG_Property_Info!=undefined ? this.PCR_History.MG_Property_Info.MG_PI_ABI_DetachedGarage :""}}</span> -->
+                                                      </div>
+
+                                                      <div class="custom-control custom-checkbox mx-3">
+                                                          <input type="checkbox" class="custom-control-input"
+                                                              id="MG_PI_ABI_WorkShop"
+                                                              [(ngModel)]="MG_Property_Info.MG_PI_ABI_WorkShop">
+                                                          <label class="custom-control-label" for="MG_PI_ABI_WorkShop">Work
+                                                              Shop</label>
+                                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                          [ColumnName]="'MG_Property_Info'" [KeyName]="'MG_PI_ABI_WorkShop'"></app-ipl-form-history-label-hover>
+                                                          <!-- <span class="pervious-answer">{{this.PCR_History.MG_Property_Info!=undefined ? this.PCR_History.MG_Property_Info.MG_PI_ABI_WorkShop :""}}</span> -->
+                                                      </div>
+                                                  </div>
+
+                                                  <div class="d-flex">
+                                                      <div class="custom-control custom-checkbox mx-3">
+                                                          <input type="checkbox" class="custom-control-input"
+                                                              id="MG_PI_ABI_GuestHouse"
+                                                              [(ngModel)]="MG_Property_Info.MG_PI_ABI_GuestHouse">
+                                                          <label class="custom-control-label" for="MG_PI_ABI_GuestHouse"
+                                                              style="width: 7rem">Guest House</label>
+                                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                          [ColumnName]="'MG_Property_Info'" [KeyName]="'MG_PI_ABI_GuestHouse'"></app-ipl-form-history-label-hover>
+                                                          <!-- <span class="pervious-answer">{{this.PCR_History.MG_Property_Info!=undefined ? this.PCR_History.MG_Property_Info.MG_PI_ABI_GuestHouse :""}}</span> -->
+                                                      </div>
+
+                                                      <div class="custom-control custom-checkbox mx-3">
+                                                          <input type="checkbox" class="custom-control-input"
+                                                              id="MG_PI_ABI_Other"
+                                                              [(ngModel)]="MG_Property_Info.MG_PI_ABI_Other">
+                                                          <label class="custom-control-label"
+                                                              for="MG_PI_ABI_Other">Other</label>
+                                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                          [ColumnName]="'MG_Property_Info'" [KeyName]="'MG_PI_ABI_Other'"></app-ipl-form-history-label-hover>
+                                                          <!-- <span class="pervious-answer">{{this.PCR_History.MG_Property_Info!=undefined ? this.PCR_History.MG_Property_Info.MG_PI_ABI_Other :""}}</span> -->
+                                                      </div>
+                                                  </div>
+                                              </fieldset>
+
+                                          </div>
+                                      </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="invoicehistory" role="tabpanel"
+                            aria-labelledby="invoicehistory-tab">
+                    <div class="row m-0">
+                        <div class="col-12">
+                            <div
+                                style="box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;padding-bottom:0.5rem"
+                                (click)=" ViolationSubmit(true)">
+                                <div>
+                                    <h4 class="page-title">
+                                        Completion Info</h4>
+                                </div>
+                                <div class="col-12 d-flex">
+                                  <fieldset class="border-div" style="width:38rem;margin:1rem">
+                                      <legend style="margin-left:20px; font-size:12px; color:black">Grass Cut Information
+                                      </legend>
+
+
+                                      <div class="mx-2" style="padding: 0.5rem">
+                                          <label style="width:25rem;text-align: end">Entries Provided will display in the line item
+                                              comments
+                                              the property
+
+                                            </label>
+                                      </div>
+
+                                      <div class="d-flex">
+
+                                          <div class="form-group  d-flex ">
+                                              <label style="padding-left: 1rem;">Property Lot Size (SqFt) :
+                                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                          [ColumnName]="'MG_Completion_Info'" [KeyName]="'MG_CI_PropertyLotSize'"></app-ipl-form-history-label-hover>
+                                            <!-- <span class="pervious-answer">{{this.PCR_History.MG_Completion_Info!=undefined ? this.PCR_History.MG_Completion_Info.MG_CI_PropertyLotSize :""}}</span> -->
+                                              </label>
+                                              <input type="Number" class="form-control form-control-sm" id="MG_CI_PropertyLotSize"
+                                                  style="width:6rem;margin-left: 0.7rem"
+                                                  [(ngModel)]="MG_Completion_Info.MG_CI_PropertyLotSize">
+                                          </div>
+
+                                          <div class="form-group  d-flex ">
+                                              <label style="padding-left: 1rem;">Lot Condition Upon Arrival:
+                                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                          [ColumnName]="'MG_Completion_Info'" [KeyName]="'MG_CI_LotConditionUponArrival'"></app-ipl-form-history-label-hover>
+                                            <!-- <span class="pervious-answer">{{this.PCR_History.MG_Completion_Info!=undefined ? this.PCR_History.MG_Completion_Info.MG_CI_LotConditionUponArrival :""}}</span> -->
+                                          </label>
+                                              <input type="Number" class="form-control form-control-sm" id="MG_CI_LotConditionUponArrival"
+                                                  style="width:6rem;margin-left:1rem"
+                                                  [(ngModel)]="MG_Completion_Info.MG_CI_LotConditionUponArrival">
+                                          </div>
+                                      </div>
+
+                                      <div class="d-flex">
+
+                                          <div class="form-group  d-flex ">
+                                              <label style="padding-left: 1rem;">Maintained Area(SqFt) :
+                                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                          [ColumnName]="'MG_Completion_Info'" [KeyName]="'MG_CI_MaintainedArea'"></app-ipl-form-history-label-hover>
+                                            <!-- <span class="pervious-answer">{{this.PCR_History.MG_Completion_Info!=undefined ? this.PCR_History.MG_Completion_Info.MG_CI_MaintainedArea :""}}</span> -->
+                                              </label>
+                                              <input type="Number" class="form-control form-control-sm" id="MG_CI_MaintainedArea"
+                                                  style="width:6rem;margin-left:1rem"
+                                                  [(ngModel)]="MG_Completion_Info.MG_CI_MaintainedArea">
+                                          </div>
+
+                                          <div class="form-group  d-flex ">
+                                              <label style="padding-left: 1rem;">Total Lawn Area (SqFt):
+                                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                          [ColumnName]="'MG_Completion_Info'" [KeyName]="'MG_CI_TotalLawnArea'"></app-ipl-form-history-label-hover>
+                                            <!-- <span class="pervious-answer">{{this.PCR_History.MG_Completion_Info!=undefined ? this.PCR_History.MG_Completion_Info.MG_CI_TotalLawnArea :""}}</span> -->
+                                              </label>
+                                              <input type="Number" class="form-control form-control-sm" id="MG_CI_TotalLawnArea"
+                                                  style="width:6rem;margin-left: 2.3rem"
+                                                  [(ngModel)]="MG_Completion_Info.MG_CI_TotalLawnArea">
+                                          </div>
+                                      </div>
+
+                                  </fieldset>
+
+                                  <fieldset class="border-div" style="width:30rem;margin:1rem">
+                                      <legend style="margin-left:20px; font-size:12px; color:black">Snow Removal Information
+                                      </legend>
+
+
+                                      <div class="mx-2" style="padding: 0.5rem">
+                                          <label style="width:25rem;text-align: end">Entries Provided will display in the line item
+                                              comments
+                                              the property
+                                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                          [ColumnName]="'MG_Completion_Info'" [KeyName]="'MG_CI_SnowRemovalInformation'"></app-ipl-form-history-label-hover>
+                                            <!-- <span class="pervious-answer">{{this.PCR_History.MG_Completion_Info!=undefined ? this.PCR_History.MG_Completion_Info.MG_CI_SnowRemovalInformation :""}}</span> -->
+                                            </label>
+                                      </div>
+
+
+
+                                      <div class="form-group d-flex">
+                                          <div>
+                                              <label style="padding-left: 1rem;width: 6rem;margin-left: 1rem">Reason Snow Removal Not
+                                                  Done. : </label>
+                                          </div>
+
+
+                                          <div style="display:flex;flex-direction:column;gap: 0.5rem">
+
+
+                                              <div class="radio radio-info form-check-inline mx-3 ">
+                                                  <input type="radio" id="MG_CI_SnowRemovalInformation" value="Remove by HOA,COA,etc"
+                                                      name="MG_CI_SnowRemovalInformation"
+                                                      [(ngModel)]="MG_Completion_Info.MG_CI_SnowRemovalInformation">
+                                                  <label for="MG_CI_SnowRemovalInformation">Remove by HOA,COA,etc.</label>
+                                              </div>
+
+                                              <div class="radio radio-info form-check-inline mx-3">
+                                                  <input type="radio" id="MG_CI_SnowRemovalInformation" value="Remove by Unknown"
+                                                      name="MG_CI_SnowRemovalInformation"
+                                                      [(ngModel)]="MG_Completion_Info.MG_CI_SnowRemovalInformation">
+                                                  <label for="MG_CI_SnowRemovalInformation">Remove by Unknown</label>
+                                              </div>
+                                              <div class="radio radio-info form-check-inline mx-3 ">
+                                                  <input type="radio" id="MG_CI_SnowRemovalInformation" value="Other"
+                                                      name="MG_CI_SnowRemovalInformation"
+                                                      [(ngModel)]="MG_Completion_Info.MG_CI_SnowRemovalInformation">
+                                                  <label for="MG_CI_SnowRemovalInformation">Other</label>
+
+                                                  <input type="text" class="form-control form-control-sm" id="MG_CI_SnowRemovalInformation_Other"
+                                                      style="margin-left:1rem;width: 14rem"
+                                                      [(ngModel)]="MG_Completion_Info.MG_CI_SnowRemovalInformation_Other">
+                                                      <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                [ColumnName]="'MG_Completion_Info'" [KeyName]="'MG_CI_SnowRemovalInformation_Other'"></app-ipl-form-history-label-hover>
+                                              </div>
+
+                                              <!-- <span class="pervious-answer">{{this.PCR_History.MG_Completion_Info!=undefined ? this.PCR_History.MG_Completion_Info.MG_CI_SnowRemovalInformation_Other :""}}</span> -->
+                                          </div>
+
+                                      </div>
+
+
+                                  </fieldset>
+                              </div>
+
+
+                              <table class="table caption-top" style="border: 1px solid #b0babf; margin: 1rem; width: 98%;">
+                                  <thead>
+                                      <tr style="border: 1px solid #a4a4a5;">
+                                          <th scope="col"></th>
+                                          <th scope="col">Pending</th>
+                                          <th scope="col">Done</th>
+                                          <th scope="col">Bid</th>
+                                          <th scope="col">N/A</th>
+                                          <th scope="col">Multi- Day</th>
+                                          <th scope="col">Completed</th>
+                                          <th scope="col">Description</th>
+                                          <th scope="col">Vendor's Comment (to MCS)</th>
+                                          <th scope="col">MCS Comment (to vendor)</th>
+                                          <th scope="col">Img Count</th>
+                                          <th scope="col">Wo Instructions</th>
+                                      </tr>
+                                  </thead>
+                              </table>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="PropertyType" role="tabpanel" aria-labelledby="PropertyType-tab">
+                        <div class="row m-0">
+                        <div class="col-12">
+                            <div
+                                style="box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;padding-bottom:0.5rem"
+                                (click)="SecuringSubmit(true)">
+                                <div>
+                                    <h4 class="page-title">
+                                        Access Issue</h4>
+                                </div>
+                                <div class="col-12 ">
+                                    <fieldset class="border-div" style="margin:1rem">
+                                        <legend style="margin-left:20px; font-size:12px; color:black">No Access Info
+                                        </legend>
+
+                                        <div class="d-flex row" style="gap:2rem;">
+                                            <div>
+                                                <div class="d-flex">
+                                                    <div style="padding: 0.5rem">
+                                                        <label style="width:17rem;text-align: end">Please indicate why
+                                                            this is a No Access:
+                                                      <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                [ColumnName]="'MG_Access_Issue'" [KeyName]="'MG_AI_WhyNoAccess'"></app-ipl-form-history-label-hover>
+                                                          <!-- <span class="pervious-answer">{{this.PCR_History.MG_Access_Issue!=undefined ? this.PCR_History.MG_Access_Issue.MG_AI_WhyNoAccess :""}}</span> -->
+                                                          </label>
+                                                    </div>
+                                                    <div style="padding: 0.5rem">
+                                                        <div class="radio radio-info form-check-inline">
+                                                            <select id="MG_AI_WhyNoAccess"
+                                                                class="form-control form-control-sm"
+                                                                style="width:17rem"
+                                                                [(ngModel)]="MG_Access_Issue.MG_AI_WhyNoAccess">
+                                                                <option value="">Select</option>
+                                                                <option value="Yes">Yes</option>
+                                                                <option value="No">No</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group d-flex">
+                                                    <div style="padding: 0.5rem">
+                                                        <label class=" col-form-label"
+                                                            style="width:17rem;text-align: end">If 'Other',Please
+                                                            Explain:
+
+                                                      <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                        [ColumnName]="'MG_Access_Issue'" [KeyName]="'MG_AI_WhyNoAccess_Other'"></app-ipl-form-history-label-hover>
+                                                          </label>
+                                                    </div>
+                                                    <div style="padding: 0.5rem">
+                                                        <textarea type="text" class="form-control"
+                                                            style="width:17rem;"
+                                                            [(ngModel)]="MG_Access_Issue.MG_AI_WhyNoAccess_Other"></textarea>
+                                                          <!-- <span class="pervious-answer">{{this.PCR_History.MG_Access_Issue!=undefined ? this.PCR_History.MG_Access_Issue.MG_AI_WhyNoAccess_Other :""}}</span> -->
+                                                    </div>
+
+                                                </div>
+                                                <div class="d-flex">
+                                                    <div style="padding: 0.5rem">
+                                                        <label style="width:17rem;text-align: end">Was Community
+                                                            name/contact info posted?
+                                                      <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                        [ColumnName]="'MG_Access_Issue'" [KeyName]="'MG_AI_ContactInfoPosted'"></app-ipl-form-history-label-hover>
+                                                          <!-- <span class="pervious-answer">{{this.PCR_History.MG_Access_Issue!=undefined ? this.PCR_History.MG_Access_Issue.MG_AI_ContactInfoPosted :""}}</span> -->
+                                                          </label>
+                                                    </div>
+                                                    <div style="padding: 0.5rem">
+                                                        <div class="radio radio-info form-check-inline ">
+                                                            <select id="MG_AI_ContactInfoPosted"
+                                                                class="form-control form-control-sm" style="width:17rem"
+                                                                [(ngModel)]="MG_Access_Issue.MG_AI_ContactInfoPosted">
+                                                                <option value="">Select</option>
+                                                                <option value="Yes">Yes</option>
+                                                                <option value="No">No</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex">
+                                                    <div style="padding: 0.5rem">
+                                                        <label style="width:17rem;text-align: end">Community
+                                                            name:
+                                                      <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                        [ColumnName]="'MG_Access_Issue'" [KeyName]="'MG_AI_CommunityName'"></app-ipl-form-history-label-hover>
+                                                          <!-- <span class="pervious-answer">{{this.PCR_History.MG_Access_Issue!=undefined ? this.PCR_History.MG_Access_Issue.MG_AI_CommunityName :""}}</span> -->
+                                                        </label>
+                                                    </div>
+                                                    <div style="padding: 0.5rem">
+                                                        <input type="text" class="form-control form-control-sm"
+                                                            id="MG_AI_CommunityName" style="width: 17rem"
+                                                            [(ngModel)]="MG_Access_Issue.MG_AI_CommunityName">
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex">
+                                                    <div style="padding: 0.5rem">
+                                                        <label style="width:17rem;text-align: end">Phone Number:
+                                                      <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                        [ColumnName]="'MG_Access_Issue'" [KeyName]="'MG_AI_PhoneNumber'"></app-ipl-form-history-label-hover>
+                                                          <!-- <span class="pervious-answer">{{this.PCR_History.MG_Access_Issue!=undefined ? this.PCR_History.MG_Access_Issue.MG_AI_PhoneNumber :""}}</span> -->
+                                                        </label>
+                                                    </div>
+                                                    <div style="padding: 0.5rem">
+                                                        <input type="number" class="form-control form-control-sm"
+                                                            id="MG_AI_PhoneNumber" style="width: 17rem"
+                                                            [(ngModel)]="MG_Access_Issue.MG_AI_PhoneNumber">
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex">
+                                                    <div style="padding: 0.5rem">
+                                                        <label style="width:17rem;text-align: end">Contact
+                                                            Person:
+                                                      <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                        [ColumnName]="'MG_Access_Issue'" [KeyName]="'MG_AI_ContactPerson'"></app-ipl-form-history-label-hover>
+                                                          <!-- <span class="pervious-answer">{{this.PCR_History.MG_Access_Issue!=undefined ? this.PCR_History.MG_Access_Issue.MG_AI_ContactPerson :""}}</span> -->
+                                                        </label>
+                                                    </div>
+                                                    <div style="padding: 0.5rem">
+                                                        <input type="text" class="form-control form-control-sm"
+                                                            id="MG_AI_ContactPerson" style="width: 17rem"
+                                                            [(ngModel)]="MG_Access_Issue.MG_AI_ContactPerson">
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex">
+                                                    <div style="padding: 0.5rem">
+                                                        <label style="width:17rem;text-align: end">E-Mail:
+                                                      <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                        [ColumnName]="'MG_Access_Issue'" [KeyName]="'MG_AI_EMail'"></app-ipl-form-history-label-hover>
+                                                          <!-- <span class="pervious-answer">{{this.PCR_History.MG_Access_Issue!=undefined ? this.PCR_History.MG_Access_Issue.MG_AI_EMail :""}}</span> -->
+                                                        </label>
+                                                    </div>
+                                                    <div style="padding: 0.5rem">
+                                                        <input type="email" class="form-control form-control-sm"
+                                                            id="MG_AI_EMail" style="width: 17rem"
+                                                            [(ngModel)]="MG_Access_Issue.MG_AI_EMail">
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex">
+                                                    <div style="padding: 0.5rem">
+                                                        <label style="width:17rem;text-align: end">Was a guard/doorman
+                                                            present?
+                                                      <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                        [ColumnName]="'MG_Access_Issue'" [KeyName]="'MG_AI_DoormanPresent'"></app-ipl-form-history-label-hover>
+                                                          <!-- <span class="pervious-answer">{{this.PCR_History.MG_Access_Issue!=undefined ? this.PCR_History.MG_Access_Issue.MG_AI_DoormanPresent :""}}</span> -->
+                                                        </label>
+                                                    </div>
+                                                    <div style="padding: 0.5rem">
+                                                        <div class="radio radio-info form-check-inline">
+                                                            <select id="MG_AI_DoormanPresent"
+                                                                class="form-control form-control-sm" style="width:17rem"
+                                                                [(ngModel)]="MG_Access_Issue.MG_AI_DoormanPresent">
+                                                                <option value="">Select</option>
+                                                                <option value="Yes">Yes</option>
+                                                                <option value="No">No</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group d-flex">
+                                                    <div style="padding: 0.5rem">
+                                                        <label class=" col-form-label"
+                                                            style="width:17rem;text-align: end">If 'Yes' please indicate
+                                                            the results of the conversation with the
+                                                            guard/doorman:
+                                                      <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                        [ColumnName]="'MG_Access_Issue'" [KeyName]="'MG_AI_ConversationOfDoorman'"></app-ipl-form-history-label-hover>
+                                                          </label>
+                                                    </div>
+                                                    <div style="padding: 0.5rem">
+                                                        <textarea type="text" class="form-control"
+                                                            style="width:17rem;"
+                                                            [(ngModel)]="MG_Access_Issue.MG_AI_ConversationOfDoorman"></textarea>
+                                                          <!-- <span class="pervious-answer">{{this.PCR_History.MG_Access_Issue!=undefined ? this.PCR_History.MG_Access_Issue.MG_AI_ConversationOfDoorman :""}}</span> -->
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div>
+                                                <div class="d-flex">
+                                                    <div style="padding: 0.5rem">
+                                                        <label style="width:17rem;text-align: end">Was a keypad
+                                                            present?
+                                                      <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                        [ColumnName]="'MG_Access_Issue'" [KeyName]="'MG_AI_KeypadPresent'"></app-ipl-form-history-label-hover>
+                                                        <!-- <span class="pervious-answer">{{this.PCR_History.MG_Access_Issue!=undefined ? this.PCR_History.MG_Access_Issue.MG_AI_KeypadPresent :""}}</span> -->
+                                                          </label>
+                                                    </div>
+                                                    <div style="padding: 0.5rem">
+                                                        <div class="radio radio-info form-check-inline  ">
+                                                            <select id="MG_AI_KeypadPresent"
+                                                                class="form-control form-control-sm" style="width:17rem"
+                                                                [(ngModel)]="MG_Access_Issue.MG_AI_KeypadPresent">
+                                                                <option value="">Select</option>
+                                                                <option value="Yes">Yes</option>
+                                                                <option value="No">No</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex">
+                                                    <div style="padding: 0.5rem">
+                                                        <label style="width:17rem;text-align: end">Keypad
+                                                            information:
+                                                      <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                        [ColumnName]="'MG_Access_Issue'" [KeyName]="'MG_AI_KeypadInformation'"></app-ipl-form-history-label-hover>
+                                                        <!-- <span class="pervious-answer">{{this.PCR_History.MG_Access_Issue!=undefined ? this.PCR_History.MG_Access_Issue.MG_AI_KeypadInformation :""}}</span> -->
+                                                          </label>
+                                                    </div>
+                                                    <div style="padding: 0.5rem">
+                                                        <div class="radio radio-info form-check-inline  ">
+                                                            <select id="MG_AI_KeypadInformation"
+                                                                class="form-control form-control-sm" style="width:17rem"
+                                                                [(ngModel)]="MG_Access_Issue.MG_AI_KeypadInformation">
+                                                                <option value="">Select</option>
+                                                                <option value="Yes">Yes</option>
+                                                                <option value="No">No</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group d-flex">
+                                                    <div style="padding: 0.5rem">
+                                                        <label class=" col-form-label"
+                                                            style="width:17rem;text-align: end">If 'Other',Please
+                                                            Explain:
+                                                      <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                        [ColumnName]="'MG_Access_Issue'" [KeyName]="'MG_AI_KeypadInformation_Other'"></app-ipl-form-history-label-hover>
+                                                          </label>
+                                                    </div>
+                                                    <div style="padding: 0.5rem">
+                                                        <textarea type="text" class="form-control"
+                                                            style="width:17rem;"
+                                                            [(ngModel)]="MG_Access_Issue.MG_AI_KeypadInformation_Other"></textarea>
+                                                        <!-- <span class="pervious-answer">{{this.PCR_History.MG_Access_Issue!=undefined ? this.PCR_History.MG_Access_Issue.MG_AI_KeypadInformation_Other :""}}</span> -->
+                                                    </div>
+
+                                                </div>
+                                                <div class="d-flex">
+                                                    <div style="padding: 0.5rem">
+                                                        <label style="width:17rem;text-align: end">Was an access letter
+                                                            used?
+                                                      <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                        [ColumnName]="'MG_Access_Issue'" [KeyName]="'MG_AI_AccessLetterUsed'"></app-ipl-form-history-label-hover>
+                                                          <!-- <span class="pervious-answer">{{this.PCR_History.MG_Access_Issue!=undefined ? this.PCR_History.MG_Access_Issue.MG_AI_AccessLetterUsed :""}}</span> -->
+                                                          </label>
+                                                    </div>
+                                                    <div style="padding: 0.5rem">
+                                                        <div class="radio radio-info form-check-inline  ">
+                                                            <select id="MG_AI_AccessLetterUsed"
+                                                                class="form-control form-control-sm" style="width:17rem"
+                                                                [(ngModel)]="MG_Access_Issue.MG_AI_AccessLetterUsed">
+                                                                <option value="">Select</option>
+                                                                <option value="Yes">Yes</option>
+                                                                <option value="No">No</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group d-flex">
+                                                    <div style="padding: 0.5rem">
+                                                        <label class=" col-form-label"
+                                                            style="width:17rem;text-align: end">If 'Yes ',Please Provide
+                                                            the result of attempting to use the letter of
+                                                            access:
+                                                      <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                        [ColumnName]="'MG_Access_Issue'" [KeyName]="'MG_AI_AccessLetterUsed_Explain'"></app-ipl-form-history-label-hover>
+                                                          </label>
+                                                    </div>
+                                                    <div style="padding: 0.5rem">
+                                                        <textarea type="text" class="form-control"
+                                                            style="width:17rem;"
+                                                            [(ngModel)]="MG_Access_Issue.MG_AI_AccessLetterUsed_Explain"></textarea>
+                                                        <!-- <span class="pervious-answer">{{this.PCR_History.MG_Access_Issue!=undefined ? this.PCR_History.MG_Access_Issue.MG_AI_AccessLetterUsed_Explain :""}}</span> -->
+                                                    </div>
+
+                                                </div>
+                                                <div class="d-flex">
+                                                    <div style="padding: 0.5rem">
+                                                        <label style="width:17rem;text-align: end">Was MCS Staff
+                                                            Contacted?
+                                                      <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                        [ColumnName]="'MG_Access_Issue'" [KeyName]="'MG_AI_MCSStaffContacted'"></app-ipl-form-history-label-hover>
+                                                          <!-- <span class="pervious-answer">{{this.PCR_History.MG_Access_Issue!=undefined ? this.PCR_History.MG_Access_Issue.MG_AI_MCSStaffContacted :""}}</span> -->
+                                                          </label>
+                                                    </div>
+                                                    <div style="padding: 0.5rem">
+                                                        <div class="radio radio-info form-check-inline ">
+                                                            <select id="MG_AI_MCSStaffContacted"
+                                                                class="form-control form-control-sm" style="width:17rem"
+                                                                [(ngModel)]="MG_Access_Issue.MG_AI_MCSStaffContacted">
+                                                                <option value="">Select</option>
+                                                                <option value="Yes">Yes</option>
+                                                                <option value="No">No</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex">
+                                                    <div style="padding: 0.5rem">
+                                                        <label style="width:17rem;text-align: end">Name of MCS Staff
+                                                            member:
+                                                      <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                        [ColumnName]="'MG_Access_Issue'" [KeyName]="'MG_AI_StaffMemberName'"></app-ipl-form-history-label-hover>
+                                                        <!-- <span class="pervious-answer">{{this.PCR_History.MG_Access_Issue!=undefined ? this.PCR_History.MG_Access_Issue.MG_AI_StaffMemberName :""}}</span> -->
+                                                          </label>
+                                                    </div>
+                                                    <div style="padding: 0.5rem">
+                                                        <input type="text" class="form-control form-control-sm"
+                                                            id="PCR_GI_GateCode" style="width: 17rem"
+                                                            [(ngModel)]="MG_Access_Issue.MG_AI_StaffMemberName">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group d-flex">
+                                                    <div style="padding: 0.5rem">
+                                                        <label class=" col-form-label"
+                                                            style="width:17rem;text-align: end">Please Provide any other
+                                                            information available about this No Access:
+
+                                                      <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                        [ColumnName]="'MG_Access_Issue'" [KeyName]="'MG_AI_NoAccess_InformationExplain'"></app-ipl-form-history-label-hover>
+                                                          </label>
+                                                    </div>
+                                                    <div style="padding: 0.5rem">
+                                                        <textarea type="text" class="form-control"
+                                                            style="width:17rem;"
+                                                            [(ngModel)]="MG_Access_Issue.MG_AI_NoAccess_InformationExplain"></textarea>
+                                                          <!-- <span class="pervious-answer">{{this.PCR_History.MG_Access_Issue!=undefined ? this.PCR_History.MG_Access_Issue.MG_AI_NoAccess_InformationExplain :""}}</span> -->
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </fieldset>
+
+                                    <fieldset class="border-div" style="margin:1rem">
+                                        <legend style="margin-left:20px; font-size:12px; color:black">Bad Address Info
+                                        </legend>
+                                        <div class="d-flex row" style="gap: 2rem">
+                                            <div>
+                                                <div class="d-flex">
+                                                    <div style="padding: 0.5rem">
+                                                        <label style="width:21rem;text-align: end">Please indicate why
+                                                            this is a bad address:
+                                                      <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                        [ColumnName]="'MG_Access_Issue'" [KeyName]="'MG_AI_WhyBadAddress'"></app-ipl-form-history-label-hover>
+                                                          <!-- <span class="pervious-answer">{{this.PCR_History.MG_Access_Issue!=undefined ? this.PCR_History.MG_Access_Issue.MG_AI_WhyBadAddress :""}}</span> -->
+                                                          </label>
+                                                    </div>
+                                                    <div style="padding: 0.5rem">
+                                                        <div class="radio radio-info form-check-inline">
+                                                            <select id="MG_AI_WhyBadAddress"
+                                                                class="form-control form-control-sm" style="width:17rem"
+                                                                [(ngModel)]="MG_Access_Issue.MG_AI_WhyBadAddress">
+                                                                <option value="">Select</option>
+                                                                <option value="Incorrect Unit#">Incorrect Unit#</option>
+                                                                <option value="Missing Unit#">Missing Unit#</option>
+                                                                <option value="Incorrect House#">Incorrect House#</option>
+                                                                <option value="Missing House#">Missing House# </option>
+                                                                <option value="Incorrect Street Name#">Incorrect Street Name#</option>
+                                                                <option value="Incorrect City/State/Zip#">Incorrect City/State/Zip#</option>
+                                                                <option value="eeds 911 Address Change#">Needs 911 Address Change#</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex">
+                                                    <div style="padding: 0.5rem">
+                                                        <label style="width:21rem;text-align: end">Was MCS staff
+                                                            contacted?
+
+                                                      <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                        [ColumnName]="'MG_Access_Issue'" [KeyName]="'MG_AI_MCSStaffContacted_ForBadAddress'"></app-ipl-form-history-label-hover>
+                                                          <!-- <span class="pervious-answer">{{this.PCR_History.MG_Access_Issue!=undefined ? this.PCR_History.MG_Access_Issue.MG_AI_MCSStaffContacted_ForBadAddress :""}}</span> -->
+                                                        </label>
+                                                    </div>
+                                                    <div style="padding: 0.5rem">
+                                                        <div class="radio radio-info form-check-inline  ">
+                                                            <select id="MG_AI_MCSStaffContacted_ForBadAddress"
+                                                                class="form-control form-control-sm" style="width:17rem"
+                                                                [(ngModel)]="MG_Access_Issue.MG_AI_MCSStaffContacted_ForBadAddress">
+                                                                <option value="">Select</option>
+                                                                <option value="Yes">Yes</option>
+                                                                <option value="No">No</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex">
+                                                    <div style="padding: 0.5rem">
+                                                        <label style="width:21rem;text-align: end">Name of MCS
+                                                            staff:
+                                                      <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                        [ColumnName]="'MG_Access_Issue'" [KeyName]="'MG_AI_NameOfMCSStaff'"></app-ipl-form-history-label-hover>
+                                                          <!-- <span class="pervious-answer">{{this.PCR_History.MG_Access_Issue!=undefined ? this.PCR_History.MG_Access_Issue.MG_AI_NameOfMCSStaff :""}}</span> -->
+                                                          </label>
+                                                    </div>
+                                                    <div style="padding: 0.5rem">
+                                                        <input type="text" class="form-control form-control-sm"
+                                                            id="MG_AI_NameOfMCSStaff" style="width: 17rem"
+                                                            [(ngModel)]="MG_Access_Issue.MG_AI_NameOfMCSStaff">
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex">
+                                                    <div style="padding: 0.5rem">
+                                                        <label style="width:21rem;text-align: end">Were you able to
+                                                            determine the correct address?
+                                                      <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                        [ColumnName]="'MG_Access_Issue'" [KeyName]="'MG_AI_AbleToDetermineCorrectAddress'"></app-ipl-form-history-label-hover>
+                                                          <!-- <span class="pervious-answer">{{this.PCR_History.MG_Access_Issue!=undefined ? this.PCR_History.MG_Access_Issue.MG_AI_AbleToDetermineCorrectAddress :""}}</span> -->
+                                                          </label>
+                                                    </div>
+                                                    <div style="padding: 0.5rem">
+                                                        <div class="radio radio-info form-check-inline  ">
+                                                            <select id="MG_AI_AbleToDetermineCorrectAddress"
+                                                                class="form-control form-control-sm" style="width:17rem"
+                                                                [(ngModel)]="MG_Access_Issue.MG_AI_AbleToDetermineCorrectAddress">
+                                                                <option value="">Select</option>
+                                                                <option value="Yes">Yes</option>
+                                                                <option value="No">No</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex">
+                                                    <div style="padding: 0.5rem">
+                                                        <label style="width:21rem;text-align: end">What is the correct
+                                                            address(include parcel # if available):
+
+                                                      <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                        [ColumnName]="'MG_Access_Issue'" [KeyName]="'MG_AI_WhatIsCorrectAddress'"></app-ipl-form-history-label-hover>
+                                                          <!-- <span class="pervious-answer">{{this.PCR_History.MG_Access_Issue!=undefined ? this.PCR_History.MG_Access_Issue.MG_AI_WhatIsCorrectAddress :""}}</span> -->
+                                                        </label>
+                                                    </div>
+                                                    <div style="padding: 0.5rem">
+                                                        <input type="email" class="form-control form-control-sm"
+                                                            id="MG_AI_WhatIsCorrectAddress" style="width: 17rem"
+                                                            [(ngModel)]="MG_Access_Issue.MG_AI_WhatIsCorrectAddress">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div>
+                                                <div style="padding: 0.5rem">
+                                                    <label class=" col-form-label"
+                                                        style="width:26rem;text-align:start">What resources were used to
+                                                        confirm bad address Statu:
+
+                                                      </label>
+                                                </div>
+                                                <div
+                                                    style="background-color: white !important;height:4rem;width: 17rem;">
+                                                    <div class="custom-control custom-checkbox mx-3"
+                                                        id="scrollspyHeading6">
+                                                        <input type="checkbox" class="custom-control-input"
+                                                            id="MG_AI_ResourceOfBadAddress_MCSStaff"
+                                                            [(ngModel)]="MG_Access_Issue.MG_AI_ResourceOfBadAddress_MCSStaff">
+                                                        <label class="custom-control-label"
+                                                            for="MG_AI_ResourceOfBadAddress_MCSStaff" style="width: 7rem">MCS
+                                                            Staff</label>
+                                                      <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                        [ColumnName]="'MG_Access_Issue'" [KeyName]="'MG_AI_ResourceOfBadAddress_MCSStaff'"></app-ipl-form-history-label-hover>
+                                                          <!-- <span class="pervious-answer">{{this.PCR_History.MG_Access_Issue!=undefined ? this.PCR_History.MG_Access_Issue.MG_AI_ResourceOfBadAddress_MCSStaff :""}}</span> -->
+                                                    </div>
+                                                    <div class="custom-control custom-checkbox mx-3"
+                                                        id="scrollspyHeading6">
+                                                        <input type="checkbox" class="custom-control-input"
+                                                            id="MG_AI_ResourceOfBadAddress_OnlineMaps"
+                                                            [(ngModel)]="MG_Access_Issue.MG_AI_ResourceOfBadAddress_OnlineMaps">
+                                                        <label class="custom-control-label"
+                                                            for="MG_AI_ResourceOfBadAddress_OnlineMaps"
+                                                            style="width: 7rem">Online Maps</label>
+
+                                                    <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                        [ColumnName]="'MG_Access_Issue'" [KeyName]="'MG_AI_ResourceOfBadAddress_OnlineMaps'"></app-ipl-form-history-label-hover>
+                                                        <!-- <span class="pervious-answer">{{this.PCR_History.MG_Access_Issue!=undefined ? this.PCR_History.MG_Access_Issue.MG_AI_ResourceOfBadAddress_OnlineMaps :""}}</span> -->
+                                                    </div>
+                                                    <div class="custom-control custom-checkbox mx-3"
+                                                        id="scrollspyHeading6">
+                                                        <input type="checkbox" class="custom-control-input"
+                                                            id="MG_AI_ResourceOfBadAddress_GPS"
+                                                            [(ngModel)]="MG_Access_Issue.MG_AI_ResourceOfBadAddress_GPS">
+                                                        <label class="custom-control-label"
+                                                            for="MG_AI_ResourceOfBadAddress_GPS"
+                                                            style="width: 7rem">GPS</label>
+
+                                                    <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                        [ColumnName]="'MG_Access_Issue'" [KeyName]="'MG_AI_ResourceOfBadAddress_GPS'"></app-ipl-form-history-label-hover>
+                                                        <!-- <span class="pervious-answer">{{this.PCR_History.MG_Access_Issue!=undefined ? this.PCR_History.MG_Access_Issue.MG_AI_ResourceOfBadAddress_GPS :""}}</span> -->
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div style="padding: 0.5rem">
+                                                        <label class=" col-form-label"
+                                                            style="width:26rem;text-align: end">Please Provide any other
+                                                            information available about this Bad Address:
+                                                    <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                        [ColumnName]="'MG_Access_Issue'" [KeyName]="'MG_AI_OtherInfomation_BadAddress'"></app-ipl-form-history-label-hover>
+                                                          </label>
+                                                    </div>
+                                                    <div style="padding: 0.5rem">
+                                                        <textarea type="text" class="form-control"
+                                                            style="width:17rem;"
+                                                            [(ngModel)]="MG_Access_Issue.MG_AI_OtherInfomation_BadAddress"></textarea>
+                                                        <!-- <span class="pervious-answer">{{this.PCR_History.MG_Access_Issue!=undefined ? this.PCR_History.MG_Access_Issue.MG_AI_OtherInfomation_BadAddress :""}}</span> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="Utilities" role="tabpanel" aria-labelledby="Utilities-tab">
+                    <div class="row m-0">
+                        <div class="col-12">
+                            <div
+                                style="box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;padding-bottom:0.5rem"
+                                (click)=" SubmitWinterization(true)">
+                                <div>
+                                    <h4 class="page-title">
+                                        Validation</h4>
+                                </div>
+
+                                <div class="d-flex">
+                                    <div style="padding: 0.5rem">
+                                        <label style="width:5rem;text-align: end">Validation:
+                                                    <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                                        [ColumnName]="'MG_Validation'" [KeyName]="'MG_V_Validation'"></app-ipl-form-history-label-hover>
+                                        <!-- <span class="pervious-answer">{{this.PCR_History.MG_Validation!=undefined ? this.PCR_History.MG_Validation.MG_V_Validation :""}}</span> -->
+                                        </label>
+                                    </div>
+                                    <div style="padding: 0.5rem">
+                                        <div class="radio radio-info form-check-inline  ">
+                                            <select id="SL_GL_AnyViolationsPosted" class="form-control form-control-sm" style="width:17rem"
+                                            [(ngModel)]="MG_Validation.MG_V_Validation">
+                                                <option value="">Select</option>
+                                                <option value="Did Not Enter Property">Did Not Enter Property</option>
+                                                <option value="Modify">Modify</option>
+                                                <option value="Not Needed">Not Needed</option>
+                                                <option value="Still Valid">Still Valid</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <table class="table caption-top"
+                                    style="border: 1px solid #b0babf; margin: 1rem; width: 98%;">
+                                    <thead>
+                                        <tr style="border: 1px solid #a4a4a5;">
+                                            <th scope="col">Validation</th>
+                                            <th scope="col">Work to perform</th>
+                                            <th scope="col">Qty</th>
+                                            <th scope="col">UOM</th>
+                                            <th scope="col">Amount</th>
+                                            <th scope="col">Total</th>
+                                            <th scope="col">Comment</th>
+                                            <th scope="col">WO#</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+
+
+                    <div class="tab-pane fade" id="OccupancyInfo1" role="tabpanel" aria-labelledby="OccupancyInfo1-tab">
+                    <div class="row m-0">
+                        <div class="col-12">
+                            <div
+                                style="box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;padding-bottom:0.5rem"
+                                (click)="PcrRoofData(true)">
+                                <div>
+                                    <h4 class="page-title">
+                                        Check Ins</h4>
+                                </div>
+                                <div style="width:38rem;margin:2rem">
+                                  <div class="form-group  d-flex ">
+                                      <label style="padding-left: 1rem;">Date Created:
+
+                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                          [ColumnName]="'MG_Check_Ins'" [KeyName]="'MG_CheckIns_DateCreated'"></app-ipl-form-history-label-hover>
+                                      <!-- <span class="pervious-answer">{{this.PCR_History.MG_Check_Ins!=undefined ? this.PCR_History.MG_Check_Ins.MG_CheckIns_DateCreated :""}}</span> -->
+
+                                      </label>
+                                      <input type="date" class="form-control form-control-sm" id="MG_CheckIns_DateCreated"
+                                              style="width:14rem;margin-left:1rem;height: 1.8rem"
+                                              [(ngModel)]="MG_Check_Ins.MG_CheckIns_DateCreated">
+                                  </div>
+                                  <div class="form-group  d-flex ">
+                                      <label style="padding-left: 1rem;">Lattude:
+                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                          [ColumnName]="'MG_Check_Ins'" [KeyName]="'MG_CheckIns_Lattude'"></app-ipl-form-history-label-hover>
+                                      <!-- <span class="pervious-answer">{{this.PCR_History.MG_Check_Ins!=undefined ? this.PCR_History.MG_Check_Ins.MG_CheckIns_Lattude :""}}</span> -->
+                                      </label>
+                                      <input type="text" class="form-control form-control-sm" id="MG_CheckIns_Lattude"
+                                              style="width:14rem;margin-left:2.8rem;height: 1.8rem"
+                                              [(ngModel)]="MG_Check_Ins.MG_CheckIns_Lattude">
+                                  </div>
+                                  <div class="form-group  d-flex ">
+                                      <label style="padding-left: 1rem;">Longtude:
+                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                          [ColumnName]="'MG_Check_Ins'" [KeyName]="'MG_CheckIns_Longtude'"></app-ipl-form-history-label-hover>
+                                      <!-- <span class="pervious-answer">{{this.PCR_History.MG_Check_Ins!=undefined ? this.PCR_History.MG_Check_Ins.MG_CheckIns_Longtude :""}}</span> -->
+                                      </label>
+                                      <input type="text" class="form-control form-control-sm" id="MG_CheckIns_Longtude"
+                                              style="width:14rem;margin-left:2rem;height: 1.8rem"
+                                              [(ngModel)]="MG_Check_Ins.MG_CheckIns_Longtude">
+                                  </div>
+                              </div>
+                              <div class="col-12 d-flex">
+
+                                  <fieldset class="border-div" style="width:38rem;margin:1rem">
+                                      <legend style="margin-left:20px; font-size:12px; color:black">Check In Questions
+                                      </legend>
+                                      <div class="d-flex" style="align-items: baseline;justify-content: space-between;">
+                                          <div class="d-flex">
+                                              <div style="padding: 0.5rem; margin-left:2.8rem;">
+                                                  <label style="text-align: end;padding-left: 0.5rem">Has Volations:
+                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                          [ColumnName]="'MG_Check_Ins'" [KeyName]="'MG_CheckIns_HasVolations'"></app-ipl-form-history-label-hover>
+                                                  <!-- <span class="pervious-answer">{{this.PCR_History.MG_Check_Ins!=undefined ? this.PCR_History.MG_Check_Ins.MG_CheckIns_HasVolations :""}}</span> -->
+                                                  </label>
+                                              </div>
+                                              <div style="padding: 0.5rem">
+                                                  <div class="radio radio-info form-check-inline  ">
+                                                      <input type="radio" id="MG_CheckIns_HasVolations" value="Yes"
+                                                          name="MG_CheckIns_HasVolations"
+                                                          [(ngModel)]="MG_Check_Ins.MG_CheckIns_HasVolations">
+                                                      <label for="MG_CheckIns_HasVolations">Yes</label>
+                                                  </div>
+                                                  <div class="radio radio-info form-check-inline ">
+                                                      <input type="radio" id="MG_CheckIns_HasVolations" value="No"
+                                                          name="MG_CheckIns_HasVolations"
+                                                          [(ngModel)]="MG_Check_Ins.MG_CheckIns_HasVolations">
+                                                      <label for="MG_CheckIns_HasVolations">No</label>
+                                                  </div>
+                                              </div>
+                                          </div>
+
+                                          <div class="d-flex">
+                                              <div style="padding: 0.5rem">
+                                                  <label style="text-align: end;padding-left: 0.5rem">Roof Needs Repair:
+                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                          [ColumnName]="'MG_Check_Ins'" [KeyName]="'MG_CheckIns_RoofNeedsRepair'"></app-ipl-form-history-label-hover>
+                                                  <!-- <span class="pervious-answer">{{this.PCR_History.MG_Check_Ins!=undefined ? this.PCR_History.MG_Check_Ins.MG_CheckIns_RoofNeedsRepair :""}}</span> -->
+                                                  </label>
+                                              </div>
+                                              <div style="padding: 0.5rem">
+                                                  <div class="radio radio-info form-check-inline  ">
+                                                      <input type="radio" id="MG_CheckIns_RoofNeedsRepair" value="Yes"
+                                                          name="MG_CheckIns_RoofNeedsRepair"
+                                                          [(ngModel)]="MG_Check_Ins.MG_CheckIns_RoofNeedsRepair">
+                                                      <label for="MG_CheckIns_RoofNeedsRepair">Yes</label>
+                                                  </div>
+                                                  <div class="radio radio-info form-check-inline ">
+                                                      <input type="radio" id="MG_CheckIns_RoofNeedsRepair" value="No"
+                                                          name="MG_CheckIns_RoofNeedsRepair"
+                                                          [(ngModel)]="MG_Check_Ins.MG_CheckIns_RoofNeedsRepair">
+                                                      <label for="MG_CheckIns_RoofNeedsRepair">No</label>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+
+                                      <div class="d-flex" style="align-items: baseline;justify-content: space-between;">
+                                          <div class="d-flex">
+                                              <div style="padding: 0.5rem;margin-left: 1rem;">
+                                                  <label style="text-align: end;padding-left: 0.5rem">Has Exterior Debris:
+                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                          [ColumnName]="'MG_Check_Ins'" [KeyName]="'MG_CheckIns_HasExteriorDebris'"></app-ipl-form-history-label-hover>
+                                                  <!-- <span class="pervious-answer">{{this.PCR_History.MG_Check_Ins!=undefined ? this.PCR_History.MG_Check_Ins.MG_CheckIns_HasExteriorDebris :""}}</span> -->
+                                                  </label>
+                                              </div>
+                                              <div style="padding: 0.5rem">
+                                                  <div class="radio radio-info form-check-inline  ">
+                                                      <input type="radio" id="MG_CheckIns_HasExteriorDebris" value="Yes"
+                                                          name="MG_CheckIns_HasExteriorDebris"
+                                                          [(ngModel)]="MG_Check_Ins.MG_CheckIns_HasExteriorDebris">
+                                                      <label for="MG_CheckIns_HasExteriorDebris">Yes</label>
+                                                  </div>
+                                                  <div class="radio radio-info form-check-inline ">
+                                                      <input type="radio" id="MG_CheckIns_HasExteriorDebris" value="No"
+                                                          name="MG_CheckIns_HasExteriorDebris"
+                                                          [(ngModel)]="MG_Check_Ins.MG_CheckIns_HasExteriorDebris">
+                                                      <label for="MG_CheckIns_HasExteriorDebris">No</label>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <div class="d-flex">
+                                              <div style="padding: 0.5rem">
+                                                  <label style="text-align: end;padding-left: 0.5rem">Is Vacant:
+                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                          [ColumnName]="'MG_Check_Ins'" [KeyName]="'MG_CheckIns_IsVacant'"></app-ipl-form-history-label-hover>
+                                                  <!-- <span class="pervious-answer">{{this.PCR_History.MG_Check_Ins!=undefined ? this.PCR_History.MG_Check_Ins.MG_CheckIns_IsVacant :""}}</span> -->
+                                                  </label>
+                                              </div>
+                                              <div style="padding: 0.5rem">
+                                                  <div class="radio radio-info form-check-inline  ">
+                                                      <input type="radio" id="MG_CheckIns_IsVacant" value="Yes"
+                                                          name="MG_CheckIns_IsVacant"
+                                                          [(ngModel)]="MG_Check_Ins.MG_CheckIns_IsVacant">
+                                                      <label for="MG_CheckIns_IsVacant">Yes</label>
+                                                  </div>
+                                                  <div class="radio radio-info form-check-inline ">
+                                                      <input type="radio" id="MG_CheckIns_IsVacant" value="No"
+                                                          name="MG_CheckIns_IsVacant"
+                                                          [(ngModel)]="MG_Check_Ins.MG_CheckIns_IsVacant">
+                                                      <label for="MG_CheckIns_IsVacant">No</label>
+                                                  </div>
+                                              </div>
+                                          </div>
+
+                                      </div>
+
+                                      <div class="d-flex" style="align-items: baseline;justify-content: space-between;">
+                                          <div class="d-flex">
+                                              <div style="padding: 0.5rem;margin-left: 0.8rem;">
+                                                  <label style="text-align: end;padding-left: 0.5rem">In Lawn Maintained:
+                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                          [ColumnName]="'MG_Check_Ins'" [KeyName]="'MG_CheckIns_InLawnMaintained'"></app-ipl-form-history-label-hover>
+                                                  <!-- <span class="pervious-answer">{{this.PCR_History.MG_Check_Ins!=undefined ? this.PCR_History.MG_Check_Ins.MG_CheckIns_InLawnMaintained :""}}</span> -->
+                                                  </label>
+                                              </div>
+                                              <div style="padding: 0.5rem">
+                                                  <div class="radio radio-info form-check-inline  ">
+                                                      <input type="radio" id="MG_CheckIns_InLawnMaintained" value="Yes"
+                                                          name="MG_CheckIns_InLawnMaintained"
+                                                          [(ngModel)]="MG_Check_Ins.MG_CheckIns_InLawnMaintained">
+                                                      <label for="MG_CheckIns_InLawnMaintained">Yes</label>
+                                                  </div>
+                                                  <div class="radio radio-info form-check-inline ">
+                                                      <input type="radio" id="MG_CheckIns_InLawnMaintained" value="No"
+                                                          name="MG_CheckIns_InLawnMaintained"
+                                                          [(ngModel)]="MG_Check_Ins.MG_CheckIns_InLawnMaintained">
+                                                      <label for="MG_CheckIns_InLawnMaintained">No</label>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <div class="d-flex">
+                                              <div style="padding: 0.5rem">
+                                                  <label style="text-align: end;padding-left: 0.5rem">Has Vandalism:
+                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                          [ColumnName]="'MG_Check_Ins'" [KeyName]="'MG_CheckIns_HasVandalism'"></app-ipl-form-history-label-hover>
+                                                  <!-- <span class="pervious-answer">{{this.PCR_History.MG_Check_Ins!=undefined ? this.PCR_History.MG_Check_Ins.MG_CheckIns_HasVandalism :""}}</span> -->
+                                                  </label>
+                                              </div>
+                                              <div style="padding: 0.5rem">
+                                                  <div class="radio radio-info form-check-inline  ">
+                                                      <input type="radio" id="MG_CheckIns_HasVandalism" value="Yes"
+                                                          name="MG_CheckIns_HasVandalism"
+                                                          [(ngModel)]="MG_Check_Ins.MG_CheckIns_HasVandalism">
+                                                      <label for="MG_CheckIns_HasVandalism">Yes</label>
+                                                  </div>
+                                                  <div class="radio radio-info form-check-inline ">
+                                                      <input type="radio" id="MG_CheckIns_HasVandalism" value="No"
+                                                          name="MG_CheckIns_HasVandalism"
+                                                          [(ngModel)]="MG_Check_Ins.MG_CheckIns_HasVandalism">
+                                                      <label for="MG_CheckIns_HasVandalism">No</label>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+
+                                      <div class="d-flex" style="align-items: baseline;justify-content: space-between;">
+                                          <div class="d-flex">
+                                              <div style="padding: 0.5rem">
+                                                  <label style="text-align: end;padding-left: 0.5rem">Has Eacalated Events:
+                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                          [ColumnName]="'MG_Check_Ins'" [KeyName]="'MG_CheckIns_HasEacalatedEvents'"></app-ipl-form-history-label-hover>
+                                                  <!-- <span class="pervious-answer">{{this.PCR_History.MG_Check_Ins!=undefined ? this.PCR_History.MG_Check_Ins.MG_CheckIns_HasEacalatedEvents :""}}</span> -->
+                                                  </label>
+                                              </div>
+                                              <div style="padding: 0.5rem">
+                                                  <div class="radio radio-info form-check-inline  ">
+                                                      <input type="radio" id="MG_CheckIns_HasEacalatedEvents" value="Yes"
+                                                          name="MG_CheckIns_HasEacalatedEvents"
+                                                          [(ngModel)]="MG_Check_Ins.MG_CheckIns_HasEacalatedEvents">
+                                                      <label for="MG_CheckIns_HasEacalatedEvents">Yes</label>
+                                                  </div>
+                                                  <div class="radio radio-info form-check-inline ">
+                                                      <input type="radio" id="MG_CheckIns_HasEacalatedEvents" value="No"
+                                                          name="MG_CheckIns_HasEacalatedEvents"
+                                                          [(ngModel)]="MG_Check_Ins.MG_CheckIns_HasEacalatedEvents">
+                                                      <label for="MG_CheckIns_HasEacalatedEvents">No</label>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <div class="d-flex">
+                                              <div style="padding: 0.5rem">
+                                                  <label style="text-align: end;padding-left: 0.5rem">Has Heath and Safety Issues:
+                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                          [ColumnName]="'MG_Check_Ins'" [KeyName]="'MG_CheckIns_HasHeathandSafetyIssues'"></app-ipl-form-history-label-hover>
+                                                  <!-- <span class="pervious-answer">{{this.PCR_History.MG_Check_Ins!=undefined ? this.PCR_History.MG_Check_Ins.MG_CheckIns_HasHeathandSafetyIssues :""}}</span> -->
+                                                  </label>
+                                              </div>
+                                              <div style="padding: 0.5rem">
+                                                  <div class="radio radio-info form-check-inline  ">
+                                                      <input type="radio" id="MG_CheckIns_HasHeathandSafetyIssues" value="Yes"
+                                                          name="MG_CheckIns_HasHeathandSafetyIssues"
+                                                          [(ngModel)]="MG_Check_Ins.MG_CheckIns_HasHeathandSafetyIssues">
+                                                      <label for="MG_CheckIns_HasHeathandSafetyIssues">Yes</label>
+                                                  </div>
+                                                  <div class="radio radio-info form-check-inline ">
+                                                      <input type="radio" id="MG_CheckIns_HasHeathandSafetyIssues" value="No"
+                                                          name="MG_CheckIns_HasHeathandSafetyIssues"
+                                                          [(ngModel)]="MG_Check_Ins.MG_CheckIns_HasHeathandSafetyIssues">
+                                                      <label for="MG_CheckIns_HasHeathandSafetyIssues">No</label>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+
+                                      <div class="d-flex" style="align-items: baseline;justify-content: space-between;">
+                                          <div class="d-flex">
+                                              <div style="padding: 0.5rem">
+                                                  <label style="text-align: end;padding-left: 0.5rem">Is Unsecured:
+                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                          [ColumnName]="'MG_Check_Ins'" [KeyName]="'MG_CheckIns_IsUnsecured'"></app-ipl-form-history-label-hover>
+                                                  <!-- <span class="pervious-answer">{{this.PCR_History.MG_Check_Ins!=undefined ? this.PCR_History.MG_Check_Ins.MG_CheckIns_IsUnsecured :""}}</span> -->
+                                                  </label>
+                                              </div>
+                                              <div style="padding: 0.5rem;margin-left: 3.2rem">
+                                                  <div class="radio radio-info form-check-inline  ">
+                                                      <input type="radio" id="MG_CheckIns_IsUnsecured" value="Yes"
+                                                          name="MG_CheckIns_IsUnsecured"
+                                                          [(ngModel)]="MG_Check_Ins.MG_CheckIns_IsUnsecured">
+                                                      <label for="MG_CheckIns_IsUnsecured">Yes</label>
+                                                  </div>
+                                                  <div class="radio radio-info form-check-inline ">
+                                                      <input type="radio" id="MG_CheckIns_IsUnsecured" value="No"
+                                                          name="MG_CheckIns_IsUnsecured"
+                                                          [(ngModel)]="MG_Check_Ins.MG_CheckIns_IsUnsecured">
+                                                      <label for="MG_CheckIns_IsUnsecured">No</label>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <div class="d-flex">
+                                              <div style="padding: 0.5rem">
+                                                  <label style="text-align: end;padding-left: 0.5rem">Has Big Six Damages:
+                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                          [ColumnName]="'MG_Check_Ins'" [KeyName]="'MG_CheckIns_HasBigSixDamages'"></app-ipl-form-history-label-hover>
+                                                  <!-- <span class="pervious-answer">{{this.PCR_History.MG_Check_Ins!=undefined ? this.PCR_History.MG_Check_Ins.MG_CheckIns_HasBigSixDamages :""}}</span> -->
+                                                  </label>
+                                              </div>
+                                              <div style="padding: 0.5rem;">
+                                                  <div class="radio radio-info form-check-inline  ">
+                                                      <input type="radio" id="MG_CheckIns_HasBigSixDamages" value="Yes"
+                                                          name="MG_CheckIns_HasBigSixDamages"
+                                                          [(ngModel)]="MG_Check_Ins.MG_CheckIns_HasBigSixDamages">
+                                                      <label for="MG_CheckIns_HasBigSixDamages">Yes</label>
+                                                  </div>
+                                                  <div class="radio radio-info form-check-inline ">
+                                                      <input type="radio" id="MG_CheckIns_HasBigSixDamages" value="No"
+                                                          name="MG_CheckIns_HasBigSixDamages"
+                                                          [(ngModel)]="MG_Check_Ins.MG_CheckIns_HasBigSixDamages">
+                                                      <label for="MG_CheckIns_HasBigSixDamages">No</label>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </fieldset>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="Securing" role="tabpanel" aria-labelledby="Securing-tab">
+                    <div class="row m-0">
+                        <div class="col-12">
+                            <div
+                                style="box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;padding-bottom:0.5rem"
+                                (click)="DebrisSubmit(true)">
+                                <div>
+                                    <h4 class="page-title">
+                                        Notes</h4>
+                                </div>
+                                <div class="col-12">
+                                    <div class="d-flex">
+                                        <div style="padding: 0.5rem">
+                                            <label style="text-align: end;padding-left: 1.5rem">Note Type:
+                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                          [ColumnName]="'MG_Notes'" [KeyName]="'MG_NoteType'"></app-ipl-form-history-label-hover>
+                                            <!-- <span class="pervious-answer">{{this.PCR_History.MG_Notes!=undefined ? this.PCR_History.MG_Notes.MG_NoteType :""}}</span> -->
+                                            </label>
+                                        </div>
+                                        <div style="padding: 0.5rem;">
+                                            <div class="radio radio-info form-check-inline  ">
+                                                <input type="radio" id="MG_NoteType" value="Property Note"
+                                                    name="MG_NoteType"
+                                                    [(ngModel)]="MG_Notes.MG_NoteType">
+                                                <label for="MG_NoteType">Property Note</label>
+                                            </div>
+                                            <div class="radio radio-info form-check-inline ">
+                                                <input type="radio" id="MG_NoteType" value="Work Order Note"
+                                                    name="MG_NoteType"
+                                                    [(ngModel)]="MG_Notes.MG_NoteType">
+                                                <label for="MG_NoteType">Work Order Note</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex">
+                                        <fieldset class="border-div" style="width:30rem;margin:1rem">
+                                            <legend style="margin-left:20px; font-size:12px; color:black">Note to Add
+
+                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                          [ColumnName]="'MG_Notes'" [KeyName]="'MG_NoteToAdd'"></app-ipl-form-history-label-hover>
+                                            </legend>
+
+                                            <div class="form-group">
+                                                <div style="padding: 0.5rem">
+                                                    <textarea type="text" class="form-control" rows="15"
+                                                        style="width:28rem;"
+                                                        [(ngModel)]="MG_Notes.MG_NoteToAdd"></textarea>
+                                                    <!-- <span class="pervious-answer">{{this.PCR_History.MG_Notes!=undefined ? this.PCR_History.MG_Notes.MG_NoteToAdd :""}}</span> -->
+                                                </div>
+
+                                            </div>
+                                        </fieldset>
+                                        <fieldset class="border-div" style="width:45rem;margin:1rem">
+                                            <legend style="margin-left:20px; font-size:12px; color:black">Existing Notes
+
+                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                          [ColumnName]="'MG_Notes'" [KeyName]="'MG_ExistingNotes'"></app-ipl-form-history-label-hover>
+                                            </legend>
+
+                                            <div class="form-group">
+                                                <div style="padding: 0.5rem">
+                                                    <textarea type="text" class="form-control" rows="15"
+                                                        style="width:43rem;"
+                                                        [(ngModel)]="MG_Notes.MG_ExistingNotes"></textarea>
+                                                    <!-- <span class="pervious-answer">{{this.PCR_History.MG_Notes!=undefined ? this.PCR_History.MG_Notes.MG_ExistingNotes :""}}</span> -->
+                                                </div>
+
+                                            </div>
+                                        </fieldset>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+
+
+                    <div class="tab-pane fade" id="roof" role="tabpanel" aria-labelledby="roof-tab">
+                    <div class="row m-0">
+                        <div class="col-12">
+                            <div
+                                style="box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;padding-bottom:0.5rem"
+                                (click)="PcrRoofData(true)">
+                                <div>
+                                    <h4 class="page-title">
+                                        Expected Completion Date</h4>
+                                </div>
+                                <div style="width:38rem;margin:2rem" class="d-flex">
+                                    <div class="form-group  d-flex ">
+                                        <label style="padding-left: 1rem;width:6rem">Work Order:
+                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                          [ColumnName]="'MG_Expected_Completion_Date'" [KeyName]="'MG_ECD_WorkOrder'"></app-ipl-form-history-label-hover>
+                                        <!-- <span class="pervious-answer">{{this.PCR_History.MG_Expected_Completion_Date!=undefined ? this.PCR_History.MG_Expected_Completion_Date.MG_ECD_WorkOrder :""}}</span> -->
+                                        </label>
+                                        <input type="text" class="form-control form-control-sm" id="MG_ECD_WorkOrder"
+                                            style="width:14rem;margin-left:2.8rem;height: 1.8rem"
+                                            [(ngModel)]="MG_Expected_Completion_Date.MG_ECD_WorkOrder">
+                                    </div>
+                                    <div class="form-group  d-flex ">
+                                        <label style="padding-left: 1rem;">Phase:
+                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                          [ColumnName]="'MG_Expected_Completion_Date'" [KeyName]="'MG_ECD_Phase'"></app-ipl-form-history-label-hover>
+                                        <!-- <span class="pervious-answer">{{this.PCR_History.MG_Expected_Completion_Date!=undefined ? this.PCR_History.MG_Expected_Completion_Date.MG_ECD_Phase :""}}</span> -->
+                                        </label>
+                                        <input type="text" class="form-control form-control-sm" id="MG_ECD_Phase"
+                                            style="width:14rem;margin-left:2rem;height: 1.8rem"
+                                            [(ngModel)]="MG_Expected_Completion_Date.MG_ECD_Phase">
+                                    </div>
+                                    <div class="form-group  d-flex ">
+                                        <label style="padding-left: 1rem;width: 7rem">Original Due Date:
+                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                          [ColumnName]="'MG_Expected_Completion_Date'" [KeyName]="'MG_ECD_OriginalDueDate'"></app-ipl-form-history-label-hover>
+                                        <!-- <span class="pervious-answer">{{this.PCR_History.MG_Expected_Completion_Date!=undefined ? this.PCR_History.MG_Expected_Completion_Date.MG_ECD_OriginalDueDate :""}}</span> -->
+                                        </label>
+                                        <input type="date" class="form-control form-control-sm" id="MG_ECD_OriginalDueDate"
+                                            style="width:14rem;margin-left:1rem;height: 1.8rem"
+                                            [(ngModel)]="MG_Expected_Completion_Date.MG_ECD_OriginalDueDate">
+                                    </div>
+                                </div>
+                                <div class="col-12">
+
+                                    <fieldset class="border-div" style="width:38rem;margin:1rem">
+                                        <legend style="margin-left:20px; font-size:12px; color:black">Submit
+                                        </legend>
+                                        <div class="d-flex">
+                                            <div style="padding: 0.5rem">
+                                                <label style="padding-left: 1rem;width:9rem;">Delay Reason:
+                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                          [ColumnName]="'MG_Expected_Completion_Date'" [KeyName]="'MG_ECD_DelayReason'"></app-ipl-form-history-label-hover>
+                                        <!-- <span class="pervious-answer">{{this.PCR_History.MG_Expected_Completion_Date!=undefined ? this.PCR_History.MG_Expected_Completion_Date.MG_ECD_DelayReason :""}}</span> -->
+                                                </label>
+                                            </div>
+                                            <div style="padding: 0.5rem">
+                                                <div class="radio radio-info form-check-inline  ">
+                                                    <select id="MG_ECD_DelayReason"
+                                                        class="form-control form-control-sm" style="width:25rem"
+                                                        [(ngModel)]="MG_Expected_Completion_Date.MG_ECD_DelayReason">
+                                                        <option value="">Select</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex justify-content-between" style="width:36rem">
+
+                                            <div>
+                                                <div class="form-group  d-flex ">
+                                                    <label style="padding-left: 1rem;width: 9rem">Expected Completion
+                                                        Date:
+                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                          [ColumnName]="'MG_Expected_Completion_Date'" [KeyName]="'MG_ECD_ExpectedCompletionDate'"></app-ipl-form-history-label-hover>
+                                        <!-- <span class="pervious-answer">{{this.PCR_History.MG_Expected_Completion_Date!=undefined ? this.PCR_History.MG_Expected_Completion_Date.MG_ECD_ExpectedCompletionDate :""}}</span> -->
+                                                      </label>
+                                                    <input type="date" class="form-control form-control-sm"
+                                                        id="MG_ECD_ExpectedCompletionDate"
+                                                        style="width:14rem;margin-left:1rem;height: 1.8rem"
+                                                        [(ngModel)]="MG_Expected_Completion_Date.MG_ECD_ExpectedCompletionDate">
+                                                </div>
+                                                <div class="form-group  d-flex ">
+                                                    <label style="padding-left: 1rem;width: 9rem">Date Submitted:
+                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                          [ColumnName]="'MG_Expected_Completion_Date'" [KeyName]="'MG_ECD_DateSubmitted'"></app-ipl-form-history-label-hover>
+                                        <!-- <span class="pervious-answer">{{this.PCR_History.MG_Expected_Completion_Date!=undefined ? this.PCR_History.MG_Expected_Completion_Date.MG_ECD_DateSubmitted :""}}</span> -->
+                                                    </label>
+                                                    <input type="date" class="form-control form-control-sm"
+                                                        id="MG_ECD_DateSubmitted"
+                                                        style="width:14rem;margin-left:1rem;height: 1.8rem"
+                                                        [(ngModel)]="MG_Expected_Completion_Date.MG_ECD_DateSubmitted">
+                                                </div>
+                                                <div class="form-group  d-flex ">
+                                                    <label style="padding-left: 1rem;width: 9rem">By:
+                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                          [ColumnName]="'MG_Expected_Completion_Date'" [KeyName]="'MG_ECD_By'"></app-ipl-form-history-label-hover>
+                                        <!-- <span class="pervious-answer">{{this.PCR_History.MG_Expected_Completion_Date!=undefined ? this.PCR_History.MG_Expected_Completion_Date.MG_ECD_By :""}}</span> -->
+                                                    </label>
+                                                    <input type="text" class="form-control form-control-sm"
+                                                        id="MG_ECD_By"
+                                                        style="width:14rem;margin-left:1rem;height: 1.8rem"
+                                                        [(ngModel)]="MG_Expected_Completion_Date.MG_ECD_By">
+                                                </div>
+                                            </div>
+
+                                            <div>
+                                                <div class="form-group">
+                                                    <div style="padding: 0.5rem">
+                                                        <label style="padding-left: 1rem;width: 7rem">Comment:
+                                        <app-ipl-form-history-label-hover *ngIf="PCR_HistoryList!=undefined && PCR_HistoryList.length>0" [HistoryList]="PCR_HistoryList"
+                                          [ColumnName]="'MG_Expected_Completion_Date'" [KeyName]="'MG_ECD_Comment'"></app-ipl-form-history-label-hover>
+                                                        </label>
+                                                        <textarea type="text" class="form-control" rows="5"
+                                                            style="width:7rem;"
+                                                            [(ngModel)]="MG_Expected_Completion_Date.MG_ECD_Comment"></textarea>
+                                                            <!-- <span class="pervious-answer">{{this.PCR_History.MG_Expected_Completion_Date!=undefined ? this.PCR_History.MG_Expected_Completion_Date.MG_ECD_Comment :""}}</span> -->
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </fieldset>
+
+                                    <fieldset class="border-div" style="margin:1rem">
+                                        <legend style="margin-left:20px; font-size:12px; color:black">Previous
+                                            Submissions/Responses
+                                        </legend>
+                                        <div class="custom-control custom-checkbox mx-3">
+                                            <input type="checkbox" class="custom-control-input"
+                                                id="PCR_IAI_KnoblockLocation_Front">
+                                            <label class="custom-control-label" for="PCR_IAI_KnoblockLocation_Front"
+                                                style="width: 15rem">Show all history (regardless of phase)</label>
+                                        </div>
+
+                                        <table class="table caption-top"
+                                            style="border: 1px solid #b0babf; margin: 1rem; width: 98%;">
+                                            <thead>
+                                                <tr style="border: 1px solid #a4a4a5;">
+                                                    <th scope="col">Submitted Reason</th>
+                                                    <th scope="col">Exp Comp Date Requested</th>
+                                                    <th scope="col">Submitted Comment</th>
+                                                    <th scope="col">Submit Date</th>
+                                                    <th scope="col">Submitted By</th>
+                                                    <th scope="col">Approved/Denied</th>
+                                                    <th scope="col">Approved Completion Date</th>
+                                                    <th scope="col">Response Reason</th>
+                                                    <th scope="col">Response Date</th>
+                                                    <th scope="col">Responded By</th>
+                                                    <th scope="col">Response Comment</th>
+                                                    <th scope="col">WO Phase</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-1 form-row" *ngIf="WorkorderId>0">
+              <div class="float-right" (click)="SaveForm()">
+                &nbsp;&nbsp;&nbsp;
+             <button id="client_viewdetail_1" class="btn btn-primary" type="submit"
+                  [disabled]="isLoading">
+                  <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}"></i>
+                  {{button}}</button>
+              </div>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,350 @@
+export class Service_Link_Form_Master_Model
+{
+  SL_Pkey_ID:number;
+  SL_WO_ID:number;
+  SL_CompanyID:number;
+  SL_General_Information:any;
+  SL_Property_Condition_Report1:any;
+  SL_Property_Condition_Report2:any;
+  SL_Other_Result:any;
+  SL_Bids:any;
+  SL_Summary:any;
+  SL_IsActive:boolean;
+  SL_IsDelete:boolean;
+  fwo_pkyeId:number;
+  ModifiedBy:string;
+  Type:number;
+}
+
+export class SL_General_Information
+{
+  SL_GL_WasWorkPerformed:string;
+  SL_GL_DateServiceStart:string;
+  SL_GL_DateServiceEnd:string;
+  SL_GL_KeyCode:string;
+  SL_GL_LockBoxCode:string;
+  SL_GL_LockBox :string;
+  SL_GL_CorrectedAddress1 :string;
+  SL_GL_CorrectedAddress2 :string;
+  SL_GL_CorrectedCity :string;
+  SL_GL_CorrectedZip:string;
+  SL_GL_HowCorrectedAddressFound:string;
+  SL_GL_GeoLatitude:string;
+  SL_GL_GateAccessCode:string;
+  SL_GL_DAWGS_VPSCode:string;
+  SL_GL_GeoLongitude:string
+  SL_GL_CorrectedState:string
+  SL_GL_HOA:string
+  SL_GL_GetCommunity:string;
+  SL_GL_Review:string;
+
+  SL_GL_AnyEsoalatedEventsObserved:string;
+  SL_GL_AnyHealthAndSafetyIssues:string;
+  SL_GL_AnyUnseouredOpenings:string;
+  SL_GL_AnyViolationsPosted:string;
+  SL_GL_IsDamageDueBoilerExplosion:string;
+  SL_GL_IsDamagesDueToEarthquake:string;
+  SL_GL_IsDamagesDueToFlood:string;
+  SL_GL_IsDamagesDueToHurrioane:string;
+  SL_GL_IsDamagesDueToTarnado:string;
+  SL_GL_IsLewnBeingMaintained:string;
+  SL_GL_IsPropertyOccupied:string;
+  SL_GL_IsRoofDamage:string;
+  SL_GL_IsVandalismPresent:string;
+  SL_GL_IsDamagesDueToFire:string;
+  SL_GL_IsExteriorDebrisPresent:string;
+  SL_GL_Comments:string;
+
+  SL_GL_IsAdditionalWorkNeeded:string;
+  SL_GL_DrainWaterHeater:string;
+  SL_GL_BlowOutPlumbingSystem:string;
+  SL_GL_AntiFreezInTrapes:string;
+  SL_GL_SystemHoldPressure:string;
+  SL_GL_BlowOutHeatingSystem:string;
+  SL_GL_AreUtilitiesActive:string;
+  SL_GL_WaterSource:string;
+  SL_GL_ActiveLeaks:string;
+  SL_GL_PostStickers:string;
+}
+export class SL_Property_Condition_Report1
+{
+  SL_PCR1_DewllingType:string;
+  SL_PCR1_NumberOfstories:string;
+  SL_PCR1_Unit1_IDNumber:string;
+  SL_PCR1_Unit1_OccupancyStatus:string;
+  SL_PCR1_Unit1_Secure_Status:string;
+  SL_PCR1_Unit2_IDNumber:string;
+  SL_PCR1_Unit2_OccupancyStatus:string;
+  SL_PCR1_Unit2_Secure_Status:string;
+  SL_PCR1_Unit3_IDNumber:string;
+  SL_PCR1_Unit3_OccupancyStatus:string;
+  SL_PCR1_Unit3_Secure_Status:string;
+  SL_PCR1_Unit4_IDNumber:string;
+  SL_PCR1_Unit4_OccupancyStatus:string;
+  SL_PCR1_Unit4_Secure_Status:string;
+  SL_PCR1_Make:string;
+  SL_PCR1_Model:string;
+  SL_PCR1_Size:string;
+  SL_PCR1_VIN:string;
+  SL_PCR1_HUD:string;
+  SL_PCR1_Reason_VIN_HUD_NotCompleted:string;
+  SL_PCR1_InMobileHomePark:string;
+  SL_PCR1_OnFoundation:string;
+  SL_PCR1_AffixedToProperty:string;
+  SL_PCR1_StrappingInPlace:string;
+  SL_PCR1_SkirtingInstalled:string;
+  SL_PCR1_PremanentStructureAttached:string;
+  SL_PCR1_WheelsRemoved:string;
+  SL_PCR1_AxlesRemoved:string;
+  SL_PCR1_TongueRemoved:string;
+  SL_PCR1_MobileHomeComments:string;
+  SL_PCR1_OccupancyStatus:string;
+  SL_PCR1_DewllingStyle:string;
+  SL_PCR1_TypeOfContruction:string;
+  SL_PCR1_GarageType:string;
+  SL_PCR1_AdditionalStructuresOnsite:string;
+
+  SL_PCR1_Shed:string;
+  SL_PCR1_Bam:string;
+  SL_PCR1_Outbuilding:string;
+  SL_PCR1_Carport:string;
+  SL_PCR1_Other:string;
+  
+  SL_PCR1_ExteriorDwellingConditions:string;
+  SL_PCR1_ConstructionsInProgress:string;
+  SL_PCR1_Comments:string;
+
+  SL_PCR1_HighVandalismArea:string;
+  SL_PCR1_LawnType:string;
+  SL_PCR1_RoofTarpPresent:string;
+  SL_PCR1_RoofSagging:string;
+  SL_PCR1_RoofDebris:string;
+  SL_PCR1_GutterDebries_Growth:string;
+  SL_PCR1_RoofType:string;
+  SL_PCR1_IsPropertyForRent:string;
+  SL_PCR1_IsPropertyForSale:string;
+  SL_PCR1_UrbanSearchAndResoueSymbolOnBuilding:string;
+  SL_PCR1_PNI_Comments:string;
+
+  SL_PCR1_PoolOnsite:string;
+  SL_PCR1_PoolType:string;
+  SL_PCR1_IsPoolSecure:string;
+  SL_PCR1_PoolSecuringRecommended:string;
+  SL_PCR1_IfSecuringRecommendedExplain:string;
+  SL_PCR1_SpaOrHotTubOnSite:string;
+  SL_PCR1_OtherWaterFeaturesRequireMaintenance:string;
+  SL_PCR1_IfYouExplain:string;
+  SL_PCR1_WFI_Comments:string;
+
+  SL_PCR1_WasInteriorInspectionsCompleted:string;
+  SL_PCR1_SecureUponArrival:string;
+  SL_PCR1_InteriorDwellingConditions:string;
+  SL_PCR1_Attic:string;
+  SL_PCR1_Basement:string;
+  SL_PCR1_InteriorStandingWater:string;
+  SL_PCR1_PersonalPropertyDebris:string;
+  SL_PCR1_SumpPumpBasin:string;
+  SL_PCR1_SumpPumpOperational:string;
+  SL_PCR1_Dehumidifier:string;
+  SL_PCR1_AppliancesPresent_Dishwasher:string;
+  SL_PCR1_AppliancesPresent_Refirgerator:string;
+  SL_PCR1_AppliancesPresent_Oven:string;
+  SL_PCR1_AppliancesPresent_WaterHeater:string;
+  SL_PCR1_AppliancesPresent_BuiltInMicrowave:string;
+  SL_PCR1_AppliancesPresent_KitchenVent:string;
+  SL_PCR1_AppliancesPresent_Furnace:string;
+  SL_PCR1_AppliancesPresent_HVACUnit:string;
+  SL_PCR1_AppliancesPresent_Washer:string;
+  SL_PCR1_AppliancesPresent_GarbageDisposal:string;
+  SL_PCR1_AppliancesPresent_WindowACUnit:string;
+  SL_PCR1_AppliancesPresent_Dryer:string;
+  SL_PCR1_AppliancesPresent_Range:string;
+  SL_PCR1_AppliancesPresent_Stove:string;
+  SL_PCR1_AppliancesPresent_Other:string;
+  SL_PCR1_IF_Comments:string;
+
+}
+export class SL_Property_Condition_Report2
+{
+  SL_PCR2_Electric_Active:string;
+  SL_PCR2_Electric_VerifiedBy:string;
+  SL_PCR2_Electric_IfOtherExplain:string;
+  SL_PCR2_Electric_IfUnknownExplain:string;
+  SL_PCR2_Electric_IfNoMaterAccess_Explain:string;
+  SL_PCR2_Electric_IsLocalAreaRequirement:string;
+  SL_PCR2_Electric_MeterReading:string;
+  SL_PCR2_Electric_SerialNumber:string;
+  SL_PCR2_Electric_MeterNumber:string;
+  SL_PCR2_Electric_UtilityCompancyName:string;
+  SL_PCR2_Electric_PhoneNumber:string;
+  SL_PCR2_Electric_Representative:string;
+  SL_PCR2_Electric_Explain:string;
+  SL_PCR2_Gas_Active:string;
+  SL_PCR2_Gas_VerifiedBy:string;
+  SL_PCR2_Gas_IfOtherExplain:string;
+  SL_PCR2_Gas_IfUnknownExplain:string;
+  SL_PCR2_Gas_IfNoMaterAccess_Explain:string;
+  SL_PCR2_Gas_IsLocalAreaRequirement:string;
+  SL_PCR2_Gas_MeterReading:string;
+  SL_PCR2_Gas_SerialNumber:string;
+  SL_PCR2_Gas_MeterNumber:string;
+  SL_PCR2_Gas_UtilityCompancyName:string;
+  SL_PCR2_Gas_PhoneNumber:string;
+  SL_PCR2_Gas_Representative:string;
+  SL_PCR2_Gas_Explain:string;
+  SL_PCR2_Water_Active:string;
+  SL_PCR2_Water_VerifiedBy:string;
+  SL_PCR2_Water_IfOtherExplain:string;
+  SL_PCR2_Water_IfUnknownExplain:string;
+  SL_PCR2_Water_IfNoMaterAccess_Explain:string;
+  SL_PCR2_Water_IsLocalAreaRequirement:string;
+  SL_PCR2_Water_MeterReading:string;
+  SL_PCR2_Water_SerialNumber:string;
+  SL_PCR2_Water_MeterNumber:string;
+  SL_PCR2_Water_UtilityCompancyName:string;
+  SL_PCR2_Water_PhoneNumber:string;
+  SL_PCR2_Water_Representative:string;
+  SL_PCR2_Water_Explain:string;
+  SL_PCR2_UI_Comment:string;
+
+  SL_PCR2_IDI_PriorTotalEstimateOfDamages:string;
+  SL_PCR2_IDI_TotalEstemateOfDamages:string;
+  SL_PCR2_IDI_DamageComments:string;
+
+  SL_PCR2_IsInteriorDamageExist:string;
+  SL_PCR2_IsKitchanDamage:string;
+  SL_PCR2_IsDinningRoomDamage:string;
+  SL_PCR2_IsLivingRoomDamage:string;
+  SL_PCR2_IsFamilyRoomDamage:string;
+  SL_PCR2_IsBathroomDamage:string;
+  SL_PCR2_IsMasterRoomDamage:string;
+  SL_PCR2_IsOtherBedroomDamage:string;
+  SL_PCR2_IsBasementDamage:string;
+  SL_PCR2_IsAtticDamage:string;
+  SL_PCR2_IsGarbageDamage:string;
+  SL_PCR2_IsOtherAreaDamage:string;
+
+  SL_PCR2_IDI_IsInteriorConditionsAffectSaftey:string;
+  SL_PCR2_IDI_IsInteriorDebrisPresent:string;
+  SL_PCR2_IDI_InteriorDebris_Explain:string;
+  SL_PCR2_IDI_IsInteriorHazardousMaterialPresent:string;
+  SL_PCR2_IDI_IsInteriorDamageDueToBoilerExplosion:string;
+  SL_PCR2_IDI_IsInteriorDamageDueOverflowOfWater:string;
+  SL_PCR2_IDI_InteriorDamageDueToEarthquake:string;
+  SL_PCR2_IDI_IsInteriorDamageDueToEnvironmentalHazard:string;
+  SL_PCR2_IDI_IsInteriorDamageDueToExplosion:string;
+  SL_PCR2_IDI_IsInteriorDamageDueToFallingObjects:string;
+  SL_PCR2_IDI_IsInteriorDamageDueToFire:string;
+  SL_PCR2_IDI_IsInteriorDamageDueToFlood:string;
+  SL_PCR2_IDI_IsInteriorDamageDueToFreezing:string;
+  SL_PCR2_IDI_IsInteriorDamageDueToGraffrti:string;
+  SL_PCR2_IDI_IsInteriorDamageDueToHall:string;
+  SL_PCR2_IDI_IsInteriorDamageDueToHurricant:string;
+  SL_PCR2_IDI_IsInteriorDamageDueToMudisllide:string;
+  SL_PCR2_IDI_IsInteriorDamageDueToLightning:string;
+  SL_PCR2_IDI_IsInteriorDamageDueToMold:string;
+  SL_PCR2_IDI_IsInteriorDamageDueToOwnerNeglest:string;
+  SL_PCR2_IDI_IsInteriorDamageDueToPlumbing:string;
+  SL_PCR2_IDI_IsInteriorDamageDueToRoofLeak:string;
+  SL_PCR2_IDI_IsInteriorDamageDueToSomke:string;
+  SL_PCR2_IDI_IsInteriorDamageDueToStormWind:string;
+  SL_PCR2_IDI_IsInteriorDamageDueToSoddenRupture:string;
+  SL_PCR2_IDI_IsInteriorDamageDueToTheft:string;
+  SL_PCR2_IDI_IsInteriorDamageDueToTornado:string;
+  SL_PCR2_IDI_IsInteriorDamageDueToVandalism:string;
+  SL_PCR2_IDI_IsInteriorDamageDueToVehicle:string;
+  SL_PCR2_IDI_IsInteriorDamageDueToWater:string;
+  SL_PCR2_IDI_IsInteriorDamageDueToWeightOfIce:string;
+  SL_PCR2_IDI_IsInteriorDamageDueToOther:string;
+  SL_PCR2_IDI_IsInteriorDamage_ExplainOther:string;
+  SL_PCR2_IDI_IsInteriorDefectivePaint:string;
+  SL_PCR2_IDI_IsInteriorDamagedOrMissingWalls:string;
+  SL_PCR2_IDI_IsInteriorExposedElectrical:string;
+  SL_PCR2_IDI_IsOtherInteriorDamages:string;
+  SL_PCR2_IDI_OtherInteriorDamages_Explain:string;
+  SL_PCR2_IDI_Comments:string;
+
+
+  SL_PCR2_EDI_PriorTotalEstimateOfDamages:string
+  SL_PCR2_EDI_TotalEstemateOfDamages:string
+  SL_PCR2_EDI_DamageComments:string
+
+  SL_PCR2_EDI_IsExteriorDamageExist:string;
+  SL_PCR2_EDI_IsExteriorDamageExplain:string;
+  SL_PCR2_EDI_IsExteriorConditionsAffectSaftey:string;
+  SL_PCR2_EDI_IsExteriorDebrisPresent:string;
+  SL_PCR2_EDI_IsExteriorHazardousMaterialPresent:string;
+  SL_PCR2_EDI_IsExteriorDamageDueToBoilerExplosion:string;
+  SL_PCR2_EDI_IsExteriorDamageDueToOverflowOfWater:string;
+  SL_PCR2_EDI_IsExteriorDamageDueToEarthquake:string;
+  SL_PCR2_EDI_IsExteriorDamageDueToEnvironmentalHazard:string;
+  SL_PCR2_EDI_IsExteriorDamageDueToExplosion:string;
+  SL_PCR2_EDI_IsExteriorDamageDueToFallingObjects:string;
+  SL_PCR2_EDI_IsExteriorDamageDueToFire:string;
+  SL_PCR2_EDI_IsExteriorDamageDueToFlood:string;
+  SL_PCR2_EDI_IsExteriorDamageDueToFreezing:string;
+  SL_PCR2_EDI_IsExteriorDamageDueToGraffrti:string;
+  SL_PCR2_EDI_IsExteriorDamageDueToHall:string;
+  SL_PCR2_EDI_IsExteriorDamageDueToHurricant:string;
+  SL_PCR2_EDI_IsExteriorDamageDueToMudisllide:string;
+  SL_PCR2_EDI_IsExteriorDamageDueToLightning:string;
+  SL_PCR2_EDI_IsExteriorDamageDueToMold:string;
+  SL_PCR2_EDI_IsExteriorDamageDueToOwnerNeglest:string;
+  SL_PCR2_EDI_IsExteriorDamageDueToPlumbing:string;
+  SL_PCR2_EDI_IsExteriorDamageDueToRoofLeak:string;
+  SL_PCR2_EDI_IsExteriorDamageDueToSomke:string;
+  SL_PCR2_EDI_IsExteriorDamageDueToStormOrWind:string;
+  SL_PCR2_EDI_IsExteriorDamageDueToSoddenRupture:string;
+  SL_PCR2_EDI_IsExteriorDamageDueToTheft:string;
+  SL_PCR2_EDI_IsExteriorDamageDueToTornado:string;
+  SL_PCR2_EDI_IsExteriorDamageDueToVandalism:string;
+  SL_PCR2_EDI_IsExteriorDamageDueToVehicle:string;
+  SL_PCR2_EDI_IsExteriorDamageDueToWater:string;
+  SL_PCR2_EDI_IsExteriorDamageDueToWeightOfIce:string;
+  SL_PCR2_EDI_IsExteriorDamageDueToOther:string;
+  SL_PCR2_EDI_IsAnyRoofDamage:string;
+  SL_PCR2_EDI_IsAnyFoundationsDamage:string;
+  SL_PCR2_EDI_IsChimneyDamage:string;
+  SL_PCR2_EDI_IsFasciaOrSoffitDamage:string;
+  SL_PCR2_EDI_IsDrivewayOrWalkwayDamage:string;
+  SL_PCR2_EDI_IsExteriorDefectivePaint:string;
+  SL_PCR2_EDI_IsExteriorDamagedOrMissingWalls:string;
+  SL_PCR2_EDI_IsExteriorExposedElectrical:string;
+  SL_PCR2_EDI_IsOutbuildingDamage:string;
+  SL_PCR2_EDI_IsOtherExteriorDamage:string;
+  SL_PCR2_EDI_IsSidingDamage:string;
+  SL_PCR2_Comments:string;
+
+  SL_PCR2_VI_Violation_Information:any;
+}
+export class SL_PCR2_VI_Violation_Information{
+  SL_PCR2_VI_PostedViolationsExist:string;
+  SL_PCR2_VI_AgencyNameAvailable:string;
+  SL_PCR2_VI_AgencyName:string;
+  SL_PCR2_VI_AgencyPhoneAvailable:string;
+  SL_PCR2_VI_AgencyPhone:string;
+  SL_PCR2_VI_DateOfViolationAvailable:string;
+  SL_PCR2_VI_DateOfViolation:string;
+  SL_PCR2_VI_ViolationInformationNotAvailableComments:string;
+  SL_PCR2_VI_CureByDate:string;
+  SL_PCR2_VI_CommentsOrDescription:string;
+  SL_PCR2_VI_ViolationsType_AbandonedVehioles:string;
+  SL_PCR2_VI_ViolationsType_NoTrespassing:string;
+  SL_PCR2_VI_ViolationsType_ExteriorDebris:string;
+  SL_PCR2_VI_ViolationsType_PastDueRentOrUtilities:string;
+  SL_PCR2_VI_ViolationsType_DebrisRemoval:string;
+  SL_PCR2_VI_ViolationsType_GrassOrYardCare:string;
+  SL_PCR2_VI_ViolationsType_PublicNuisanceDamage:string;
+  SL_PCR2_VI_ViolationsType_DoNotEnter:string;
+  SL_PCR2_VI_ViolationsType_InteriorDebris:string;
+  SL_PCR2_VI_ViolationsType_Other:string;
+  SL_PCR2_VI_ViolationsType_Demoltions:string;
+  SL_PCR2_VI_ViolationsType_llegalConversion:string;
+  SL_PCR2_VI_ViolationsType_Safety:string;
+  SL_PCR2_VI_ViolationsType_DoNotOccupy:string;
+  SL_PCR2_VI_ViolationsType_MethLba:string;
+  SL_PCR2_VI_ViolationsType_Condemnation:string;
+  SL_PCR2_VI_ViolationsType_Health:string;
+  SL_PCR2_VI_ViolationsType_Pool:string;
+}
+

@@ -1,0 +1,166 @@
+<div class="container-fluid mt-2" [ngClass]="{ 'HelpCursor': isHelpActive }">
+  <div class="">
+    <div class="">
+      <h3 class="module-box-header mb-0">Coverage Map
+        <a class="pull-right" data-toggle="tooltip" (click)="SetHelpFlag()" data-placement="top"
+      title="Item Help" style="cursor: pointer;">Need Help
+      <i class="fas fa-question"></i>&nbsp; &nbsp;
+    </a>
+      </h3>
+      <div class="row m-0 module-subheader p-1 pl-2">
+        <div class="col-lg-12">
+          <div class="form-row">
+            <div class="form-group col-md-2">
+              <label [ngClass]="{ 'HelpCursor': isHelpActive }"
+              (click)="DispalyInfo($event,'State')">State</label>
+              <div class="example-wrapper">
+                <kendo-dropdownlist
+                  [defaultItem]="defaultStateItem"
+                  [data]="dataState"
+                  [filterable]="true"
+                  [textField]="'IPL_StateName'"
+                  [valueField]="'IPL_StateID'"
+                  [(ngModel)]="selectedState"
+                  (filterChange)="handleFilter($event)"
+                  (valueChange)="selectChangeHandler($event)" style="width: 100%;background-color: white !important;"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }"
+                  (click)="DispalyInfo($event,'State')">
+                </kendo-dropdownlist>
+              </div>
+            </div>
+            <div class="form-group col-md-2">
+              <label [ngClass]="{ 'HelpCursor': isHelpActive }"
+              (click)="DispalyInfo($event,'County')">County</label>
+              <div class="example-wrapper">
+                <kendo-dropdownlist
+
+                  [data]="dataCounty"
+                  [defaultItem]="defaultCountyItem"
+                  [filterable]="true"
+                  [textField]="'COUNTY'"
+                  [valueField]="'ID'"
+                  [(ngModel)]="selectedCounty"
+                  (filterChange)="CountyhandleFilter($event)"
+                  (valueChange)="changeCounty($event)"  style="width: 100%;background-color: white !important;"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }"
+              (click)="DispalyInfo($event,'County')">
+                </kendo-dropdownlist>
+              </div>
+            </div>
+            <div class="form-group col-md-2">
+              <label [ngClass]="{ 'HelpCursor': isHelpActive }"
+              (click)="DispalyInfo($event,'Contractor Category')">Contractor Category</label>
+              <div class="example-wrapper">
+                <kendo-dropdownlist
+
+                  [data]="ConCatList"
+                  [defaultItem]="defaultCatItem"
+                  [filterable]="true"
+                  [textField]="'Con_Cat_Name'"
+                  [valueField]="'Con_Cat_PkeyID'"
+                  [(ngModel)]="ContractorMapModelObj.Con_Cat_Id"
+                  (valueChange)="changeCategory(ContractorMapModelObj.Con_Cat_Id)"
+                  [valuePrimitive]="true"  style="width: 100%;background-color: white !important;"
+                  (filterChange)="CategoryhandleFilter($event)"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }"
+              (click)="DispalyInfo($event,'Contractor Category')">
+                </kendo-dropdownlist>
+              </div>
+            </div>
+            <div class="form-group col-md-2">
+              <label [ngClass]="{ 'HelpCursor': isHelpActive }"
+              (click)="DispalyInfo($event,'Contractor')"> Contractor</label>
+              <div class="example-wrapper">
+                <kendo-dropdownlist
+
+                  [defaultItem]="defaultConItem"
+                  [data]="dataCatName"
+                  [filterable]="true"
+                  [textField]="'User_FirstName'"
+                  [valueField]="'User_pkeyID'"
+                  [(ngModel)]="selectedCatName"
+                  (filterChange)="handleCatNameFilter($event)"
+                  (valueChange)="selectCategoryHandler($event)" style="width: 100%;background-color: white !important;"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }"
+              (click)="DispalyInfo($event,'Contractor')">
+                </kendo-dropdownlist>
+              </div>
+            </div>
+            <div class="form-group col-md-4">
+              <button class="btn btn-primary e-btn" (click)="filtercontrator()" style="margin-top: 20px;">Filter</button>
+              <button class="btn btn-primary e-btn" (click)="clearFilter()" style="margin-top: 20px;">Clear</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+  <div class="module-box">
+    <agm-map  [zoom]="5" [latitude]="mapLat" [longitude]="mapLong">
+  <agm-polygon [paths]="paths"></agm-polygon>
+  <ng-container *ngFor="let place of LatLongData">
+    <div *ngIf="place.Con_Cat_Icon!=emptyIcon">
+      <agm-marker *ngIf=" !defaultLatLong "
+          [latitude]="mapLat"
+          [longitude]="mapLong"
+          [iconUrl]="icon">
+      </agm-marker>
+      <agm-overlay *ngIf="place.IPL_Primary_Latitude!=0" [latitude]="place.IPL_Primary_Latitude" [longitude]="place.IPL_Primary_Longitude">
+        <i [class]="place.Con_Cat_Icon+' fa-2x'" [ngStyle]= "{'color': '#'+place.Con_Cat_Back_Color}"></i>
+        <agm-marker
+          [latitude]="place.IPL_Primary_Latitude"
+          [longitude]="place.IPL_Primary_Longitude"
+          iconUrl='{"scaledSize": {"height": 40, "width": 40}}'
+        >
+          <agm-info-window>
+            <div>
+              <strong>Name#: {{place.FirstName}}</strong>
+            </div>
+            <div>
+              <strong>State: {{place.IPL_State}}</strong>
+            </div>
+            <div>
+              <strong>County: {{place.IPL_City}}</strong>
+            </div>
+            <div>
+              <strong>Zip Code: {{place.IPL_Primary_Zip_Code}}</strong>
+            </div>
+            <div>
+              <strong>Phone Number: {{place.User_CellNumber}}</strong>
+            </div>
+            <div>
+              <strong>Email: {{place.User_Email}}</strong>
+            </div>
+          </agm-info-window>
+        </agm-marker>
+      </agm-overlay>
+    </div>
+    <div *ngIf="place.Con_Cat_Icon==emptyIcon">
+        <agm-marker *ngIf="place.IPL_Primary_Latitude!=0" [latitude]="place.IPL_Primary_Latitude" [longitude]="place.IPL_Primary_Longitude">
+          <agm-info-window>
+            <div>
+              <strong>Name#: {{place.FirstName}}</strong>
+            </div>
+            <div>
+              <strong>State: {{place.IPL_State}}</strong>
+            </div>
+            <div>
+              <strong>County: {{place.IPL_City}}</strong>
+            </div>
+            <div>
+              <strong>Zip Code: {{place.IPL_Primary_Zip_Code}}</strong>
+            </div>
+            <div>
+              <strong>Phone Number: {{place.User_CellNumber}}</strong>
+            </div>
+            <div>
+              <strong>Email: {{place.User_Email}}</strong>
+            </div>
+          </agm-info-window>
+        </agm-marker>
+    </div>
+  </ng-container>
+    </agm-map>
+  </div>
+    </div>
+  </div>
+</div>

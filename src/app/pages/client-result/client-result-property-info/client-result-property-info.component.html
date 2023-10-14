@@ -1,0 +1,836 @@
+<div class="row">
+    <div class="col-12">
+        <div class="mt-3">
+            <!-- <div  [hidden]='HeaderCoditional'> -->
+            <!-- <div  class="row module-box-header m-0 pt-0"> -->
+            <h5 (click)='hideGeneraltab()' class="module-box-header m-0 col-12">General
+                <svg style="float: right;" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                    viewBox="0 0 24 24">
+                    <path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z" />
+                </svg>
+            </h5>
+            <!-- </div> -->
+            <div class="row module-box m-0" [hidden]='generalTabhide'>
+
+                <div class="col-2">
+                    <div class="row">
+
+                        <div class="jab">
+                            <div class="overlay">
+                              <ul>
+                                <li>
+                                  <a href="javascript:void(0)" style="color: white;" (click)="OpenModal(OpenModelcontent)">
+                                    <i class="fas fa-camera"></i>&nbsp;Upload
+                                  </a>
+                                </li>
+                              </ul>
+                            </div>
+
+                            <div *ngIf="ClientResultPIModelObj.CRPI_Front_Of_HouseImagePath != ''">
+                              <img [src]="ClientResultPIModelObj.CRPI_Front_Of_HouseImagePath" class="img-responsive"
+                                style="height: 168px; width: 99%;">
+                            </div>
+                            <div *ngIf="ClientResultPIModelObj.CRPI_Front_Of_HouseImagePath == ''">
+                              <img src="../../assets/images/bg.png" class="img-responsive" style="height: 168px; width: 99%;">
+                            </div>
+                        </div>
+                        <!-- <div class=" ng-star-inserted">
+                            <img src="../../assets/images/bg.png" class="img-responsive" style="height:250px; width:100%">
+                            <div class="d-flex mt-3" style="gap:2rem;">
+                                <label style="font-size:larger;">Front Of House</label>
+                                <input type="text" placeholder="Upload" style="width:50%; text-align:center;font-size: larger;">
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+                        <div class="col-10">
+                            <div class="row">
+
+                        <!-- <div class="col-md-3">
+                           <div class="form-group">
+                              <label for="LockCodelbl">Property Type</label>
+                              <select [(ngModel)]="ClientResultPIModelObj.CRPI_Property_Type"
+                                [ngModelOptions]="{standalone: true}" class="form-control form-control-sm">
+                                  <option value="">Select</option>
+                                  <option *ngFor="let item of PropertyTypeList; let i = index" [value]="item.PT_PkeyID">
+                                    {{item.PT_Name}}
+                                  </option>
+                              </select>
+                            </div>
+                        </div> -->
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="PropertyType">Property Type</label>
+
+                                    <!-- <kendo-dropdownlist  class="newClass form-control form-control-sm "
+                                    [data]="PropertyTypedetails"
+                                    [defaultItem]="defaultItem3"
+                                    [filterable]="true"
+                                    [textField]="'PT_Name'"
+                                    [valueField]="'PT_PkeyID'"
+                                    (filterChange)="ListFilter($event,'PropertyType')"
+                                    [(ngModel)]="ClientResultPSModel.CRPS_Property_Type"
+                                    [valuePrimitive]="true"
+                                    [ngModelOptions]="{standalone: true}"
+                                    >
+                                  </kendo-dropdownlist> -->
+                            </div>
+                            </div>
+                            <!-- <div class="col-md-3">
+                            <div class="form-group">
+                              <label for="Bokerinfo">Occupanct Status</label>
+                              <select [(ngModel)]="ClientResultPIModelObj.CRPI_Occupanct_Status"
+                                [ngModelOptions]="{standalone: true}" class="form-control form-control-sm">
+                                  <option value="">Select</option>
+                                  <option *ngFor="let item of OccupancyStatusList; let i = index" [value]="item.OS_PkeyID">
+                                    {{item.OS_Name}}
+                                  </option>
+                              </select>
+                            </div>
+                            </div> -->
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="OccupanctStatus">Occupanct Status</label>
+
+                                        <kendo-dropdownlist  class="newClass form-control form-control-sm "
+                                        [data]="OccupancyStatusdetails"
+                                        [defaultItem]="defaultItem4"
+                                        [filterable]="true"
+                                        [textField]="'OS_Name'"
+                                        [valueField]="'OS_PkeyID'"
+                                        (filterChange)="ListFilter($event,'OccupanctStatus')"
+                                        [(ngModel)]="ClientResultPIModelObj.CRPI_Occupanct_Status"
+                                        [valuePrimitive]="true"
+                                        [ngModelOptions]="{standalone: true}"
+                                        >
+                                      </kendo-dropdownlist>
+                                </div>
+                                </div>
+                            <!-- <div class="col-md-3">
+                            <div class="form-group">
+                              <label for="Bokerinfo">Loan Status</label>
+                              <select [(ngModel)]="ClientResultPIModelObj.CRPI_Loan_Status"
+                                [ngModelOptions]="{standalone: true}" class="form-control form-control-sm">
+                                  <option value="">Select</option>
+                                  <option *ngFor="let item of LoanStatusList; let i = index" [value]="item.LS_PkeyID">
+                                    {{item.LS_Name}}
+                                  </option>
+                              </select>
+                            </div>
+                            </div> -->
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="LoanStatus">Loan Status</label>
+
+                                        <kendo-dropdownlist  class="newClass form-control form-control-sm "
+                                        [data]="LoanStatusdetails"
+                                        [defaultItem]="defaultItem1"
+                                        [filterable]="true"
+                                        [textField]="'LS_Name'"
+                                        [valueField]="'LS_PkeyID'"
+                                        (filterChange)="ListFilter($event,'LoanStatus')"
+                                        [(ngModel)]="ClientResultPIModelObj.CRPI_Loan_Status"
+                                        [valuePrimitive]="true"
+                                        [ngModelOptions]="{standalone: true}"
+                                        >
+                                      </kendo-dropdownlist>
+                                </div>
+                                </div>
+
+                            <!-- <div class="col-md-3">
+                              <div class="form-group">
+                                <label for="LockBoxlbl">Property Status </label>
+                                <select [(ngModel)]="ClientResultPIModelObj.CRPI_Property_Status"
+                                  [ngModelOptions]="{standalone: true}" class="form-control form-control-sm">
+                                    <option value="">Select</option>
+                                    <option *ngFor="let item of PropertyStatusList; let i = index" [value]="item.PS_PkeyID">
+                                      {{item.PS_Name}}
+                                    </option>
+                                </select>
+                              </div>
+                          </div> -->
+                          <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="PropertyStatus">Property Status</label>
+
+                                    <kendo-dropdownlist  class="newClass form-control form-control-sm "
+                                    [data]="PropertyStatusdetails"
+                                    [defaultItem]="defaultItem6"
+                                    [filterable]="true"
+                                    [textField]="'PS_Name'"
+                                    [valueField]="'PS_PkeyID'"
+                                    (filterChange)="ListFilter($event,'PropertyStatus')"
+                                    [(ngModel)]="ClientResultPIModelObj.CRPI_Property_Status"
+                                    [valuePrimitive]="true"
+                                    [ngModelOptions]="{standalone: true}"
+                                    >
+                                  </kendo-dropdownlist>
+                            </div>
+                            </div>
+
+                            <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="PI_DaysInDefaultlbl">Days In Default</label>
+                                <input type="text" numbersonly class="form-control form-control-sm"
+                                    id="PI_DaysInDefaultlbl" [(ngModel)]="ClientResultPIModelObj.PI_DaysInDefault"
+                                    [ngModelOptions]="{standalone: true}" placeholder="Enter Days" style="width:15rem;">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="d-flex" style="gap:20%;">
+                              <div class="form-group">
+                              <label for="PI_DaysInDefaultlbl">Broker</label>
+                              <input type="text" numbersonly class="form-control form-control-sm"
+                              [(ngModel)]="ClientResultPIModelObj.CRPI_BrokerInfo"  id="PI_DaysInDefaultlbl" placeholder="Enter Broker" style="width:15rem;">
+                          </div>
+                          </div>
+                      </div>
+
+                            <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="LockCodelbl">Key Code</label>
+                                <input type="text" numbersonly class="form-control form-control-sm" id="LockCodelbl"
+                                    [(ngModel)]="ClientResultPIModelObj.PI_LockCode"
+                                    [ngModelOptions]="{standalone: true}" placeholder="Enter LockCode" style="height:20%;">
+                            </div>
+                            </div>
+                            <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="Loantype">Loan Type</label>
+
+                                    <kendo-dropdownlist  class="newClass form-control form-control-sm "
+                                    [data]="Lonetypedetails"
+                                    [defaultItem]="defaultItem"
+                                    [filterable]="true"
+                                    [textField]="'Loan_Type'"
+                                    [valueField]="'Loan_pkeyId'"
+                                    (filterChange)="ListFilter($event,'LoanType')"
+                                    [(ngModel)]="ClientResultPIModelObj.CRPI_LoanType"
+                                    [valuePrimitive]="true"
+                                    [ngModelOptions]="{standalone: true}"
+                                    >
+                                  </kendo-dropdownlist>
+                            </div>
+                            </div>
+                            <!-- <div class="col-md-3">
+                                <div class="form-group">
+                                  <label for="LotSizelbl">Property Alert </label>
+                                  <select [(ngModel)]="ClientResultPIModelObj.CRPI_Property_Alert"
+                                    [ngModelOptions]="{standalone: true}" class="form-control form-control-sm">
+                                      <option value="">Select</option>
+                                      <option *ngFor="let item of PropertyAlertList; let i = index" [value]="item.PA_PkeyID">
+                                        {{item.PA_Name}}
+                                      </option>
+                                  </select>
+                                </div>
+                            </div> -->
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="PropertyAlert">Property Alert</label>
+
+                                        <kendo-dropdownlist  class="newClass form-control form-control-sm "
+                                        [data]="PropertyAlertdetails"
+                                        [defaultItem]="defaultItem5"
+                                        [filterable]="true"
+                                        [textField]="'PA_Name'"
+                                        [valueField]="'PA_PkeyID'"
+                                        (filterChange)="ListFilter($event,'PropertyAlert')"
+                                        [(ngModel)]="ClientResultPIModelObj.CRPI_Property_Alert"
+                                        [valuePrimitive]="true"
+                                        [ngModelOptions]="{standalone: true}"
+                                        >
+                                      </kendo-dropdownlist>
+                                </div>
+                                </div>
+                                <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="LockBoxlbl">Lock Box</label>
+                                    <input type="text" numbersonly class="form-control form-control-sm" id="LockBoxlbl"
+                                        [(ngModel)]="ClientResultPIModelObj.PI_LockBox"
+                                        [ngModelOptions]="{standalone: true}" placeholder="Enter LockBox" style="height:20%;">
+                                </div>
+                                </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="custom-control custom-switch">
+                                        <label for="LotSizelbl">&nbsp;</label>
+                                        <br>
+                                        <input type="checkbox" class="custom-control-input" id="PI_ICClbl"
+                                            [(ngModel)]="ClientResultPIModelObj.PI_ICC" (change)="IsIcc(ClientResultPIModelObj.PI_ICC)"
+                                            [ngModelOptions]="{standalone: true}" >
+                                        <label class="custom-control-label" for="PI_ICClbl">ICC</label>
+                                    </div>
+
+                                </div>
+                                </div>
+                            <div class="col-md-3">
+                            <div class="form-group" [hidden]="IsIccDate">
+                                <label for="ICCDatelbl">Date ICC</label>
+                                <div class="input-group" style="width:100%;">
+                                    <label style="color: black;font-weight: 500;"
+                                        class="form-control form-control-sm">{{
+                                        ClientResultPIModelObj.PI_ICCDate |
+                                        date:'MM/dd/yyyy' }}
+                                    </label>
+                                    <input class="form-control form-control-sm" placeholder="Enter date"
+                                        [(ngModel)]="ClientResultPIModelObj.PI_ICCDate"
+                                        [ngModelOptions]="{standalone: true}" id="ICCDatelbl" ngbDatepicker
+                                        #dt1="ngbDatepicker" style="display: none; color: black; ">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-info btn-xs" (click)="dt1.toggle()"
+                                            type="button"> <i class="fas fa-calendar-alt"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <!-- <div class="col-md-2"> -->
+                            <!-- <div class="form-group">
+                                <div class="custom-control custom-switch">
+                                    <label for="LotSizelbl">&nbsp;</label>
+                                    <br>
+                                    <input type="checkbox" class="custom-control-input" id="PI_ICClbl"
+                                        [(ngModel)]="ClientResultPIModelObj.PI_ICC" (change)="IsIcc(ClientResultPIModelObj.PI_ICC)"
+                                        [ngModelOptions]="{standalone: true}" >
+                                    <label class="custom-control-label" for="PI_ICClbl">ICC</label>
+                                </div>
+
+                            </div> -->
+                            <!-- <div class="form-group">
+                                <label for="Mortgagor" style="margin-top: 11px">Mortgagor</label>
+                                <input type="text"  class="form-control form-control-sm" id="Mortgagor"
+                                    [(ngModel)]="ClientResultPIModelObj.CRPI_Mortgagor"
+                                    [ngModelOptions]="{standalone: true}" placeholder="Enter Mortgagor">
+                            </div> -->
+                        <!-- </div> -->
+                        <!-- <div class="col-md-2"> -->
+                            <!-- <div class="form-group" [hidden]="IsIccDate">
+                                <label for="ICCDatelbl">Date ICC</label>
+                                <div class="input-group">
+                                    <label style="color: black;font-weight: 500;"
+                                        class="form-control form-control-sm">{{
+                                        ClientResultPIModelObj.PI_ICCDate |
+                                        date:'MM/dd/yyyy' }}
+                                    </label>
+                                    <input class="form-control form-control-sm" placeholder="Enter date"
+                                        [(ngModel)]="ClientResultPIModelObj.PI_ICCDate"
+                                        [ngModelOptions]="{standalone: true}" id="ICCDatelbl" ngbDatepicker
+                                        #dt1="ngbDatepicker" style="display: none; color: black; ">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-info btn-xs" (click)="dt1.toggle()"
+                                            type="button"> <i class="fas fa-calendar-alt"></i></button>
+                                    </div>
+                                </div>
+                            </div> -->
+                            <!-- <div class="form-group">
+                                <label for="PI_DaysInDefaultlbl">Days In Default</label>
+                                <input type="text" numbersonly class="form-control form-control-sm"
+                                    id="PI_DaysInDefaultlbl" [(ngModel)]="ClientResultPIModelObj.PI_DaysInDefault"
+                                    [ngModelOptions]="{standalone: true}" placeholder="Enter Days">
+                            </div> -->
+                        <!-- </div> -->
+                        <!-- <div class="col-md-2"> -->
+                            <!-- <div class="form-group">
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" id="PI_VPRRequiredlbl"
+                                        [(ngModel)]="ClientResultPIModelObj.PI_VPRRequired"
+                                        [ngModelOptions]="{standalone: true}">
+                                    <label class="custom-control-label" for="PI_VPRRequiredlbl">VPR Required</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" id="PI_VPRFieldlbl"
+                                        [(ngModel)]="ClientResultPIModelObj.PI_VPRField"
+                                        [ngModelOptions]="{standalone: true}">
+                                    <label class="custom-control-label" for="PI_VPRFieldlbl">VPR Field</label>
+                                </div>
+                            </div> -->
+                            <!-- <div class="form-group">
+                                <label for="PI_VPRExpDatelbl">VPR Expiration Date</label>
+                                <div class="input-group">
+                                    <label style="color: black;font-weight: 500;"
+                                        class="form-control form-control-sm">{{
+                                        ClientResultPIModelObj.PI_VPRExpDate |
+                                        date:'MM/dd/yyyy' }}
+                                    </label>
+                                    <input class="form-control form-control-sm" placeholder="Enter date"
+                                        [(ngModel)]="ClientResultPIModelObj.PI_VPRExpDate"
+                                        [ngModelOptions]="{standalone: true}" id="PI_VPRExpDatelbl" ngbDatepicker
+                                        #dt2="ngbDatepicker" style="display: none; color: black; ">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-info btn-xs" (click)="dt2.toggle()"
+                                            type="button"> <i class="fas fa-calendar-alt"></i></button>
+                                    </div>
+                                </div>
+                            </div> -->
+                        <!-- </div> -->
+
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="Loaninfo">Loan Number</label>
+                            <input type="text"  class="form-control form-control-sm" id="Loaninfo"
+                                [(ngModel)]="ClientResultPIModelObj.CRPI_LoanNumber"
+                                [ngModelOptions]="{standalone: true}" placeholder="Enter Loan Number" style="height:20%;">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="LockBoxlbl">Property Locked </label>
+                            <input type="text" numbersonly class="form-control form-control-sm" id="LockBoxlbl"
+                            [(ngModel)]="ClientResultPIModelObj.CRPI_Property_Locked" [ngModelOptions]="{standalone: true}" placeholder="Property Locked" style="height:20%;">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="Loaninfo">Lot Size</label>
+                            <input type="text"  class="form-control form-control-sm" id="Loaninfo"
+                            [(ngModel)]="ClientResultPIModelObj.PI_LotSize" placeholder="Lot Size" style="height:20%;">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="Mortgagor">Mortgagor</label>
+                            <input type="text"  class="form-control form-control-sm" id="Mortgagor"
+                                [(ngModel)]="ClientResultPIModelObj.CRPI_Mortgagor"
+                                [ngModelOptions]="{standalone: true}" placeholder="Enter Mortgagor" style="height:20%;">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="Mortgagor">GPS Latitude</label>
+                            <input type="text"  class="form-control form-control-sm" id="CRPI_GPS_Latitude"
+                                [(ngModel)]="ClientResultPIModelObj.CRPI_GPS_Latitude"
+                                [ngModelOptions]="{standalone: true}" placeholder="Enter Latitude" style="height:20%;">
+                        </div>
+                    </div>
+                        <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="Mortgagor">GPS longitude</label>
+                            <input type="text"  class="form-control form-control-sm" id="CRPI_GPS_longitude"
+                                [(ngModel)]="ClientResultPIModelObj.CRPI_GPS_longitude"
+                                [ngModelOptions]="{standalone: true}" placeholder="Enter Longitude" style="height:20%;">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="PI_VPRRequiredlbl"
+                                    [(ngModel)]="ClientResultPIModelObj.PI_VPRRequired"
+                                    [ngModelOptions]="{standalone: true}">
+                                <label class="custom-control-label" for="PI_VPRRequiredlbl">VPR Required</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="PI_VPRFieldlbl"
+                                    [(ngModel)]="ClientResultPIModelObj.PI_VPRField"
+                                    [ngModelOptions]="{standalone: true}">
+                                <label class="custom-control-label" for="PI_VPRFieldlbl">VPR Field</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="PI_VPRExpDatelbl">VPR Expiration Date</label>
+                            <div class="input-group"  style="width:100%;">
+                                <label style="color: black;font-weight: 500;"
+                                    class="form-control form-control-sm">{{
+                                    ClientResultPIModelObj.PI_VPRExpDate |
+                                    date:'MM/dd/yyyy' }}
+                                </label>
+                                <input class="form-control form-control-sm" placeholder="Enter date"
+                                    [(ngModel)]="ClientResultPIModelObj.PI_VPRExpDate"
+                                    [ngModelOptions]="{standalone: true}" id="PI_VPRExpDatelbl" ngbDatepicker
+                                    #dt2="ngbDatepicker" style="display: none; color: black; ">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-info btn-xs" (click)="dt2.toggle()"
+                                        type="button"> <i class="fas fa-calendar-alt"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- </div> -->
+            </div>
+
+            </div>
+        </div>
+        <div class="mt-3">
+            <!-- <div  [hidden]='HeaderCoditional'> -->
+            <!-- <div  class="row module-box-header m-0 pt-0"> -->
+            <h5 (click)='hideDatetab()' class="module-box-header m-0 col-12">Date
+                <svg style="float: right;" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                    viewBox="0 0 24 24">
+                    <path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z" />
+                </svg>
+            </h5>
+            <!-- </div> -->
+            <div class="module-box" [hidden]='dateTabhide'>
+                <div class="col-lg-12">
+                    <div class="form-row" style="padding-top: 10px;">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="PI_InitDefaultDatelbl">Initial Default</label>
+                                <div class="input-group">
+                                    <label style="color: black;font-weight: 500;"
+                                        class="form-control form-control-sm">{{
+                                        ClientResultPIModelObj.PI_InitDefaultDate |
+                                        date:'MM/dd/yyyy' }}
+                                    </label>
+                                    <input class="form-control form-control-sm" placeholder="Enter date"
+                                        [(ngModel)]="ClientResultPIModelObj.PI_InitDefaultDate"
+                                        [ngModelOptions]="{standalone: true}" id="PI_InitDefaultDatelbl" ngbDatepicker
+                                        #dt3="ngbDatepicker" style="display: none; color: black;" (ngModelChange)="changeDate(ClientResultPIModelObj.PI_InitDefaultDate)">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-info btn-xs" (click)="dt3.toggle()"
+                                            type="button"> <i class="fas fa-calendar-alt"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="PI_PtvDatelbl">FTV</label>
+                                <div class="input-group">
+                                    <label style="color: black;font-weight: 500;"
+                                        class="form-control form-control-sm">{{
+                                        ClientResultPIModelObj.PI_PtvDate |
+                                        date:'MM/dd/yyyy' }}
+                                    </label>
+                                    <input class="form-control form-control-sm" placeholder="Enter date"
+                                        [(ngModel)]="ClientResultPIModelObj.PI_PtvDate"
+                                        [ngModelOptions]="{standalone: true}" id="PI_PtvDatelbl" ngbDatepicker
+                                        #dt4="ngbDatepicker" style="display: none; color: black; ">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-info btn-xs" (click)="dt4.toggle()"
+                                            type="button"> <i class="fas fa-calendar-alt"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="PI_InitSecureDatelbl">Initial Secure</label>
+                                <div class="input-group">
+                                    <label style="color: black;font-weight: 500;"
+                                        class="form-control form-control-sm">{{
+                                        ClientResultPIModelObj.PI_InitSecureDate |
+                                        date:'MM/dd/yyyy' }}
+                                    </label>
+                                    <input class="form-control form-control-sm" placeholder="Enter date"
+                                        [(ngModel)]="ClientResultPIModelObj.PI_InitSecureDate"
+                                        [ngModelOptions]="{standalone: true}" id="PI_InitSecureDatelbl" ngbDatepicker
+                                        #dt5="ngbDatepicker" style="display: none; color: black; ">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-info btn-xs" (click)="dt5.toggle()"
+                                            type="button"> <i class="fas fa-calendar-alt"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="PI_DidRecDatelbl">Deed Recording Date</label>
+                                <div class="input-group">
+                                    <label style="color: black;font-weight: 500;"
+                                        class="form-control form-control-sm">{{
+                                        ClientResultPIModelObj.PI_DidRecDate |
+                                        date:'MM/dd/yyyy' }}
+                                    </label>
+                                    <input class="form-control form-control-sm" placeholder="Enter date"
+                                        [(ngModel)]="ClientResultPIModelObj.PI_DidRecDate"
+                                        [ngModelOptions]="{standalone: true}" id="PI_DidRecDatelbl" ngbDatepicker
+                                        #dt6="ngbDatepicker" style="display: none; color: black; ">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-info btn-xs" (click)="dt6.toggle()"
+                                            type="button"> <i class="fas fa-calendar-alt"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row" style="padding-top: 10px;">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="PI_OrCovDatelbl">Original Conveyance Date</label>
+                                <div class="input-group">
+                                    <label style="color: black;font-weight: 500;"
+                                        class="form-control form-control-sm">{{
+                                        ClientResultPIModelObj.PI_OrCovDate |
+                                        date:'MM/dd/yyyy' }}
+                                    </label>
+                                    <input class="form-control form-control-sm" placeholder="Enter date"
+                                        [(ngModel)]="ClientResultPIModelObj.PI_OrCovDate"
+                                        [ngModelOptions]="{standalone: true}" id="PI_OrCovDatelbl" ngbDatepicker
+                                        #dt8="ngbDatepicker" style="display: none; color: black; ">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-info btn-xs" (click)="dt8.toggle()"
+                                            type="button"> <i class="fas fa-calendar-alt"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="PI_NewCovDatelbl">New Conveyance Date</label>
+                                <div class="input-group">
+                                    <label style="color: black;font-weight: 500;"
+                                        class="form-control form-control-sm">{{
+                                        ClientResultPIModelObj.PI_NewCovDate |
+                                        date:'MM/dd/yyyy' }}
+                                    </label>
+                                    <input class="form-control form-control-sm" placeholder="Enter date"
+                                        [(ngModel)]="ClientResultPIModelObj.PI_NewCovDate"
+                                        [ngModelOptions]="{standalone: true}" id="PI_NewCovDatelbl" ngbDatepicker
+                                        #dt10="ngbDatepicker" style="display: none; color: black; ">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-info btn-xs" (click)="dt10.toggle()"
+                                            type="button"> <i class="fas fa-calendar-alt"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>&nbsp;&nbsp;</label>
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" id="PI_ExtReqlbl"
+                                        [(ngModel)]="ClientResultPIModelObj.PI_ExtReq" (change)="IsExtReq(ClientResultPIModelObj.PI_ExtReq)"
+                                        [ngModelOptions]="{standalone: true}">
+                                    <label class="custom-control-label" for="PI_ExtReqlbl">Extension Request Y/N</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group" [hidden]="IsExtReqDate">
+                                <label for="PI_ExtReqDatelbl">Extension Request Date</label>
+                                <div class="input-group">
+                                    <label style="color: black;font-weight: 500;"
+                                        class="form-control form-control-sm">{{
+                                        ClientResultPIModelObj.PI_ExtReqDate |
+                                        date:'MM/dd/yyyy' }}
+                                    </label>
+                                    <input class="form-control form-control-sm" placeholder="Enter date"
+                                        [(ngModel)]="ClientResultPIModelObj.PI_ExtReqDate"
+                                        [ngModelOptions]="{standalone: true}" id="PI_ExtReqDatelbl" ngbDatepicker
+                                        #dt9="ngbDatepicker" style="display: none; color: black; ">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-info btn-xs" (click)="dt9.toggle()"
+                                            type="button"> <i class="fas fa-calendar-alt"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                <!-- </div> -->
+
+
+            </div>
+        </div>
+
+        <div class="mt-3">
+            <!-- <div  [hidden]='HeaderCoditional'> -->
+            <!-- <div  class="row module-box-header m-0 pt-0"> -->
+            <h5 (click)='hideInvtab()' class="module-box-header m-0 col-12">Invoice/Bid/Utility Status
+                <svg style="float: right;" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                    viewBox="0 0 24 24">
+                    <path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z" />
+                </svg>
+            </h5>
+            <!-- </div> -->
+            <div [hidden]='invTabhide'>
+                <ul class="module-subheader nav nav-tabs w-100" id="myinvpro" role="tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="bidhistory-tab" data-toggle="tab" href="#InvoiceData" role="tab"
+                            aria-controls="InvoiceData" aria-selected="true">Invoice</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="bidhistory-tab" data-toggle="tab" href="#BidData" role="tab"
+                            aria-controls="BidData" aria-selected="true">Bid</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="bidhistory-tab" data-toggle="tab" href="#UtilityData" role="tab"
+                            aria-controls="UtilityData" aria-selected="true">Utility Status</a>
+                    </li>
+                </ul>
+                <div class="tab-content pt-0" id="myinvproContent">
+                    <div class="tab-pane fade show active" id="InvoiceData" role="tabpanel"
+                        aria-labelledby="InvoiceData-tab">
+                        <div class="module-box">
+                            <div class="row">
+                                <div class="col-6">
+                                    <table class="table" *ngIf="InvTabData != undefined">
+                                        <thead>
+                                            <tr style="margin-top: 0; text-align: center;">
+                                                <th>&nbsp;</th>
+                                                <th>Total Client Spend</th>
+                                                <th>Total Contractor Spend</th>
+                                            </tr>
+                                        </thead>
+                                        <tr style="text-align: center;">
+                                            <td style="text-align: center;">Invoices Submitted</td>
+                                            <td style="text-align: center;">${{this.InvTabData.Client_InvoiceTotal}}</td>
+                                            <td style="text-align: center;">${{this.InvTabData.Inv_Con_Sub_Total}}</td>
+                                        </tr>
+                                        <tr style="text-align: center;">
+                                            <td style="text-align: center;">Invoices Paid</td>
+                                            <td style="text-align: center;">${{this.InvTabData.Client_InvoicePaid}}</td>
+                                            <td style="text-align: center;">${{this.InvTabData.Con_InvoicePaid}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="BidData" role="tabpanel" aria-labelledby="BidData-tab">
+                        <div class="module-box">
+                            <div class="row">
+                                <div class="col-4">
+                                    <table class="table" *ngIf="BidTabData != undefined">
+                                        <thead>
+                                            <tr style="margin-top: 0; text-align: center;">
+                                                <th>&nbsp;</th>
+                                                <th>Client/Contractor</th>
+                                            </tr>
+                                        </thead>
+                                        <tr style="text-align: center;">
+                                            <td style="text-align: center;">Line items Bids Submitted</td>
+                                            <td style="text-align: center;">{{this.BidTabData.BidCount}}</td>
+                                        </tr>
+                                        <tr style="text-align: center;">
+                                            <td style="text-align: center;">Approved</td>
+                                            <td style="text-align: center;">{{this.BidTabData.ApproveCount}}</td>
+                                        </tr>
+                                        <tr style="text-align: center;">
+                                            <td style="text-align: center;">Pending</td>
+                                            <td style="text-align: center;">{{this.BidTabData.PendingCount}}</td>
+                                        </tr>
+                                        <tr style="text-align: center;">
+                                            <td style="text-align: center;">Rejected</td>
+                                            <td style="text-align: center;">{{this.BidTabData.RejectCount}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="UtilityData" role="tabpanel" aria-labelledby="UtilityData-tab">
+                        <div class="module-box">
+                            <div class="row">
+                                <div class="col-6">
+                                    <table class="table">
+                                        <thead>
+                                            <tr style="margin-top: 0; text-align: center;">
+                                                <th>&nbsp;</th>
+                                                <th>On/Off</th>
+                                                <th>Last Reading</th>
+                                                <th>Total Spent</th>
+                                            </tr>
+                                        </thead>
+                                        <tr style="text-align: center;">
+                                            <td style="text-align: center;">Gas</td>
+                                            <td style="text-align: center;">
+                                                <div class="custom-control custom-switch">
+                                                <input type="checkbox" class="custom-control-input" id="PI_Gasonlbl"
+                                                    [(ngModel)]="ClientResultPIModelObj.PI_Gason"
+                                                    [ngModelOptions]="{standalone: true}">
+                                                <label class="custom-control-label" for="PI_Gasonlbl">&nbsp;</label>
+                                            </div></td>
+                                            <td style="text-align: center;"><input type="text" numbersonly class="form-control form-control-sm" id="PI_GasLRlbl"
+                                                [(ngModel)]="ClientResultPIModelObj.PI_GasLR"
+                                                [ngModelOptions]="{standalone: true}"></td>
+                                            <td style="text-align: center;"><input type="text" numbersonly class="form-control form-control-sm" id="PI_GasTSlbl"
+                                                [(ngModel)]="ClientResultPIModelObj.PI_GasTS"
+                                                [ngModelOptions]="{standalone: true}"></td>
+                                        </tr>
+                                        <tr style="text-align: center;">
+                                            <td style="text-align: center;">Electric</td>
+                                            <td style="text-align: center;"><div class="custom-control custom-switch">
+                                                <input type="checkbox" class="custom-control-input" id="PI_Elctonlbl"
+                                                    [(ngModel)]="ClientResultPIModelObj.PI_Elcton"
+                                                    [ngModelOptions]="{standalone: true}">
+                                                <label class="custom-control-label" for="PI_Elctonlbl">&nbsp;</label>
+                                            </div></td>
+                                            <td style="text-align: center;"><input type="text" numbersonly class="form-control form-control-sm" id="PI_ElctLRlbl"
+                                                [(ngModel)]="ClientResultPIModelObj.PI_ElctLR"
+                                                [ngModelOptions]="{standalone: true}"></td>
+                                            <td style="text-align: center;"><input type="text" numbersonly class="form-control form-control-sm" id="PI_ElctTSlbl"
+                                                [(ngModel)]="ClientResultPIModelObj.PI_ElctTS"
+                                                [ngModelOptions]="{standalone: true}"></td>
+                                        </tr>
+                                        <tr style="text-align: center;">
+                                            <td style="text-align: center;">Water</td>
+                                            <td style="text-align: center;"><div class="custom-control custom-switch">
+                                                <input type="checkbox" class="custom-control-input" id="PI_Wateronlbl"
+                                                    [(ngModel)]="ClientResultPIModelObj.PI_Wateron"
+                                                    [ngModelOptions]="{standalone: true}">
+                                                <label class="custom-control-label" for="PI_Wateronlbl">&nbsp;</label>
+                                            </div></td>
+                                            <td style="text-align: center;"><input type="text" numbersonly class="form-control form-control-sm" id="PI_WaterLRlbl"
+                                                [(ngModel)]="ClientResultPIModelObj.PI_WaterLR"
+                                                [ngModelOptions]="{standalone: true}"></td>
+                                            <td style="text-align: center;"><input type="text" numbersonly class="form-control form-control-sm" id="PI_WaterTSlbl"
+                                                [(ngModel)]="ClientResultPIModelObj.PI_WaterTS"
+                                                [ngModelOptions]="{standalone: true}"></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-3">
+            <div class="col-md-2">
+                <button id="client_viewdetail_1" class="btn btn-primary btn-xs" [disabled]="isPILoading"
+                    (click)="SavePIForm()" style="width:164px">
+                    <i *ngIf="isPILoading" class="fa fa-spinner fa-spin"
+                        style="margin-right: 5px;"></i>{{piButton}}</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<ng-template #OpenModelcontent let-modal>
+    <div class="modal-header">
+      <h4> Upload Photos</h4>
+      <button type="button" class="close" (click)="modal.close('Save click')" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-md-6">
+          <input #imageInput type="file" class="form-control" id="image" title="Select File..." accept="image/*">
+        </div>
+        <div class="col-6">
+          <button (click)="processImage(imageInput)" class="btn btn-primary waves-effect waves-light"
+            [disabled]="isLoading">
+            <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}"></i>
+            {{button}}</button>
+        </div>
+      </div>
+      <br>
+    </div>
+  </ng-template>

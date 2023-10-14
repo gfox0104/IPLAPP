@@ -1,0 +1,222 @@
+<form>
+  <div class="form-row p-2">
+    <div class="col-md-3">
+      <div class="form-group">
+        <div class="input-group">
+          <label class="form-control form-control-sm">{{ Filter.StartDate |
+            date:'MM/dd/yyyy'}}
+            <span *ngIf="!Filter.StartDate"></span>
+          </label>
+          <input class="form-control form-control-sm" placeholder="yyyy-mm-dd"
+            [(ngModel)]="Filter.StartDate" [ngModelOptions]="{standalone: true}"
+            ngbDatepicker #dt9="ngbDatepicker" firstDayOfWeek="7" style="display: none">
+          <div class="input-group-append">
+            <button class="btn btn-outline-info btn-xs"
+              (click)="dt9.toggle()" type="button"><i class="fas fa-calendar-alt"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <div class="input-group">
+          <label class="form-control form-control-sm">{{ Filter.EndDate |
+            date:'MM/dd/yyyy'}}
+            <span *ngIf="!Filter.EndDate"></span>
+          </label>
+          <input class="form-control form-control-sm" placeholder="yyyy-mm-dd"
+            [(ngModel)]="Filter.EndDate" [ngModelOptions]="{standalone: true}"
+            ngbDatepicker #dt1="ngbDatepicker" firstDayOfWeek="7" style="display: none">
+          <div class="input-group-append">
+            <button class="btn btn-outline-info btn-xs"
+              (click)="dt1.toggle()" type="button"><i class="fas fa-calendar-alt"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="getProfitLossByMonth()"
+      >
+        Run Report
+      </button>
+      <!--  -->
+      <button
+        (click)="getProfiAndLossByCustomerPDF()"
+        type="button"
+        class="btn btn-primary ml-2"
+      >
+        <i
+          class="fa"
+          [ngClass]="{
+            'fa-spin fa-spinner': IsPDFGenerate,
+            'fa-print': !IsPDFGenerate
+          }"
+        ></i>
+      </button>
+    </div>
+  </div>
+</form>
+
+<div class="report" [ngStyle]="{ margin: SetMargin }">
+  <div class="reportArea">
+    <div class="reportHeader focusable-text">
+      <div class="text-center">
+        <div class="companyNameRow">
+          <div class="companyName">
+            <h4>Profit and Loss By Customer</h4>
+          </div>
+        </div>
+        <div class="dateRangeRow">
+          As of {{ CurrentDate | date: "mediumDate" }}
+        </div>
+      </div>
+    </div>
+    <div
+      *ngIf="!IsLoadProfitLossByCustomer"
+      class="dgrid-header dgrid-header-row ui-widget-header"
+      role="row"
+      style="width: 100%"
+    >
+      <table class="dgrid-row-table" role="presentation">
+        <tr>
+          <th
+            style="width: 15%"
+            class="dgrid-cell dgrid-cell-padding dgrid-column-0-1 right bold"
+            role="columnheader"
+            rowspan="1"
+          >
+            <div class="dgrid-resize-header-container">
+              <div class="dgrid-resize-handle resizeNode-0-1"></div>
+            </div>
+          </th>
+          <th
+            *ngFor="let cust of CustomerList; let i = index"
+            class="dgrid-cell dgrid-cell-padding dgrid-column-0-1 right bold"
+            role="columnheader"
+            rowspan="1"
+          >
+            <div class="dgrid-resize-header-container">
+              {{ cust.Name }}
+              <div class="dgrid-resize-handle resizeNode-0-1"></div>
+            </div>
+          </th>
+
+          <th
+            style="width: 10%"
+            class="dgrid-cell dgrid-cell-padding dgrid-column-0-5 right bold"
+            role="columnheader"
+            rowspan="1"
+          >
+            <div class="dgrid-resize-header-container">
+              Total
+              <div class="dgrid-resize-handle resizeNode-0-5"></div>
+            </div>
+          </th>
+        </tr>
+        <tr class="tr-border-bottom" (click)="IncomeIsShow = !IncomeIsShow">
+          <td>
+            <i
+              class="fa"
+              [ngClass]="{
+                'fa-caret-right': !IncomeIsShow,
+                'fa-caret-down': IncomeIsShow
+              }"
+            ></i>
+            Income
+          </td>
+          <td
+            class="text-center"
+            *ngFor="
+              let total of ProfitAndLossByCustomer.CustomerByWiseTotalIncome
+            "
+          >
+            <div>
+              <span [hidden]="IncomeIsShow">{{ total | currency }}</span>
+            </div>
+          </td>
+          <td class="text-right">
+            <div *ngIf="ProfitAndLossByCustomer != null">
+              <b [hidden]="IncomeIsShow">{{
+                ProfitAndLossByCustomer.TotalIncome | currency
+              }}</b>
+            </div>
+          </td>
+        </tr>
+        <tr [hidden]="!IncomeIsShow">
+          <td>
+            <div class="dgrid-expando-icon" style="float: left">&nbsp;</div>
+            Sales
+          </td>
+          <td
+            class="text-center"
+            *ngFor="
+              let total of ProfitAndLossByCustomer.CustomerByWiseTotalSales
+            "
+          >
+            <div>
+              {{ total | currency }}
+            </div>
+          </td>
+          <td>
+            <span *ngIf="ProfitAndLossByCustomer != null">{{
+              ProfitAndLossByCustomer.TotalSales | currency
+            }}</span>
+          </td>
+        </tr>
+        <tr class="tr-border-bottom tr-border-top" [hidden]="!IncomeIsShow">
+          <td>
+            <div class="dgrid-expando-icon" style="float: left">&nbsp;</div>
+            Total Income
+          </td>
+          <td
+            class="text-center"
+            *ngFor="
+              let total of ProfitAndLossByCustomer.CustomerByWiseTotalIncome
+            "
+          >
+            <div>
+              <b>{{ total | currency }}</b>
+            </div>
+          </td>
+          <td>
+            <span *ngIf="ProfitAndLossByCustomer != null"
+              ><b>{{ ProfitAndLossByCustomer.TotalIncome | currency }}</b></span
+            >
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="dgrid-expando-icon" style="float: left">&nbsp;</div>
+            Profit
+          </td>
+          <td
+            *ngFor="let total of ProfitAndLossByCustomer.CustomerByWiseProfit"
+            class="text-center"
+          >
+            <div>
+              <b> {{ total | currency }}</b>
+            </div>
+          </td>
+          <td class="text-right">
+            <span>
+              <span
+                *ngIf="
+                  ProfitAndLossByCustomer != null &&
+                  ProfitAndLossByCustomer.Profit != null
+                "
+                ><b>{{ ProfitAndLossByCustomer.Profit | currency }}</b>
+              </span></span
+            >
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="row">
+      <div *ngIf="IsLoadProfitLossByCustomer" class="loader m-auto"></div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,705 @@
+<div class="row dashboardAccounting" >
+  <div class="col-md-2 sidebar">
+    <app-account-sidebar [ActiveLink]="8"></app-account-sidebar>
+  </div>
+  <div class="col-md-10 mainDashboard" >
+    <div class="">
+      <div class="row m-0">
+        <div class="col-12">
+          <div class="">
+            <ul
+              class="nav nav-tabs"
+            >
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  routerLinkActive="active"
+                  routerLink="/accounting/accountingdetails/client"
+                  >Customer
+                </a>
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  routerLinkActive="active"
+                  routerLink="/accounting/accountingdetails/invoice"
+                  >Invoice</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  routerLinkActive="active"
+                  routerLink="/accounting/accountingdetails/task"
+                  >Services</a
+                >
+              </li>
+            </ul>
+            <div>
+              <br>
+              <div class="row m-0">
+                <div class="col-md-8">
+                  <h3
+                    class="page-title"
+                  >
+                    Customer
+                  </h3>
+                </div>
+                <div class="col-md-4 align-self-center">
+                  <button
+                    type="button"
+                    class="btn btn-primary float-right"
+                    (click)="AddClient(ClientFORM)"
+                  >
+                    <i class="fas fa-plus-circle"></i> Add
+                  </button>
+                </div>
+              </div>
+              <hr>
+              <div class="newDiv">
+                <div class="row m-0 griddiv px-2">
+                  <kendo-grid
+                    class="module-box"
+                    #gridUser
+                    [kendoGridBinding]="ClientList"
+                    [pageSize]="15"
+                    [loading]="IsLoad"
+                    [pageable]="true"
+                    [sortable]="true"
+                    [filterable]="true"
+                    [selectable]="true"
+                    [groupable]="false"
+                    [skip]="state.skip"
+                    [sort]="state.sort"
+                    [filter]="state.filter"
+                    (dataStateChange)="dataStateChange($event)"
+                  >
+                    <kendo-grid-column
+                      field="Company_Name"
+                      title="Customer Name"
+
+                    >
+                    </kendo-grid-column>
+                    <kendo-grid-column
+                      field="Billing_Address"
+                      title="Address"
+
+                    >
+
+                  </kendo-grid-column>
+
+                  <kendo-grid-column
+                    field="IPL_StateName"
+                    title="State"
+
+                  >
+
+                    </kendo-grid-column>
+                    <kendo-grid-column
+                      field="City"
+                      title="City"
+
+                    >
+
+                    </kendo-grid-column>
+                      
+                    <kendo-grid-column
+                      field="User_CreatedBy"
+                      title="CreatedBy"
+
+                    >
+
+                    </kendo-grid-column>
+
+                    <kendo-grid-column
+                      field="User_ModifiedBy"
+                      title="LastModifiedBy"
+
+                    >
+
+                    </kendo-grid-column>
+
+                    <kendo-grid-column
+                      title="Active"
+
+                    >
+
+                      <ng-template
+                        kendoGridCellTemplate
+                        let-dataItem
+                        let-i="rowIndex"
+                      >
+                        <div class="custom-control custom-switch">
+                          <input
+                            type="checkbox"
+                            (change)="checkChangeClient(dataItem)"
+                            class="custom-control-input"
+                            id="switchisActive{{ i }}"
+                            [checked]="dataItem.IsActive"
+                          />
+                          <label
+                            class="custom-control-label"
+                            for="switchisActive{{ i }}"
+                          ></label>
+                        </div>
+                      </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column
+                      title="Action"
+
+                    >
+                      <ng-template
+                        kendoGridCellTemplate
+                        let-dataItem
+                        let-rowIndex="rowIndex"
+                      >
+                        <button
+                          [disabled]="false"
+                          (click)="editDetails($event, dataItem, ClientFORM)"
+                        >
+                          <i class="fa fa-pencil-square-o"></i></button
+                        >&nbsp;
+                      </ng-template>
+                    </kendo-grid-column>
+                    <ng-template
+                      kendoPagerTemplate
+                      let-totalPages="totalPages"
+                      let-currentPage="currentPage"
+                    >
+                      <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+                      <kendo-pager-numeric-buttons
+                        [buttonCount]="10"
+                      ></kendo-pager-numeric-buttons>
+                      <kendo-pager-next-buttons></kendo-pager-next-buttons>
+                      <kendo-pager-info></kendo-pager-info>
+                      <kendo-pager-page-sizes
+                        [pageSizes]="[15, 30, 50, 100]"
+                      ></kendo-pager-page-sizes>
+                    </ng-template>
+                  </kendo-grid>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #ClientFORM let-modal>
+  <div class="modal-header">
+    <button type="button" class="close" aria-label="Close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body"  [ngClass]="{ 'HelpCursor': isHelpActive }">
+    <div
+      class="module-box p-2"
+    >
+      <form
+        [formGroup]="formUsrCommonGroup"
+        (ngSubmit)="FormButtonPOPUp(EditClientForm)"
+        #EditClientForm="ngForm"
+      >
+        <div class="form-row m-0">
+          <div
+            class="form-group col-md-12 text-center module-subheader"
+          >
+            <h5>Customer Information
+              <a class="pull-right" data-toggle="tooltip" (click)="SetHelpFlag()" data-placement="top"
+              title="Item Help" style="cursor: pointer;">Need Help
+              <i class="fas fa-question"></i>&nbsp; &nbsp;
+            </a>
+            </h5>
+          </div>
+          <br />
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="row">
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label for="title" [ngClass]="{ 'HelpCursor': isHelpActive }"(click)="DispalyInfo($event,'Title')"> Title </label>
+                  <div class="input-group">
+                    <input
+                      type="text"
+                      class="form-control form-control-sm"
+                      placeholder="Title.."
+                      name="Title"
+                      #Title="ngModel"
+                      [(ngModel)]="Client.Title"
+                      [ngModelOptions]="{ standalone: true }"
+                      (click)="DispalyInfo($event,'Title')"
+                      [readonly]="isHelpActive"
+                      [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="firstname" [ngClass]="{ 'HelpCursor': isHelpActive }"(click)="DispalyInfo($event,'First Name')">
+                    First Name <i class="text-danger">*</i></label
+                  >
+                  <div class="input-group">
+                    <input
+                      type="text"
+                      placeholder="First name.."
+                      class="form-control form-control-sm"
+                      name="Company_First_Name"
+                      [(ngModel)]="Client.Company_First_Name"
+                      formControlName="Company_First_Name"
+                      (keyup)="RemovewhiteSpace($event, 'Company_First_Name')"
+                      [ngClass]="{
+                        'is-invalid':
+                          EditClientForm.submitted &&
+                          fx.Company_First_Name.errors
+                      }"
+                      (click)="DispalyInfo($event,'First Name')"
+                      [readonly]="isHelpActive"
+                      [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    />
+                  </div>
+                  <div
+                    *ngIf="
+                      EditClientForm.submitted && fx.Company_First_Name.errors
+                    "
+                    class="text-danger"
+                  >
+                    <div *ngIf="fx.Company_First_Name.errors">
+                      this field is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="middlename"[ngClass]="{ 'HelpCursor': isHelpActive }"(click)="DispalyInfo($event,'Middle Name')"> Middle Name </label>
+                  <div class="input-group">
+                    <input
+                      id="middlename"
+                      type="text"
+                      name="Company_Middle_Name"
+                      [(ngModel)]="Client.Company_Middle_Name"
+                      [ngModelOptions]="{ standalone: true }"
+                      class="form-control form-control-sm"
+                      placeholder="Middle name.."
+                      (click)="DispalyInfo($event,'Middle Name')"
+                      [readonly]="isHelpActive"
+                      [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="lastname" [ngClass]="{ 'HelpCursor': isHelpActive }"(click)="DispalyInfo($event,'Last Name')">
+                    Last Name <i class="text-danger">*</i></label
+                  >
+                  <div class="input-group">
+                    <input
+                      id="lastname"
+                      type="text"
+                      name="Company_Last_Name"
+                      [(ngModel)]="Client.Company_Last_Name"
+                      class="form-control form-control-sm"
+                      placeholder="Last name.."
+                      (keyup)="RemovewhiteSpace($event, 'Company_Last_Name')"
+                      formControlName="Company_Last_Name"
+                      [ngClass]="{
+                        'is-invalid':
+                          EditClientForm.submitted &&
+                          fx.Company_Last_Name.errors
+                      }"
+                      (click)="DispalyInfo($event,'Last Name')"
+                      [readonly]="isHelpActive"
+                      [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    />
+                  </div>
+                  <div
+                    *ngIf="
+                      EditClientForm.submitted && fx.Company_Last_Name.errors
+                    "
+                    class="text-danger"
+                  >
+                    <div *ngIf="fx.Company_Last_Name.errors">
+                      this field is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="company" [ngClass]="{ 'HelpCursor': isHelpActive }"(click)="DispalyInfo($event,'Company')">
+                    Company <i class="text-danger">*</i></label
+                  >
+                  <div class="input-group">
+                    <input
+                      id="company"
+                      name="Company_Name"
+                      type="text"
+                      class="form-control form-control-sm"
+                      placeholder="Company.."
+                      [(ngModel)]="Client.Company_Name"
+                      (keyup)="RemovewhiteSpace($event, 'Company_Name')"
+                      formControlName="Company_Name"
+                      [ngClass]="{
+                        'is-invalid':
+                          EditClientForm.submitted && fx.Company_Name.errors
+                      }"
+                      (click)="DispalyInfo($event,'Company')"
+                      [readonly]="isHelpActive"
+                      [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    />
+                  </div>
+                  <div
+                    *ngIf="EditClientForm.submitted && fx.Company_Name.errors"
+                    class="text-danger"
+                  >
+                    <div *ngIf="fx.Company_Name.errors">
+                      this field is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="displayname" [ngClass]="{ 'HelpCursor': isHelpActive }"(click)="DispalyInfo($event,'Display name as')">
+                    Display name as <i class="text-danger">*</i></label
+                  >
+                  <div class="input-group">
+                    <input
+                      id="displayname"
+                      type="text"
+                      name="ContactName"
+                      [(ngModel)]="Client.ContactName"
+                      class="form-control form-control-sm"
+                      placeholder="Display Name.."
+                      (keyup)="RemovewhiteSpace($event, 'ContactName')"
+                      [ngClass]="{ 'HelpCursor': isHelpActive }"(click)="DispalyInfo($event,'Display name as')"
+                      formControlName="ContactName"
+                      [ngClass]="{
+                        'is-invalid':
+                          EditClientForm.submitted && fx.ContactName.errors
+                      }"
+                      (click)="DispalyInfo($event,'Display name as')"
+                      [readonly]="isHelpActive"
+                      [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    />
+                  </div>
+                  <div
+                    *ngIf="EditClientForm.submitted && fx.ContactName.errors"
+                    class="text-danger"
+                  >
+                    <div *ngIf="fx.ContactName.errors">
+                      this field is required
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="PrintAsCheck" [ngClass]="{ 'HelpCursor': isHelpActive }"(click)="DispalyInfo($event,'Print on check as')"> Print on check as</label>
+                  <div class="input-group col-md-2">
+                    <input
+                      id="PrintAsCheck"
+                      type="checkbox"
+                      name="PrintAsCheck"
+                      [(ngModel)]="Client.PrintAsCheck"
+                      [ngModelOptions]="{ standalone: true }"
+                      class=" form-control-sm"
+                      placeholder="Print on check.."
+                      (click)="DispalyInfo($event,'Print on check as')"
+                      [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="address" [ngClass]="{ 'HelpCursor': isHelpActive }"(click)="DispalyInfo($event,'Address')"> Address</label>
+                  <div class="input-group">
+                    <textarea
+                      id="address"
+                      name="Billing_Address"
+                      [(ngModel)]="Client.Billing_Address"
+                      [ngModelOptions]="{ standalone: true }"
+                      class="form-control form-control-sm"
+                      placeholder="Adress"
+                      (click)="DispalyInfo($event,'Address')"
+                      [readonly]="isHelpActive"
+                      [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    ></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <div class="input-group">
+
+
+                    <kendo-dropdownlist
+                      class="form-control form-control-sm"
+                      [data]="Statelist"
+                      [filterable]="true"
+                      [textField]="'IPL_StateName'"
+                      [valueField]="'IPL_StateID'"
+                      (filterChange)="StateFilter($event)"
+                      [(ngModel)]="Client.StateId"
+                      [valuePrimitive]="true"
+                      [ngModelOptions]="{ standalone: true }"
+                      (click)="DispalyInfo($event,'State')"
+                      [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    >
+                    </kendo-dropdownlist>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <div class="input-group">
+                    <input
+                      id="country"
+                      type="text"
+                      name="Country"
+                      [(ngModel)]="Client.Country"
+                      [ngModelOptions]="{ standalone: true }"
+                      class="form-control form-control-sm"
+                      placeholder="Country.."
+                      (click)="DispalyInfo($event,'Country')"
+                      [readonly]="isHelpActive"
+                      [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    />
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <div class="input-group">
+                    <input
+                      id="city"
+                      type="text"
+                      name="City"
+                      [(ngModel)]="Client.City"
+                      [ngModelOptions]="{ standalone: true }"
+                      class="form-control form-control-sm"
+                      placeholder="City/Town.."
+                      (click)="DispalyInfo($event,'City')"
+                      [readonly]="isHelpActive"
+                      [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <div class="input-group">
+                    <input
+                      id="zipcode"
+                      type="text"
+                      name="ZipCode"
+                      [(ngModel)]="Client.ZipCode"
+                      [ngModelOptions]="{ standalone: true }"
+                      class="form-control form-control-sm"
+                      placeholder="Zip code.."
+                      (click)="DispalyInfo($event,'ZipCode')"
+                      [readonly]="isHelpActive"
+                      [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    />
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="email"  (click)="DispalyInfo($event,'Email')"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }"> Email <i class="text-danger">*</i></label>
+                  <div class="input-group">
+                    <input
+                      id="email"
+                      type="text"
+                      name="ContactEmail"
+                      [(ngModel)]="Client.ContactEmail"
+                      class="form-control form-control-sm"
+                      placeholder="Email.."
+                      (keyup)="RemovewhiteSpace($event, 'ContactEmail')"
+                      formControlName="ContactEmail"
+                      [ngClass]="{
+                        'is-invalid':
+                          EditClientForm.submitted && fx.ContactEmail.errors
+                      }"
+                      (click)="DispalyInfo($event,'Email')"
+                      [readonly]="isHelpActive"
+                      [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    />
+                  </div>
+                  <div
+                    *ngIf="EditClientForm.submitted && fx.ContactEmail.errors"
+                    class="text-danger"
+                  >
+                    <div *ngIf="fx.ContactEmail.errors.required">
+                      this field is required
+                    </div>
+                    <div *ngIf="fx.ContactEmail.errors.email">
+                      Email must be a valid email address
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="phone"  (click)="DispalyInfo($event,'Phone')"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }"> Phone</label>
+                  <div class="input-group">
+                    <input
+                      id="phone"
+                      type="text"
+                      name="ContactPhone"
+                      [(ngModel)]="Client.ContactPhone"
+                      [ngModelOptions]="{ standalone: true }"
+                      class="form-control form-control-sm"
+                      placeholder="Phone.."
+                      (click)="DispalyInfo($event,'Phone')"
+                      [ngClass]="{ 'HelpCursor': isHelpActive }"
+                      [readonly]="isHelpActive"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="mobile"   (click)="DispalyInfo($event,'Mobile')"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }"> Mobile</label>
+                  <div class="input-group">
+                    <input
+                      id="mobile"
+                      type="text"
+                      name="IPL_Mobile"
+                      [(ngModel)]="Client.IPL_Mobile"
+                      [ngModelOptions]="{ standalone: true }"
+                      class="form-control form-control-sm"
+                      placeholder="Mobile.."
+                      (click)="DispalyInfo($event,'Mobile')"
+                      [ngClass]="{ 'HelpCursor': isHelpActive }"
+                      [readonly]="isHelpActive"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="fax"  (click)="DispalyInfo($event,'Fax')"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }"> Fax</label>
+                  <div class="input-group">
+                    <input
+                      id="fax"
+                      type="text"
+                      name="FaxNumbar"
+                      [(ngModel)]="Client.FaxNumbar"
+                      [ngModelOptions]="{ standalone: true }"
+                      class="form-control form-control-sm"
+                      placeholder="fax.."
+                      (click)="DispalyInfo($event,'Fax')"
+                      [ngClass]="{ 'HelpCursor': isHelpActive }"
+                      [readonly]="isHelpActive"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="website" (click)="DispalyInfo($event,'Other')"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }"> Other</label>
+                  <div class="input-group">
+                    <input
+                      id="Other"
+                      type="text"
+                      name="Other"
+                      [(ngModel)]="Client.Other"
+                      [ngModelOptions]="{ standalone: true }"
+                      class="form-control form-control-sm"
+                      placeholder="Website.."
+                      (click)="DispalyInfo($event,'Other')"
+                      [ngClass]="{ 'HelpCursor': isHelpActive }"
+                      [readonly]="isHelpActive"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-8">
+                <div class="form-group">
+                  <label for="website" (click)="DispalyInfo($event,'Website')"
+                  [ngClass]="{ 'HelpCursor': isHelpActive }"> Website</label>
+                  <div class="input-group">
+                    <input
+                      id="website"
+                      type="text"
+                      name="Website"
+                      [(ngModel)]="Client.Website"
+                      [ngModelOptions]="{ standalone: true }"
+                      class="form-control form-control-sm"
+                      placeholder="Website.."
+                      (click)="DispalyInfo($event,'Website')"
+                      [ngClass]="{ 'HelpCursor': isHelpActive }"
+                      [readonly]="isHelpActive"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr />
+        <div class="col-md-12 text-right">
+          <button
+            class="btn btn-success btn-lg mr-2"
+            type="button"
+            (click)="close()"
+          >
+            Cancel
+          </button>
+          <button
+            class="btn btn-success btn-lg"
+            [disabled]="isLoading"
+            type="submit"
+          >
+            <i
+              class="fa"
+              [ngClass]="{
+                'fa-spin fa-spinner': isLoading,
+                'fa-save': !isLoading
+              }"
+            ></i>
+            {{ button }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>

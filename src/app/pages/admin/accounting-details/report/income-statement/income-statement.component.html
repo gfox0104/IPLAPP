@@ -1,0 +1,135 @@
+<form>
+  <div class="form-row p-2">
+    <div class="col-md-3">
+      <div class="form-group">
+        <div class="input-group">
+          <label class="form-control form-control-sm">{{ Filter.StartDate |
+            date:'MM/dd/yyyy'}}
+            <span *ngIf="!Filter.StartDate"></span>
+          </label>
+          <input class="form-control form-control-sm" placeholder="yyyy-mm-dd"
+            [(ngModel)]="Filter.StartDate" [ngModelOptions]="{standalone: true}"
+            ngbDatepicker #dt9="ngbDatepicker" firstDayOfWeek="7" style="display: none">
+          <div class="input-group-append">
+            <button class="btn btn-outline-info btn-xs"
+              (click)="dt9.toggle()" type="button"><i class="fas fa-calendar-alt"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <div class="input-group">
+          <label class="form-control form-control-sm">{{ Filter.EndDate |
+            date:'MM/dd/yyyy'}}
+            <span *ngIf="!Filter.EndDate"></span>
+          </label>
+          <input class="form-control form-control-sm" placeholder="yyyy-mm-dd"
+            [(ngModel)]="Filter.EndDate" [ngModelOptions]="{standalone: true}"
+            ngbDatepicker #dt1="ngbDatepicker" firstDayOfWeek="7" style="display: none">
+          <div class="input-group-append">
+            <button class="btn btn-outline-info btn-xs"
+              (click)="dt1.toggle()" type="button"><i class="fas fa-calendar-alt"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="getIncomeStatement()"
+      >
+        Run Report
+      </button>
+      <button
+        type="button"
+        (click)="getIncomeStatementPDF()"
+        class="btn btn-primary ml-2"
+      >
+        <i
+          class="fa"
+          [ngClass]="{
+            'fa-spin fa-spinner': IsPDFGenerate,
+            'fa-print': !IsPDFGenerate
+          }"
+        ></i>
+      </button>
+
+    </div>
+  </div>
+</form>
+
+<div class="row m-0 px-2">
+  <kendo-grid
+    class="module-box"
+    #gridUser
+    [kendoGridBinding]="IncomeStatement"
+    [pageSize]="15"
+    [pageable]="true"
+    [sortable]="true"
+    [filterable]="false"
+    [selectable]="true"
+    [loading]="IsLoadIncome"
+    [groupable]="false"
+    [skip]="state.skip"
+    [sort]="state.sort"
+    [filter]="state.filter"
+    (dataStateChange)="dataStateChange($event)"
+  >
+    <kendo-grid-column field="IsExpense" title="Account Type">
+      <ng-template kendoGridCellTemplate let-dataItem>
+        {{ dataItem.IsExpense ? "Expenses" : "Revenues" }}
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="AccountCode" title="Account Code">
+    </kendo-grid-column>
+    <kendo-grid-column field="AccountName" title="Account Name">
+    </kendo-grid-column>
+    <kendo-grid-column field="Amount" title="Amount" format="{0:c}">
+      <ng-template
+        kendoGridGroupFooterTemplate
+        let-group="group"
+        let-aggregates
+      >
+        <span title="Group Footer Template for UnitPrice">
+          Sum: ${{ aggregates.Amount.sum | currency }}
+        </span>
+      </ng-template>
+    </kendo-grid-column>
+
+    <ng-template
+      kendoPagerTemplate
+      let-totalPages="totalPages"
+      let-currentPage="currentPage"
+    >
+      <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+      <kendo-pager-numeric-buttons
+        [buttonCount]="10"
+      ></kendo-pager-numeric-buttons>
+      <kendo-pager-next-buttons></kendo-pager-next-buttons>
+      <kendo-pager-info></kendo-pager-info>
+      <kendo-pager-page-sizes
+        [pageSizes]="[15, 30, 50, 100]"
+      ></kendo-pager-page-sizes>
+    </ng-template>
+  </kendo-grid>
+</div>
+<div class="row footer-summary">
+  <div class="col-md-9 col-9 label"><p>Net Income :</p></div>
+  <div class="col-md-3 text col-3">
+    <p>{{ getSumRevenue() - getSumExpense() | currency}}</p>
+  </div>
+</div>
+<div class="row footer-summary">
+  <div class="col-md-9 col-9 label"><p>Total Revenue :</p></div>
+  <div class="col-md-3 text col-3">
+    <p>{{ getSumRevenue() | currency}}</p>
+  </div>
+</div>
+<div class="row footer-summary">
+  <div class="col-md-9 col-9 label"><p>Total Expense :</p></div>
+  <div class="col-md-3 text col-3">
+    <p>{{ getSumExpense() | currency }}</p>
+  </div>
+</div>

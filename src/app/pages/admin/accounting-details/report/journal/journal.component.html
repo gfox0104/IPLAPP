@@ -1,0 +1,245 @@
+<form>
+  <div class="form-row p-2">
+    <div class="col-md-3">
+      <div class="form-group">
+        <div class="input-group">
+          <label class="form-control form-control-sm">{{ Filter.StartDate |
+            date:'MM/dd/yyyy'}}
+            <span *ngIf="!Filter.StartDate"></span>
+          </label>
+          <input class="form-control form-control-sm" placeholder="yyyy-mm-dd"
+            [(ngModel)]="Filter.StartDate" [ngModelOptions]="{standalone: true}"
+            ngbDatepicker #dt9="ngbDatepicker" firstDayOfWeek="7" style="display: none">
+          <div class="input-group-append">
+            <button class="btn btn-outline-info btn-xs"
+              (click)="dt9.toggle()" type="button"><i class="fas fa-calendar-alt"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <div class="input-group">
+          <label class="form-control form-control-sm">{{ Filter.EndDate |
+            date:'MM/dd/yyyy'}}
+            <span *ngIf="!Filter.EndDate"></span>
+          </label>
+          <input class="form-control form-control-sm" placeholder="yyyy-mm-dd"
+            [(ngModel)]="Filter.EndDate" [ngModelOptions]="{standalone: true}"
+            ngbDatepicker #dt1="ngbDatepicker" firstDayOfWeek="7" style="display: none">
+          <div class="input-group-append">
+            <button class="btn btn-outline-info btn-xs"
+              (click)="dt1.toggle()" type="button"><i class="fas fa-calendar-alt"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <button type="button" class="btn btn-primary" (click)="getJournal()">
+        Run Report
+      </button>
+      <button
+        type="button"
+        class="btn btn-primary ml-2"
+        (click)="getProfiAndLossDeatilsPDF()"
+      >
+        <i
+          class="fa"
+          [ngClass]="{
+            'fa-spin fa-spinner': IsPDFGenerate,
+            'fa-print': !IsPDFGenerate
+          }"
+        ></i>
+      </button>
+
+    </div>
+  </div>
+</form>
+
+<div class="report">
+  <div class="reportToolBar">
+    <div class="rightDiv">
+      <div class="pencilIcon hi hi-email"></div>
+      <div class="pencilIcon hi hi-print"></div>
+      <div class="pencilIcon hi hi-export">
+        <span class="downArrow"></span>
+      </div>
+      <div class="gearIcon hi hi-settings-o"></div>
+    </div>
+  </div>
+  <div class="reportArea">
+    <div class="reportHeader focusable-text">
+      <div class="text-center">
+        <div class="companyNameRow">
+          <div class="companyName">
+            <h4>Journal</h4>
+          </div>
+        </div>
+        <div class="dateRangeRow">
+          As of {{ CurrentDate | date: "mediumDate" }}
+        </div>
+      </div>
+    </div>
+    <div *ngIf="!IsLoadJournal">
+      <div
+        class="dgrid dgrid-grid ui-widget dgrid-03 reportsGrid universal-grid reportsGridCompact"
+      >
+        <div
+          class="tableRow headerRow v1 stickyReportHeader"
+          style="
+            border-top: 1px solid #6e6b6b;
+            border-bottom: 1px solid #6e6b6b;
+            font-weight: 600;
+          "
+        >
+          <div class="bold firstColumn">
+            Date
+            <div class="resize-element"></div>
+          </div>
+          <div class="bold">
+            Transaction Type
+            <div class="resize-element"></div>
+          </div>
+          <div class="bold text-center">
+            No.
+            <div class="resize-element"></div>
+          </div>
+          <div class="bold">
+            Name
+            <div class="resize-element"></div>
+          </div>
+          <div class="bold">
+            Memo/Description
+            <div class="resize-element"></div>
+          </div>
+          <div class="bold" style="min-width: 215px">
+            Account
+            <div class="resize-element"></div>
+          </div>
+          <div class="right bold">
+            Dedit
+            <div class="resize-element"></div>
+          </div>
+          <div class="right pad bold">
+            Credit
+            <div class="resize-element"></div>
+          </div>
+        </div>
+        <div
+          class="dgrid-scroller"
+          style="margin-top: 38px; margin-bottom: 0px"
+        >
+          <div class="dgrid-content ui-widget-content ml-2 mr-2">
+            <div
+              role="row"
+              class="dgrid-row ui-state-default dgrid-row-odd"
+              id="dgrid_0-row-9"
+            >
+              <table class="dgrid-row-table" role="presentation">
+
+                <tr *ngFor="let journal of Journal.Journal">
+                  <td class="text-center" style="width: 10%">
+                    {{ journal.CreatedDate | date }}
+                  </td>
+                  <td class="text-center" style="width: 10%">
+                    {{ journal.TransactionType }}
+                  </td>
+                  <td class="text-center" style="width: 10%">
+                    {{ journal.NO }}
+                  </td>
+                  <td class="text-left pl-3" style="width: 15%">
+                    {{ journal.Name }}
+                  </td>
+                  <td class="text-center" style="width: 10%">
+                    <section *ngFor="let memo of journal.Memo_Description">
+                      <p class="mb-0">
+                        {{ memo }}
+                      </p>
+                    </section>
+                  </td>
+                  <td class="text-left pl-3" style="width: 20%">
+                    <p *ngFor="let Name of journal.AccountNames" class="m-0">
+                      {{ Name }}
+                    </p>
+                    <b> <p class="m-0">Total</p></b>
+                  </td>
+                  <td class="text-left pl-3" style="width: 10%">
+                    <section *ngFor="let debit of journal.DebitAmount">
+                      <p class="m-0" *ngIf="debit > 0">
+                        {{ debit | currency }}
+                      </p>
+                      <p class="m-0" *ngIf="debit == 0">-</p>
+                    </section>
+                    <b>
+                      <p class="m-0">
+                        {{ journal.TotalDebitAmount | currency }}
+                      </p></b
+                    >
+                  </td>
+                  <td class="text-left" style="width: 10%">
+                    <section *ngFor="let credit of journal.CreditAmount">
+                      <p class="m-0" *ngIf="credit > 0">
+                        {{ credit | currency }}
+                      </p>
+                      <p class="m-0" *ngIf="credit == 0">-</p>
+                    </section>
+                    <b>
+                      <p class="m-0">
+                        {{ journal.TotalCreditAmount | currency }}
+                      </p></b
+                    >
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div
+              role="row"
+              class="dgrid-row ui-state-default dgrid-row-odd"
+              id="dgrid_0-row-9"
+            >
+              <table class="dgrid-row-table" role="presentation">
+                <tr>
+                  <td
+                    style="width: 78.2%"
+                    class="dgrid-cell dgrid-cell-padding dgrid-column-0-0 black left grandTotalRow topSummary"
+                    role="gridcell"
+                  >
+                    <div
+                      class="dgrid-expando-icon"
+                      style="margin-left: 40px; float: left"
+                    >
+                      &nbsp;
+                    </div>
+
+                    <b>Total</b>
+                  </td>
+
+                  <td
+                    class="dgrid-cell text-center dgrid-cell-padding dgrid-column-0-1 right wrap grandTotalRow topSummary bold"
+                    role="gridcell"
+                  >
+                    <span *ngIf="Journal != null && Journal.DebitTotal"
+                      ><b>{{ Journal.DebitTotal | currency }}</b></span
+                    >
+                  </td>
+                  <td
+                    class="dgrid-cell text-center dgrid-cell-padding dgrid-column-0-1 right wrap grandTotalRow topSummary bold"
+                    role="gridcell"
+                  >
+                    <span *ngIf="Journal != null && Journal.CreditTotal"
+                      ><b>{{ Journal.CreditTotal | currency }}</b></span
+                    >
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+          <div class="dgrid-footer dgrid-footer-hidden"></div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div *ngIf="IsLoadJournal" class="loader m-auto"></div>
+    </div>
+  </div>
+</div>

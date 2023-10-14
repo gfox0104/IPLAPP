@@ -1,0 +1,95 @@
+<div class="chat" [ngClass]="{'chat-left':!isSelf, 'chat-right':isSelf}">
+  <div class="chat-avatar" *ngIf="!isSelf">
+    <a href="#" class="avatar">
+      {{item.name.split(' ')[0].toUpperCase().slice(0, 1)}}{{item.name.split(' ').length
+      > 1 ? item.name.split(' ')[1].toUpperCase().slice(0, 1) : '-'}}
+    </a>
+  </div>
+  <div class="chat-body">
+    <div class="chat-bubble">
+
+
+      <div *ngIf="item.messagesType===undefined">
+        <div class="chat-content" *ngIf="!item.message.includes('rare-lambda-245821')">
+          <p style="color:black;" *ngIf="!item.message.includes('https')" class="my-1 receive">
+            {{item.message}}</p>
+          <a *ngIf="item.message.includes('https')" class="my-1 receive" href="{{item.message}}"
+            target="_blank">{{item.message}}</a>
+          <small>{{convertTime(item.time)}}</small>
+        </div>
+        <div class="chat-content img-content"
+          *ngIf="item.message.includes('rare-lambda-245821') && !item.message.includes('.pdf') && !item.message.includes('.doc') && !item.message.includes('.docx') && !item.message.includes('.xlsx')">
+          <div class="chat-img-group clearfix">
+            <a class="chat-img-attach">
+              <img width="182" height="137" alt="" src="{{item.message}}">
+              <div class="chat-placeholder">
+              </div>
+            </a>
+          </div>
+          <small>{{convertTime(item.time)}}</small>
+        </div>
+        <div class="chat-content"
+          *ngIf="item.message.includes('.pdf') || item.message.includes('.doc') || item.message.includes('.docx') || item.message.includes('.xlsx')">
+          <ul class="attach-list">
+            <li class="pdf-file" *ngIf="item.message.includes('.pdf')"><i class="fa fa-file-pdf-o"></i> <a
+                href="{{item.message}}" target="_blank">{{getFileName(item.message)}}</a></li>
+            <li class="pdf-file" *ngIf="item.message.includes('.doc') || item.message.includes('.docx')"><i
+                class="fa fa-file-word-o"></i> <a href="{{item.message}}"
+                target="_blank">{{getFileName(item.message)}}</a></li>
+            <li class="pdf-file" *ngIf="item.message.includes('.xlsx')"><i class="fa fa-file-excel-o"></i> <a
+                href="{{item.message}}" target="_blank">{{getFileName(item.message)}}</a></li>
+          </ul>
+          <small>{{convertTime(item.time)}}</small>
+        </div>
+      </div>
+
+
+      <div class="chat-content" *ngIf="item.messagesType===messageTypeEnum.Default_Text ||item.messagesType===messageTypeEnum.Text || item.messagesType===messageTypeEnum.Link">
+        <p style="color:black;" *ngIf="item.messagesType===messageTypeEnum.Text ||item.messagesType===messageTypeEnum.Default_Text " class="my-1 receive">{{item.message}}</p>
+        <p><a *ngIf="item.messagesType===messageTypeEnum.Link" class="my-1 receive" href="{{item.message}}" target="_blank">{{item.message}}</a></p>
+        <small>{{convertTime(item.time)}}</small>
+      </div>
+      <div *ngIf="item.messagesType===messageTypeEnum.Images && item.images!=undefined && item.images!=null && item.images.length>0">
+        <div *ngFor="let image of item.images">
+          <div class="chat-content img-content">
+            <div class="chat-img-group clearfix">
+              <a class="chat-img-attach">
+                <img width="182" height="137" alt="" src="{{image}}">
+                <div class="chat-placeholder">
+
+                </div>
+              </a>
+            </div>
+            <small>{{convertTime(item.time)}}</small>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="item.messagesType===messageTypeEnum.Documents && item.images!=undefined && item.images!=null && item.images.length>0">
+        <div *ngFor="let document of item.images">
+          <div class="chat-content">
+            <ul class="attach-list">
+              <li class="pdf-file">
+                <i class="fa fa-solid fa-file"></i>&nbsp;
+                <a href="{{document}}" target="_blank">{{getFileName(document)}}</a>
+              </li>
+            </ul>
+            <small>{{convertTime(item.time)}}</small>
+          </div>
+        </div>
+      </div>
+      <div class="chat-action-btns">
+        <ul>
+          <li data-toggle="modal" data-target="#add_chat_share_message" *ngIf="IsDisplayShareButton">
+            <a href="javascript:void(0)" data-toggle="tooltip" data-placement="top" title="Share Message"
+              class="share-msg" title="Share"><i class="fa fa-share-alt" (click)="getShare(item.message)"></i></a>
+          </li>
+          <ng-container *ngIf="isSelf">
+            <li>
+              <a class="del-msg"><i class="fa fa-trash" (click)="delete(item)"></i></a>
+            </li>
+          </ng-container>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

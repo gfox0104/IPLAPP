@@ -1,0 +1,385 @@
+<div class="row" style="margin-right: -6px;">
+  <div class="col-12" style="margin-top: -6px;">
+    <app-photosMeta-client-result></app-photosMeta-client-result>
+
+    <div class="mt-3" style="margin-left: 12px; margin-right: 7px;">
+      <!-- <div  [hidden]='HeaderCoditional'> -->
+      <!-- <div  class="row module-box-header m-0 pt-0"> -->
+      <h5 (click)='hidePCR()' class="module-box-header m-0 col-12">Forms
+        <svg style="float: right;" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+          <path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z" />
+        </svg>
+      </h5>
+      <!-- </div> -->
+      <div class="module-box" [hidden]='tabhide'>
+        <div class=" row ml-1 pt-1" [hidden]='hidePcrBtn'>
+          <button id="client_viewdetail_1" class="btn btn-primary" (click)="pcrform(pcrAddForm)">
+            <i class="fas fa-plus-circle mr-1"></i>Forms
+          </button>
+          <button id="client_viewdetail_1" style="margin-left: 12px;" class="btn btn-primary" (click)="ReAdjustPcrForm()"
+                    [disabled]="isLoadingReAdjust"><i class="fa"
+                      [ngClass]="{'fa-spin fa-spinner': isLoadingReAdjust, 'fas fa-plus-circle mr-1': !isLoadingReAdjust}"></i>
+                    {{btnReAdjustPcr}}</button>
+
+        </div>
+        <!-- </div> -->
+
+        <div class="pl-1 pb-1 table-responsive">
+          <table class="table mb-0 mt-2 pcr-form-table">
+            <thead class="thead">
+              <tr>
+                <th>Form Name</th>
+                <th style="text-align: center;">Required</th>
+                <th>Last Edit</th>
+                <th style="text-align: center;">Actions</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <ng-container *ngIf="!noData && gridData">
+                <tr *ngFor="let form of gridData;let i = index;">
+                  <td class="left">
+                    {{form.FormName}}
+                  </td>
+                  <td>
+                    <div style="text-align: center;">
+                      <div class="custom-control custom-switch">
+                        <input type="checkbox" (change)="requiredChange($event,form.FormId)"
+                          class="custom-control-input" id="switchisActive{{i}}" [checked]="form.IsRequired">
+                        <label class="custom-control-label" for="switchisActive{{i}}"></label>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    {{form.lastEdited}}
+                  </td>
+                  <td style="text-align: center;" *ngIf="!form.IsFbDynamicForm">
+                    <span (click)="EditForm(true, formList, form.FormId)"><i class="fa fa-eye mr-1"></i></span>&nbsp;
+                    <span (click)="EditForm(false, formList, form.FormId)"><i class="fa fa-edit mr-1"></i> </span>&nbsp;
+                    <span (click)="DeleteForm(form.fwo_pkyeId)"><i class="fa fa-trash mr-1"></i></span>
+                  </td>
+                  <td style="text-align: center;" *ngIf="form.IsFbDynamicForm">
+                    <span (click)="OpenPcrFormModel(pcrFormsModel,form,1)"><i class="fa fa-eye mr-1"></i></span>&nbsp;
+                    &nbsp;<span (click)="OpenPcrFormModel(pcrFormsModel,form,1)"><i class="fa fa-edit mr-1"></i> </span>&nbsp;
+                    <span (click)="DeleteForm(form.fwo_pkyeId)"><i class="fa fa-trash mr-1"></i></span>
+                  </td>
+                </tr>
+               </ng-container>
+              <ng-container *ngIf="noData">
+                <tr>
+                  <td colspan="8">No Data To Display</td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-3">
+      <!-- <div  class="row module-box-header m-0 pt-0"> -->
+      <h5 (click)='hideBidInvoice()' class="module-box-header m-0 col-12">Bid/Invoice
+        <svg style="float: right;" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+          <path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z" />
+        </svg>
+      </h5>
+      <!-- </div> -->
+      <app-bid-client-result *ngIf='hideBid' #child [tabIndex]="0">
+      </app-bid-client-result>
+    </div>
+
+    <app-property-history [workOrderId]="workorder1">
+    </app-property-history>
+
+  </div>
+  <ng-template #formList let-modal>
+    <!-- <kendo-pdf-export #pdf paperSize="A4" margin="2cm"> -->
+      <div class="modal-header">
+        <div>
+          <h4 class="page-title" style="font-weight: bolder; line-height: 1.5;">
+            {{formDetails[0].FormName}}
+          </h4>
+
+          <button id="client_viewdetail_1" class="btn btn-primary" (click)="pdf.saveAs(pdfname)">
+            <i class="fa fa-file-pdf-o"></i>&nbsp;&nbsp; Export To PDF
+          </button>
+          &nbsp;&nbsp;
+          <button id="client_viewdetail_1" class="btn btn-primary" (click)="FormToPDFVersion(formDetails)" *ngIf="formDetails[0].IsDocumentForm && !IsPDFVersionDownload">
+            <i class="fa fa-file-pdf-o"></i>&nbsp;&nbsp; PDF Version
+          </button>
+          &nbsp;&nbsp;
+          <a id="client_viewdetail_1" class="btn btn-primary" [href]="pdfDownloadUrl" *ngIf="formDetails[0].IsDocumentForm && IsPDFVersionDownload">
+            <i class="fa fa-download"></i>&nbsp;&nbsp; Download
+          </a>
+        </div>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <kendo-pdf-export #pdf paperSize="A4" margin="2cm">
+          <div class="container">
+
+            <div class="row" style="display: flex;">
+              <div *ngIf="questionList?.length == 0">
+                No Questions in this form
+              </div>
+              <div *ngFor="let que of questionList;let i = index;" class="card-box bg-pattern border border-light col-6"
+                style="background-color: #f7f7f7;">
+
+                <div style="display: flex;"*ngIf="que.QuestionTypeId!=6">
+                  <div class="col-md-11" style="padding: 0;">
+                    <h4> {{que.Question}}
+                    <app-ipl-form-history-label-hover *ngIf="que.PCR_History_PreviousAnswers!=undefined && que.PCR_History_PreviousAnswers.length>0" [HistoryList]="que.PCR_History_PreviousAnswers"
+                      [IsNoColumn]="true" [KeyName]="'ActualAnswerValue'"></app-ipl-form-history-label-hover>
+                    </h4>
+                    <h6>
+                      {{que.Instructions}}
+                    </h6>
+                    <!-- <h6>question type => {{que.QuestionTypeId}}</h6> -->
+                  </div>
+
+
+
+
+
+                  <div class="col-md-1" *ngIf="que.QuestionAnswers?.length > 0">
+                    <i class="fa fa-check-square fa-2x" style="color: green;" aria-hidden="true"></i>
+                  </div>
+
+                  <div class="col-md-1" *ngIf="que.QuestionAnswers?.length == 0 ">
+                    <i class="fa fa-times-circle fa-2x" style="color: red;" aria-hidden="true"></i>
+                  </div>
+                </div>
+                <div class="col-md-11" style="padding: 0;"  *ngIf="que.QuestionTypeId ==6">
+                  <h4> {{que.Question}}
+                    <app-ipl-form-history-label-hover *ngIf="que.PCR_History_PreviousAnswers!=undefined && que.PCR_History_PreviousAnswers.length>0" [HistoryList]="que.PCR_History_PreviousAnswers"
+                      [IsNoColumn]="true" [KeyName]="'ActualAnswerValue'"></app-ipl-form-history-label-hover>
+                  </h4>
+                  <h6>
+                    {{que.Instructions}}
+                  </h6>
+
+                  <!-- <h6>question type => {{que.QuestionTypeId}}</h6> -->
+                </div>
+                <!--que master-->
+
+                <div class="form-row">
+                  <select class="form-control form-control-sm" *ngIf="que.QuestionTypeId==3"
+                    (change)="ddlChange($event, que,i)" [disabled]="IsReadOnly">
+                    <option></option>
+                    <option *ngFor="let item of que.Options" value="{{item.OptionId}}"
+                      [selected]="que.QuestionAnswers?.length > 0 ? (que.QuestionAnswers[0].OptionId == item.OptionId ? true : false) : false">
+                      {{item.OptionName}}
+                    </option>
+                  </select>
+                  <!-- [selected]="item.OptionId == que.QuestionAnswers[0].OptionId" -->
+                  <!-- {{ que.QuestionAnswers?.length > 0 ? (que.QuestionAnswers[0].OptionId == item.OptionId ? true : false) : false }} -->
+
+                  <div class="custom-control custom-switch" *ngIf="que.QuestionTypeId==1">
+                    <div *ngFor="let item of que.Options;let j = index;">
+                      <input type="checkbox" class="custom-control-input" id="switchDefault{{item.OptionId}}"
+                        [disabled]="IsReadOnly" (change)="checkChange($event,item,que,i)"
+                        [checked]="item.AnswerValue ==1 ? true : false">
+                      <label class="custom-control-label" for="switchDefault{{item.OptionId}}">
+                        {{item.OptionName}}
+                      </label>
+                    </div>
+                    <!-- {{ que.QuestionAnswers[0].AnswerValue }} -->
+                  </div>
+
+                  <textarea *ngIf="que.QuestionTypeId==2" (change)="textChange($event,que,i)"
+                    [value]="(que.Que_ClonePrevAnswer ==4 ? (que.QuestionAnswers?.length >0 ?
+                (que.QuestionAnswers[0].AnswerValue)  : (que.PreviousAnswers?.length >0 ?
+                (que.PreviousAnswers[0].AnswerValue)  : (''))) : (que.QuestionAnswers?.length >0 ? que.QuestionAnswers[0].AnswerValue : ''))" [disabled]="IsReadOnly"></textarea>
+
+
+
+
+                    <input type="text" *ngIf="que.QuestionTypeId==5"
+                    (change)="textChange($event,que,i)"
+                    [value]="(que.Que_ClonePrevAnswer ==4 ? (que.QuestionAnswers?.length >0 ?
+                  (que.QuestionAnswers[0].AnswerValue)  : (que.PreviousAnswers?.length >0 ?
+                  (que.PreviousAnswers[0].AnswerValue)  : (''))) : (que.QuestionAnswers?.length >0 ? que.QuestionAnswers[0].AnswerValue : ''))"
+                    [disabled]="IsReadOnly" class="form-control form-control-sm">
+
+
+
+                  <input type="date" *ngIf="que.QuestionTypeId==7" (change)="textChange($event,que,i)"
+                    [value]="(que.Que_ClonePrevAnswer ==4 ? (que.QuestionAnswers?.length >0 ?
+                  (que.QuestionAnswers[0].AnswerValue)  : (que.PreviousAnswers?.length >0 ?
+                  (que.PreviousAnswers[0].AnswerValue)  : (''))) : (que.QuestionAnswers?.length >0 ? que.QuestionAnswers[0].AnswerValue : ''))" [disabled]="IsReadOnly">
+
+                  <input type="number" *ngIf="que.QuestionTypeId==8" (change)="textChange($event,que,i)"
+                    [value]="(que.Que_ClonePrevAnswer ==4 ? (que.QuestionAnswers?.length >0 ?
+                (que.QuestionAnswers[0].AnswerValue)  : (que.PreviousAnswers?.length >0 ?
+                (que.PreviousAnswers[0].AnswerValue)  : (''))) : (que.QuestionAnswers?.length >0 ? que.QuestionAnswers[0].AnswerValue : ''))" [disabled]="IsReadOnly">
+
+                  <input type="file" *ngIf="que.QuestionTypeId==9" [value]="" [disabled]="IsReadOnly">
+
+                  <div class="radio radio-info" *ngIf="que.QuestionTypeId==4">
+                    <div *ngFor="let item of que.Options">
+                      <input name="{{item.Option_QuestionId}}" type="radio"
+                        (change)="radioQueChange($event, item.OptionId, que,i)"
+                        [checked]="que.QuestionAnswers?.length > 0 ? (que.QuestionAnswers[0].OptionId == item.OptionId ? true : false) : false"
+                        id="{{ item.OptionId }}" value="{{ item.OptionId }}" [disabled]="IsReadOnly">
+                      <label for="{{ item.OptionId }}">{{item.OptionName}}</label>
+                    </div>
+                  </div>
+
+                  <div *ngIf="(que.Que_ClonePrevAnswer==2 || que.Que_ClonePrevAnswer==3 || que.Que_ClonePrevAnswer == 4)
+                && que.PreviousAnswers?.length > 0 && IsReadOnly==false && IsReadOnly" style="margin-top: 10px; ">
+                    Previous: {{que.PreviousAnswers[0].AnswerValue}} &nbsp;
+                    <button id="copy{{i}}" *ngIf="que.Que_ClonePrevAnswer==3 || que.Que_ClonePrevAnswer==4"
+                      (click)="copyAnswer($event, que.QuestionId)" class="btn btn-primary" ><i class="fa fa-clone"
+                        aria-hidden="true" style="background-color:  rgb(21, 66, 102);" ></i>
+                      Copy</button>
+                  </div>
+
+                  <div *ngIf="que.InvalidFR" class="col-lg-12 Mydropdown" style="width: 50%;font-size: 90%;">Field rule is
+                    not followed.</div>
+                  <div *ngIf="que.Que_Required && que.QuestionTypeId!=6" class="col-lg-12">
+                    <hr>
+                    ANSWER IS REQUIRED
+                  </div>
+                </div>
+
+                <!--end que master-->
+
+
+              </div>
+
+            </div>
+          </div>
+        </kendo-pdf-export>
+      </div>
+    <!-- </kendo-pdf-export> -->
+  </ng-template>
+
+  <ng-template #pcrFormsModel let-modal>
+    <div class="modal-header">
+      <div>
+        <h4 class="page-title" style="font-weight: bolder; line-height: 1.5;">
+          {{pcrFormObject.Fb_Dynamic_Tab_Name}} Form
+        </h4>
+      </div>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <app-pcr-grass-form [WorkorderId]="workorderId" [FWO_PkyeId]="pcrFormObject.FWO_PkyeId" *ngIf="pcrFormObject.Fb_Dynamic_pkeyID==pcrFormTypeEnum.Grass"></app-pcr-grass-form>
+        <app-pcr-preservation-form [IPLNO]="selectedIPLNO"  [WorkorderId]="workorderId" [FWO_PkyeId]="pcrFormObject.FWO_PkyeId" *ngIf="pcrFormObject.Fb_Dynamic_pkeyID==pcrFormTypeEnum.Preservation"></app-pcr-preservation-form>
+        <app-inspection-form [WorkorderId]="workorderId" [FWO_PkyeId]="pcrFormObject.FWO_PkyeId" *ngIf="pcrFormObject.Fb_Dynamic_pkeyID==pcrFormTypeEnum.PCR_Inspection"></app-inspection-form>
+
+        <app-cyprexx-fb-pcr-form  [WorkorderId]="workorderId" [FWO_PkyeId]="pcrFormObject.FWO_PkyeId"  *ngIf="pcrFormObject.Fb_Dynamic_pkeyID==pcrFormTypeEnum.cyprexxfbpcrform"></app-cyprexx-fb-pcr-form>
+        <app-cyprexx-grass-checklist [WorkorderId]="workorderId"  [FWO_PkyeId]="pcrFormObject.FWO_PkyeId"  *ngIf="pcrFormObject.Fb_Dynamic_pkeyID==pcrFormTypeEnum.grasschecklist"></app-cyprexx-grass-checklist>
+        <app-cyprexx-winterization-pressure-ckecklist  [WorkorderId]="workorderId" [FWO_PkyeId]="pcrFormObject.FWO_PkyeId"  *ngIf="pcrFormObject.Fb_Dynamic_pkeyID==pcrFormTypeEnum.winterizationpressure"></app-cyprexx-winterization-pressure-ckecklist>
+        <app-cyprexx-universal-damage-checklist  [WorkorderId]="workorderId" [FWO_PkyeId]="pcrFormObject.FWO_PkyeId"  *ngIf="pcrFormObject.Fb_Dynamic_pkeyID==pcrFormTypeEnum.universaldamage"></app-cyprexx-universal-damage-checklist>
+        <app-cyprexx-job-documentation-checklist  [WorkorderId]="workorderId" [FWO_PkyeId]="pcrFormObject.FWO_PkyeId"  *ngIf="pcrFormObject.Fb_Dynamic_pkeyID==pcrFormTypeEnum.Job_Documentaton"></app-cyprexx-job-documentation-checklist>
+
+        <app-msi-grass-pcr-form [WorkorderId]="workorderId" [FWO_PkyeId]="pcrFormObject.FWO_PkyeId"  *ngIf="pcrFormObject.Fb_Dynamic_pkeyID==pcrFormTypeEnum.msigrass"></app-msi-grass-pcr-form>
+        <app-msi-preservation-pcr-form  [WorkorderId]="workorderId" [FWO_PkyeId]="pcrFormObject.FWO_PkyeId"  *ngIf="pcrFormObject.Fb_Dynamic_pkeyID==pcrFormTypeEnum.msipreservation"></app-msi-preservation-pcr-form>
+
+        <app-service-link-form  [WorkorderId]="workorderId" [FWO_PkyeId]="pcrFormObject.FWO_PkyeId"  *ngIf="pcrFormObject.Fb_Dynamic_pkeyID==pcrFormTypeEnum.servicelink"></app-service-link-form>
+
+        <app-mcs-form [WorkorderId]="workorderId" [FWO_PkyeId]="pcrFormObject.FWO_PkyeId" *ngIf="pcrFormObject.Fb_Dynamic_pkeyID==pcrFormTypeEnum.mcs_pcr"></app-mcs-form>
+        <app-mcs-grass-cut-form [WorkorderId]="workorderId" [FWO_PkyeId]="pcrFormObject.FWO_PkyeId" *ngIf="pcrFormObject.Fb_Dynamic_pkeyID==pcrFormTypeEnum.MCS_Grass_Cut"></app-mcs-grass-cut-form>
+        <app-mcs-maintenance-vendor-checklist [WorkorderId]="workorderId" [FWO_PkyeId]="pcrFormObject.FWO_PkyeId" *ngIf="pcrFormObject.Fb_Dynamic_pkeyID==pcrFormTypeEnum.MCS_Maintenance_Vendor_Checklist"></app-mcs-maintenance-vendor-checklist>
+
+        <app-nfr-processing-form [WorkorderId]="workorderId" [FWO_PkyeId]="pcrFormObject.FWO_PkyeId"  *ngIf="pcrFormObject.Fb_Dynamic_pkeyID==pcrFormTypeEnum.NFR_Processing"></app-nfr-processing-form>
+        <app-nfr-dump-receipt-form [WorkorderId]="workorderId" [FWO_PkyeId]="pcrFormObject.FWO_PkyeId"  *ngIf="pcrFormObject.Fb_Dynamic_pkeyID==pcrFormTypeEnum.NFR_DumpReceipt"></app-nfr-dump-receipt-form>
+        <app-cyprexx-property-condition-checklist  [WorkorderId]="workorderId" [FWO_PkyeId]="pcrFormObject.FWO_PkyeId"  *ngIf="pcrFormObject.Fb_Dynamic_pkeyID==pcrFormTypeEnum.property_condition"></app-cyprexx-property-condition-checklist >
+
+
+      </div>
+  </ng-template>
+  <!-- <ng-template #pcrGrassForm let-modal>
+    <div class="modal-header">
+      <div>
+        <h4 class="page-title" style="font-weight: bolder; line-height: 1.5;">
+          {{pcrFormObject.Fb_Dynamic_pkeyID}} Form
+        </h4>
+      </div>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="container">
+        <app-pcr-grass-form [WorkorderId]="workorderId" ></app-pcr-grass-form>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #pcrPrsvForm let-modal>
+    <div class="modal-header">
+      <div>
+        <h4 class="page-title" style="font-weight: bolder; line-height: 1.5;">
+          Preservation Form
+        </h4>
+      </div>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <app-pcr-preservation-form [WorkorderId]="workorderId"></app-pcr-preservation-form>
+    </div>
+  </ng-template> -->
+  <ng-template #pcrAddForm let-modal>
+    <div class="modal-header">
+      <div>
+        <h4 class="page-title" style="font-weight: bolder; line-height: 1.5;">
+          Add PCR Form
+        </h4>
+      </div>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+              <div class="form-row">
+                <div class="col-md-9">
+                  <div class="form-group">
+                    <label for="exampleInputPhone">Select Form</label>
+                    <div class="example-wrapper" >
+                      <kendo-dropdownlist class="form-control form-control-sm"
+                          [data]="drpFormList"
+                          [defaultItem]="defaultFormItem"
+                          [filterable]="true"
+                          [textField]="'FormName'"
+                          [valueField]="'FormId'"
+                          (filterChange)="FormFilter($event)"
+                          [(ngModel)]="AddPcrFormModelObj.Pcr_FormId"
+                          [valuePrimitive]="true">
+                      </kendo-dropdownlist>
+                      </div>
+                      <div *ngIf="isFormInValid" class="Mydropdown">this field is required</div>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <button id="client_viewdetail_1" class="btn btn-primary" (click)="PcrSubmit()"
+                    [disabled]="isLoadingPcr"><i class="fa"
+                      [ngClass]="{'fa-spin fa-spinner': isLoadingPcr, 'fa-save': !isLoadingPcr}"></i>
+                    {{btnAddPcr}}</button> &nbsp;&nbsp;
+                    <button id="client_viewdetail_1" class="btn btn-primary" (click)="modal.dismiss('Cross click')">
+                    Cancel</button>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </ng-template>
+  <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="default" color="#fff" type="timer" [fullScreen]="true">
+    <p style="color: white">Loading...</p>
+  </ngx-spinner>
+</div>

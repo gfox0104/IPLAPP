@@ -1,0 +1,322 @@
+<div class="add-room">
+    <ngx-spinner 
+        bdColor = "rgba(0, 0, 0, 0.8)" 
+        size = "medium" color = "#fff" 
+        type = "square-jelly-box" 
+        [fullScreen] = "true"
+    >
+        <p style="color: white" > Loading... </p>
+    </ngx-spinner>
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="justify-content-between" style="display: flex;">
+                        <div>{{personalInfoAddress}}, {{personalInfoCity}} {{personalInfoZip}}</div>
+                        <div class="decoration-btn" (click)="addProfitOverhead()">Profit & Overhead</div>
+                    </div>
+                    <hr/>
+                    <div class="row justify-content-between align-items-center" style="display: flex">
+                        <div class="col-lg col-md col-12 ">Beds: {{RepairBaseCharactoristicsModelObj.RB_Bedrooms}}</div>
+                        <div class="col-lg col-md col-12 ">Baths: {{RepairBaseCharactoristicsModelObj.RB_Fullbaths}}</div>
+                        <div class="col-lg col-md col-12 ">Half Baths: {{RepairBaseCharactoristicsModelObj.RB_Halfbaths}}</div>
+                        <div class="col-lg col-md col-12 ">Living Area: {{RepairBaseCharactoristicsModelObj.RB_LivingArea}}</div>
+                        <div class="col-lg col-md col-12 ">Stories: {{RepairBaseCharactoristicsModelObj.RB_Stories}}</div>
+                        <div class="col-lg col-md col-12 ">Year Built: {{RepairBaseCharactoristicsModelObj.RB_YearBuilt}}</div>
+                        <div class="col-lg col-md col-12 ">Structure Quality: {{RepairBaseCharactoristicsModelObj.RB_StructureQuality}}</div>
+                        <div class="col-lg col-md col-12 decoration-btn" (click)="editCharacteristics()">Edit Characteristics</div>
+                    </div>
+                    <div class="col-12 p-0 mt-3" >
+                        <div class="module-box-header" >
+                            <div class="justify-content-center d-flex" >
+                                {{personalInfoAddress}}, {{personalInfoCity}} {{personalInfoZip}}
+                            </div>
+                        </div>
+                        <div class="module-box p-1">
+                            <div  style=" margin-bottom: 20px;">
+                                <button class="btn btn-primary" *ngIf="!modalOpened" (click)="addModalopen()">Add Room or Area</button>  
+                            </div>
+                             <kendo-grid style="overflow-x: auto;" class="module-box" [data]="areas">
+                                <kendo-grid-column field="areaLabel" title="Label" width="100">
+                                </kendo-grid-column>
+
+                                <kendo-grid-column field="areaId" title="Action" width="100">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                        <div class="decoration-btn" (click)="addRepairModalopen(dataItem.areaId)">
+                                            Add Repairs
+                                        </div>
+                                    </ng-template>
+                                </kendo-grid-column>
+                                <div *kendoGridDetailTemplate="let areas">
+                                    <kendo-grid class="module-box"  [data]="areas.repairs">
+                                        <kendo-grid-column field="description" title="Description" width="250" >
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="code" title="Code" width="50" >
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="quantity" title="Quantity" width="100" >
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="itemUM" title="UOM" width="50" >
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="bluebookPPU" title="RepairBase PPU" width="150" >
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="ppu" title="Vendor PPU" width="100" >
+                                        </kendo-grid-column>
+                                        <kendo-grid-column  field="vendorPPU" title="Vendor Diff. Tot" width="100" >
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="totalCost" title="Total" width="100" >
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="image_upload" title="image" width="100" >
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <div (click)="OpenModal(dataItem.id,areas.areaId,OpenModelcontent)">
+                                                    <i class="fa fa-camera-retro fa-lg"></i></div>
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                        <kendo-grid-column field="id" title="Delete" width="100" >
+                                            <ng-template kendoGridCellTemplate let-dataItem>
+                                                <div class="decoration-btn" (click)="deleteRepair(dataItem.links[0].href)">
+                                                    Delete
+                                                </div>
+                                            </ng-template>
+                                        </kendo-grid-column>
+                                    </kendo-grid>
+                                </div>
+                             </kendo-grid>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <kendo-dialog *ngIf="showProfitModal" (close)="closeProfitOverhead()" >
+        <kendo-dialog-titlebar >
+            <div class="module-box-header">Profit and Overhead</div>
+        </kendo-dialog-titlebar>
+        <div>
+            <form [formGroup]="formUsrCommonGroup">
+                <div class="profitOverhead">
+                    <div class="col-md-6">
+                        <label>Profit Percent:</label>
+                        <input id="RB_Profit" class="form-control" type="text" formControlName="RB_Profit" name="RB_Profit" placeholder="Profit.." [(ngModel)]="RepairBaseAddRoomModelObj.RB_Profit"  />
+                    </div>
+                    <div class="col-md-6">
+                        <label>Overhead Percent:</label>
+                        <input id="RB_OverHead" class="form-control" type="text" formControlName="RB_OverHead" name="RB_OverHead" placeholder="Overhead.." [(ngModel)]="RepairBaseAddRoomModelObj.RB_OverHead"  />
+                    </div>
+                </div>
+                <hr/>
+                <div>
+                    <div class="col-md-6">
+                        <button class="btn btn-primary" [disabled]="isLoading" (click)="saveProiftOverhead()">
+                        <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}"></i>
+                        {{phbutton}}</button>
+                        
+                    </div>
+                </div>
+            </form>
+        </div>
+    </kendo-dialog>
+    <kendo-dialog *ngIf="modalOpened" (close)="addModalClose('cancel')" [width]="350" >
+        <kendo-dialog-titlebar >
+            <div class="module-box-header">Add Unit Area</div>
+        </kendo-dialog-titlebar>
+        <div *ngIf='isSelect' class="row" >
+            <div class="col-md-8">
+                <kendo-dropdownlist
+                    [data]="areaDetail"
+                    [style]="{'width': '100%'}"
+                    [filterable]="true"
+                    [textField]="'description'"
+                    [valueField]="'id'"
+                    (filterChange)="handleAreaFilter($event)"
+                    (valueChange)="selectAreaHandler($event)"
+                >
+                </kendo-dropdownlist>
+            </div>
+            <div class="col-md-2">
+                <button class="btn" (click)="selectArea()" primary="true">Select</button>
+            </div>
+        </div>
+        <div *ngIf='!isSelect' class="row">
+            <!-- <div style="width: 100%"> -->
+                <form [formGroup]="formUsrCommonGroup" (ngSubmit)="createArea()">
+                    <div class="col-md-6 col-sm-12">
+                        *Label: 
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <input type="text" id="RB_AreaLabel" class="form-control" formControlName="RB_AreaLabel" name="RB_AreaLabel" placeholder="Label.." [(ngModel)]="RepairBaseAddRoomModelObj.RB_AreaLabel" />
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        *Note: 
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <textarea type="text" id="RB_AreaNote" class="form-control" formControlName="RB_AreaNote" name="RB_AreaNote" placeholder="Note.." [(ngModel)]="RepairBaseAddRoomModelObj.RB_AreaNote">
+
+                        </textarea>
+                    </div>
+                    <hr/>
+                    <div class="col-md-6" style="display: flex;justify-content: flex-end;">
+                        <button class="btn" (click)="backToSelectArea()">Back To Select</button>
+                        <button class="btn" primary="true" type="submit">Create This Area</button>
+                    </div>
+                </form>
+            <!-- </div> -->
+        </div>
+    </kendo-dialog>
+    <kendo-dialog *ngIf="repairModalOpened" (close)="addRepairModalClose('cancel')" >
+        <kendo-dialog-titlebar >
+            <div class="module-box-header">Add Repair</div>
+        </kendo-dialog-titlebar>
+        <div *ngIf="!isCustom">
+            <div class="row">
+                <div class="col-md-4 col-sm-12">
+                    <div class="label">
+                        1. Category
+                    </div>
+                    <kendo-dropdownlist
+                        [data]="categories"
+                        [style]="{'width': '100%'}"
+                        [filterable]="true"
+                        [textField]="'name'"
+                        [valueField]="'categoryId'"
+                        (filterChange)="handleFilter($event)"
+                        (valueChange)="selectChangeHandler($event)"
+                    >
+                    </kendo-dropdownlist>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <div class="label">
+                        2. Sub Category
+                    </div>
+                    <kendo-dropdownlist
+                        [data]="subCategories"
+                        [style]="{'width': '100%'}"
+                        [filterable]="true"
+                        [textField]="'name'"
+                        [valueField]="'subcategoryId'"
+                        (filterChange)="subcategoryhandleFilter($event)"
+                        (valueChange)="selectSubcategoryChangeHandler($event)"
+                    >
+                    </kendo-dropdownlist>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <div class="label">
+                        3. Perform Action
+                    </div>
+                    <kendo-dropdownlist
+                        [data]="performActions"
+                        [style]="{'width': '100%'}"
+                        [filterable]="true"
+                        [textField]="'actionType'"
+                        [valueField]="'id'"
+                        (filterChange)="performActionhandleFilter($event)"
+                        (valueChange)="selectPerformActionChangeHandler($event)"
+                    >
+                    </kendo-dropdownlist>
+                </div>
+            </div>
+            <hr/>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="label">
+                        4. Select Action Detail
+                    </div>
+                    <kendo-dropdownlist
+                        [data]="actionDetail"
+                        [style]="{'width': '100%'}"
+                        [filterable]="true"
+                        [textField]="'propertyItemName'"
+                        [valueField]="'itemXRef'"
+                        (filterChange)="actionDetailHandleFilter($event)"
+                        (valueChange)="actionDetailChangeHandler($event)"
+                    >
+                    </kendo-dropdownlist>
+                </div>
+            </div>
+            <hr/>
+            <div class="row">
+                <div class="col-md-12">
+                    <button class="btn" (click)="continueForCustom()">Continue</button>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="isCustom">
+            <form [formGroup]="formUsrCommonGroup" (ngSubmit)="addRepair()">
+                <div class="row">
+                    {{RepairBaseAddRepairModelObj.RB_description}}
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div style="width: 100%">
+                            <div class="col-sm-12">
+                                *Final Quantity: 
+                            </div>
+                            <div class="col-sm-12">
+                                <input type="text" id="RB_quantity" class="form-control" formControlName="RB_quantity" name="RB_quantity" placeholder="quantity.." [(ngModel)]="RepairBaseAddRepairModelObj.RB_quantity" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div style="width: 100%">
+                            <div class="col-sm-12">
+                                *Code: 
+                            </div>
+                            <div class="col-sm-12">
+                                <input type="text" id="RB_code" class="form-control" formControlName="RB_code" name="RB_code" placeholder="Code.." [(ngModel)]="RepairBaseAddRepairModelObj.RB_code" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div style="width: 100%">
+                            <div class="col-sm-12">
+                                *Vendo PPU: 
+                            </div>
+                            <div class="col-sm-12">
+                                <input type="text" id="RB_vendorPPU" class="form-control" formControlName="RB_vendorPPU" name="RB_vendorPPU" placeholder="Vendor PPU.." [(ngModel)]="RepairBaseAddRepairModelObj.RB_vendorPPU" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        *Comments: 
+                    </div>
+                    <div class="col-sm-12">
+                        <textarea id="RB_comments" class="form-control" name="RB_comments" formControlName="RB_comments" placeholder="Comments..." [(ngModel)]="RepairBaseAddRepairModelObj.RB_comments"></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <button class="btn" type="submit">Create Repair</button>
+                </div>
+            </form>
+        </div>
+    </kendo-dialog>
+    <div class="repair-footer justify-content-end align-items-center">
+        <div class="row justify-content-end">
+            <button class="btn btn-primary repair-footer-btn" (click)="previewEstimate()">Preview Estimate</button>
+            
+            <button class="btn btn-primary repair-footer-btn">Close Estimate</button>
+        </div>
+    </div>
+</div>
+<ng-template #OpenModelcontent let-modal>
+    <div class="modal-header">
+      <h4> Upload Photos</h4>
+      <button type="button" class="close" (click)="modal.close('Save click')" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-md-6">
+          <input #imageInput type="file" class="form-control" id="image" title="Select File..." accept="image/*">
+        </div>
+        <div class="col-6">
+          <button (click)="processImage(imageInput)" class="btn btn-primary waves-effect waves-light"
+            [disabled]="isImgLoading">
+            <i class="fa" [ngClass]="{'fa-spin fa-spinner': isImgLoading, 'fa-save': !isImgLoading}"></i>
+            {{imgbutton}}</button>
+        </div>
+      </div>
+      <br>
+    </div>
+  </ng-template>

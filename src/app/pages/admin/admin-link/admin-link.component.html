@@ -1,0 +1,16 @@
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-body">
+      <app-breadcrumb title="Admin"></app-breadcrumb>
+      <div class="icons-list">
+        <div class="row" style="display: flex;justify-content: space-evenly;" >
+          <iplapp-dashboard-icon class="col-md-2 col-sm-3 col-lg-2 col-5 icons"  *ngFor="let item of adminLinks"
+            [title]="item.title"
+            [images]="item.images"
+            [routerLink]="item.routerLink">
+          </iplapp-dashboard-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

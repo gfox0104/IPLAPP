@@ -1,0 +1,64 @@
+<div class="container-fluid">
+  <div class="">
+    <div class="">
+
+      <div class="row m-0 module-box-header">
+        <h4 class="page-title" >Client Settings Page</h4>
+        <hr>
+        <iplapp-icon-button *ngFor="let button of buttons" class="mr-1" [title]="button.title" [iclass]="button.iclass"
+          [routerLink]="button.routerLink"></iplapp-icon-button>
+      </div>
+      <div class="module-subheader p-1 pl-2">
+
+        <iplapp-filter-form [modelObj]="filterMasterModelObj" [formFilters]="taskFilters" (filterCall)="filterCall()"
+          (clearData)="clearData()" (saveFilterData)="saveFilterData()" (filterdrd) = "filterdrd($event)">
+        </iplapp-filter-form>
+      </div>
+      <div style="overflow-x: auto;" class="row m-0  csetting module-box">
+        <kendo-grid  #gridUser [kendoGridBinding]="griddata" [pageSize]="25" [pageable]="true" [sortable]="true"
+          [filterable]="false" [selectable]="true" [groupable]="false"  [reorderable]="true"
+          [skip]="state.skip" [sort]="state.sort" [filter]="state.filter" (dataStateChange)="dataStateChange($event)">
+          <kendo-grid-column *ngFor="let column of gridColumns" [field]="column.field" [title]="column.title"
+             [width]="80">
+    
+            <ng-template kendoGridCellTemplate let-dataItem let-i="rowIndex" *ngIf="column.title==='Active'">
+              <div class="custom-control custom-switch">
+                <input type="checkbox" (change)="checkChange($event, dataItem)"
+                    class="custom-control-input" id="switchisActive{{i}}"
+                    [checked]="dataItem.Client_IsActive">
+                <label class="custom-control-label"
+                    for="switchisActive{{i}}"></label>
+            </div>
+             <!-- <input type="checkbox" [checked]="dataItem.Client_IsActive" disabled /> -->
+            </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column title="Action" width="80"
+            >
+            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+              <a class="edit" data-toggle="tooltip"  data-placement="top"
+                title="view Records" [routerLink]="dataItem.ViewUrl" class="k-grid-ignore-click">
+                <i class="fa fa-eye"></i>
+              </a>&nbsp;&nbsp;&nbsp;
+              <button class="edit" data-toggle="tooltip" (click)="deleteDetails($event, dataItem)" data-placement="top"
+                title="Delete Record" style="cursor: pointer; border:none;"[disabled]="dataItem.Client_IsDeleteAllow">
+                <i class="fa fa-trash"></i>
+              </button>
+            </ng-template>
+          </kendo-grid-column>
+          <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+            <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+            <kendo-pager-numeric-buttons [buttonCount]="10"></kendo-pager-numeric-buttons>
+            <kendo-pager-next-buttons></kendo-pager-next-buttons>
+            <kendo-pager-info></kendo-pager-info>
+            <kendo-pager-page-sizes [pageSizes]="[25,50,75,100,150,200]"></kendo-pager-page-sizes>
+          </ng-template>
+        </kendo-grid>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="default" color="#fff" type="timer" [fullScreen]="true">
+  <p style="color: white">Loading...</p>
+</ngx-spinner>

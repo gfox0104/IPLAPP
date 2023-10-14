@@ -1,0 +1,12 @@
+<div class="module-box p-1">
+  <kendo-grid [data]="detailData">
+    <kendo-grid-column *ngFor="let column of childColumns" width="{{column.width}}"
+    field="{{column.field}}"title="{{column.title}}">
+    <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'Inv_Con_Ch_Price' || column.field === 'Inv_Con_Ch_Total'">
+      <span>
+      {{currencySymbol}}{{dataItem[column.field]==null?"0.00":dataItem[column.field].toFixed(2)}}
+      </span>
+    </ng-template>
+    </kendo-grid-column>
+  </kendo-grid>
+</div>

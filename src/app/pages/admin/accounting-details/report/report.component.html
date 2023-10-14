@@ -1,0 +1,287 @@
+<div class="row dashboardAccounting">
+  <div class="col-md-2 sidebar">
+    <app-account-sidebar [ActiveLink]="5"></app-account-sidebar>
+  </div>
+  <div class="col-md-10 mainDashboard">
+    <div class="mt-1">
+      <div class="row m-0">
+        <div class="col-12">
+          <div class="">
+            <div>
+              <!-- clientresult -->
+              <ul class="nav nav-tabs" id="myinv" role="tablist">
+                <li class="nav-item">
+                  <a
+                    class="nav-link"
+                    id="trialBalance-tab"
+                    data-toggle="tab"
+                    href="#trialBalance"
+                    role="tab"
+                    aria-controls="trialBalance"
+                    aria-selected="true"
+                    (click)="CheckIsCurrentTabActive(1)"
+                    >Trial Balance</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a
+                    class="nav-link"
+                    id="incomeStatement-tab"
+                    data-toggle="tab"
+                    href="#incomeStatement"
+                    role="tab"
+                    aria-controls="incomeStatement"
+                    aria-selected="true"
+                    (click)="CheckIsCurrentTabActive(2)"
+                    >Income Statement</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a
+                    class="nav-link"
+                    id="balanceSheet-tab"
+                    data-toggle="tab"
+                    href="#balanceSheet"
+                    role="tab"
+                    aria-controls="balanceSheet"
+                    aria-selected="true"
+                    (click)="CheckIsCurrentTabActive(3)"
+                    >Balance Sheet</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a
+                    class="nav-link"
+                    id="Profit-and-loss-tab"
+                    data-toggle="tab"
+                    href="#Profit-and-loss"
+                    role="tab"
+                    aria-controls="Profit-and-loss"
+                    aria-selected="true"
+                    (click)="CheckIsCurrentTabActive(4)"
+                    >Profit and Loss</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a
+                    class="nav-link"
+                    id="Profit-and-loss-details-tab"
+                    data-toggle="tab"
+                    href="#Profit-and-loss-details"
+                    role="tab"
+                    aria-controls="Profit-and-loss-details"
+                    aria-selected="true"
+                    (click)="CheckIsCurrentTabActive(5)"
+                    >Profit and Loss Details</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a
+                    class="nav-link"
+                    id="Profit-and-loss-Comparison-tab"
+                    data-toggle="tab"
+                    href="#Profit-and-loss-Comparison"
+                    role="tab"
+                    aria-controls="Profit-and-loss-Comparison"
+                    aria-selected="true"
+                    (click)="CheckIsCurrentTabActive(6)"
+                    >Profit and Loss Comparison</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a
+                    class="nav-link"
+                    id="Account-Payable-aging-Summary-tab"
+                    data-toggle="tab"
+                    href="#Account-Payable-aging-Summary"
+                    role="tab"
+                    aria-controls="Account-Payable-aging-Summary"
+                    aria-selected="true"
+                    (click)="CheckIsCurrentTabActive(7)"
+                    >Account Payable Ageing Summary</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a
+                    class="nav-link"
+                    id="Account-Receivable-aging-Summary-tab"
+                    data-toggle="tab"
+                    href="#Account-Receivable-aging-Summary"
+                    role="tab"
+                    aria-controls="Account-Receivable-aging-Summary"
+                    aria-selected="true"
+                    (click)="CheckIsCurrentTabActive(8)"
+                    >Account Receivable Ageing Summary</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a
+                    class="nav-link"
+                    id="Journal-tab"
+                    data-toggle="tab"
+                    href="#Journal"
+                    role="tab"
+                    aria-controls="Journal"
+                    aria-selected="true"
+                    (click)="CheckIsCurrentTabActive(9)"
+                    >Journal</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a
+                    class="nav-link"
+                    id="Profit-and-loss-by-month-tab"
+                    data-toggle="tab"
+                    href="#Profit-and-loss-by-month"
+                    role="tab"
+                    aria-controls="Profit-and-loss-by-month"
+                    aria-selected="true"
+                    (click)="CheckIsCurrentTabActive(10)"
+                    >Profit and Loss By Month</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a
+                    class="nav-link"
+                    id="Profit-and-loss-by-customer-tab"
+                    data-toggle="tab"
+                    href="#Profit-and-loss-by-customer"
+                    role="tab"
+                    aria-controls="Profit-and-loss-by-customer"
+                    aria-selected="true"
+                    (click)="CheckIsCurrentTabActive(11)"
+                    >Profit and Loss By Customer</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a
+                    class="nav-link active"
+                    id="Profit-and-loss-by-vendor-tab"
+                    data-toggle="tab"
+                    href="#Profit-and-loss-by-vendor"
+                    role="tab"
+                    aria-controls="Profit-and-loss-by-vendor"
+                    aria-selected="true"
+                    (click)="CheckIsCurrentTabActive(12)"
+                    >Profit and Loss By Vendor</a
+                  >
+                </li>
+              </ul>
+              <div class="tab-content pt-0">
+                <div
+                  *ngIf="ReportsList[0].IsActive"
+                  class="tab-pane fade"
+                  id="trialBalance"
+                  role="tabpanel"
+                  aria-labelledby="trialBalance-tab"
+                >
+                  <app-trial-balance></app-trial-balance>
+                </div>
+
+                <div
+                  *ngIf="ReportsList[1].IsActive"
+                  class="tab-pane fade"
+                  id="incomeStatement"
+                  role="tabpanel"
+                  aria-labelledby="incomeStatement-tab"
+                >
+                  <app-income-statement></app-income-statement>
+                </div>
+                <div
+                  *ngIf="ReportsList[2].IsActive"
+                  class="tab-pane fade"
+                  id="balanceSheet"
+                  role="tabpanel"
+                  aria-labelledby="balanceSheet-tab"
+                >
+                  <app-balance-sheet></app-balance-sheet>
+                </div>
+                <div
+                  *ngIf="ReportsList[3].IsActive"
+                  class="tab-pane fade"
+                  id="Profit-and-loss"
+                  role="tabpanel"
+                  aria-labelledby="Profit-and-loss-tab"
+                >
+                  <app-profit-loss></app-profit-loss>
+                </div>
+                <div
+                  *ngIf="ReportsList[4].IsActive"
+                  class="tab-pane fade"
+                  id="Profit-and-loss-details"
+                  role="tabpanel"
+                  aria-labelledby="Profit-and-loss-details-tab"
+                >
+                  <app-profit-loss-details></app-profit-loss-details>
+                </div>
+                <div
+                  *ngIf="ReportsList[5].IsActive"
+                  class="tab-pane fade"
+                  id="Profit-and-loss-Comparison"
+                  role="tabpanel"
+                  aria-labelledby="Profit-and-loss-Comparison-tab"
+                >
+                  <app-profit-loss-comparison></app-profit-loss-comparison>
+                </div>
+                <div
+                  *ngIf="ReportsList[6].IsActive"
+                  class="tab-pane fade"
+                  id="Account-Payable-aging-Summary"
+                  role="tabpanel"
+                  aria-labelledby="Account-Payable-aging-Summary-tab"
+                >
+                  <app-account-payable-aging-summary></app-account-payable-aging-summary>
+                </div>
+                <div
+                  *ngIf="ReportsList[7].IsActive"
+                  class="tab-pane fade"
+                  id="Account-Receivable-aging-Summary"
+                  role="tabpanel"
+                  aria-labelledby="Account-Receivable-aging-Summary-tab"
+                >
+                  <app-account-receivable-aging-summary></app-account-receivable-aging-summary>
+                </div>
+                <div
+                  *ngIf="ReportsList[8].IsActive"
+                  class="tab-pane fade"
+                  id="Journal"
+                  role="tabpanel"
+                  aria-labelledby="Journal-tab"
+                >
+                  <app-journal></app-journal>
+                </div>
+                <div
+                  *ngIf="ReportsList[9].IsActive"
+                  class="tab-pane fade"
+                  id="Profit-and-loss-by-month"
+                  role="tabpanel"
+                  aria-labelledby="Profit-and-loss-by-month-tab"
+                >
+                  <app-profit-loss-by-month></app-profit-loss-by-month>
+                </div>
+                <div
+                  *ngIf="ReportsList[10].IsActive"
+                  class="tab-pane fade"
+                  id="Profit-and-loss-by-customer"
+                  role="tabpanel"
+                  aria-labelledby="Profit-and-loss-by-customer-tab"
+                >
+                  <app-profit-loss-by-customer></app-profit-loss-by-customer>
+                </div>
+                <div
+                  *ngIf="ReportsList[11].IsActive"
+                  class="tab-pane fade show active"
+                  id="Profit-and-loss-by-vendor"
+                  role="tabpanel"
+                  aria-labelledby="Profit-and-loss-by-vendor-tab"
+                >
+                  <app-profit-loss-by-vendor></app-profit-loss-by-vendor>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,696 @@
+<div class="container-fluid">
+
+
+    <div class="row">
+        <div class="w-100">
+            <div class="card-body">
+                <h4 class="module-box-header mb-0">Edit Question</h4>
+                <div class="row m-0 module-subheader p-1 pl-2">
+                    <button type="submit" (click)="EditMainForm()" id="SaveMainForm" class="btn btn-primary mr-1 h35"
+                        [disabled]="isLoading">
+                        <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-save': !isLoading}"></i>
+                        {{buttonMainEdit}}</button>
+
+
+                    <button type="submit" id="ViewForm" class="btn btn-primary mr-1 h35"
+                        [routerLink]="['../../../forms']">
+                        <i class="fas fa-plus-circle"></i>
+                        View Forms</button>
+                    <button type="submit" id="Back" (click)="viewFormByID()" class="btn btn-primary mr-1 h35">
+                        <i class="fas fa-arrow-alt-circle-left"></i>
+                        Back</button>
+
+                </div>
+
+                <div class="module-box p-2 mb-2">
+                    <!-- Form Details Start-->
+                    <form [formGroup]="formsMaster" *ngIf="formsMaster">
+                        <div class="">
+                            <div class="">
+                                <div class="form-row">
+                                    <div class="form-group col-md-12 text-center module-subheader p-1">
+                                        <h5 style="color: black;">Edit - Question</h5>
+                                    </div><br>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-1">
+                                        <label for="questionType" class="col-form-label">Question Type <span
+                                                style="color: red;">*</span>
+                                        </label>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <select class="form-control form-control-sm" formControlName="questionType">
+                                            <option *ngFor="let item of dropdownListQuestionInputs"
+                                                value="{{item.QuestionTypeId}}">
+                                                {{item.QuestionType}}</option>
+                                        </select>
+
+                                        
+                                    </div>
+                                    <div class="form-group col-md-1">
+                                        <label for="question" class="col-form-label">Question <span
+                                                style="color: red;">*</span>
+                                        </label>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <input type="text" class="form-control form-control-sm" placeholder="Question"
+                                        (keyup)="ChangeInstruction()" formControlName="question">
+                                    </div>
+                                    <div class="form-group col-md-1">
+                                        <label for="instruction" 
+                                         class="col-form-label">Instructions
+                                        </label>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <input type="text" class="form-control form-control-sm"
+                                          placeholder="Instructions" formControlName="instruction">
+                                    </div>
+                                    <div class="form-group col-md-1">
+                                        <label for="insertAfter" class="col-form-label">Insert After
+                                        </label>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <select class="form-control form-control-sm" formControlName="insertAfter">
+                                            <option *ngFor="let item of questionAddAtList" value="{{item.questionId}}">
+                                                {{item.question}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-1">
+                                        <label for="Que_Photo_Label_Name" class="col-form-label">Photo Label Name
+                                        </label>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <input type="text" class="form-control form-control-sm" formControlName="Que_Photo_Label_Name"
+                                        placeholder="Que Photo Label Name">
+                                    </div>
+                                    <div class="form-group col-md-1">
+                                        <label for="Que_Photo_min_count" class="col-form-label">Photo Count 
+                                        </label>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <input type="text" class="form-control form-control-sm"
+                                            placeholder="Photo count" formControlName="Que_Photo_min_count">
+                                    </div>
+                                </div>
+
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-1">
+                                        <label for="isShow" class="col-form-label">Show
+                                        </label>
+                                    </div>
+                                    <div class="form-group col-md-2" style="padding-top: 5px;">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="switchDefault1"
+                                                formControlName="isShow">
+                                            <label class="custom-control-label" for="switchDefault1"></label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-1">
+                                        <label for="isOfficeResults" class="col-form-label">Office Results
+                                        </label>
+                                    </div>
+                                    <div class="form-group col-md-2" style="padding-top: 5px;">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="switchDefault2"
+                                                formControlName="isOfficeResults">
+                                            <label class="custom-control-label" for="switchDefault2"></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-1">
+                                        <label for="isRequired" class="col-form-label">Required
+                                        </label>
+                                    </div>
+                                    <div class="form-group col-md-2" style="padding-top: 5px;">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="switchOfficeResults"
+                                                formControlName="isRequired">
+                                            <label class="custom-control-label" for="switchOfficeResults"></label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-1">
+                                        <label for="isFindResults" class="col-form-label">Field Results
+                                        </label>
+                                    </div>
+                                    <div class="form-group col-md-2" style="padding-top: 5px;">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="switchFieldResults"
+                                                formControlName="isFindResults">
+                                            <label class="custom-control-label" for="switchFieldResults"></label>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-1">
+                                        <label for="clonePrevAnswer" class="col-form-label">Clone Prev. Answer
+                                        </label>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <select class="form-control form-control-sm" formControlName="clonePrevAnswer">
+                                            <option value='0'>DO NOT allow previous answer to be copied</option>
+                                            <option value='1'>Allow previous answer to be displayed</option>
+                                            <option value='2'>Allow previous answer to be copied</option>
+                                            <option value='3'>Auto copy previous answer</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group col-md-1">
+                                        <label for="isActive" class="col-form-label">Active
+                                        </label>
+                                    </div>
+                                    <div class="form-group col-md-2" style="padding-top: 5px;">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="switchActive"
+                                             formControlName="isActive">
+                                            <label class="custom-control-label" for="switchActive"></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-1">
+                                        <label for="isCamera" class="col-form-label">Camera
+                                        </label>
+                                    </div>
+                                    <div class="form-group col-md-2" style="padding-top: 5px;">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" id="switchCamera"
+                                                formControlName="isCamera">
+                                            <label class="custom-control-label" for="switchCamera"></label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-1">
+                                        <label for="questionpdfField" class="col-form-label">PDF Field
+                                        </label>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <select class="form-control form-control-sm" formControlName="questionpdfField">
+                                            <option *ngFor="let item of drpPDFFieldArray" value="{{item.PF_pkeyId}}">
+                                                {{item.PF_Name}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <hr>
+                                <div class="form-row">
+                                    <div class="float-right">
+                                        <label for="SaveForm" style="color:red;margin-top:10px">*
+                                            Field is Required
+                                        </label> <br>
+
+
+
+
+                                       
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                    <!-- Form Details End-->
+
+
+                </div>
+                <div class="row m-0 mb-2 justify-content-between" style="row-gap: 15px;">
+                    <div class="col-lg-3 module-box p-2" *ngIf="answersForm">
+                        <form [formGroup]="answersForm" class="col-md-12">
+                            <div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-12 text-center module-subheader">
+                                        <h5 style="color: black;">Answer Options</h5>
+                                    </div><br>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-12">
+                                        <label for="questionType" class="col-form-label">Option Name
+                                        </label>
+                                    </div>
+                                    <hr>
+
+                                    <div class="col-md-12" formArrayName="options"
+                                        *ngFor="let item of answersForm.get('options')['controls']; let i = index;">
+                                        <div [formGroupName]="i" class="form-row">
+                                            <div class="form-group col-md-10">
+                                                <input type="text" class="form-control form-control-sm"
+                                                    placeholder="Question" formControlName="OptionName">
+                                            </div>
+                                            <div class="form-group col-md-2">
+                                                <button *ngIf="answersForm.get('options')['controls'].length>1"
+                                                    [disabled]="IsAnswerEditDisable" class="btn btn-primary custom-btn"
+                                                    (click)="removeAnswer(i, item.controls.optionId.value)"> <i
+                                                        class="fa fa-trash"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-12 right">
+                                        <button type="button" title="click to add more option"
+                                            class="btn btn-outline-primary waves-effect btn-xs waves-light form-control-sm"
+                                            (click)="addNewAnswer()" [disabled]="IsAnswerEditDisable">
+                                            <i class="fas fa-plus-circle"></i> Add Option</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-lg-5 module-box p-2" *ngIf="photoRuleForm">
+                        <form [formGroup]="photoRuleForm" class="col-md-12">
+                            <div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-12 text-center module-subheader">
+                                        <h5 style="color: black;">Photo Rules</h5>
+                                    </div><br>
+                                </div>
+
+                                <div class="form-row">
+                                    <!--header row-->
+                                    <div class="form-group col-md-3">
+                                        <label for="questionType" class="col-form-label">Operator
+                                        </label>
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label for="questionType" class="col-form-label">Value
+                                        </label>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label for="questionType" class="col-form-label">Min
+                                        </label>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label for="questionType" class="col-form-label">Max
+                                        </label>
+                                    </div>
+                                    <hr>
+                                    <!--header row ends-->
+
+
+                                    <div formArrayName="photoRule" class="col-md-12"
+                                        *ngFor="let item of photoRuleForm.get('photoRule')['controls']; let i = index;">
+                                        <!-- Operator -> {{ item.value | json }} -->
+
+                                        <div [formGroupName]="i" class="form-row">
+                                            <div class="form-group col-md-3">
+                                                <select class="form-control form-control-sm"
+                                                    formControlName="PhotoRule_Operator"
+                                                    *ngIf="item.value.PhotoRule_Operator !='Default'">
+                                                    <option>Not Empty</option>
+                                                    <option>Equals</option>
+                                                    <option>Not Equals</option>
+                                                    <option>Show</option>
+                                                    <option>Hide</option>
+                                                </select>
+                                                <div *ngIf="item.value.PhotoRule_Operator =='Default'">
+                                                    <label formControlName="PhotoRule_Operator"
+                                                        ngDefaultControl>Default</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <select class="form-control form-control-sm"
+                                                    formControlName="PhotoRule_Value"
+                                                    *ngIf="item.value.PhotoRule_Operator !='Default'">
+                                                    <option *ngFor="let item of Options" value="{{item.OptionId}}">
+                                                        {{item.OptionName}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-md-2">
+                                                <input type="text" class="form-control form-control-sm"
+                                                    placeholder="Min" formControlName="PhotoRule_Min">
+                                            </div>
+                                            <div class="form-group col-md-2">
+                                                <input type="text" class="form-control form-control-sm"
+                                                    placeholder="Max" formControlName="PhotoRule_Max">
+                                            </div>
+                                            <div class="form-group col-md-1">
+                                                <button class="btn btn-primary custom-btn"
+                                                    [disabled]="IsPhotoRuleEditDisable"
+                                                    *ngIf="item.value.PhotoRule_Operator !='Default' && photoRuleForm.get('photoRule')['controls'].length >1"
+                                                    (click)="removePhotoRule(i, item.controls.PhotoRuleId.value)"> <i
+                                                        class="fa fa-trash"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-12 right">
+                                        <button type="button" title="click to add more option"
+                                            class="btn btn-outline-primary waves-effect btn-xs waves-light form-control-sm"
+                                            (click)="addPhotoRule()" [disabled]="IsPhotoRuleEditDisable">
+                                            <i class="fas fa-plus-circle"></i> Add Photo Rule</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-lg-3 module-box p-2" *ngIf="alertsForm">
+                        <form [formGroup]="alertsForm" class="row">
+                            <div class="">
+                                <div class="form-row">
+                                    <div class="form-group col-md-12 text-center module-subheader">
+                                        <h5 style="color: black;">Alerts</h5>
+                                    </div><br>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-4">
+                                        <label for="questionType" class="col-form-label">Operator
+                                        </label>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="questionType" class="col-form-label">Value
+                                        </label>
+                                    </div>
+                                    <hr>
+
+                                    <div formArrayName="alert" class="col-md-12"
+                                        *ngFor="let item of alertsForm.get('alert')['controls']; let i = index;">
+                                        <div [formGroupName]="i" class="row">
+                                            <div class="form-group col-md-4">
+                                                <select class="form-control form-control-sm"
+                                                    formControlName="AlertRule_Operator">
+                                                    <option></option>
+                                                    <option>No Empty</option>
+                                                    <option>Equals</option>
+                                                    <option>Not Equals</option>
+                                                    <option>Contains</option>
+                                                    <option>Doesn't Contains</option>
+                                                    <option>Show</option>
+                                                    <option>Hide</option>
+                                                    <option>Answer Change</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <select class="form-control form-control-sm"
+                                                    formControlName="AlertRule_Value">
+                                                    <option *ngFor="let item of Options" value="{{item.OptionId}}">
+                                                        {{item.OptionName}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-md-1">
+                                                <button class="btn btn-primary custom-btn"
+                                                    [disabled]="IsAlertsEditDisable"
+                                                    *ngIf="alertsForm.get('alert')['controls'].length>1"
+                                                    (click)="removeAlert(i, item.controls.AlertRuleId.value)"> <i
+                                                        class="fa fa-trash"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-12 right">
+                                        <button type="button" title="click to add more option"
+                                            class="btn btn-outline-primary waves-effect btn-xs waves-light form-control-sm"
+                                            (click)="addAlerts()" [disabled]="IsAlertsEditDisable">
+                                            <i class="fas fa-plus-circle"></i> Add Alert</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-lg-3 module-box p-2" *ngIf="fieldRulesForm">
+                        <form [formGroup]="fieldRulesForm" class="row m-0 " (submit)="submitFieldRules()">
+                            <div class="w-100">
+                                <div class="form-row">
+                                    <div class="form-group col-md-12 text-center module-subheader">
+                                        <h5 style="color: black;">Field Rules</h5>
+                                    </div><br>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-4">
+                                        <label for="questionType" class="col-form-label">Operator
+                                        </label>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="questionType" class="col-form-label">Value
+                                        </label>
+                                    </div>
+                                    <hr>
+
+                                    <div formArrayName="fieldRule" class="col-md-12"
+                                        *ngFor="let item of fieldRulesForm.get('fieldRule')['controls']; let i = index;">
+                                        <div [formGroupName]="i" class="row">
+                                            <div class="form-group col-md-4">
+                                                <select
+                                                    *ngIf="QuestionTypeId == 1 || QuestionTypeId == 3 || QuestionTypeId == 4"
+                                                    class="form-control form-control-sm"
+                                                    formControlName="FieldRule_Operator">
+                                                    <option></option>
+                                                    <option>Not Empty</option>
+                                                    <option>Equals</option>
+                                                    <option>Not Equals</option>
+                                                   
+                                                </select>
+
+                                                <select
+                                                    *ngIf="QuestionTypeId == 2 || QuestionTypeId == 5 || QuestionTypeId == 6"
+                                                    class="form-control form-control-sm"
+                                                    formControlName="FieldRule_Operator">
+                                                    <option></option>
+                                                    <option>Not Empty</option>
+                                                    <option>Equals</option>
+                                                    <option>Not Equals</option>
+                                                    <option>Contains</option>
+                                                    <option>Length equals</option>
+                                                    <option>Length greater than</option>
+                                                    <option>Length less than</option>
+                                                    <!-- <option>Matches Any</option> -->
+                                                </select>
+
+                                                <select *ngIf="QuestionTypeId == 8" class="form-control form-control-sm"
+                                                    formControlName="FieldRule_Operator">
+                                                    <option></option>
+                                                    <option>Not Empty</option>
+                                                    <option>Equals</option>
+                                                    <option>Not Equals</option>
+                                                    <option>Contains</option>
+                                                    <option>Greater than</option>
+                                                    <option>Less than</option>
+                                                    <option>Length equals</option>
+                                                    <option>Length greater than</option>
+                                                    <option>Length less than</option>
+                                                    <option>Numeric Integer</option>
+                                                    <option>Numeric Decimal</option>
+                                                    <!-- <option>Matches Any</option> -->
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <select
+                                                    *ngIf="QuestionTypeId == 1 || QuestionTypeId == 3 || QuestionTypeId == 4"
+                                                    class="form-control form-control-sm"
+                                                    formControlName="FieldRule_Value">
+                                                    <option *ngFor="let item of Options" value="{{item.OptionId}}">
+                                                        {{item.OptionName}}
+                                                    </option>
+                                                </select>
+                                                <input
+                                                    *ngIf="QuestionTypeId == 2 || QuestionTypeId == 5 || QuestionTypeId == 6 || QuestionTypeId == 8 "
+                                                    type="text" class="form-control form-control-sm"
+                                                    formControlName="FieldRule_Value">
+                                            </div>
+                                            <div class="form-group col-md-1">
+                                                <button class="btn btn-primary custom-btn"
+                                                    [disabled]="IsfieldRuleDisable"
+                                                    *ngIf="fieldRulesForm.get('fieldRule')['controls'].length>1"
+                                                    (click)="removefieldRule(i,item.controls.FieldRuleId.value)"> <i
+                                                        class="fa fa-trash"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-12 right">
+                                        <button type="button" title="click to add more option"
+                                            class="btn btn-outline-primary waves-effect btn-xs waves-light form-control-sm"
+                                            (click)="addfieldRules()" [disabled]="IsfieldRuleDisable">
+                                            <i class="fas fa-plus-circle"></i> Add Field Rule</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-lg-4 module-box p-2 " *ngIf="actionRulesForm">
+                        <div>
+                            <form [formGroup]="actionRulesForm">
+                                <div class="form-row">
+                                    <div class="form-group col-md-12 text-center module-subheader">
+                                        <h5 style="color: black;">Action Rules</h5>
+                                    </div><br>
+                                </div>
+                                <!--main block-->
+
+                                <div formArrayName="actionRule" class="col-md-12"
+                                    *ngFor="let item of actionRulesForm.get('actionRule')['controls']; let i = index;">
+                                    <div [formGroupName]="i" class="row">
+                                        <div class="form-row w-100">
+                                            <!--1st row-->
+                                            <div class="form-group col-md-5">
+                                                <label for="questionType" class="col-form-label">Operator
+                                                </label>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="questionType" class="col-form-label">Value
+                                                </label>
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <button type="button" [disabled]="IsActionRuleDisable"
+                                                    class="btn btn-primary custom-btn"
+                                                    (click)="removeActionRule(i, item.controls.ActionRuleId.value)"
+                                                    *ngIf="actionRulesForm.get('actionRule')['controls'].length>1">
+                                                    <i class="fa fa-trash"></i></button>
+                                            </div>
+                                            <hr>
+                                            <!--1st row end-->
+                                            <!--1st row options-->
+                                            <div class="form-group col-md-5">
+                                                <select
+                                                    *ngIf="QuestionTypeId == 1 || QuestionTypeId == 3 || QuestionTypeId == 4"
+                                                    class="form-control form-control-sm "
+                                                    formControlName="ActionRule_Operator">
+                                                    <option></option>
+                                                    <option>Not Empty</option>
+                                                    <option>Equals</option>
+                                                    <option>Not Equals</option>
+                                                </select>
+                                                <select
+                                                    *ngIf="QuestionTypeId == 2 || QuestionTypeId == 5 || QuestionTypeId == 6"
+                                                    class="form-control form-control-sm "
+                                                    formControlName="ActionRule_Operator">
+                                                    <option></option>
+                                                    <option>Not Empty</option>
+                                                    <option>Equals</option>
+                                                    <option>Not Equals</option>
+                                                    <option>Contains</option>
+                                                    <option>Length equals</option>
+                                                    <option>Length greater than</option>
+                                                    <option>Length less than</option>
+                                                    <!-- <option>Matches Any</option> -->
+                                                </select>
+                                                <select *ngIf="QuestionTypeId == 8"
+                                                    class="form-control form-control-sm "
+                                                    formControlName="ActionRule_Operator">
+                                                    <option></option>
+                                                    <option>Not Empty</option>
+                                                    <option>Equals</option>
+                                                    <option>Not Equals</option>
+                                                    <option>Contains</option>
+                                                    <option>Greater than</option>
+                                                    <option>Less than</option>
+                                                    <option>Length equals</option>
+                                                    <option>Length greater than</option>
+                                                    <option>Length less than</option>
+                                                    <option>Numeric Integer</option>
+                                                    <option>Numeric Decimal</option>
+                                                    <!-- <option>Matches Any</option> -->
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-md-5">
+                                                <select
+                                                    *ngIf="QuestionTypeId == 1 || QuestionTypeId == 3 || QuestionTypeId == 4"
+                                                    class="form-control form-control-sm"
+                                                    formControlName="ActionRule_Value">
+                                                    <option *ngFor="let item of Options" value="{{item.OptionId}}">
+                                                        {{item.OptionName}}
+                                                    </option>
+                                                </select>
+                                                <input
+                                                    *ngIf="QuestionTypeId == 2 || QuestionTypeId == 5 || QuestionTypeId == 6 || QuestionTypeId == 8 "
+                                                    type="text" class="form-control form-control-sm"
+                                                    formControlName="ActionRule_Value">
+                                            </div>
+                                            <!--1st row options-->
+
+                                            <!--2nd row-->
+                                            <div class="form-group col-md-12">
+                                                <label for="questionType" class="col-form-label">Actions
+                                                </label>
+
+                                            </div>
+
+                                            <!--2nd row end-->
+                                            <!--2nd row options-->
+                                        </div>
+
+
+                                        <div formArrayName="ActionRules" style="width: 100% !important;"
+                                            *ngFor="let item of actionRulesForm.get('actionRule')['controls'][i].get('ActionRules')['controls']; let j = index;">
+                                            <div class="form-row w-100" [formGroupName]="j">
+                                                <div class="form-group col-md-7">
+                                                    <select class="form-control form-control-sm"
+                                                        formControlName="ActionQuestionId">
+                                                        <option *ngFor="let item of Questions"
+                                                            value="{{item.QuestionId}}">
+                                                            {{item.Question}}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <select class="form-control form-control-sm"
+                                                        formControlName="ActionValue">
+                                                        <option>Show</option>
+                                                        <option>Hide</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-md-1">
+                                                    <button class="btn btn-primary custom-btn"
+                                                        [disabled]="IsActionRuleDisable"
+                                                        *ngIf="actionRulesForm.get('actionRule')['controls'][i].get('ActionRules')['controls'].length>1"
+                                                        (click)="removeAction(i,j, item.controls.ActionId.value)"> <i
+                                                            class="fa fa-trash"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!--2nd row options end-->
+
+                                        <!--add button-->
+                                        <div class="form-group col-md-12">
+                                            <button type="button" title="click to add more option"
+                                                class="btn btn-outline-primary waves-effect btn-xs waves-light form-control-sm"
+                                                (click)="addAction(i)" [disabled]="IsActionRuleDisable">
+                                                <i class="fas fa-plus-circle"></i> Add Action</button>
+                                        </div>
+                                        <!--add button end-->
+
+                                    </div>
+                                </div>
+
+                                <!--main block end-->
+                                <hr>
+                                <div class="form-row">
+
+                                    <div class="float-right">
+                                        <button type="button" title="click to add more option"
+                                            class="btn btn-outline-primary waves-effect btn-xs waves-light form-control-sm"
+                                            (click)="addActionRules()" [disabled]="IsActionRuleDisable">
+                                            <i class="fas fa-plus-circle"></i> Add Action Rule</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row m-0 justify-content-center">
+                    
+                   
+                </div>
+
+
+
+                
+            </div>
+        </div>
+    </div>
+</div>

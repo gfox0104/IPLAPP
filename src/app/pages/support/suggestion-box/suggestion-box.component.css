@@ -1,0 +1,57 @@
+.suggestion-box{
+    width: 100%;
+    margin-top: 1% !important;
+}
+.request-new{
+    font-size: 3vw;
+}
+.label{
+    padding: 10px 0;
+}
+.suggestion-desc{
+    min-height: 100px;
+}
+.send-btn{
+    display: flex;
+    margin-top: 20px;
+    justify-content: center;
+}
+.send-request-btn{
+    background-color: #fd6628;
+    color: #ffffff;
+}
+.suggestion-group-title-main{
+    font-size: 16px;
+}
+.suggestion-group-title{
+    display: flex;
+    align-items: center;
+    margin-top: 50px;
+}
+.suggestion-group-desc{
+    margin-top: 10px;
+}
+.upvote{
+    display: flex;
+    align-items: center;
+    background-color: #3ca9e1;
+}
+
+.buton{
+    height: 30px;
+    width: 30px;
+    border-radius: 15px;
+    background-color: #3ca9e1;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+}
+
+.vote-count{
+    align-self: center;
+    font-weight: bold;
+    padding-left: 10%;
+    font-size: larger;
+}

@@ -1,0 +1,105 @@
+<form (ngSubmit)="SubmitTaskGroupManage()">
+  <div class="form-row">
+    <div class="form-group col-md-12 text-center module-subheader" >
+      <h5>Manage Task Groups</h5>
+    </div>
+    <br>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      <label>Enter Group Name<i class="text-danger"> *</i></label>
+      <input type="text" class="form-control form-control-sm" [(ngModel)]="Task_GroupPopupModelObj.Task_Group_Name"
+        placeholder="Enter Task Name.." [ngModelOptions]="{standalone: true}">
+        <div *ngIf="isTaskGroupValid" class="Mydropdown">this field is required</div>
+    </div>
+
+    <div class="col-md-4">
+      <label [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'client')" >Client</label>
+      <div style="background-color: white !important;" *ngIf="drdClientlist">
+        <ng-multiselect-dropdown style="width: max-content;" [placeholder]="'select client'"
+          [settings]="dropdownSettings" [data]="drdClientlist"
+          [(ngModel)]="Task_GroupPopupModelObj.Task_Group_Client_data" [ngModelOptions]="{standalone: true}"
+           [ngClass]="{ 'HelpCursor': isHelpActive }" (click)="DispalyInfo($event,'client')">
+
+        </ng-multiselect-dropdown>
+      </div>
+
+    </div>
+
+    <!-- <div class="form-group col-md-4">
+      <label>Select Client</label>
+      <kendo-dropdownlist class="form-control form-control-sm"
+        [data]="drdClientlist"
+        [defaultItem]="defaultClientItem"
+        [filterable]="true"
+        [textField]="'Client_Company_Name'"
+        [valueField]="'Client_pkeyID'"
+        (filterChange)="FilterClientDropdowen($event)"
+        [(ngModel)]="Task_GroupPopupModelObj.Task_Group_Client_pkeyID"
+        [valuePrimitive]="true"
+        [ngModelOptions]="{standalone: true}"
+      >
+      </kendo-dropdownlist>
+    </div> -->
+    <div class="form-group col-md-1">
+      <label>Active</label>
+      <div class="custom-control custom-switch" style="margin-top:5px">
+        <input type="checkbox" class="custom-control-input" id="Work_Type_IsActive"
+          [(ngModel)]="Task_GroupPopupModelObj.Task_Group_IsActive"
+          [ngModelOptions]="{standalone: true}">
+        <label class="custom-control-label" for="Work_Type_IsActive"></label>
+      </div>
+    </div>
+    <div class="form-group col-md-3"  style="margin-top: 15px;">
+      <button type="submit" class="btn btn-primary waves-effect waves-light"> <i class="far fa-save"></i>
+        {{button}}</button>
+        &nbsp;&nbsp;
+        <button type="button" (click)="CancleClick()" class="btn btn-primary">
+          Cancel</button>
+    </div>
+  </div>
+</form>
+<div class="col-12">
+  <kendo-grid #gridUserGroup [kendoGridBinding]="popformArray" [pageSize]="15" [pageable]="true" [sortable]="true"
+  [filterable]="true" [selectable]="true" [groupable]="false" [skip]="state_grid2.skip" [sort]="state_grid2.sort"
+  [filter]="state_grid2.filter" (dataStateChange)="dataStateChange_grid2($event)">
+  <kendo-grid-column *ngFor="let column of gridTaskGroupColumns" [field]="column.field" [title]="column.title" [width]="80" [filterable]="column.title=='Active'?false:true">
+    <!-- <ng-template kendoGridCellTemplate let-dataItem let-i="rowIndex" *ngIf="column.title==='Active'">
+      <div class="custom-control custom-switch">
+        <input disabled="true" type="checkbox" class="custom-control-input" id="switchisActive_group{{i}}" [checked]="dataItem.Task_Group_IsActive">
+        <label disabled="true"  class="custom-control-label" for="switchisActive_group{{i}}"></label>
+      </div>
+    </ng-template> -->
+
+    <ng-template kendoGridCellTemplate let-dataItem let-i="rowIndex" *ngIf="column.title==='Active'">
+      <div class="custom-control custom-switch">
+        <input type="checkbox" (change)="checkChange($event, dataItem)"
+            class="custom-control-input" id="switchisActive_group{{i}}"
+            [checked]="dataItem.Task_Group_IsActive">
+        <label class="custom-control-label"
+            for="switchisActive_group{{i}}"></label>
+    </div>
+
+    </ng-template>
+  </kendo-grid-column>
+  <kendo-grid-column title="Action" width="80">
+    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+      <a class="edit" data-toggle="tooltip" (click)="EditTaskGroupManage(dataItem)"  class="k-grid-ignore-click" data-placement="top"
+        title="Edit Record">
+        <i class="fa fa-edit"></i>
+      </a> &nbsp;&nbsp;
+      <button class="edit" data-toggle="tooltip" (click)="DeleteTaskGroupManage(dataItem)" data-placement="top"
+        title="Delete Record" style="cursor: pointer; border:none;"[disabled]="dataItem.Task_Group_IsDeleteAllow">
+        <i class="fa fa-trash"></i>
+      </button>
+    </ng-template>
+  </kendo-grid-column>
+  <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+    <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+    <kendo-pager-numeric-buttons [buttonCount]="10"></kendo-pager-numeric-buttons>
+    <kendo-pager-next-buttons></kendo-pager-next-buttons>
+    <kendo-pager-info></kendo-pager-info>
+    <kendo-pager-page-sizes [pageSizes]="[15, 30, 50, 100]"></kendo-pager-page-sizes>
+  </ng-template>
+  </kendo-grid>
+</div>

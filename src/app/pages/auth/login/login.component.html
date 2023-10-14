@@ -1,0 +1,233 @@
+<div class="container">
+  <div class="row justify-content-md-center">
+    <div class="col-md-12 col-lg-6 col-xl-5">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex justify-content-center">
+            <img src="assets/images/logo.jpg" class="img-responsive">
+          </div>
+
+          <form [formGroup]="formUsrLoginGroup" (ngSubmit)="onLogin(content, contentpasswordChange)">
+            <div class="form-group mb-3">
+              <label for="emailaddress" style="margin-left: 5%;">USERNAME</label>
+              <input class="form-control form-control-sm" type="email" id="emailaddress" required=""
+                placeholder="Enter your username" formControlName="Eamilname"
+                [(ngModel)]="userLoginModel.user_LoginName"
+                [ngClass]="{ 'is-invalid': submitted && fx.Eamilname.errors }" style="max-width: 90%; margin-left: 5%;">
+
+              <div *ngIf="submitted && fx.Eamilname.errors" class="invalid-feedback">
+                <div *ngIf="fx.Eamilname.errors.required">Username is required</div>
+              </div>
+            </div>
+
+            <div class="form-group mb-3">
+              <label for="password" style="margin-left: 5%;">PASSWORD</label>
+              <div class="input-group">
+                <input class="form-control form-control-sm" type="password" required="" id="password"
+                placeholder="Enter your password" formControlName="passwordname"
+                [type]="fieldTextType ? 'text' : 'password'"
+                [(ngModel)]="userLoginModel.user_Password"
+                [ngClass]="{ 'is-invalid': submitted && fx.passwordname.errors }" style="max-width: 90%; margin-left: 5%;">
+                <span class="test-index" style=" margin-right: 23px">
+                  <i
+                  class="fa"
+                  [ngClass]="{
+                    'fa-eye-slash': !fieldTextType,
+                    'fa-eye': fieldTextType
+                  }"
+                  (click)="toggleFieldTextType()"
+                ></i>
+                 </span>
+              </div>
+
+              <div *ngIf="submitted && fx.passwordname.errors" class="invalid-feedback">
+                <div *ngIf="fx.passwordname.errors.required">Password is required</div>
+              </div>
+            </div>
+
+
+
+
+            <div class="form-group mb-0 text-center">
+              <button id="client_viewdetail_1" class="btn btn-primary btn-md" type="submit" [disabled]="isLoading">
+                <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-lock': !isLoading}"></i>
+                {{button}}</button>
+            </div>
+          </form>
+
+          <br><br>
+          <div class="text-center forgot-password">
+            <a (click)="forgetPassword(contentpassword)"> Forgot Password?</a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div>
+  <footer class="footer footer-alt">
+    2023 &copy; IPRESERVATION LIVE <a href="#" class="text-white-50"></a>
+  </footer>
+</div>
+
+<!-- msg -->
+<ng-template #content let-modal>
+  <div class="modal-header">
+    Message
+    <button type="button" class="close" (click)="modal.close('Save click')" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="text-center">
+      <span>{{messageFlag}}</span>
+      <hr>
+      <button type="button" class="btn btn-primary waves-effect waves-light"
+        (click)="modal.close('Save click')">Close</button>
+    </div>
+  </div>
+</ng-template>
+
+<!-- forgotpassword -->
+<ng-template #contentpassword let-modal>
+  <div class="modal-header">
+    Forgot Password
+    <button type="button" class="close" (click)="modal.close('Save click')" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="formUsrLoginGroupforget" (ngSubmit)="formButtonPassword(content)">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label class="col-form-label" for="kfdfstdc">Enter User Name</label>
+            </div>
+            <div class="form-group col-md-8">
+              <input class="form-control form-control-sm" type="email" id="kfdfstdc"
+                placeholder="Enter your username" formControlName="Eamilnameforget"
+                [(ngModel)]="userLoginModel.user_LoginNameForgot"
+                [ngClass]="{ 'is-invalid': submittedForgot && fxforget.Eamilnameforget.errors }">
+              <div *ngIf="submittedForgot && fxforget.Eamilnameforget.errors" class="invalid-feedback">
+                <div *ngIf="fxforget.Eamilnameforget.errors.required">Username is required</div>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="float-right">
+              <button type="submit" class="btn btn-primary waves-effect waves-light" [disabled]="isLoadingforgot">
+                <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoadingforgot, 'fa-lock': !isLoadingforgot}"></i>
+                {{buttonforgot}}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<!-- change password -->
+<ng-template #contentpasswordChange let-modal>
+  <div class="modal-header">
+    Change Password
+    <button type="button" class="close" (click)="modal.close('Save click')" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="formUsrLoginGroupChnage" (ngSubmit)="formButtonChange()">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label class="col-form-label" for="fgffdwdg">Enter Old Password</label>
+            </div>
+            <div class="form-group col-md-8">
+              <input class="form-control form-control-sm" type="password" id="fgffdwdg"
+                placeholder="Enter your old password" formControlName="PasswordOld"
+                [(ngModel)]="userLoginModel.user_PasswordOld"
+                [ngClass]="{ 'is-invalid': submittedchange && fxChange.PasswordOld.errors }"
+                [type]="fieldPassword_Old ? 'text' : 'password'"
+                >
+                <span class="change-password-index">
+                  <i
+                  class="fa"
+                  [ngClass]="{
+                    'fa-eye-slash': !fieldPassword_Old,
+                    'fa-eye': fieldPassword_Old
+                  }"
+                  (click)="viewPassword('OLD')"
+                ></i>
+                 </span>
+              <div *ngIf="submittedchange && fxChange.PasswordOld.errors" class="invalid-feedback">
+                <div *ngIf="fxChange.PasswordOld.errors.required">Old password is required</div>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+              <div class="form-group col-md-4">
+                <label class="col-form-label" for="fgfferwdg">Enter New Password</label>
+              </div>
+              <div class="form-group col-md-8">
+                <input class="form-control form-control-sm" type="password" id="fgfferwdg"
+                  placeholder="Enter your new password" formControlName="PasswordNew"
+                  [(ngModel)]="userLoginModel.user_PasswordNew"
+                  [ngClass]="{ 'is-invalid': submittedchange && fxChange.PasswordNew.errors }"
+                  [type]="fieldPassword_New ? 'text' : 'password'">
+                  <span class="change-password-index">
+                    <i
+                    class="fa"
+                    [ngClass]="{
+                      'fa-eye-slash': !fieldPassword_New,
+                      'fa-eye': fieldPassword_New
+                    }"
+                    (click)="viewPassword('NEW')"
+                  ></i>
+                   </span>
+                <div *ngIf="submittedchange && fxChange.PasswordNew.errors" class="invalid-feedback">
+                  <div *ngIf="fxChange.PasswordNew.errors.required">New password is required</div>
+                  <div *ngIf="fxChange.PasswordNew.errors.minlength">Password must be at least 8 characters</div>
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label class="col-form-label" for="fgffdg">Enter Confirm Password</label>
+                </div>
+                <div class="form-group col-md-8">
+                  <input class="form-control form-control-sm" type="password" id="fgffdg"
+                    placeholder="Enter your new password" formControlName="PasswordConfirm"
+                    [(ngModel)]="userLoginModel.user_PasswordConfirm"
+                    [ngClass]="{ 'is-invalid': submittedchange && fxChange.PasswordConfirm.errors }"
+                    [type]="fieldPassword_Confirm ? 'text' : 'password'">
+                    <span class="change-password-index">
+                      <i
+                      class="fa"
+                      [ngClass]="{
+                        'fa-eye-slash': !fieldPassword_Confirm,
+                        'fa-eye': fieldPassword_Confirm
+                      }"
+                      (click)="viewPassword('CONFIRM')"
+                    ></i>
+                     </span>
+                  <div *ngIf="submittedchange && fxChange.PasswordConfirm.errors" class="invalid-feedback">
+                    <div *ngIf="fxChange.PasswordConfirm.errors.required">Confirm password is required</div>
+                    <div *ngIf="fxChange.PasswordConfirm.errors.mustMatch">Password must match</div>
+                  </div>
+                </div>
+              </div>
+          <div class="form-row">
+            <div class="float-right">
+              <button type="submit" class="btn btn-primary waves-effect waves-light" [disabled]="isLoadingChange">
+                <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoadingChange, 'fa-lock': !isLoadingChange}"></i>
+                {{buttonChange}}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</ng-template>

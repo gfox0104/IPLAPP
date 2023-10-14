@@ -1,0 +1,131 @@
+<div class="repair-create">
+    <ngx-spinner 
+        bdColor = "rgba(0, 0, 0, 0.8)" 
+        size = "medium" color = "#fff" 
+        type = "square-jelly-box" 
+        [fullScreen] = "true"
+    >
+        <p style="color: white" > Loading... </p>
+    </ngx-spinner>
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <div class="">
+                <h4 class="module-box-header mb-0">
+                    Create Estimate
+                </h4>
+                <div class="module-box p-2">
+                    <form [formGroup]="formUsrCommonGroup" (ngSubmit)="createEstimate()">
+                        
+                        
+                        <div class="col-md-6">
+                            <div>
+                                <div class="col-sm-12">
+                                    <div class="row" style="width: 100%">
+                                        <div class="col-md-6 col-sm-12">
+                                            Property Type: <span style="color: red">*</span>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <select id="RB_PropertyType" class="form-control form-control-sm" [(ngModel)]="RepairBaseCreatestep1ModelObj.RB_PropertyType" 
+                                            [ngClass]="{ 'is-invalid': submitted && fx.RB_PropertyType.errors }" formControlName="RB_PropertyType" name="RB_PropertyType">
+                                                <option [value]="propertyType.id" *ngFor="let propertyType of propertyTypes">
+                                                    {{propertyType.description}}
+                                                </option>
+                                                </select>
+                                                <div *ngIf="submitted && fx.RB_PropertyType.errors" class="invalid-feedback">
+                                                    <div *ngIf="fx.RB_PropertyType.errors.required">this field is required</div>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="col-sm-12">
+                                    <div class="row" style="width: 100%">
+                                        <div class="col-md-6 col-sm-12">
+                                            Property Address: <span style="color: red">*</span>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <input type="text" id="RB_PropertyAddress" class="form-control" formControlName="RB_PropertyAddress"
+                                            [ngClass]="{ 'is-invalid': submitted && fx.RB_PropertyAddress.errors }"
+                                             name="RB_PropertyAddress" placeholder="Address.." [(ngModel)]="RepairBaseCreatestep1ModelObj.RB_PropertyAddress">
+                                            <div *ngIf="submitted && fx.RB_PropertyAddress.errors" class="invalid-feedback">
+                                                <div *ngIf="fx.RB_PropertyAddress.errors.required">this field is required</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="col-sm-12">
+                                    <div class="row" style="width: 100%">
+                                        <div class="col-md-6 col-sm-12">
+                                            City: <span style="color: red">*</span> 
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <input type="text" id="RB_City" class="form-control" formControlName="RB_City" 
+                                            [ngClass]="{ 'is-invalid': submitted && fx.RB_City.errors }"
+                                            name="RB_City" placeholder="City.." [(ngModel)]="RepairBaseCreatestep1ModelObj.RB_City">
+                                            <div *ngIf="submitted && fx.RB_City.errors" class="invalid-feedback">
+                                                <div *ngIf="fx.RB_City.errors.required">this field is required</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="col-sm-12">
+                                    <div class="row" style="width: 100%">
+                                        <div class="col-md-6 col-sm-12">
+                                            State: <span style="color: red">*</span> 
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <select id="RB_State" class="form-control form-control-sm" [(ngModel)]="RepairBaseCreatestep1ModelObj.RB_State" 
+                                            [ngClass]="{ 'is-invalid': submitted && fx.RB_State.errors }" formControlName="RB_State" name="RB_State">
+                                                <option [value]="state.id" *ngFor="let state of states">
+                                                    {{state.description}}
+                                                </option>
+                                                </select>
+                                            <div *ngIf="submitted && fx.RB_State.errors" class="invalid-feedback">
+                                                <div *ngIf="fx.RB_State.errors.required">this field is required</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div> 
+                                <div class="col-sm-12">
+                                    <div class="row" style="width: 100%">
+                                        <div class="col-md-6 col-sm-12">
+                                            Zip Code: <span style="color: red">*</span>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <input type="text" id="RB_Zip" class="form-control" formControlName="RB_Zip" name="RB_Zip" 
+                                            [ngClass]="{ 'is-invalid': submitted && fx.RB_Zip.errors }"
+                                            placeholder="Zip.." [(ngModel)]="RepairBaseCreatestep1ModelObj.RB_Zip">
+                                            <div *ngIf="submitted && fx.RB_Zip.errors" class="invalid-feedback">
+                                                <div *ngIf="fx.RB_Zip.errors.required">this field is required</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="col-sm-12">
+                                    <button class="btn btn-primary" type="submit">Next</button> 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="float-right">
+                              <label for="InvestmentSihhhze" *ngIf="formUsrCommonGroup.invalid" style="color:red">*
+                                Field is Required
+                              </label> <br>
+                            </div>
+                          </div>
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

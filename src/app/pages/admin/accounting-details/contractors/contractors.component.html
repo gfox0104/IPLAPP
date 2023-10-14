@@ -1,0 +1,704 @@
+<div class="row dashboardAccounting" >
+  <div class="col-md-2 sidebar">
+    <app-account-sidebar [ActiveLink]="7"></app-account-sidebar>
+  </div>
+  <div class="col-md-10 mainDashboard">
+    <div class="">
+      <div class="row">
+        <div class="col-12">
+          <div class="">
+            <div>
+              <br />
+              <div class="row m-0">
+                <div class="col-md-8">
+                  <h3 class="page-title"
+                  >
+                  Vendors
+                  </h3>
+                </div>
+                <div class="col-md-4">
+                  <button
+                    type="button"
+                    (click)="AddNewVendor(ContractorsFORM)"
+                    class="btn btn-primary float-right"
+                  >
+                    <i class="fas fa-plus-circle"></i> Add
+                  </button>
+                </div>
+              </div>
+              <hr />
+              <div class="newDiv">
+                <div class="row m-0 griddiv p-2">
+                  <kendo-grid
+                    class="module-box"
+                    #gridUser
+                    [kendoGridBinding]="ContractorList"
+                    [pageSize]="15"
+                    [loading]="IsLoad"
+                    [pageable]="true"
+                    [sortable]="true"
+                    [filterable]="true"
+                    [selectable]="true"
+                    [groupable]="false"
+                    [skip]="state.skip"
+                    [sort]="state.sort"
+                    [filter]="state.filter"
+                    (dataStateChange)="dataStateChange($event)"
+                  >
+                    <kendo-grid-column
+                      field="First_Name"
+                      title="First Name"
+                      
+                    >
+                    </kendo-grid-column>
+                    <kendo-grid-column
+                      field="Last_Name"
+                      title="Last Name"
+                      
+                    >
+                    </kendo-grid-column>
+                    <kendo-grid-column
+                      field="Company_Name"
+                      title="Company"
+                      
+                    >
+                    </kendo-grid-column>
+  
+                    <kendo-grid-column
+                      field="Email"
+                      title="Email"
+                      
+                    >
+                    </kendo-grid-column>
+                    <!-- <kendo-grid-column
+                      field="User_Group_Name"
+                      title="Group"
+                      
+                    >
+                    </kendo-grid-column> -->
+                    <kendo-grid-column
+                      field="Mobile"
+                      title="Mobile"
+                      
+                    >
+                  </kendo-grid-column>
+                  <kendo-grid-column
+                  field="CreatedBy"
+                  title="CreatedBy"
+                  
+                >
+                </kendo-grid-column>
+                <kendo-grid-column
+                  field="ModifiedBy"
+                  title="LastModifiedBy"
+                  
+                >
+                </kendo-grid-column>
+                    <kendo-grid-column
+                      title="Active"
+                      
+                    >
+                      <ng-template
+                        kendoGridCellTemplate
+                        let-dataItem
+                        let-i="rowIndex"
+                      >
+                        <div class="custom-control custom-switch">
+                          <input
+                            type="checkbox"
+                            (change)="checkChangeContracors(dataItem)"
+                            class="custom-control-input"
+                            id="switchisActive{{ i }}"
+                            [checked]="dataItem.IsActive"
+                          />
+                          <label
+                            class="custom-control-label"
+                            for="switchisActive{{ i }}"
+                          ></label>
+                        </div>
+                      </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column
+                      title="Action"
+                      
+                    >
+                      <ng-template
+                        kendoGridCellTemplate
+                        let-dataItem
+                        let-rowIndex="rowIndex"
+                      >
+                        <button
+                          [disabled]="false"
+                          (click)="
+                            editDetails(
+                              dataItem.Acc_Vendor_pkeyId,
+                              ContractorsFORM
+                            )
+                          "
+                        >
+                          <i class="fa fa-pencil-square-o"></i></button
+                        >&nbsp;
+                      </ng-template>
+                    </kendo-grid-column>
+                    <ng-template
+                      kendoPagerTemplate
+                      let-totalPages="totalPages"
+                      let-currentPage="currentPage"
+                    >
+                      <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+                      <kendo-pager-numeric-buttons
+                        [buttonCount]="10"
+                      ></kendo-pager-numeric-buttons>
+                      <kendo-pager-next-buttons></kendo-pager-next-buttons>
+                      <kendo-pager-info></kendo-pager-info>
+                      <kendo-pager-page-sizes
+                        [pageSizes]="[15, 30, 50, 100]"
+                      ></kendo-pager-page-sizes>
+                    </ng-template>
+                  </kendo-grid>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #ContractorsFORM let-modal class="module-box">
+  <div class="modal-header">
+    <button type="button" class="close" aria-label="Close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body "  [ngClass]="{ 'HelpCursor': isHelpActive }">
+    <div class="module-box p-2"
+    >
+      <form
+        [formGroup]="formContractorCommonGroup"
+        (ngSubmit)="FormButtonPOPUp(EditContractorsForm)"
+        #EditContractorsForm="ngForm"
+      >
+        <div class="form-row">
+          <div
+            class="form-group col-md-12 text-center module-subheader"
+          >
+            <h5>Vendor
+              <a class="pull-right" data-toggle="tooltip" (click)="SetHelpFlag()" data-placement="top"
+              title="Item Help" style="cursor: pointer;">Need Help
+              <i class="fas fa-question"></i>&nbsp; &nbsp;
+            </a>
+            </h5>
+          </div>
+          <br />
+        </div>
+        <section>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label for="title" [ngClass]="{ 'HelpCursor': isHelpActive }"(click)="DispalyInfo($event,'Title')"> Title </label>
+                    <div class="input-group">
+                      <input
+                        id="title"
+                        type="text"
+                        class="form-control form-control-sm"
+                        placeholder="Title.."
+                        required
+                        name="Title"
+                        #Title="ngModel"
+                        [(ngModel)]="Contractors.Title"
+                        [ngModelOptions]="{ standalone: true }"
+                        [ngClass]="{ 'HelpCursor': isHelpActive }"
+                        (click)="DispalyInfo($event,'Title')"
+                        [readonly]="isHelpActive" 
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="firstname" [ngClass]="{ 'HelpCursor': isHelpActive }"(click)="DispalyInfo($event,' First Name')">
+                      First Name <i class="text-danger">*</i></label
+                    >
+                    <div class="input-group">
+                      <input
+                        id="firstname"
+                        type="text"
+                        class="form-control form-control-sm"
+                        name="First_Name"
+                        (keyup)="RemovewhiteSpace($event, 'First_Name')"
+                        [(ngModel)]="Contractors.First_Name"
+                        placeholder="First name.."
+                        formControlName="First_Name"
+                        [ngClass]="{
+                          'is-invalid':
+                            EditContractorsForm.submitted &&
+                            fx.First_Name.errors
+                        }"
+                        [ngClass]="{ 'HelpCursor': isHelpActive }"
+                        (click)="DispalyInfo($event,'First Name')"
+                        [readonly]="isHelpActive" 
+                      />
+                    </div>
+                    <div
+                      *ngIf="
+                        EditContractorsForm.submitted && fx.First_Name.errors
+                      "
+                      class="text-danger"
+                    >
+                      <div *ngIf="fx.First_Name.errors">
+                        this field is required
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="Middle_Name" [ngClass]="{ 'HelpCursor': isHelpActive }"(click)="DispalyInfo($event,'Middle Name')"> Middle Name </label>
+                    <div class="input-group">
+                      <input
+                        id="Middle_Name"
+                        type="text"
+                        class="form-control form-control-sm"
+                        placeholder="Middle name.."
+                        required
+                        name="Middle_Name"
+                        #Middle_Name="ngModel"
+                        [(ngModel)]="Contractors.Middle_Name"
+                        [ngModelOptions]="{ standalone: true }"
+                        [ngClass]="{ 'HelpCursor': isHelpActive }"
+                        (click)="DispalyInfo($event,'Middle Name')"
+                        [readonly]="isHelpActive" 
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="lastname"  [ngClass]="{ 'HelpCursor': isHelpActive }"(click)="DispalyInfo($event,'Last Name')">
+                      Last Name <i class="text-danger">*</i></label
+                    >
+                    <div class="input-group">
+                      <input
+                        id="lastname"
+                        type="text"
+                        class="form-control form-control-sm"
+                        name="Last_Name"
+                        [(ngModel)]="Contractors.Last_Name"
+                        placeholder="Last name.."
+                        formControlName="Last_Name"
+                        (keyup)="RemovewhiteSpace($event, 'Last_Name')"
+                        [ngClass]="{
+                          'is-invalid':
+                            EditContractorsForm.submitted && fx.Last_Name.errors
+                        }"
+                        [ngClass]="{ 'HelpCursor': isHelpActive }"
+                        (click)="DispalyInfo($event,'Last Name')"
+                        [readonly]="isHelpActive"
+                      />
+                    </div>
+                    <div
+                      *ngIf="
+                        EditContractorsForm.submitted && fx.Last_Name.errors
+                      "
+                      class="text-danger"
+                    >
+                      <div *ngIf="fx.Last_Name.errors">
+                        this field is required
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-1"></div>
+                </div>
+
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="company" [ngClass]="{ 'HelpCursor': isHelpActive }"(click)="DispalyInfo($event,'Company')">
+                      Company <i class="text-danger"></i></label
+                    >
+                    <div class="input-group">
+                      <input
+                        id="company"
+                        name="Company_Name"
+                        [(ngModel)]="Contractors.Company_Name"
+                        type="text"
+                        class="form-control form-control-sm"
+                        placeholder="Company.."
+                        formControlName="Company_Name"
+                        (keyup)="RemovewhiteSpace($event, 'Company_Name')"
+                      
+                        [ngClass]="{ 'HelpCursor': isHelpActive }"
+                        (click)="DispalyInfo($event,'Company')"
+                        [readonly]="isHelpActive"
+                      />
+                    </div>
+                  
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="displayname" [ngClass]="{ 'HelpCursor': isHelpActive }"(click)="DispalyInfo($event,'Display name as')"> Display name as</label>
+                    <div class="input-group">
+                      <input
+                        id="displayname"
+                        type="text"
+                        disabled
+                        name="Company_Name"
+                        [(ngModel)]="Contractors.Company_Name"
+                        [ngModelOptions]="{ standalone: true }"
+                        class="form-control form-control-sm"
+                        placeholder="Display Name.."
+                        [ngClass]="{ 'HelpCursor': isHelpActive }"
+                        (click)="DispalyInfo($event,'Display name as')"
+                        [readonly]="isHelpActive"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="PrintOnCheck"  [ngClass]="{ 'HelpCursor': isHelpActive }"(click)="DispalyInfo($event,'Print on check as')"> Print on check as</label>
+                    <div class="input-group col-md-2">
+                      <input
+                        id="PrintOnCheck"
+                        type="checkbox"
+                        name="PrintOnCheck"
+                        [(ngModel)]="Contractors.PrintOnCheck"
+                        [ngModelOptions]="{ standalone: true }"
+                        [ngClass]="{ 'HelpCursor': isHelpActive }"(click)="DispalyInfo($event,'Print on check as')"
+                        placeholder="Print on check.."
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="address" [ngClass]="{ 'HelpCursor': isHelpActive }"(click)="DispalyInfo($event,'Address')"> Address</label>
+                    <div class="input-group">
+                      <textarea
+                        id="address"
+                        name="Address"
+                        [(ngModel)]="Contractors.Address"
+                        [ngModelOptions]="{ standalone: true }"
+                        class="form-control form-control-sm"
+                        placeholder="Street"
+                        [ngClass]="{ 'HelpCursor': isHelpActive }"
+                        (click)="DispalyInfo($event,'Address')"
+                        [readonly]="isHelpActive"
+                      ></textarea>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <div class="input-group">
+                      
+
+                      <select
+                        name="StateId"
+                        class="form-control form-control-sm"
+                        [(ngModel)]="Contractors.StateId"
+                        [ngModelOptions]="{ standalone: true }"
+                        [ngClass]="{ 'HelpCursor': isHelpActive }"
+                        (click)="DispalyInfo($event,'State')"
+                       
+                      >
+                        <option value="0">select state</option>
+                        <option
+                          [ngValue]="kb.IPL_StateID"
+                          *ngFor="let kb of StateArray"
+                        >
+                          {{ kb.IPL_StateName }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <div class="input-group">
+                      <input
+                        id="country"
+                        type="text"
+                        class="form-control form-control-sm"
+                        placeholder="Country.."
+                        name="Country"
+                        [(ngModel)]="Contractors.Country"
+                        [ngModelOptions]="{ standalone: true }"
+                        [ngClass]="{ 'HelpCursor': isHelpActive }"
+                        (click)="DispalyInfo($event,'Country')"
+                        [readonly]="isHelpActive"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <div class="input-group">
+                      <input
+                        id="city"
+                        type="text"
+                        name="City"
+                        [(ngModel)]="Contractors.City"
+                        [ngModelOptions]="{ standalone: true }"
+                        class="form-control form-control-sm"
+                        placeholder="City/Town.."
+                        [ngClass]="{ 'HelpCursor': isHelpActive }"
+                        (click)="DispalyInfo($event,'City')"
+                        [readonly]="isHelpActive"
+                      />
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <div class="input-group">
+                      <input
+                        id="zipcode"
+                        type="text"
+                        class="form-control form-control-sm"
+                        placeholder="Zip code.."
+                        name="ZipCode"
+                        [(ngModel)]="Contractors.ZipCode"
+                        [ngModelOptions]="{ standalone: true }"
+                        [ngClass]="{ 'HelpCursor': isHelpActive }"
+                        (click)="DispalyInfo($event,'ZipCode')"
+                        [readonly]="isHelpActive"
+                      />
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="email"  [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'Email')">
+                      Email <i class="text-danger">*</i></label
+                    >
+                    <div class="input-group">
+                      <input
+                        id="email"
+                        type="text"
+                        [(ngModel)]="Contractors.Email"
+                        class="form-control form-control-sm"
+                        placeholder="Email.."
+                        formControlName="Email"
+                        (keyup)="RemovewhiteSpace($event, 'Email')"
+                        [ngClass]="{
+                          'is-invalid':
+                            EditContractorsForm.submitted && fx.Email.errors
+                        }"
+                        [ngClass]="{ 'HelpCursor': isHelpActive }"
+                        (click)="DispalyInfo($event,'Email')"
+                        [readonly]="isHelpActive"
+                      />
+                    </div>
+                    <div
+                      *ngIf="EditContractorsForm.submitted && fx.Email.errors"
+                      class="text-danger"
+                    >
+                      <div *ngIf="fx.Email.errors.required">
+                        this field is required
+                      </div>
+                      <div *ngIf="fx.Email.errors.email">
+                        Email must be a valid email address
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="phone" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'Phone')"
+                   > Phone</label>
+                    <div class="input-group">
+                      <input
+                        id="phone"
+                        type="text"
+                        name="Phone"
+                        [(ngModel)]="Contractors.Phone"
+                        [ngModelOptions]="{ standalone: true }"
+                        class="form-control form-control-sm"
+                        placeholder="Phone.."
+                        [ngClass]="{ 'HelpCursor': isHelpActive }"
+                        (click)="DispalyInfo($event,'Phone')"
+                        [readonly]="isHelpActive"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="mobile" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'Mobile')"> Mobile</label>
+                    <div class="input-group">
+                      <input
+                        id="mobile"
+                        type="text"
+                        name="Mobile"
+                        [(ngModel)]="Contractors.Mobile"
+                        [ngModelOptions]="{ standalone: true }"
+                        class="form-control form-control-sm"
+                        placeholder="Mobile.."
+                        [ngClass]="{ 'HelpCursor': isHelpActive }"
+                        (click)="DispalyInfo($event,'Mobile')"
+                        [readonly]="isHelpActive"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="fax" [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'Fax')"> Fax</label>
+                    <div class="input-group">
+                      <input
+                        id="fax"
+                        type="text"
+                        name="FaxNumber"
+                        [(ngModel)]="Contractors.FaxNumber"
+                        [ngModelOptions]="{ standalone: true }"
+                        class="form-control form-control-sm"
+                        placeholder="fax.."
+                        [ngClass]="{ 'HelpCursor': isHelpActive }"
+                        (click)="DispalyInfo($event,'Fax')"
+                        [readonly]="isHelpActive"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-8">
+                  <div class="form-group">
+                    <label for="website"    [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'Website')"> Website</label>
+                    <div class="input-group">
+                      <input
+                        id="website"
+                        type="text"
+                        [(ngModel)]="Contractors.Website"
+                        [ngModelOptions]="{ standalone: true }"
+                        class="form-control form-control-sm"
+                        placeholder="Website.."
+                        [ngClass]="{ 'HelpCursor': isHelpActive }"
+                        (click)="DispalyInfo($event,'Website')"
+                        [readonly]="isHelpActive"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row pt-5">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="website"  [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'Business ID No./Social Security No.')">
+                      Business ID No./Social Security No.</label
+                    >
+                    <div class="input-group">
+                      <input
+                        id="BusinessID_Social_No"
+                        type="text"
+                        placeholder=" Business ID No./Social Security No."
+                        class="form-control form-control-sm"
+                        [(ngModel)]="Contractors.BusinessID_Social_No"
+                        [ngModelOptions]="{ standalone: true }"
+                        [ngClass]="{ 'HelpCursor': isHelpActive }"
+                        (click)="DispalyInfo($event,'Business ID No./Social Security No.')"
+                        [readonly]="isHelpActive"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group col-md-12">
+                    <div class="custom-control custom-checkbox">
+                      <input
+                        type="checkbox"
+                        id="Track_Payment"
+                        [(ngModel)]="Contractors.Track_Payment"
+                        [ngModelOptions]="{ standalone: true }"
+                        class="custom-control-input"
+                        [ngClass]="{ 'HelpCursor': isHelpActive }"
+                        (click)="DispalyInfo($event,'Track Payment for 1099')"
+                       
+                      /><label for="Track_Payment" class="custom-control-label"
+                      [ngClass]="{ 'HelpCursor': isHelpActive }"
+                      (click)="DispalyInfo($event,'Track Payment for 1099')"
+                        >Track Payment for 1099
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="website"  [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'Default Expense Account')"> Default Expense Account</label>
+                    <div class="input-group">
+                      <ng-multiselect-dropdown
+                        [settings]="dropdownSettingsDefaultExpenceAccount"
+                        [placeholder]="'Select Account'"
+                        [data]="ExpenceAccountList"
+                        class="col-md-12"
+                        [(ngModel)]="Contractors.Default_Expence_Account_IdList"
+                        [ngModelOptions]="{ standalone: true }"
+                        [ngClass]="{ 'HelpCursor': isHelpActive }"
+                    (click)="DispalyInfo($event,'Default Expense Account')"
+                      >
+                      </ng-multiselect-dropdown>
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <hr />
+        <div class="col-md-12 text-right">
+          <button
+            class="btn btn-success btn-lg mr-2"
+            (click)="close()"
+            type="button"
+          >
+            Cancel
+          </button>
+          <button class="btn btn-success btn-lg" type="submit">
+            <i
+              class="fa"
+              [ngClass]="{
+                'fa-spin fa-spinner': isLoading,
+                'fa-save': !isLoading
+              }"
+            ></i>
+            {{ button }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>
