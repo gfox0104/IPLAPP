@@ -91,7 +91,7 @@
     "underscore": "^1.11.0",
     "vendors": "^1.0.4",
     "weather-icons": "git+https://github.com/erikflowers/weather-icons.git",
-    "xlsx": "^0.16.2",
+    "xlsx": "^0.18.5",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
